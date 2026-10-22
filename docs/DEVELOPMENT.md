@@ -33,7 +33,7 @@ API credentials. A `.gitattributes` file normalizes source line endings.
    infrastructure details out of the core.
 6. Add tests for observable behavior, invalid input and meaningful failure paths.
 7. Run checks, inspect the diff and make focused commits with meaningful messages.
-8. Review locally with `git diff main...codex/vocabulary-learning-app` and the prepared review summary.
+8. Review locally with `git diff main...HEAD` and the prepared review summary.
 9. Record actual feedback locally and address it in new commits. Do not publish or merge without a new user request.
 10. Update the demo guide and assign the next story. Do not rewrite shared history.
 
@@ -41,6 +41,10 @@ The current implementation uses `codex/vocabulary-learning-app` and staged featu
 commits. It is an initial implementation spanning the requested stories. Do not
 split or reauthor it later to imply different teammates wrote code they did not
 write. Future extensions can use their own local branches and focused commits.
+
+The personal-vocabulary/review-count/lookup extension is on the separate local
+branch `codex/personal-vocabulary-review`. The initial branch is preserved as its
+base. Use `git diff codex/vocabulary-learning-app...HEAD` to inspect only the extension.
 
 ## Suggested real ownership discussion
 
@@ -70,8 +74,8 @@ The summary is `docs/PR_DESCRIPTION.md`; the file name indicates its review form
 not a published pull request. View the complete implementation and history locally:
 
 ```sh
-git diff main...codex/vocabulary-learning-app
-git log --oneline main..codex/vocabulary-learning-app
+git diff main...HEAD
+git log --oneline main..HEAD
 ```
 
 An earlier push failed because GitHub authentication was unavailable, so no branch

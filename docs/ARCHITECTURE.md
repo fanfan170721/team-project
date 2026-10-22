@@ -5,7 +5,7 @@
 ```mermaid
 flowchart LR
     V[Swing views] --> C[AppController]
-    C --> I[Seven input boundaries]
+    C --> I[Focused input boundaries]
     I --> U[Interactors]
     U --> E[Entities]
     U --> P[Repository / service ports]
@@ -51,6 +51,7 @@ by a test double without changing the controller.
 | Review list | `ReviewUseCase` / `ReviewInteractor` | `ContentRepository`, `ProgressRepository` |
 | Progress | `ProgressUseCase` / `ProgressInteractor` | `ContentRepository`, `ProgressRepository` |
 | Admin | `ContentUseCase` / `ContentInteractor` | `ContentRepository` |
+| Personal vocabulary | `PersonalVocabularyUseCase` / `PersonalVocabularyInteractor` | `ContentRepository`, `ProgressRepository` |
 
 This is a small Clean Architecture implementation with return-value response
 models. Interactors return responses to the controller, which invokes the
@@ -64,11 +65,14 @@ if multiple asynchronous delivery mechanisms require them.
 - `VocabularyWord`: stable ID, term, topic, definition, optional example, source.
 - `QuizQuestion`: stable ID, associated word ID, prompt, four choices, correct index.
 - `QuizAttempt`: completion instant, topic label, number correct and total.
-- `LearningProgress`: saved word IDs, distinct studied IDs by local date, attempts.
+- `LearningProgress`: saved word IDs, distinct studied IDs by local date, attempts,
+  personal words, per-word definition overrides, review counts and last-review instants.
 
 Progress snapshots are immutable and defensively copied. A transformation returns
 a new object; a failed disk write does not mutate the previous snapshot. Content
-is shared, while progress is indexed by authenticated username. There is no word
+from the admin bank is shared, while progress and personal vocabulary are indexed
+by authenticated username. `ContentQueries` merges the shared bank with only the
+current account's words and applies that account's definition overrides. There is no word
 deletion yet, so historical word IDs remain resolvable.
 
 `SessionContext` is in memory and never persisted. Every successful sign-in and
@@ -82,6 +86,9 @@ different account or after logging out and back in.
   implementation can replace the file adapter.
 - **Adapter:** `DictionaryApiClient` translates HTTP/JSON into a small dictionary
   response. `AppController` and `AppPresenter` adapt application input/output.
+- **Composite/decorator:** `ResilientDictionaryGateway` composes the primary and
+  Datamuse adapters. It tries another live provider on failure and preserves the
+  provider's source; it never labels local seed text as an online result.
 - **Strategy:** `PasswordHasher` permits changing the hashing implementation.
   `DictionaryGateway` permits a different dictionary provider.
 - **Dependency injection:** `Application` passes ports, `Clock`, and `Random`
@@ -118,7 +125,9 @@ schemaVersion: 1
 users: [{username, passwordHash, role}]
 words: [{id, term, topic, definition, example, source}]
 questions: [{id, wordId, prompt, options[4], correctIndex}]
-progress: {username: {reviewWordIds[], studyDays: {YYYY-MM-DD: [wordId]}, attempts[]}}
+progress: {username: {reviewWordIds[], studyDays: {YYYY-MM-DD: [wordId]}, attempts[],
+  personalWords[], definitions: {wordId: text}, reviewCounts: {wordId: integer},
+  lastReviewed: {wordId: ISO-instant}}}
 ```
 
 The adapter copies the current JSON, applies a mutation, writes a temporary file
@@ -126,6 +135,11 @@ in the same directory, flushes the channel and replaces the saved file. It only
 publishes the new in-memory snapshot after the write succeeds. Atomic replacement
 is used where supported; the fallback replacement has weaker crash guarantees.
 This is suitable for a small local app, not a general transactional database.
+
+The new progress fields are optional when reading version-1 files and are written
+on the next update. Missing counts default to zero; old daily study sets remain
+unchanged. Counts are not guessed from incomplete historical data. Reference
+validation accepts the account's personal IDs and rejects unrelated IDs.
 
 An OS file lock covers the lifetime of the application. It prevents concurrent
 instances from using one directory; synchronized repository methods protect
@@ -135,6 +149,17 @@ preserved. Backups are manual. There is no cross-device synchronization.
 A completed quiz writes exactly one attempt. If the final save fails, the selected
 answer and score do not advance, so retry is safe. Duplicate submissions are
 rejected. Abandoned quizzes and unrevealed cards do not increase progress.
+
+A completed flashcard review increments the word count and records an instant,
+while its daily studied-word set remains deduplicated. Each card visit has a
+completion flag, so repeated submissions cannot inflate the count. Moving to
+another card resets that flag and allows another intentional review. Failed writes
+leave the visit uncompleted, allowing retry.
+
+New quizzes keep unmodified admin-authored questions. Personal words and overridden
+definitions generate definition questions with three distinct distractors sampled
+from the visible vocabulary, followed by shuffled choices with a remapped correct
+index. Existing in-progress quizzes retain their start-time snapshot.
 
 ## Authentication and authorization
 
@@ -163,8 +188,11 @@ Swing parents propagate enabled changes to children.
 
 Dictionary connections have a four-second connect timeout and requests have an
 eight-second timeout. HTTP 404, 429, other error statuses, interruption, network
-failures and malformed JSON produce user-facing errors. There is no silent API
-fallback. The chart and local study features do not require networking.
+failures and malformed JSON trigger an attempt against the backup live provider.
+Both providers have bounded requests (up to eight seconds each), so an unsuccessful
+two-provider lookup can take up to roughly sixteen seconds. Results show the actual
+provider URL. Both failures produce a user-facing error and preserve the saved
+definition. The chart and local study features do not require networking.
 
 ## Tradeoffs to discuss in the presentation
 

@@ -70,11 +70,16 @@ Topic [All topics v]  [ ] Review list only  [Start / restart]
 |                                                              |
 | Hidden until revealed: definition / example / source          |
 +--------------------------------------------------------------+
-[Reveal definition] [Mark studied] [Next card] [Save / Remove]
+[Reveal definition] [Complete review] [Next card] [Save / Remove]
 ```
 
-Mark studied is enabled after reveal and disabled after that word is recorded
-for today.
+Complete review is enabled after reveal and disabled after this card visit is
+recorded. Revisiting the card permits another review, including on the same day.
+
+The implemented Vocabulary screen also has Add my word / Edit my definition and
+an inline Save/Cancel editor. Vocabulary and Review later include numeric review
+counts, last-review times and an order selector. Online lookup shows the live
+definition and source above the unchanged saved definition.
 
 ## Quiz
 

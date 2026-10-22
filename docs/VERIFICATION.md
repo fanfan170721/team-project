@@ -3,15 +3,22 @@
 Date: 2026-10-22. Local environment: Windows 11, Temurin JDK 11.0.32.1,
 Maven 3.9.16.
 
-- `mvn -B --no-transfer-progress verify`: **passed**, 25 tests, zero failures,
+- `mvn -B --no-transfer-progress verify`: **passed**, 38 tests, zero failures,
   errors or skips. The executable artifact is `target/wordtrail.jar`.
-- `java -jar target/wordtrail.jar --check-api hello`: **passed** against the real
-  public dictionary API. Returned a greeting definition and the request URL.
+- The original `--check-api hello` check passed against Free Dictionary API earlier
+  in the day. During this extension it returned HTTP 530 for `climate` and
+  `accommodation`. After adding the backup, both packaged-JAR live checks passed
+  and returned real definitions sourced from `https://api.datamuse.com/words`.
 - Full headless Swing workflow: initial administrator setup, browsing/filtering,
   save/review, reveal/study flashcard, quiz validation/completion, admin word and
   question creation, learner isolation, application close/reopen and history recovery.
-- Six real component renders generated in `target/ui-snapshots/`; vocabulary,
-  flashcard, quiz, progress and admin renders were visually inspected.
+- Nine real component renders generated in `target/ui-snapshots/`; the personal
+  editor, numeric review sorting and online-result screens were also inspected.
+- New workflow checks cover learner additions and definition edits, account
+  isolation, two reviews of the same word on one day, restart recovery, generated
+  personal quizzes, correct answers moving between positions, lookup after table
+  sorting, and usable controls/preserved saved content after a lookup failure.
+- Version-1 progress without new fields loads with its study history preserved.
 - `git diff --check`: no whitespace errors.
 - `powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\run.ps1 -Check`:
   **passed**. The Windows launcher locates the packaged entry point without

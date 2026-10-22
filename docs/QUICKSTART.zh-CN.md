@@ -40,12 +40,19 @@ Windows 下也可以直接双击项目根目录的 `run.cmd`，或在 PowerShell
 
 1. **Vocabulary**：选主题、搜索单词或词义。选中表格行，下方显示解释和例句。
    Save for review later 保存到个人复习列表；在线查询按钮调用真实词典 API。
+   **Add my word** 可以添加个人单词；**Edit my definition** 修改选中单词的个人释义。
+   新增和修改只影响当前账户，也会用于闪卡和之后新开的测验。
 2. **Flashcards**：选主题并 Start deck；勾选 Use review list only 可以只学收藏。
-   先回忆词义，再 Reveal definition，最后 Mark studied 才会记录学习进度。
+   先回忆词义，再 Reveal definition，最后 **Complete review** 记录一次完成复习。
+   每次访问一张卡只能记一次；点击 Next card，之后再回到同一词可以再次记录，
+   同一天也可以累计。每天学过的不同单词数仍然去重。
    Next card 切换下一张；到最后一张会循环到第一张。
 3. **Quiz**：选择主题和题数。题库不足时使用已有题目。选择一个选项并提交，
    查看反馈后进入下一题。完成最后一题才保存成绩，中途退出不记录。
 4. **Review later**：查看和移除当前账户保存的单词。
+   Reviews 列显示完成复习次数，Last reviewed 显示最近完成时间。
+   Order 可以选择按字母、复习次数从少到多、从多到少或最近复习排序；
+   表格列标题也能排序。Vocabulary 中同样提供这些排序方式。
 5. **Progress**：查看学过的不同单词数、连续学习天数、最近 14 天每日学习量、
    历次测验及总体正确率。正确率按所有作答题目加权计算。
 6. **Admin**：只有管理员有此页。先添加单词，再在 Add quiz question 中关联
@@ -65,10 +72,18 @@ java -jar target/wordtrail.jar --data-dir target/my-demo
 同一个数据目录只允许打开一个程序实例。数据损坏时程序会报错并保留原文件，
 不会偷偷清空。已有数据不会因为重新编译而消失。
 
-外部 API 是 [Free Dictionary API](https://dictionaryapi.dev/)，不需要申请 Key。
+主要外部 API 是 [Free Dictionary API](https://dictionaryapi.dev/)。更新时已复现该
+服务返回 HTTP 530，所以加入 [Datamuse](https://www.datamuse.com/api/) 作为在线备用来源。
+界面会显示实际结果的来源链接，并把你的已保存释义单独列出来；在线查询本身不保存修改。
+两种服务都失败时会明确报错，原数据保留。Datamuse 官方预告 2027 年会调整为需要 Key，
+届时继续使用需按其最新文档配置或更换备用适配器。
 附件中的课程 DAO 用作设计参考，没有照搬其共享 HTTP 服务器及明文密码方式。
 本项目通过词典 API 满足 API 要求，通过本地 JSON 满足持久化要求。
 断网时 16 个示例单词和 16 道题仍然能学习；在线查询会显示连接错误。
+
+新版本兼容已有的账户和学习记录，不需要删除 `.wordtrail`。
+旧记录没有复习次数字段的，次数从本次更新后开始记录，不推算历史次数。
+更新后请关闭之前打开的 WordTrail 窗口，再用 `run.cmd` 或 `Main.main()` 重新启动。
 
 可以单独检查真实 API：
 
@@ -100,6 +115,9 @@ java -jar target/wordtrail.jar --check-api hello
 远端没有接收任何改动。`main` 保留原状，继续在功能分支修改即可。
 
 本地可以运行 `git diff main...codex/vocabulary-learning-app` 查看完整改动。
+此次扩展位于新的本地分支 `codex/personal-vocabulary-review`，原功能分支仍保留。
+可以运行 `git diff codex/vocabulary-learning-app...codex/personal-vocabulary-review`
+只查看这次新增和修复。
 `docs/PR_DESCRIPTION.md` 作为本地评审说明保留。课程要求的真实远端 PR 流程并未执行；
 本地分支和提交记录不会被写成已经发生过的远端评审。
 各功能的具体团队负责人仍然需要你们真实分配，不能从 AI 编写的代码里伪造多人贡献。

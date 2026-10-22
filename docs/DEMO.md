@@ -14,13 +14,16 @@ demo folders retain their records, so use a new path when you want a fresh setup
 ## Five-minute demo
 
 1. **Accounts (30 seconds).** Set up an admin, log out, register a learner. Explain
-   that vocabulary is shared and progress belongs to the logged-in account.
+   that the admin bank is shared while personal words, definitions and progress
+   belong to the logged-in account.
 2. **Vocabulary and API (45 seconds).** Filter to Nature and search climate. Select
    the word to show the local definition. Use online lookup and identify the API
    URL in the source. If offline, show the explicit error and continue locally.
 3. **Review and flashcards (45 seconds).** Save climate. Open Review later, then
-   Flashcards with review-only enabled. Reveal, mark studied, and explain why
+   Flashcards with review-only enabled. Reveal, complete a review, and explain why
    reveal alone does not count as study.
+   Visit the card again and complete another review; show Reviews = 2 in Review
+   later and compare the low-to-high and high-to-low order settings.
 4. **Quiz (45 seconds).** Choose Nature and two questions. Answer and show feedback.
    Complete the quiz to persist the score; explain that an abandoned quiz is excluded.
 5. **Progress and persistence (45 seconds).** Show today's bar, distinct word count,
@@ -34,6 +37,10 @@ demo folders retain their records, so use a new path when you want a fresh setup
    interactor, adapter and test. Discuss one tradeoff and one extension.
 
 ## Design questions to prepare
+
+You can also demonstrate Add my word and Edit my definition as a learner. Start
+a new quiz in the personal topic to show generated choices, then switch accounts
+to demonstrate that the private word and revised definition are isolated.
 
 - Why Swing? It meets the desktop requirement and has no web server to deploy.
 - Why JSON? It is transparent and sufficient for a small local app. SQLite would

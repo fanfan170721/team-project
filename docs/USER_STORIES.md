@@ -45,6 +45,8 @@ As a learner, I want to study word definitions using flashcards to memorize them
 - Initially show only the word; reveal shows the definition and example.
 - Require reveal before marking studied.
 - Count a word once per local day and once in the all-time distinct total.
+- Separately count each intentionally completed card visit, even on the same day;
+  reject duplicate completion of one visit and allow retry after a failed write.
 - Move to the next card; the deck loops after the last card.
 - Report empty decks without damaging progress.
 
@@ -89,6 +91,8 @@ Lead owner: team to assign.
 As a learner, I want to track my progress so I can see improvement.
 
 - Show distinct studied words versus current vocabulary size, and saved word count.
+- Show total completed reviews; vocabulary and review tables show per-word counts
+  and last-review times with numeric count sorting and recent-first sorting.
 - Show a 14-day chart, including zeroes for inactive days.
 - Show a consecutive daily study streak, allowing a streak ending yesterday.
 - Show dated quiz results, newest first, and weighted overall answer accuracy.
@@ -96,6 +100,26 @@ As a learner, I want to track my progress so I can see improvement.
 - Restore progress after restart; each account has its own history.
 
 Tests: `LearningUseCasesTest`, `AppPresenterTest`, `SwingWorkflowTest`.
+Lead owner: team to assign.
+
+## US-08 — Personal vocabulary and definitions (requested extension)
+
+As a learner, I want to add my own vocabulary and revise my definitions without
+changing another learner's content.
+
+- Vocabulary provides Add my word and Edit my definition with an inline Save/Cancel form.
+- New words have a topic, required definition, optional example and source.
+- Changes are private to the authenticated account and persist after restart.
+- Reject empty fields, duplicate word/topic combinations and unrelated private word IDs.
+- Browsing, search, review lists, flashcards, word totals and new quizzes use personal content.
+- Generate questions for personal/overridden words with three distinct distractors,
+  shuffle choices and retain correct scoring. Existing active quizzes keep their snapshot.
+- Online lookup shows an actual provider URL and the unchanged saved definition.
+  If the primary fails (including HTTP 530), try the live backup. If both fail,
+  keep local content usable and report the failure.
+
+Tests: `PersonalVocabularyInteractorTest`, `LearningUseCasesTest`, `QuizInteractorTest`,
+`JsonFileStoreTest`, `ResilientDictionaryGatewayTest`, `SwingWorkflowTest`.
 Lead owner: team to assign.
 
 ## US-07 — Admin content forms

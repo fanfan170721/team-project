@@ -50,16 +50,25 @@ content, so Maven is not required on the machine running the JAR.
 | --- | --- | --- |
 | US-01 | First-run admin setup, learner registration, login and logout | Team to assign |
 | US-02 | Topic vocabulary, case-insensitive search, live dictionary lookup | Team to assign |
-| US-03 | Reveal flashcards, mark studied, study the review list | Team to assign |
+| US-03 | Reveal flashcards, complete reviews, study the review list | Team to assign |
 | US-04 | Randomized four-choice quizzes, feedback and saved results | Team to assign |
 | US-05 | Add/remove words from a private review list | Team to assign |
 | US-06 | Distinct words studied, daily chart, streak and quiz history | Team to assign |
 | US-07 | Admin forms for new words, topics and quiz questions | Team to assign |
+| US-08 | Personal words, personal definitions, completed-review counts and sorting | Team to assign |
 
 All seven software stories are implemented. The actual team must assign ownership,
 agree its contract, review changes and record its own contributions. This code was
 produced with AI assistance at the user's request; commit authorship does not
 represent independent contributions by multiple teammates.
+
+The personal-vocabulary extension adds **Add my word** and **Edit my definition**
+to Vocabulary. Additions and edits belong only to the logged-in account. Flashcards,
+search and new quizzes use that account's definitions. Uncovered words get generated
+four-choice questions when at least four different definitions are available.
+Complete a flashcard review once per visit; revisiting it can increase the count
+again on the same day. Vocabulary and Review later offer word order, least/most
+reviewed and most-recently-reviewed order. Daily study bars still count distinct words.
 
 ## API and persistence
 
@@ -68,9 +77,19 @@ represent independent contributions by multiple teammates.
   Use **Look up selected word online** in Vocabulary or **Fill from online
   dictionary** in Admin. Lookup returns the first usable definition and optional
   example, with the request URL retained as attribution.
+- **Live backup:** [Datamuse API](https://www.datamuse.com/api/),
+  `GET https://api.datamuse.com/words?sp={word}&md=d&max=1`. If the primary service
+  fails, the app tries this second live provider and accepts only an exact word
+  match. Results retain the actual provider URL and show your saved definition
+  separately. The primary service returned HTTP 530 during this update's live checks.
+  Datamuse announces an API-key requirement in 2027; consult its documented policy
+  if using the application after that change.
 - **Persistence:** `.wordtrail/wordtrail.json`, UTF-8 JSON. Accounts, salted PBKDF2
   hashes, admin content, review lists, study dates and completed quizzes survive
-  restart. Accounts share vocabulary; learning records belong to individual users.
+  restart. Admin vocabulary is shared; personal additions, definition overrides,
+  review counts, last-review times and learning records belong to individual users.
+  Existing version-1 data still loads. Old study records are preserved; review
+  counts start at zero when no explicit review-count field existed.
 - **Offline:** 16 original sample words and 16 questions across Travel, Technology,
   Daily Life and Nature. Local learning works without internet. API errors appear
   in the status area and do not pretend to be successful lookups.
@@ -95,13 +114,13 @@ Interactor results → presenter → plain view models → Swing view
 ```
 
 `entity` and `usecase` contain no Swing, HTTP or JSON dependencies. `Application`
-wires implementations through interfaces. Seven use-case interfaces give each
+wires implementations through interfaces. Focused use-case interfaces give each
 story a focused boundary. Background `SwingWorker` tasks keep I/O off the EDT.
 Repository, Adapter, Strategy and dependency injection patterns support the design.
 
 ## Validation
 
-`mvn verify` runs 25 JUnit tests: business rules, hashing, atomic persistence,
+`mvn verify` runs 38 JUnit tests: business rules, hashing, atomic persistence,
 malformed data, local HTTP responses, architectural dependencies, presenters and
 an end-to-end Swing flow. Automated tests use a local HTTP server or injected
 dictionary double; they do not rely on the public API being online. A manual
@@ -121,6 +140,8 @@ demo accounts and content. Desktop fonts and window decorations vary by OS.
 ![Flashcards](docs/screenshots/03-flashcards.png)
 ![Quiz](docs/screenshots/05-quiz.png)
 ![Progress](docs/screenshots/06-progress.png)
+![Personal vocabulary](docs/screenshots/07-personal-editor.png)
+![Review counts and sorting](docs/screenshots/08-review-counts.png)
 
 ## Project documents
 
