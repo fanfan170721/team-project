@@ -32,7 +32,7 @@ class DictionaryApiClientTest {
                 URI.create("http://127.0.0.1:" + server.getAddress().getPort() + "/entries/"));
     }
 
-    @AfterEach void stop() { server.stop(0); }
+    @AfterEach void stop() { if (server != null) { server.stop(0); } }
 
     @Test void parsesARealHttpResponseAndEncodesTheWord() {
         DictionaryGateway.Entry entry = client.lookup("ice cream");
