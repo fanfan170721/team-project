@@ -1,0 +1,72 @@
+# Development and team workflow
+
+## Local checks
+
+```sh
+mvn verify
+git diff --check
+java -jar target/wordtrail.jar --check-api hello
+java -jar target/wordtrail.jar --data-dir target/demo-data
+```
+
+Unit tests never need the public API. The HTTP adapter tests start a local server.
+Swing tests run on the EDT in headless mode, drive real buttons, and render
+screenshots. CI runs Java 11 and 17 on Windows and Linux; inspect the actual Actions
+results after publishing rather than assuming remote checks have passed.
+
+Do not commit `target/`, `.idea/`, `.wordtrail/`, passwords, local account data or
+API credentials. A `.gitattributes` file normalizes source line endings.
+
+## Feature workflow
+
+1. Agree on a small user story or extension and assign one lead owner plus a reviewer.
+2. Update the acceptance criteria and UI sketch.
+3. Start from an updated `main`: `git switch main`, `git pull --ff-only`.
+4. Create a feature branch, e.g. `git switch -c codex/review-search`.
+5. Implement the use case through its input/output boundaries; keep Swing and
+   infrastructure details out of the core.
+6. Add tests for observable behavior, invalid input and meaningful failure paths.
+7. Run checks, inspect the diff and make focused commits with meaningful messages.
+8. Push the feature branch and open a PR targeting `main`.
+9. Request a real teammate's review, address comments and merge after checks pass.
+10. Update the demo guide and assign the next story. Do not rewrite shared history.
+
+The current implementation uses `codex/vocabulary-learning-app` and staged feature
+commits. It is an initial implementation spanning the requested stories. Do not
+split or reauthor it later to imply different teammates wrote code they did not
+write. Future extensions should have their own focused PRs.
+
+## Suggested real ownership discussion
+
+Use the README story table to assign responsibilities based on the actual team
+size. One member can own more than one related story. Each member should lead a
+meaningful use-case extension and its tests, explain its design, and review someone
+else's work. Put actual names in the table only after agreement.
+
+Keep meeting notes, estimates, delays and review decisions in real issues/PRs.
+`TeamContract.md` is intentionally left for the real team to discuss and sign.
+The automated implementation does not satisfy attendance, respectful teamwork,
+peer evaluation, team meetings or individual contribution assessment.
+
+## Review prompts
+
+- Can a learner reach admin operations through any controller path?
+- Can another account resume someone else's state?
+- Does a failed save leave memory consistent with disk?
+- Are answers hidden until submission, and scores recorded once?
+- Do network errors leave local study usable?
+- Are views limited to display models and controller calls?
+- Can the author explain the design and alternatives?
+
+## Opening the prepared PR
+
+The proposed body is `docs/PR_DESCRIPTION.md`. If GitHub CLI is available:
+
+```sh
+git push -u origin codex/vocabulary-learning-app
+gh pr create --draft --base main --head codex/vocabulary-learning-app --title "Implement WordTrail vocabulary learning application" --body-file docs/PR_DESCRIPTION.md
+```
+
+A draft PR is ready for human review, not an approval. Leave it unmerged until the
+actual team reviews it. If authenticated remote tools are unavailable, open the
+repository's Compare page after pushing and paste the prepared description.

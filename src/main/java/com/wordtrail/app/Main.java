@@ -1,6 +1,8 @@
 package com.wordtrail.app;
 
 import com.wordtrail.view.AppPanel;
+import com.wordtrail.data.DictionaryApiClient;
+import com.wordtrail.usecase.port.DictionaryGateway;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -20,7 +22,17 @@ public final class Main {
     public static void main(String[] args) {
         Path directory;
         if (args.length == 1 && "--help".equals(args[0])) {
-            System.out.println("WordTrail: java -jar wordtrail.jar [--data-dir PATH]\nDefault data folder: .wordtrail in the working directory.");
+            System.out.println("WordTrail: java -jar wordtrail.jar [--data-dir PATH]\n"
+                    + "API diagnostic: java -jar wordtrail.jar --check-api WORD\n"
+                    + "Default data folder: .wordtrail in the working directory.");
+            return;
+        }
+        if (args.length == 2 && "--check-api".equals(args[0])) {
+            try {
+                DictionaryGateway.Entry entry = new DictionaryApiClient().lookup(args[1]);
+                System.out.println(entry.term + "\n" + entry.definition + "\nSource: " + entry.source);
+            }
+            catch (RuntimeException ex) { System.err.println(ex.getMessage()); System.exit(1); }
             return;
         }
         if (args.length == 0) { directory = Path.of(".wordtrail"); }

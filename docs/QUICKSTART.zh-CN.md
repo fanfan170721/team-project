@@ -1,0 +1,85 @@
+# 中文启动与修改说明
+
+## 运行程序
+
+项目使用 Java 11、Maven、Java Swing，当前电脑已经安装了 JDK 和 Maven。
+在项目根目录终端执行：
+
+```powershell
+mvn verify
+java -jar target/wordtrail.jar
+```
+
+也可以在 IntelliJ IDEA 中打开 `pom.xml`，等待 Maven 导入，选择 JDK 11
+或更高版本，然后运行 `src/main/java/com/wordtrail/app/Main.java`。
+运行目录保持为项目根目录。
+
+第一次打开会要求设置管理员。用户名使用 3–30 位英文字母、数字或下划线，
+密码使用 8–128 个字符。用户名不区分大小写；没有预设账户和密码。
+设置完成后会自动登录。退出后，将 Action 改为 Register a learner account
+即可注册普通学习者。管理员也能使用全部学习功能。
+
+## 各页面怎么用
+
+1. **Vocabulary**：选主题、搜索单词或词义。选中表格行，下方显示解释和例句。
+   Save for review later 保存到个人复习列表；在线查询按钮调用真实词典 API。
+2. **Flashcards**：选主题并 Start deck；勾选 Use review list only 可以只学收藏。
+   先回忆词义，再 Reveal definition，最后 Mark studied 才会记录学习进度。
+   Next card 切换下一张；到最后一张会循环到第一张。
+3. **Quiz**：选择主题和题数。题库不足时使用已有题目。选择一个选项并提交，
+   查看反馈后进入下一题。完成最后一题才保存成绩，中途退出不记录。
+4. **Review later**：查看和移除当前账户保存的单词。
+5. **Progress**：查看学过的不同单词数、连续学习天数、最近 14 天每日学习量、
+   历次测验及总体正确率。正确率按所有作答题目加权计算。
+6. **Admin**：只有管理员有此页。先添加单词，再在 Add quiz question 中关联
+   单词、输入题目及四个不同选项，并选择正确答案。主题可以自行新增。
+   在线查询可填入释义，保存前可以编辑。
+
+## 数据与 API
+
+默认数据保存在运行目录下 `.wordtrail/wordtrail.json`。关闭程序后复制此文件
+即可备份。不要将自己的账户数据提交到 Git；目录已在 `.gitignore` 中排除。
+如需单独的演示环境，可以运行：
+
+```powershell
+java -jar target/wordtrail.jar --data-dir target/my-demo
+```
+
+同一个数据目录只允许打开一个程序实例。数据损坏时程序会报错并保留原文件，
+不会偷偷清空。已有数据不会因为重新编译而消失。
+
+外部 API 是 [Free Dictionary API](https://dictionaryapi.dev/)，不需要申请 Key。
+附件中的课程 DAO 用作设计参考，没有照搬其共享 HTTP 服务器及明文密码方式。
+本项目通过词典 API 满足 API 要求，通过本地 JSON 满足持久化要求。
+断网时 16 个示例单词和 16 道题仍然能学习；在线查询会显示连接错误。
+
+可以单独检查真实 API：
+
+```powershell
+java -jar target/wordtrail.jar --check-api hello
+```
+
+## 之后想改哪里
+
+| 想修改的内容 | 主要位置 |
+| --- | --- |
+| 页面、文字、布局 | `src/main/java/com/wordtrail/view/` |
+| 输入与界面数据转换 | `src/main/java/com/wordtrail/adapter/` |
+| 每个功能的业务逻辑 | `src/main/java/com/wordtrail/usecase/` |
+| 领域数据 | `src/main/java/com/wordtrail/entity/` |
+| 文件、API、密码哈希 | `src/main/java/com/wordtrail/data/` |
+| 组装与程序入口 | `src/main/java/com/wordtrail/app/` |
+| 初始词库 | `src/main/resources/seed.json` |
+| 单元和集成测试 | `src/test/java/com/wordtrail/` |
+
+注意：`seed.json` 只在首次创建数据目录时导入。修改它后若想验证新的初始内容，
+请使用一个新的 `--data-dir`，或者在管理员表单中添加，不要直接删除有用的学习记录。
+
+## Git 和团队部分
+
+开发位于 `codex/vocabulary-learning-app` 分支，按功能提交；提交作者按你的要求
+使用 Allen Yuan / rosemary.yuan@mail.utoronto.ca。请通过 PR 评审后再合并主分支。
+各功能的具体团队负责人仍然需要你们真实分配，不能从 AI 编写的代码里伪造多人贡献。
+`TeamContract.md` 保留原模板，需要全组讨论、修改和签名。
+
+请先读 `ARCHITECTURE.md` 和 `DEMO.md`，能解释代码和设计选择后再用于展示。
