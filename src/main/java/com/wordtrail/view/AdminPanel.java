@@ -102,7 +102,7 @@ final class AdminPanel extends JPanel implements Refreshable {
     @Override public void refresh() {
         String previousId = linkedWord.getSelectedItem() == null ? null
                 : ((ViewModels.Word) linkedWord.getSelectedItem()).id;
-        tasks.run("Loading admin content", () -> controller.browse(null, ""), library -> {
+        tasks.run("Loading admin content", controller::sharedWords, library -> {
             updating = true;
             linkedWord.removeAllItems();
             for (ViewModels.Word word : library.words) {

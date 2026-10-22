@@ -6,6 +6,7 @@ import com.wordtrail.usecase.port.ContentRepository;
 import com.wordtrail.usecase.port.ProgressRepository;
 import java.time.Clock;
 import java.time.LocalDate;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +23,7 @@ public final class FlashcardInteractor implements FlashcardUseCase {
     private List<VocabularyWord> deck = Collections.emptyList();
     private int position;
     private boolean revealed;
+    private boolean reviewed;
     private long sessionVersion = -1;
 
     public FlashcardInteractor(ContentRepository content, ProgressRepository progress, SessionContext session,
@@ -35,7 +37,8 @@ public final class FlashcardInteractor implements FlashcardUseCase {
 
     @Override public Card start(String topic, boolean reviewOnly) {
         String username = session.requireUser().getUsername();
-        List<VocabularyWord> candidates = new ArrayList<>(ContentQueries.filter(content.getWords(), topic, ""));
+        List<VocabularyWord> candidates = new ArrayList<>(ContentQueries.filter(
+                ContentQueries.visibleWords(content, progress, username), topic, ""));
         if (reviewOnly) {
             Set<String> saved = progress.getProgress(username).getReviewWordIds();
             candidates.removeIf(word -> !saved.contains(word.getId()));
@@ -45,6 +48,7 @@ public final class FlashcardInteractor implements FlashcardUseCase {
         deck = candidates;
         position = 0;
         revealed = false;
+        reviewed = false;
         sessionVersion = session.getVersion();
         return current();
     }
@@ -54,10 +58,12 @@ public final class FlashcardInteractor implements FlashcardUseCase {
     @Override public Card markStudied() {
         requireDeck();
         if (!revealed) { throw new AppException("Reveal the definition before marking a card studied."); }
+        if (reviewed) { return current(); }
         String username = session.requireUser().getUsername();
         LearningProgress updated = progress.getProgress(username)
-                .withStudiedWord(deck.get(position).getId(), LocalDate.now(clock));
+                .withCompletedReview(deck.get(position).getId(), LocalDate.now(clock), Instant.now(clock));
         progress.saveProgress(username, updated);
+        reviewed = true;
         return current();
     }
 
@@ -65,6 +71,7 @@ public final class FlashcardInteractor implements FlashcardUseCase {
         requireDeck();
         position = (position + 1) % deck.size();
         revealed = false;
+        reviewed = false;
         return current();
     }
 
@@ -77,9 +84,11 @@ public final class FlashcardInteractor implements FlashcardUseCase {
 
     private Card current() {
         requireDeck();
-        Set<String> studied = progress.getProgress(session.requireUser().getUsername()).getStudyDays()
+        LearningProgress data = progress.getProgress(session.requireUser().getUsername());
+        Set<String> studied = data.getStudyDays()
                 .getOrDefault(LocalDate.now(clock), Collections.emptySet());
-        return new Card(deck.get(position), position + 1, deck.size(), revealed,
-                studied.contains(deck.get(position).getId()));
+        VocabularyWord word = ContentQueries.requireVisibleWord(content, data, deck.get(position).getId());
+        return new Card(word, position + 1, deck.size(), revealed,
+                studied.contains(word.getId()), reviewed, data.getReviewCounts().getOrDefault(word.getId(), 0));
     }
 }

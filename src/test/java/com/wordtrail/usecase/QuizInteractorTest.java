@@ -54,4 +54,17 @@ class QuizInteractorTest {
         int wrong = (question.options.indexOf("correct3") + 1) % 4;
         assertEquals(0, f.quiz.answer(wrong).score);
     }
+
+    @Test void correctChoiceMovesBetweenPositionsWithoutChangingScoring() {
+        UseCaseFixture f = new UseCaseFixture(); f.admin();
+        java.util.Set<Integer> positions = new java.util.HashSet<>();
+        for (int i = 0; i < 16; i++) {
+            QuizUseCase.Question question = f.quiz.start("Nature", 1);
+            int correct = question.options.indexOf("correct3");
+            positions.add(correct);
+            assertEquals(4, new java.util.HashSet<>(question.options).size());
+            assertEquals(1, f.quiz.answer(correct).score);
+        }
+        assertTrue(positions.size() > 1, "Correct answers must not always occupy the same position.");
+    }
 }

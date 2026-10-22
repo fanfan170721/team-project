@@ -14,7 +14,7 @@ final class FlashcardPanel extends JPanel implements Refreshable {
     private final JLabel term = Ui.label("Ready to learn?", 36);
     private final JTextArea definition = Ui.display("Choose a topic and start a deck.");
     private final JButton reveal = Ui.button("flash.reveal", "Reveal definition");
-    private final JButton studied = Ui.button("flash.studied", "Mark studied");
+    private final JButton studied = Ui.button("flash.studied", "Complete review");
     private final JButton next = Ui.button("flash.next", "Next card");
     private final JButton save = Ui.button("flash.save", "Save for review later");
     private String currentId;
@@ -23,7 +23,7 @@ final class FlashcardPanel extends JPanel implements Refreshable {
     FlashcardPanel(AppController controller, UiTasks tasks) {
         super(new BorderLayout());
         this.controller = controller; this.tasks = tasks;
-        JPanel page = Ui.page("Flashcards", "Recall the meaning, reveal it, then mark the word studied.");
+        JPanel page = Ui.page("Flashcards", "Reveal, then complete one review. Each new visit can count again, including today.");
         topic.setName("flash.topic"); reviewOnly.setName("flash.reviewOnly");
         JButton start = Ui.button("flash.start", "Start / restart deck");
         JPanel body = new JPanel(new BorderLayout(12, 18));
@@ -65,12 +65,13 @@ final class FlashcardPanel extends JPanel implements Refreshable {
 
     private void render(ViewModels.Card card) {
         currentId = card.word.id; saved = card.word.saved;
-        counter.setText(card.counter + "  |  " + card.word.topic + (card.studied ? "  |  Studied today" : ""));
+        counter.setText(card.counter + "  |  " + card.word.topic + "  |  Reviews: " + card.word.reviewCount
+                + (card.reviewed ? "  |  Review completed" : ""));
         term.setText(card.word.term);
         definition.setText(card.word.definition + (card.word.example.isBlank() ? "" : "\n\nExample: " + card.word.example)
                 + (card.word.source.isBlank() ? "" : "\n\nSource: " + card.word.source));
         definition.setCaretPosition(0);
-        reveal.setEnabled(!card.revealed); studied.setEnabled(card.revealed && !card.studied);
+        reveal.setEnabled(!card.revealed); studied.setEnabled(card.revealed && !card.reviewed);
         next.setEnabled(true); save.setEnabled(true);
         save.setText(saved ? "Remove from review later" : "Save for review later");
     }

@@ -19,6 +19,8 @@ public final class ContentInteractor implements ContentUseCase {
         this.session = session;
     }
 
+    @Override public List<VocabularyWord> sharedWords() { session.requireAdmin(); return content.getWords(); }
+
     @Override public VocabularyWord addWord(String term, String topic, String definition, String example, String source) {
         session.requireAdmin();
         String cleanTerm = InputValidation.text(term, "Word", 80);

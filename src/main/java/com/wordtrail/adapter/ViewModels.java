@@ -20,9 +20,13 @@ public final class ViewModels {
         public final String example;
         public final String source;
         public final boolean saved;
-        public Word(String id, String term, String topic, String definition, String example, String source, boolean saved) {
+        public final int reviewCount;
+        public final String lastReviewed;
+        public Word(String id, String term, String topic, String definition, String example, String source,
+                    boolean saved, int reviewCount, String lastReviewed) {
             this.id = id; this.term = term; this.topic = topic; this.definition = definition;
             this.example = example; this.source = source; this.saved = saved;
+            this.reviewCount = reviewCount; this.lastReviewed = lastReviewed;
         }
         @Override public String toString() { return term + " (" + topic + ")"; }
     }
@@ -40,8 +44,10 @@ public final class ViewModels {
         public final String counter;
         public final boolean revealed;
         public final boolean studied;
-        public Card(Word word, String counter, boolean revealed, boolean studied) {
+        public final boolean reviewed;
+        public Card(Word word, String counter, boolean revealed, boolean studied, boolean reviewed) {
             this.word = word; this.counter = counter; this.revealed = revealed; this.studied = studied;
+            this.reviewed = reviewed;
         }
     }
 
@@ -67,12 +73,14 @@ public final class ViewModels {
         public final int quizzes;
         public final int accuracy;
         public final int streak;
+        public final int reviews;
         public final List<String[]> dailyRows;
         public final List<String[]> quizRows;
         public Dashboard(int studied, int totalWords, int saved, int quizzes, int accuracy,
-                         int streak, List<String[]> dailyRows, List<String[]> quizRows) {
+                         int streak, int reviews, List<String[]> dailyRows, List<String[]> quizRows) {
             this.studied = studied; this.totalWords = totalWords; this.saved = saved;
             this.quizzes = quizzes; this.accuracy = accuracy; this.streak = streak;
+            this.reviews = reviews;
             this.dailyRows = List.copyOf(dailyRows); this.quizRows = List.copyOf(quizRows);
         }
     }

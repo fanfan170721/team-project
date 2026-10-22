@@ -198,6 +198,11 @@ public final class JsonFileStore implements AccountRepository, ContentRepository
                 json.getString("definition"), json.getString("example"), json.getString("source"));
     }
 
+    private static JSONObject writeWord(VocabularyWord word) {
+        return new JSONObject().put("id", word.getId()).put("term", word.getTerm()).put("topic", word.getTopic())
+                .put("definition", word.getDefinition()).put("example", word.getExample()).put("source", word.getSource());
+    }
+
     private static QuizQuestion readQuestion(JSONObject json) {
         List<String> options = new ArrayList<>();
         JSONArray array = json.getJSONArray("options");
@@ -224,7 +229,23 @@ public final class JsonFileStore implements AccountRepository, ContentRepository
             attempts.add(new QuizAttempt(Instant.parse(attempt.getString("completedAt")), attempt.getString("topic"),
                     attempt.getInt("correct"), attempt.getInt("total")));
         }
-        return new LearningProgress(review, days, attempts);
+        List<VocabularyWord> personalWords = new ArrayList<>();
+        JSONArray wordArray = json.has("personalWords") ? json.getJSONArray("personalWords") : new JSONArray();
+        for (Object item : wordArray) { personalWords.add(readWord((JSONObject) item)); }
+        Map<String, String> definitions = new LinkedHashMap<>();
+        JSONObject definitionJson = json.has("definitions") ? json.getJSONObject("definitions") : new JSONObject();
+        for (String id : definitionJson.keySet()) { definitions.put(id, definitionJson.getString(id)); }
+        Map<String, Integer> counts = new LinkedHashMap<>();
+        JSONObject countJson = json.has("reviewCounts") ? json.getJSONObject("reviewCounts") : new JSONObject();
+        for (String id : countJson.keySet()) {
+            int count = countJson.getInt(id);
+            if (count < 0) { throw new IllegalArgumentException("Negative review count."); }
+            counts.put(id, count);
+        }
+        Map<String, Instant> times = new LinkedHashMap<>();
+        JSONObject timeJson = json.has("lastReviewed") ? json.getJSONObject("lastReviewed") : new JSONObject();
+        for (String id : timeJson.keySet()) { times.put(id, Instant.parse(timeJson.getString(id))); }
+        return new LearningProgress(review, days, attempts, personalWords, definitions, counts, times);
     }
 
     private static JSONObject writeProgress(LearningProgress progress) {
@@ -235,8 +256,14 @@ public final class JsonFileStore implements AccountRepository, ContentRepository
             attempts.put(new JSONObject().put("completedAt", attempt.getCompletedAt().toString())
                     .put("topic", attempt.getTopic()).put("correct", attempt.getCorrect()).put("total", attempt.getTotal()));
         }
+        JSONArray personalWords = new JSONArray();
+        progress.getPersonalWords().forEach(word -> personalWords.put(writeWord(word)));
+        JSONObject times = new JSONObject();
+        progress.getLastReviewed().forEach((id, time) -> times.put(id, time.toString()));
         return new JSONObject().put("reviewWordIds", new JSONArray(progress.getReviewWordIds()))
-                .put("studyDays", days).put("attempts", attempts);
+                .put("studyDays", days).put("attempts", attempts).put("personalWords", personalWords)
+                .put("definitions", new JSONObject(progress.getDefinitions()))
+                .put("reviewCounts", new JSONObject(progress.getReviewCounts())).put("lastReviewed", times);
     }
 
     private static void validate(JSONObject json) {
@@ -265,8 +292,17 @@ public final class JsonFileStore implements AccountRepository, ContentRepository
         JSONObject progress = json.getJSONObject("progress");
         for (String username : progress.keySet()) {
             LearningProgress data = readProgress(progress.getJSONObject(username));
-            if (!users.contains(username) || !words.containsAll(data.getReviewWordIds())
-                    || !words.containsAll(data.getStudiedWordIds())) {
+            Set<String> visible = new HashSet<>(words);
+            for (VocabularyWord word : data.getPersonalWords()) {
+                if (word.getId().isBlank() || word.getTerm().isBlank() || word.getTopic().isBlank()
+                        || word.getDefinition().isBlank() || !visible.add(word.getId())) {
+                    throw new IllegalArgumentException("Invalid personal word.");
+                }
+            }
+            if (!users.contains(username) || !visible.containsAll(data.getReviewWordIds())
+                    || !visible.containsAll(data.getStudiedWordIds()) || !visible.containsAll(data.getDefinitions().keySet())
+                    || !visible.containsAll(data.getReviewCounts().keySet()) || !visible.containsAll(data.getLastReviewed().keySet())
+                    || data.getDefinitions().values().stream().anyMatch(String::isBlank)) {
                 throw new IllegalArgumentException("Invalid progress reference.");
             }
         }

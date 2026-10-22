@@ -29,6 +29,6 @@ public final class ProgressInteractor implements ProgressUseCase {
             streak++;
             day = day.minusDays(1);
         }
-        return new Report(data, content.getWords().size(), streak, today);
+        return new Report(data, ContentQueries.visibleWords(content, data).size(), streak, today);
     }
 }

@@ -1,7 +1,7 @@
 package com.wordtrail.app;
 
 import com.wordtrail.view.AppPanel;
-import com.wordtrail.data.DictionaryApiClient;
+import com.wordtrail.data.ResilientDictionaryGateway;
 import com.wordtrail.usecase.port.DictionaryGateway;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.WindowAdapter;
@@ -29,7 +29,7 @@ public final class Main {
         }
         if (args.length == 2 && "--check-api".equals(args[0])) {
             try {
-                DictionaryGateway.Entry entry = new DictionaryApiClient().lookup(args[1]);
+                DictionaryGateway.Entry entry = new ResilientDictionaryGateway().lookup(args[1]);
                 System.out.println(entry.term + "\n" + entry.definition + "\nSource: " + entry.source);
             }
             catch (RuntimeException ex) { System.err.println(ex.getMessage()); System.exit(1); }

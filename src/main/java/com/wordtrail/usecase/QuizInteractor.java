@@ -2,6 +2,8 @@ package com.wordtrail.usecase;
 
 import com.wordtrail.entity.QuizAttempt;
 import com.wordtrail.entity.QuizQuestion;
+import com.wordtrail.entity.VocabularyWord;
+import com.wordtrail.entity.LearningProgress;
 import com.wordtrail.usecase.port.ContentRepository;
 import com.wordtrail.usecase.port.ProgressRepository;
 import java.time.Clock;
@@ -11,6 +13,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 /** US-04: randomized multiple-choice quizzes with a single durable completion record. */
@@ -37,13 +42,25 @@ public final class QuizInteractor implements QuizUseCase {
     }
 
     @Override public Question start(String selectedTopic, int maximumQuestions) {
-        session.requireUser();
+        LearningProgress data = progress.getProgress(session.requireUser().getUsername());
         if (maximumQuestions < 1 || maximumQuestions > 20) { throw new AppException("Choose 1-20 questions."); }
-        Set<String> wordIds = ContentQueries.filter(content.getWords(), selectedTopic, "").stream()
+        List<VocabularyWord> visible = ContentQueries.visibleWords(content, data);
+        List<VocabularyWord> topicWords = ContentQueries.filter(visible, selectedTopic, "");
+        Set<String> wordIds = topicWords.stream()
                 .map(word -> word.getId()).collect(Collectors.toSet());
         List<QuizQuestion> candidates = content.getQuestions().stream()
-                .filter(question -> wordIds.contains(question.getWordId())).collect(Collectors.toList());
-        if (candidates.isEmpty()) { throw new AppException("No quiz questions for this topic yet. Ask an admin to add one."); }
+                .filter(question -> wordIds.contains(question.getWordId())
+                        && !data.getDefinitions().containsKey(question.getWordId())).collect(Collectors.toList());
+        Set<String> covered = candidates.stream().map(QuizQuestion::getWordId).collect(Collectors.toSet());
+        for (VocabularyWord word : topicWords) {
+            if (!covered.contains(word.getId())) {
+                QuizQuestion generated = generateQuestion(word, visible);
+                if (generated != null) { candidates.add(generated); }
+            }
+        }
+        if (candidates.isEmpty()) {
+            throw new AppException("No questions are available. Add vocabulary with at least four different definitions.");
+        }
         Collections.shuffle(candidates, random);
         List<QuizQuestion> randomized = new ArrayList<>();
         for (QuizQuestion original : candidates.subList(0, Math.min(maximumQuestions, candidates.size()))) {
@@ -60,6 +77,22 @@ public final class QuizInteractor implements QuizUseCase {
         topic = selectedTopic == null || selectedTopic.isBlank() ? "All topics" : selectedTopic;
         sessionVersion = session.getVersion();
         return current();
+    }
+
+    private QuizQuestion generateQuestion(VocabularyWord word, List<VocabularyWord> visible) {
+        Map<String, String> definitions = new LinkedHashMap<>();
+        String answer = word.getDefinition();
+        for (VocabularyWord other : visible) {
+            String text = other.getDefinition();
+            if (!text.equalsIgnoreCase(answer)) { definitions.putIfAbsent(text.toLowerCase(Locale.ROOT), text); }
+        }
+        List<String> distractors = new ArrayList<>(definitions.values());
+        if (distractors.size() < 3) { return null; }
+        Collections.shuffle(distractors, random);
+        List<String> options = new ArrayList<>();
+        options.add(answer); options.addAll(distractors.subList(0, 3));
+        return new QuizQuestion("personal-" + word.getId(), word.getId(),
+                "What does \"" + word.getTerm() + "\" mean?", options, 0);
     }
 
     @Override public Question answer(int optionIndex) {

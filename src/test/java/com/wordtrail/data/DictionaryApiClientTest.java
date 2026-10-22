@@ -18,11 +18,13 @@ class DictionaryApiClientTest {
     private int status = 200;
     private String body = "[{\"word\":\"hello\",\"meanings\":[{\"definitions\":[{\"definition\":\"A greeting.\",\"example\":\"Hello, friend!\"}]}]}]";
     private String requestedPath;
+    private String requestedQuery;
 
     @BeforeEach void start() throws Exception {
         server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
         server.createContext("/", exchange -> {
             requestedPath = exchange.getRequestURI().getRawPath();
+            requestedQuery = exchange.getRequestURI().getRawQuery();
             byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
             exchange.sendResponseHeaders(status, bytes.length);
             try (java.io.OutputStream output = exchange.getResponseBody()) { output.write(bytes); }
@@ -43,7 +45,7 @@ class DictionaryApiClientTest {
     }
 
     @Test void mapsNotFoundRateLimitAndServerFailures() {
-        for (int code : new int[]{404, 429, 503}) {
+        for (int code : new int[]{404, 429, 503, 530}) {
             status = code;
             assertThrows(AppException.class, () -> client.lookup("hello"));
         }
@@ -54,5 +56,19 @@ class DictionaryApiClientTest {
             body = response;
             assertThrows(AppException.class, () -> client.lookup("hello"));
         }
+    }
+
+    @Test void backupParsesDefinitionsAndDoesNotReturnAnUnrelatedSuggestion() {
+        DatamuseDictionaryClient backup = new DatamuseDictionaryClient(HttpClient.newHttpClient(),
+                URI.create("http://127.0.0.1:" + server.getAddress().getPort() + "/words"));
+        body = "[{\"word\":\"ice cream\",\"defs\":[\"n\\tA frozen dessert.\"]}]";
+        DictionaryGateway.Entry entry = backup.lookup("ice cream");
+        assertEquals("A frozen dessert.", entry.definition);
+        assertTrue(requestedQuery.contains("sp=ice+cream"));
+        assertTrue(requestedQuery.contains("md=d"));
+        assertTrue(entry.source.contains("/words?sp="));
+        assertThrows(AppException.class, () -> backup.lookup("different"));
+        body = "[{\"word\":\"hello\"}]";
+        assertThrows(AppException.class, () -> backup.lookup("hello"));
     }
 }

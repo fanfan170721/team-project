@@ -3,6 +3,7 @@ package com.wordtrail.view;
 import com.wordtrail.adapter.ViewModels;
 import com.wordtrail.app.Application;
 import com.wordtrail.usecase.port.DictionaryGateway;
+import com.wordtrail.usecase.AppException;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Graphics2D;
@@ -29,14 +30,19 @@ class SwingWorkflowTest {
     @TempDir Path directory;
     private Application application;
     private AppPanel panel;
+    private volatile String lastLookup;
+    private volatile boolean failLookup;
     private final Clock clock = Clock.fixed(Instant.parse("2026-10-22T16:00:00Z"), ZoneId.of("America/New_York"));
 
     @BeforeEach void open() throws Exception { reopen(); }
     @AfterEach void close() throws Exception { if (application != null) { application.close(); } }
 
     private void reopen() throws Exception {
-        application = new Application(directory,
-                term -> new DictionaryGateway.Entry(term, "Definition from test dictionary.", "A test example.", "Local test server"), clock);
+        application = new Application(directory, term -> {
+            lastLookup = term;
+            if (failLookup) { throw new AppException("Online lookup failed: HTTP 530. Your saved definition is unchanged."); }
+            return new DictionaryGateway.Entry(term, "Definition from test dictionary.", "A test example.", "Local test server");
+        }, clock);
         panel = edt(() -> { AppPanel root = new AppPanel(application.controller()); root.setSize(1080, 780); layout(root); return root; });
     }
 
@@ -129,6 +135,89 @@ class SwingWorkflowTest {
         assertTrue(status().contains("do not match"));
         assertFalse(panel.isBusy());
         assertTrue(application.controller().needsSetup());
+    }
+
+    @Test void personalEditingReviewCountsSortingAndQuizWorkForLearnersAndPersist() throws Exception {
+        authenticate("admin", true); click("account.logout");
+        edt(() -> { component("auth.mode", JComboBox.class).setSelectedIndex(1); return null; });
+        authenticate("alice", true);
+        click("library.add");
+        text("library.editor.term", "serendipity"); text("library.editor.topic", "My words");
+        text("library.editor.definition", "A fortunate discovery.");
+        text("library.editor.example", "A moment of serendipity.");
+        snapshot("07-personal-editor"); click("library.editor.save");
+        assertEquals(17, edt(() -> component("library.table", JTable.class).getRowCount()));
+        text("library.search", "serendipity"); click("library.find");
+        click("library.edit"); text("library.editor.definition", "My lucky discovery."); click("library.editor.save");
+        text("library.search", "serendipity"); click("library.find");
+        assertEquals("My lucky discovery.", edt(() -> component("library.table", JTable.class).getValueAt(0, 2)));
+        click("library.save");
+        tab(1);
+        edt(() -> { component("flash.reviewOnly", JCheckBox.class).setSelected(true); return null; });
+        click("flash.start"); click("flash.reveal"); click("flash.studied");
+        assertFalse(edt(() -> component("flash.studied", JButton.class).isEnabled()));
+        click("flash.next"); click("flash.reveal");
+        assertTrue(edt(() -> component("flash.studied", JButton.class).isEnabled()));
+        click("flash.studied");
+        assertTrue(edt(() -> component("flash.counter", JLabel.class).getText()).contains("Reviews: 2"));
+        tab(0); text("library.search", "climate"); click("library.find"); click("library.save");
+        click("library.edit"); text("library.editor.definition", "My description of long-term weather.");
+        click("library.editor.save");
+        tab(3);
+        assertEquals(2, edt(() -> component("review.table", JTable.class).getRowCount()));
+        assertEquals("climate", edt(() -> component("review.table", JTable.class).getValueAt(0, 0)));
+        edt(() -> { component("review.order", JComboBox.class).setSelectedIndex(2); return null; });
+        assertEquals("serendipity", edt(() -> component("review.table", JTable.class).getValueAt(0, 0)));
+        assertEquals(2, edt(() -> component("review.table", JTable.class).getValueAt(0, 4)));
+        assertEquals(Integer.class, edt(() -> component("review.table", JTable.class).getColumnClass(4)));
+        snapshot("08-review-counts");
+        tab(2);
+        edt(() -> {
+            component("quiz.topic", JComboBox.class).setSelectedItem("My words");
+            component("quiz.count", JSpinner.class).setValue(1); return null;
+        });
+        click("quiz.start");
+        int correct = -1;
+        for (int i = 0; i < 4; i++) {
+            final int index = i;
+            if (edt(() -> component("quiz.choiceText" + index, JTextArea.class).getText()).equals("My lucky discovery.")) { correct = i; }
+        }
+        assertTrue(correct >= 0); click("quiz.choice" + correct); click("quiz.submit");
+        assertTrue(edt(() -> component("quiz.feedback", JTextArea.class).getText()).contains("1 / 1 (100%)"));
+        application.close(); reopen(); authenticate("alice", false); tab(3);
+        edt(() -> { component("review.order", JComboBox.class).setSelectedIndex(2); return null; });
+        assertEquals("serendipity", edt(() -> component("review.table", JTable.class).getValueAt(0, 0)));
+        assertEquals(2, edt(() -> component("review.table", JTable.class).getValueAt(0, 4)));
+        click("account.logout"); authenticate("admin", false);
+        text("library.search", "serendipity"); click("library.find");
+        assertEquals(0, edt(() -> component("library.table", JTable.class).getRowCount()));
+        text("library.search", "climate"); click("library.find");
+        assertFalse(edt(() -> component("library.table", JTable.class).getValueAt(0, 2)).equals("My description of long-term weather."));
+    }
+
+    @Test void lookupUsesTheSelectedSortedRowAndFailuresLeaveControlsUsable() throws Exception {
+        authenticate("admin", true);
+        String word = edt(() -> {
+            JTable table = component("library.table", JTable.class);
+            table.getRowSorter().setSortKeys(java.util.List.of(new RowSorter.SortKey(0, SortOrder.DESCENDING)));
+            table.setRowSelectionInterval(0, 0);
+            return (String) table.getValueAt(0, 0);
+        });
+        String saved = edt(() -> (String) component("library.table", JTable.class).getValueAt(0, 2));
+        click("library.lookup");
+        assertEquals(word, lastLookup);
+        String online = edt(() -> component("library.detail", JTextArea.class).getText());
+        assertTrue(online.contains(word + " — online definition"));
+        assertTrue(online.contains("Definition from test dictionary."));
+        assertTrue(online.contains("Your saved definition (unchanged):\n" + saved));
+        snapshot("09-online-definition");
+        failLookup = true; click("library.lookup");
+        assertTrue(status().contains("HTTP 530"));
+        assertTrue(edt(() -> component("library.lookup", JButton.class).isEnabled()));
+        assertTrue(edt(() -> component("library.detail", JTextArea.class).getText()).contains(saved));
+        assertFalse(edt(() -> component("library.detail", JTextArea.class).getText()).contains("Definition from test dictionary."));
+        text("library.search", "no-such-word"); click("library.find");
+        assertFalse(edt(() -> component("library.lookup", JButton.class).isEnabled()));
     }
 
     private void authenticate(String username, boolean creating) throws Exception {

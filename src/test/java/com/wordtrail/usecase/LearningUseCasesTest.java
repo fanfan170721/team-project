@@ -56,4 +56,22 @@ class LearningUseCasesTest {
         assertEquals(3, f.progress.report().studyStreak);
         assertEquals(3, f.progress.report().progress.getStudiedWordIds().size());
     }
+
+    @Test void repeatedReviewsCountPerVisitAndFailedSaveCanBeRetried() {
+        UseCaseFixture f = new UseCaseFixture(); f.admin();
+        f.review.setSaved("w0", true);
+        f.flash.start(null, true); f.flash.reveal();
+        f.store.failSave = true;
+        assertThrows(AppException.class, f.flash::markStudied);
+        f.store.failSave = false;
+        assertEquals(1, f.flash.markStudied().reviewCount);
+        assertEquals(1, f.flash.markStudied().reviewCount);
+        f.flash.next(); f.flash.reveal();
+        assertEquals(2, f.flash.markStudied().reviewCount);
+        assertTrue(f.flash.markStudied().reviewed);
+        assertEquals(1, f.progress.report().progress.getStudiedWordIds().size());
+        assertEquals(1, f.progress.report().progress.getStudyDays().get(LocalDate.now(f.clock)).size());
+        f.learner("alice");
+        assertTrue(f.progress.report().progress.getReviewCounts().isEmpty());
+    }
 }

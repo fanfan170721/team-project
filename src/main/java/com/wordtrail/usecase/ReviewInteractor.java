@@ -26,14 +26,15 @@ public final class ReviewInteractor implements ReviewUseCase {
 
     @Override public List<VocabularyWord> list() {
         Set<String> ids = savedIds();
-        return ContentQueries.filter(content.getWords(), null, "").stream()
+        return ContentQueries.filter(ContentQueries.visibleWords(content, progress,
+                session.requireUser().getUsername()), null, "").stream()
                 .filter(word -> ids.contains(word.getId())).collect(Collectors.toList());
     }
 
     @Override public void setSaved(String wordId, boolean saved) {
         String username = session.requireUser().getUsername();
-        ContentQueries.requireWord(content, wordId);
         LearningProgress current = progress.getProgress(username);
+        ContentQueries.requireVisibleWord(content, current, wordId);
         progress.saveProgress(username, current.withReviewWord(wordId, saved));
     }
 }

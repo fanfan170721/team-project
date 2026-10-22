@@ -18,7 +18,7 @@ final class ProgressPanel extends JPanel implements Refreshable {
     ProgressPanel(AppController controller, UiTasks tasks) {
         super(new BorderLayout());
         this.controller = controller; this.tasks = tasks;
-        JPanel page = Ui.page("Your progress", "A word counts as studied when you reveal its flashcard and mark it studied.");
+        JPanel page = Ui.page("Your progress", "Completed reviews accumulate; the daily chart counts distinct words each day.");
         JPanel body = new JPanel(new BorderLayout(10, 12));
         JPanel stats = new JPanel(new BorderLayout());
         summary.setName("progress.summary"); summary.setRows(3);
@@ -47,6 +47,7 @@ final class ProgressPanel extends JPanel implements Refreshable {
     private void render(ViewModels.Dashboard dashboard) {
         summary.setText("Words studied: " + dashboard.studied + " / " + dashboard.totalWords
                 + "     Review later: " + dashboard.saved + "     Study streak: " + dashboard.streak + " day(s)"
+                + "\nCompleted reviews: " + dashboard.reviews
                 + "\nCompleted quizzes: " + dashboard.quizzes + "     Overall answer accuracy: "
                 + (dashboard.quizzes == 0 ? "No completed quizzes yet" : dashboard.accuracy + "%"));
         chart.setDays(dashboard.dailyRows);

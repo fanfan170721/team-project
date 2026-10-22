@@ -14,12 +14,14 @@ public final class AppController {
     private final ProgressUseCase progress;
     private final ContentUseCase content;
     private final AppPresenter presenter;
+    private final PersonalVocabularyUseCase personal;
 
     public AppController(AuthUseCase auth, CatalogUseCase catalog, FlashcardUseCase flashcards,
                          QuizUseCase quiz, ReviewUseCase review, ProgressUseCase progress,
-                         ContentUseCase content, AppPresenter presenter) {
+                         ContentUseCase content, PersonalVocabularyUseCase personal, AppPresenter presenter) {
         this.auth = auth; this.catalog = catalog; this.flashcards = flashcards; this.quiz = quiz;
         this.review = review; this.progress = progress; this.content = content; this.presenter = presenter;
+        this.personal = personal;
     }
 
     public boolean needsSetup() { return call(auth::needsSetup); }
@@ -35,10 +37,13 @@ public final class AppController {
     public void logout() { call(() -> { auth.logout(); return null; }); }
 
     public ViewModels.Library browse(String topic, String search) {
-        return call(() -> presenter.library(catalog.topics(), catalog.browse(topic, search), review.savedIds()));
+        return call(() -> presenter.library(catalog.topics(), catalog.browse(topic, search), personal.details()));
     }
     public ViewModels.Library reviewList() {
-        return call(() -> presenter.library(catalog.topics(), review.list(), review.savedIds()));
+        return call(() -> presenter.library(catalog.topics(), review.list(), personal.details()));
+    }
+    public ViewModels.Library sharedWords() {
+        return call(() -> presenter.library(catalog.topics(), content.sharedWords(), personal.details()));
     }
     public void saveWord(String id, boolean saved) { call(() -> { review.setSaved(id, saved); return null; }); }
     public ViewModels.Definition lookup(String term) { return call(() -> presenter.definition(catalog.lookup(term))); }
@@ -58,6 +63,14 @@ public final class AppController {
     }
     public void addQuestion(String wordId, String prompt, List<String> options, int correct) {
         call(() -> { content.addQuestion(wordId, prompt, options, correct); return null; });
+    }
+
+    public void addPersonalWord(String term, String topic, String definition, String example, String source) {
+        call(() -> { personal.addWord(term, topic, definition, example, source); return null; });
+    }
+
+    public void changeDefinition(String wordId, String definition) {
+        call(() -> { personal.changeDefinition(wordId, definition); return null; });
     }
 
     private <T> T call(Supplier<T> action) {

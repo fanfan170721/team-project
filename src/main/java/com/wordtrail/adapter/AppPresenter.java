@@ -19,13 +19,17 @@ public final class AppPresenter {
         return new ViewModels.Account(user.getUsername(), user.getRole() == Role.ADMIN);
     }
 
-    public ViewModels.Word word(VocabularyWord word, boolean saved) {
+    private ViewModels.Word word(VocabularyWord word, LearningProgress data) {
+        String time = data.getLastReviewed().containsKey(word.getId())
+                ? DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zone)
+                        .format(data.getLastReviewed().get(word.getId())) : "";
         return new ViewModels.Word(word.getId(), word.getTerm(), word.getTopic(), word.getDefinition(),
-                word.getExample(), word.getSource(), saved);
+                word.getExample(), word.getSource(), data.getReviewWordIds().contains(word.getId()),
+                data.getReviewCounts().getOrDefault(word.getId(), 0), time);
     }
 
-    public ViewModels.Library library(List<String> topics, List<VocabularyWord> words, Set<String> saved) {
-        return new ViewModels.Library(topics, words.stream().map(w -> word(w, saved.contains(w.getId())))
+    public ViewModels.Library library(List<String> topics, List<VocabularyWord> words, LearningProgress data) {
+        return new ViewModels.Library(topics, words.stream().map(w -> word(w, data))
                 .collect(Collectors.toList()));
     }
 
@@ -34,8 +38,9 @@ public final class AppPresenter {
         ViewModels.Word display = new ViewModels.Word(word.getId(), word.getTerm(), word.getTopic(),
                 card.revealed ? word.getDefinition() : "Reveal the definition when you are ready.",
                 card.revealed ? word.getExample() : "", card.revealed ? word.getSource() : "",
-                saved.contains(word.getId()));
-        return new ViewModels.Card(display, "Card " + card.position + " of " + card.total, card.revealed, card.studiedToday);
+                saved.contains(word.getId()), card.reviewCount, "");
+        return new ViewModels.Card(display, "Card " + card.position + " of " + card.total,
+                card.revealed, card.studiedToday, card.reviewed);
     }
 
     public ViewModels.Quiz quiz(QuizUseCase.Question question) {
@@ -74,7 +79,7 @@ public final class AppPresenter {
         }
         return new ViewModels.Dashboard(data.getStudiedWordIds().size(), report.totalWords,
                 data.getReviewWordIds().size(), attempts.size(), total == 0 ? 0 : (int) Math.round(100.0 * correct / total),
-                report.studyStreak, daily, rows);
+                report.studyStreak, data.getReviewCounts().values().stream().mapToInt(Integer::intValue).sum(), daily, rows);
     }
 
     public ViewModels.Definition definition(DictionaryGateway.Entry entry) {

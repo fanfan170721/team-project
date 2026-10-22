@@ -2,7 +2,7 @@ package com.wordtrail.entity;
 
 import java.util.Objects;
 
-/** Immutable vocabulary content shared by all learners. */
+/** Immutable vocabulary content; use cases decide whether it is shared or personal. */
 public final class VocabularyWord {
     private final String id;
     private final String term;

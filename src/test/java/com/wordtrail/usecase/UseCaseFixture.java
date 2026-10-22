@@ -16,13 +16,14 @@ final class UseCaseFixture {
         public String hash(char[] password) { return "test-hash:" + new String(password); }
         public boolean matches(char[] password, String hash) { return hash.equals(hash(password)); }
     }, session);
-    final CatalogInteractor catalog = new CatalogInteractor(store,
+    final CatalogInteractor catalog = new CatalogInteractor(store, store,
             term -> new DictionaryGateway.Entry(term, "API definition", "An example.", "test service"), session);
     final ReviewInteractor review = new ReviewInteractor(store, store, session);
     final FlashcardInteractor flash = new FlashcardInteractor(store, store, session, clock, new Random(7));
     final QuizInteractor quiz = new QuizInteractor(store, store, session, clock, new Random(7));
     final ProgressInteractor progress = new ProgressInteractor(store, store, session, clock);
     final ContentInteractor content = new ContentInteractor(store, session);
+    final PersonalVocabularyInteractor personal = new PersonalVocabularyInteractor(store, store, session);
 
     UseCaseFixture() {
         for (int i = 0; i < 4; i++) {
