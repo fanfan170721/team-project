@@ -48,6 +48,7 @@ demo folders retain their records, so use a new path when you want a fresh setup
 
 ## Evidence to show
 
-Show actual PR discussion, CI results and each teammate's own changes. The initial
-AI-assisted implementation and screenshots are useful software evidence, but do
-not substitute for team members' own contributions or design explanations.
+For this local-only delivery, show the local commit history, test results and
+review notes. No remote PR discussion or CI result exists. The initial AI-assisted
+implementation and screenshots are useful software evidence, but do not substitute
+for team members' own contributions or design explanations.

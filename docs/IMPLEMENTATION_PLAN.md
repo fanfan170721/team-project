@@ -12,8 +12,9 @@ template; only the actual team can agree to and sign that document.
 4. Integration checks, CI, architecture notes, wireframes and demonstration guide.
 
 Use the feature branch `codex/vocabulary-learning-app` and meaningful commits.
-Do not manufacture team contributions or review approvals. Prepare a PR description
-and checklist; publish a PR only if authenticated remote tooling is available.
+Do not manufacture team contributions or review approvals. Keep the PR description
+and checklist as local review materials. The user's final instruction is local-only
+delivery: do not push any branch or create a remote PR, even if authentication becomes available.
 
 ## Decisions to validate
 

@@ -6,6 +6,9 @@ Administrators add vocabulary and multiple-choice questions through forms.
 
 [中文启动与修改说明](docs/QUICKSTART.zh-CN.md)
 
+This working copy is **local only**, as requested. No branch was uploaded and no
+remote PR was created. Keep development, commits and review materials on this device.
+
 ## Run
 
 Install a **JDK 11 or later** and **Maven 3.9 or later**, then run from the project root:
@@ -14,6 +17,15 @@ Install a **JDK 11 or later** and **Maven 3.9 or later**, then run from the proj
 mvn verify
 java -jar target/wordtrail.jar
 ```
+
+On Windows, double-click `run.cmd`, or run `.\run.ps1`. The launcher uses the
+project directory for saved data and rebuilds when source files have changed.
+Use `.\run.ps1 -Build` to force a complete build, or `.\run.ps1 -Check` to check
+the packaged entry point without opening a window or accessing the internet.
+
+The local delivery also includes `target/wordtrail-local.zip` (JAR, Windows launcher
+and short instructions) and `target/wordtrail-local.bundle` (an offline Git history
+backup). These generated artifacts stay on this device and are ignored by Git.
 
 In IntelliJ IDEA, open `pom.xml` as a Maven project, select JDK 11+, and run
 `com.wordtrail.app.Main`. Keep the working directory set to the project root.
@@ -97,7 +109,8 @@ dictionary double; they do not rely on the public API being online. A manual
 
 The Swing integration test clicks actual controls in headless mode, verifies all
 seven stories and restarts the real JSON store. It writes screenshots to
-`target/ui-snapshots/`. CI verifies Java 11 and 17 on Windows and Linux.
+`target/ui-snapshots/`. A CI workflow is prepared for Java 11 and 17 on Windows and
+Linux; it has not been uploaded or run remotely in this local-only delivery.
 
 ## Screenshots
 
@@ -114,9 +127,9 @@ demo accounts and content. Desktop fonts and window decorations vary by OS.
 - [User stories and acceptance criteria](docs/USER_STORIES.md)
 - [Architecture, patterns, SOLID and tradeoffs](docs/ARCHITECTURE.md)
 - [UI wireframes](docs/UI_WIREFRAMES.md)
-- [Development / branch / PR workflow](docs/DEVELOPMENT.md)
+- [Local development and review workflow](docs/DEVELOPMENT.md)
 - [Presentation and demo guide](docs/DEMO.md)
 - [Verification record](docs/VERIFICATION.md)
 - [Future extensions](docs/FUTURE_WORK.md)
-- [Prepared PR description](docs/PR_DESCRIPTION.md)
+- [Local review summary in PR format](docs/PR_DESCRIPTION.md)
 - [Team contract template](TeamContract.md) — requires the actual team's agreement

@@ -14,6 +14,23 @@ java -jar target/wordtrail.jar
 或更高版本，然后运行 `src/main/java/com/wordtrail/app/Main.java`。
 运行目录保持为项目根目录。
 
+Windows 下也可以直接双击项目根目录的 `run.cmd`，或在 PowerShell 中执行：
+
+```powershell
+.\run.ps1
+```
+
+启动脚本会固定使用项目根目录，并在源码更新后自动重新构建。需要强制重新编译和
+测试时使用 `.\run.ps1 -Build`。`.\run.ps1 -Check` 只检查启动入口，不打开窗口，
+也不访问网络。
+
+另外提供两个只在本机保存的文件：
+
+- `target/wordtrail-local.zip`：解压后双击 `Start-WordTrail.cmd`，需要 Java 11 或更高版本。
+- `target/wordtrail-local.bundle`：包含本地分支和提交历史的离线 Git 备份。
+
+源码仍保留在当前项目目录，直接用 IntelliJ 修改即可。以上文件均未上传。
+
 第一次打开会要求设置管理员。用户名使用 3–30 位英文字母、数字或下划线，
 密码使用 8–128 个字符。用户名不区分大小写；没有预设账户和密码。
 设置完成后会自动登录。退出后，将 Action 改为 Register a learner account
@@ -78,7 +95,13 @@ java -jar target/wordtrail.jar --check-api hello
 ## Git 和团队部分
 
 开发位于 `codex/vocabulary-learning-app` 分支，按功能提交；提交作者按你的要求
-使用 Allen Yuan / rosemary.yuan@mail.utoronto.ca。请通过 PR 评审后再合并主分支。
+使用 Allen Yuan / rosemary.yuan@mail.utoronto.ca。按照你的最新要求，全部内容仅保留
+本地，不推送原仓库、不上传其他仓库，也不创建远端 PR。此前推送因未登录而失败，
+远端没有接收任何改动。`main` 保留原状，继续在功能分支修改即可。
+
+本地可以运行 `git diff main...codex/vocabulary-learning-app` 查看完整改动。
+`docs/PR_DESCRIPTION.md` 作为本地评审说明保留。课程要求的真实远端 PR 流程并未执行；
+本地分支和提交记录不会被写成已经发生过的远端评审。
 各功能的具体团队负责人仍然需要你们真实分配，不能从 AI 编写的代码里伪造多人贡献。
 `TeamContract.md` 保留原模板，需要全组讨论、修改和签名。
 

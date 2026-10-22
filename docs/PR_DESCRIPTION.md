@@ -1,3 +1,5 @@
+Local review summary only. No remote PR has been created; this project must remain local.
+
 WordTrail adds a complete Java 11 / Swing vocabulary learning application to the
 existing Maven skeleton. Users can create accounts, browse topics, study
 flashcards, take multiple-choice quizzes, save review words and inspect persisted
@@ -14,8 +16,8 @@ use case. A session version invalidates decks/quizzes across account changes.
 Validation: `mvn verify` passes 25 tests, including a real Swing button workflow
 covering all seven stories and restart persistence; local HTTP tests cover API
 responses/failures. The executable JAR includes dependencies and seed content.
-CI is configured for Windows/Linux and Java 11/17. See the published Actions runs
-for remote results. The README includes actual component screenshots, setup
+CI is configured for Windows/Linux and Java 11/17 but has not been published or run
+remotely. The README includes actual component screenshots, setup
 instructions, architecture notes, acceptance criteria and a demo guide.
 
 The packaged JAR's live diagnostic also successfully fetched a definition from

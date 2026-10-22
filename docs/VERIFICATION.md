@@ -13,6 +13,12 @@ Maven 3.9.16.
 - Six real component renders generated in `target/ui-snapshots/`; vocabulary,
   flashcard, quiz, progress and admin renders were visually inspected.
 - `git diff --check`: no whitespace errors.
+- `powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\run.ps1 -Check`:
+  **passed**. The Windows launcher locates the packaged entry point without
+  opening a GUI or making a network request.
+- The same launcher with `-Build -Check` runs the full verification before checking
+  the entry point. The JAR plugin always recreates the input artifact so incremental
+  builds do not re-shade the previous dependency-containing JAR.
 
 The Swing render is an offscreen render of the actual components, not a screenshot
 of a manually operated native desktop window. Automated tests use deterministic
@@ -20,7 +26,8 @@ dictionary doubles or a local HTTP server. The public service is checked separat
 so normal CI does not require it to be online.
 
 Java 17 and Linux execution are configured in CI and were not executed locally.
-Inspect the actual remote workflow results after pushing; configuration alone is
-not evidence that those runs passed. The shade plugin reports the expected shared
+Delivery is local only; no branch was uploaded and no remote workflow or PR was
+created. The CI configuration is not evidence of a remote test run.
+The shade plugin reports the expected shared
 `META-INF/MANIFEST.MF` resource; its manifest transformer provides the executable
 main class.
