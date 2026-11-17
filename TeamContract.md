@@ -1,12 +1,6 @@
 # Team Contract
 
-**Your team is free to revise this contract as your team wishes; we have scaffolded it with a recommended structure similar to the provided sample on Quercus.**
-
-After you reflect on past teamwork experiences and brainstorm a list of actions required for a positive teamwork experience, answer these questions. 
-
-Once you have all agreed on the contents of the team contract, make a PR to merge your team contract into the main branch of your team's repo on GitHub.
-
-**Please remember to remove any of the initial instruction text when your team finalizes your team contract; it should resemble the provided sample once complete, but with details specific to the expectations and norms agreed to by your entire team.**
+The rules below record our team's agreed working arrangements.
 
 ---
 ## Purpose of this Contract
@@ -18,39 +12,40 @@ This contract sets out shared expectations and commitments for how our team will
 
 ### Communication
 
-* Which platform will you use for communication outside of class, when required for work on your course project? (Examples: Text message, Discord, WeChat, etc.)
-
-* Each teammate agrees to respond to messages in at most how long? 1 day? 2 days? Some other amount of time? 
-
-* What things should a teammate notify you about? (Examples: if they think they won't be able to meet a deadline, if they have to miss lecture, etc.)
-
-* Respectful and inclusive behaviour are necessary for smooth and productive communication. What are some respectful and inclusive behaviours you expect when communicating with each other during lectures, labs, or outside of class? (Examples: Actively listening to each team members ideas, giving everyone a chance to meaningfully contribute, etc.)
+* We use our existing team group chat to communicate about the project outside class.
+* Each member normally replies to team messages within 24 hours.
+* If a member expects to miss a task deadline, they notify the team in advance.
+* We listen to each other's views and give every member a chance to participate in discussions.
 
 ---
 
-### [Other Categories of norms and expectations go here]
+### Weekly Progress Updates
 
-* Based on your previous teamwork experiences, what other behaviours do you agree upon as a team?
-    - some examples of possible additional team norms and expectations are included in the sample team contract in case your team needs some help getting ideas for what else you want to include.
+* We meet once a week to discuss progress and any difficulties with our tasks.
+* Regular meeting day and time: **Every Sunday at 5:00 p.m., Toronto local time (America/Toronto).**
+
+### Contributions and Code Review
+
+* Each member is responsible for their own assigned tasks.
+* Each member submits their own work using their own GitHub account.
+* We review each other's code.
 
 ---
 
 ## Decision Making
 
-* How will decisions about your team project be made? (Examples: By majority vote, by unanimous vote, etc.)
+We discuss project decisions together and work toward agreement. If a disagreement remains unresolved, we follow the conflict resolution process below.
 
 ---
 ## Conflict resolution
 
-* How will your team resolve conflicts? (Example: by listening to each other's side of the issue and attempting to reach a compromise. By consulting a TA or instructor as a team, if a resolution has not yet been reached.)
+We first discuss the disagreement and listen to each member's perspective. If we cannot resolve it together, we consult a TA as a team.
 
 ---
 
 ## Accountability
 
-* Reliability and accountability are also important aspects of teamwork. What are the responsibilities of each team member? (Example: completing their share of the work in a timely manner, seeking assistance from teammates/TAs/instructors when required, etc.)
-
----
+Each member is responsible for communicating their progress, completing their assigned work, and participating in code review. Members who encounter difficulties raise them with the team and give advance notice if a deadline is at risk.
 
 ---
 
@@ -58,4 +53,10 @@ By signing below, we acknowledge that we have read, discussed, and agreed to the
 
 Team Member Signatures:
 
-(type names here)
+The names below record each member's acknowledgement of this contract.
+
+| Member | Name / Signature |
+| --- | --- |
+| 1 | Zidong Yuan |
+| 2 | Fuxuan Xu |
+| 3 | Xinyu Huang |
