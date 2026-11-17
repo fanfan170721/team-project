@@ -32,6 +32,8 @@ jobs:
           path: |
             target/surefire-reports/
             target/ui-snapshots/
+            target/site/
+            target/checkstyle-result.xml
       - name: Save executable JAR
         if: matrix.os == 'ubuntu-latest' && matrix.java == '11'
         uses: actions/upload-artifact@v4

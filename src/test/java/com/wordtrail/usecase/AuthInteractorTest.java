@@ -6,6 +6,24 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AuthInteractorTest {
+    @Test
+    void missingOrOversizedLoginPasswordLeavesTheAccountSignedOut() {
+        UseCaseFixture f = new UseCaseFixture();
+        f.admin();
+        f.auth.logout();
+        for (char[] password : new char[][] {null, new char[0], new char[129]}) {
+            if (password != null) {
+                Arrays.fill(password, 'x');
+            }
+            assertThrows(AppException.class, () -> f.auth.login("admin", password));
+            assertThrows(AppException.class, f.session::requireUser);
+            if (password != null) {
+                assertArrayEquals(new char[password.length], password);
+            }
+            assertEquals(1, f.store.users.size());
+        }
+    }
+
     @Test void firstRunCreatesOneAdminAndRegistrationAlwaysCreatesLearners() {
         UseCaseFixture f = new UseCaseFixture();
         assertTrue(f.auth.needsSetup());

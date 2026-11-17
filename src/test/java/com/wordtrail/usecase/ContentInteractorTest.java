@@ -6,6 +6,23 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ContentInteractorTest {
+    @Test
+    void malformedQuestionFormDoesNotSavePartialContent() {
+        UseCaseFixture f = new UseCaseFixture();
+        f.admin();
+        int before = f.store.questions.size();
+        assertThrows(AppException.class,
+                () -> f.content.addQuestion("w0", "Meaning?", null, 0));
+        assertThrows(AppException.class,
+                () -> f.content.addQuestion("w0", "Meaning?", Arrays.asList("a", "b", "c"), 0));
+        for (int invalidAnswer : new int[] {-1, 4}) {
+            assertThrows(AppException.class,
+                    () -> f.content.addQuestion("w0", "Meaning?",
+                            Arrays.asList("a", "b", "c", "d"), invalidAnswer));
+        }
+        assertEquals(before, f.store.questions.size());
+    }
+
     @Test void authorizationIsEnforcedInTheUseCase() {
         UseCaseFixture f = new UseCaseFixture();
         assertThrows(AppException.class, () -> f.content.addWord("word", "Topic", "meaning", "", ""));
