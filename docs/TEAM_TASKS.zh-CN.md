@@ -1,5 +1,7 @@
 # 两位组员的下一步：各完成一个新的 MVP 用例
 
+**第一次开始请只看 [START_HERE：最多 30 分钟](START_HERE.zh-CN.md)。**下面是后续工作参考，不要求现在通读或一次完成。每次最多工作 30 分钟，一个实施阶段可以分多次完成。
+
 这是一份待执行任务单，不是完成记录。以下两项纳入本项目的 **MVP**，不是 optional 或留到未来的功能：
 
 | 实施负责人 | 新用户故事与用例 | 自己的工作分支 |
@@ -103,7 +105,7 @@ mvn verify
 
 时间用明确的格式，例如带 `Z` 的 UTC ISO 时间；表头写清楚 `completed_at_utc,topic,correct,total`。只导出这些成绩字段，不导出账号密码、密码散列或其他人的记录。操作通过现有后台任务机制运行，界面不因文件操作卡住。
 
-### 三段工作，每段最多 30 分钟
+### 后续三个实施阶段，每次只推进最多 30 分钟
 
 1. **第一段：搞清楚入口，写自己的边界和导出核心。** 读 `QuizAttempt`、`ProgressRepository`、`SessionContext` 和一个现有专属 Controller/Presenter。自己实现输入/输出边界、Row/Response、导出端口及 Interactor；先用假导出器检查数据归属、排序和空记录。解释清楚后按下面“每段提交”提交真实进展，消息可用 `Add export-results use case and boundaries`。
 2. **第二段：做 CSV 文件实现和有效测试。** 实现导出 adapter，测试普通成绩、包含逗号/引号/换行的主题、空记录以及写入失败时保留旧文件；补齐 Interactor 的失败输出测试。提交消息可用 `Implement CSV export and failure handling`。
@@ -175,7 +177,7 @@ mvn verify
 
 Interactor 依赖已有 `ContentRepository`、`ProgressRepository`、`SessionContext` 和 `Clock`。新 Interactor 放在 `com.wordtrail.usecase` 包内，可以复用 package-private 的 `ContentQueries.visibleWords`；不要改成从 UI 直接访问仓库。不需要新增 JSON 字段，也不需要重写现有 FlashcardInteractor。主题选项可以复用最新基线公开的目录适配接口；先检查它，不访问旧控制器私有字段。
 
-### 三段工作，每段最多 30 分钟
+### 后续三个实施阶段，每次只推进最多 30 分钟
 
 1. **第一段：先手算例子，再写用例核心。** 用纸或注释算清楚“从未复习”“昨天复习过 1 次”“两天前复习过 2 次”的安排。读 `LearningProgress` 和 `ContentQueries`，自己实现边界、Entry/Response 和 Interactor。先用固定日期测试到期筛选，再提交真实进展，消息可用 `Add due-review planning use case`。
 2. **第二段：补齐规则和失败测试，写专属适配器。** 检查 1/3/7 天边界、没有日期的旧记录、主题、数量、稳定排序、个人词汇和个人释义；实现自己的 Controller/Presenter/ViewModel。提交消息可用 `Test review-plan rules and add presentation adapters`。

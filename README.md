@@ -11,6 +11,8 @@ Administrators add vocabulary and multiple-choice questions through forms.
 
 [中文启动与修改说明](docs/QUICKSTART.zh-CN.md)
 
+**Teammates starting now:** [第一次只做这些（最多 30 分钟）](docs/START_HERE.zh-CN.md).
+
 This delivery branch integrates the existing AI-assisted application with the
 signed [team contract](TeamContract.md), merged through
 [PR #1](https://github.com/fanfan170721/team-project/pull/1).
