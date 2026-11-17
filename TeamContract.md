@@ -1,6 +1,6 @@
 # Team Contract
 
-The rules below record our team's agreed working arrangements. Our individual signatures remain to be completed.
+The rules below record our team's agreed working arrangements.
 
 ---
 ## Purpose of this Contract
@@ -53,7 +53,7 @@ By signing below, we acknowledge that we have read, discussed, and agreed to the
 
 Team Member Signatures:
 
-Each member will add their own name to acknowledge this contract.
+The names below record each member's acknowledgement of this contract.
 
 | Member | Name / Signature |
 | --- | --- |
