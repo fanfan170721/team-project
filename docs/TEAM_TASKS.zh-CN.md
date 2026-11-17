@@ -1,6 +1,6 @@
 # 两位组员的下一步：各完成一个新的 MVP 用例
 
-**第一次开始请只看 [START_HERE：最多 30 分钟](START_HERE.zh-CN.md)。**下面是后续工作参考，不要求现在通读或一次完成。每次最多工作 30 分钟，一个实施阶段可以分多次完成。
+**第一次开始请只看 [START_HERE：最多 30 分钟](START_HERE.zh-CN.md)，再打开自己的第一轮页面：[Fuxuan](FIRST_TASK_FUXUAN.zh-CN.md) / [Xinyu](FIRST_TASK_XINYU.zh-CN.md)。**第一轮使用自己的 AI 实现用例核心和有意义的测试；下面是后续工作参考，不要求现在通读或一次完成。每轮最多工作 30 分钟，一个实施阶段可以分多轮完成。
 
 这是一份待执行任务单，不是完成记录。以下两项纳入本项目的 **MVP**，不是 optional 或留到未来的功能：
 
@@ -9,11 +9,11 @@
 | Fuxuan | 导出本人已完成测验的成绩 CSV | `Emilia/xfx-export-results` |
 | Xinyu | 根据复习记录生成今日到期复习清单 | `Emilia/xinyu-due-review` |
 
-分工不等于代码贡献已经产生。每人应实际主导自己的 Interactor、相关接口、专属 Controller/Presenter、触发操作与结果显示的 UI，并亲自检查、运行、提交、讲解。不要把已经存在的整套实现重新署名为自己的代码，也不要替另一位组员完成其用例。
+分工不等于代码贡献已经产生。每人应实际主导自己的 Interactor、相关接口、专属 Controller/Presenter、触发操作与结果显示的 UI，检查改动和运行结果，并能讲解自己的用例。不要把已经存在的整套实现重新署名为自己的代码，也不要替另一位组员完成其用例。
 
-可以让自己的 AI 帮助生成、修改、测试和解释代码，再由本人检查、运行和提交；如实说明 AI 做了什么，不把生成代码称为全部本人手写。已读项目页面没有单列完整的 AI 使用政策，本任务单不添加“只能手写”的限制，也不替课程承诺所有 AI 使用方式均获批准。正式用例规格见 `docs/USE_CASES.md` 的 **UC-09/UC-10**；两项目前均为 assigned、pending。
+成员可以使用自己的 AI 帮助生成、修改、运行、测试和解释代码。本人检查差异与实际测试结果、确认内容后，也可以授权自己的 AI 使用本人正常 Git 身份协助 commit、push 和创建 Draft PR；不要求必须手动点击或输入 Git 命令。如实说明 AI 做了什么，不把生成代码称为全部本人手写，不使用他人账号、不冒充其他人审核、不编造测试或贡献记录。正式用例规格见 `docs/USE_CASES.md` 的 **UC-09/UC-10**；两项目前均为 assigned、pending。
 
-本任务单依据 2026-11-17 保存的课程要求整理，负责人电脑上的完整材料位于 `C:\Users\Administrator\Documents\Codex\CSC207-project-requirements\2026-11-17\`。课程要求每人主导 MVP 用例、提交实质代码 PR、review 他人、参与展示；测试数不等于覆盖率。这里的三段是每次不超过 30 分钟的工作安排，不保证基础薄弱者 90 分钟内一定做完。计时结束可以停在当前段，下次继续，不需要赶时间制造完成记录。
+本任务单依据 2026-11-17 保存的课程要求整理，负责人电脑上的完整材料位于 `C:\Users\Administrator\Documents\Codex\CSC207-project-requirements\2026-11-17\`。课程要求每人主导 MVP 用例、提交实质代码 PR、review 他人、参与展示；测试数不等于覆盖率。下面的三个阶段可以分多轮完成，每轮从准备开始最多 30 分钟，不保证 90 分钟内完成全部工作。安装、下载、解释和检查也计入本轮时间；计时结束就反馈实际进度，下次继续，不需要赶时间制造完成记录。
 
 ## 先用自己的账号和自己的新文件夹
 
@@ -105,13 +105,13 @@ mvn verify
 
 时间用明确的格式，例如带 `Z` 的 UTC ISO 时间；表头写清楚 `completed_at_utc,topic,correct,total`。只导出这些成绩字段，不导出账号密码、密码散列或其他人的记录。操作通过现有后台任务机制运行，界面不因文件操作卡住。
 
-### 后续三个实施阶段，每次只推进最多 30 分钟
+### 三个实施阶段，每轮最多 30 分钟，可分多轮完成
 
-1. **第一段：搞清楚入口，写自己的边界和导出核心。** 读 `QuizAttempt`、`ProgressRepository`、`SessionContext` 和一个现有专属 Controller/Presenter。自己实现输入/输出边界、Row/Response、导出端口及 Interactor；先用假导出器检查数据归属、排序和空记录。解释清楚后按下面“每段提交”提交真实进展，消息可用 `Add export-results use case and boundaries`。
-2. **第二段：做 CSV 文件实现和有效测试。** 实现导出 adapter，测试普通成绩、包含逗号/引号/换行的主题、空记录以及写入失败时保留旧文件；补齐 Interactor 的失败输出测试。提交消息可用 `Implement CSV export and failure handling`。
-3. **第三段：接自己的 UI，亲手走完流程。** 完成自己的 Controller/Presenter/Panel 和少量接线，运行 `mvn verify`，注册测试账号并完成一场测验，实际导出、打开 CSV 检查内容。更新 README 和用户故事中的实现状态，只写实际做到的内容。然后提交、push、创建 PR。
+1. **第一阶段：用 AI 实现用例核心和行为测试。** 优先按 [Fuxuan 第一轮任务](FIRST_TASK_FUXUAN.zh-CN.md) 操作，新增输入/输出边界、Row/Response、导出端口及 Interactor，用假导出器测试账号隔离、排序、空成绩和失败输出。`QuizAttempt` 本身表示已完成测验。检查通过并确认内容后，可让自己的 AI 协助提交、push、创建 Draft PR，消息可用 `Implement export-results core with behavior tests`。这一阶段未完成就下一轮继续。
+2. **第二阶段：做 CSV 文件实现和有效测试。** 使用 AI 协助实现导出 adapter，测试普通成绩、包含逗号/引号/换行的主题、空记录以及写入失败时保留旧文件；补齐 Interactor 的失败输出测试。提交消息可用 `Implement CSV export and failure handling`。
+3. **第三阶段：接自己的 UI，验证完整流程。** 使用 AI 协助完成自己的 Controller/Presenter/Panel 和少量接线，运行 `mvn verify`，注册测试账号并完成一场测验，实际导出、打开 CSV 检查内容。本人检查结果，更新 README 和用户故事的实际实现状态，然后提交、push，更新已有 PR。
 
-第一或第二段没有完成，就继续该段，不跳过理解和测试。若课程要求的覆盖率检查失败，补充与行为相关的测试，不降低阈值或把新类排除来让检查变绿。
+一个阶段没有完成，就下一轮继续，不跳过理解和测试。若课程要求的覆盖率检查失败，补充与行为相关的测试，不降低阈值或把新类排除来让检查变绿。
 
 ### 验收清单与本人解释
 
@@ -130,13 +130,13 @@ mvn verify
 
 先读 docs/TEAM_TASKS.zh-CN.md 中我的任务、README、docs/USER_STORIES.md、docs/ARCHITECTURE.md，以及最新的 Application、HomePanel、专属 Controller/Presenter 结构。当前基线可能已重构，不依赖旧 AppController 内部。我的功能尚未完成，请不要编造完成或测试记录。
 
-请按任务单的三个工作段辅导和实施，一次最多安排 30 分钟。可以帮我生成和修改当前段代码，同时先说明输入、输出、业务规则及修改原因，让我检查、运行和提问。我负责主导这项任务、理解最终实现并亲自提交。实际使用了多少 AI 辅助就如实记录多少，不把生成代码冒充全部本人手写；项目材料没有单独确认完整的课程 AI 政策，不要编造老师的允许或禁止。
+先以 docs/FIRST_TASK_FUXUAN.zh-CN.md 的第一轮范围为准，再按本任务单的三个阶段继续；一个阶段可以分多轮，每轮从准备开始最多 30 分钟。可以帮我生成、修改、运行和测试当前轮代码，同时先说明输入、输出、业务规则及修改原因，让我检查和提问。我负责主导这项任务并理解最终实现；我检查差异和测试结果、确认内容后，你可以使用我的正常 Git 身份协助 commit、push 和创建 Draft PR。实际使用了多少 AI 辅助就如实记录多少，不把生成代码冒充全部本人手写。到时间就报告真实进度，不保证三轮完成。
 
 实现目标：遵循 docs/USE_CASES.md 的 UC-09。当前登录账号选择位置后导出已完成测验，UTF-8 CSV，列 completed_at_utc/topic/correct/total，时间从早到晚；空记录导出表头及 0 条；取消不写文件；覆盖需本人明确选择；失败显示错误；不泄露别的账号、不修改进度。先写同目录临时文件，完整成功后再原子替换；不支持原子替换时报告失败并保留旧目标，清理临时文件，不以截断旧文件作为后备方案。
 
 按任务单创建 ExportResultsInputBoundary/OutputBoundary/Response/Row/Interactor、QuizResultsExporter 端口、CsvQuizResultsExporter、adapter/exportresults 专属 Controller/Presenter/ViewModel、ExportResultsPanel。只有组合根和首页添加必要接线。核心层无 Swing 或文件 I/O；文件操作使用 adapter；界面后台任务和 EDT 按现有工程模式处理。
 
-测试账号隔离、排序、空记录、CSV 转义、取消、拒绝覆盖、失败输出、失败时保留旧文件及清理临时文件；保持已有测试和覆盖率检查，不关闭它们。让我亲自运行 mvn verify、操作 UI 导出、打开文件并复述一次调用流程。每段结束说明真实完成内容、未完成项、测试结果，让我本人检查 git diff 并提交/push。不要替我 commit、push、签名、提交 review 或合并 PR；不要生成虚假贡献说明。现在只开始第一段。
+按当前阶段实际范围测试账号隔离、排序、空记录、CSV 转义、取消、拒绝覆盖、失败输出、失败时保留旧文件及清理临时文件；保持已有测试和覆盖率检查，不关闭它们。第一轮只做核心和假导出器测试，后续完成 UI 后再实际导出、打开文件验证。运行 mvn verify，让我检查结果并能复述一次调用流程。每轮结束说明真实完成内容、未完成项、测试结果，让我检查 git diff；我确认后，可以协助提交/push，并创建或更新 base 为 Emilia/project-delivery 的 Draft PR。不要使用他人身份、冒充他人签名或审核，也不要编造贡献或测试结果。现在只开始个人任务页的第一轮。
 ```
 
 ## Xinyu：生成今日到期复习清单
@@ -177,13 +177,13 @@ mvn verify
 
 Interactor 依赖已有 `ContentRepository`、`ProgressRepository`、`SessionContext` 和 `Clock`。新 Interactor 放在 `com.wordtrail.usecase` 包内，可以复用 package-private 的 `ContentQueries.visibleWords`；不要改成从 UI 直接访问仓库。不需要新增 JSON 字段，也不需要重写现有 FlashcardInteractor。主题选项可以复用最新基线公开的目录适配接口；先检查它，不访问旧控制器私有字段。
 
-### 后续三个实施阶段，每次只推进最多 30 分钟
+### 三个实施阶段，每轮最多 30 分钟，可分多轮完成
 
-1. **第一段：先手算例子，再写用例核心。** 用纸或注释算清楚“从未复习”“昨天复习过 1 次”“两天前复习过 2 次”的安排。读 `LearningProgress` 和 `ContentQueries`，自己实现边界、Entry/Response 和 Interactor。先用固定日期测试到期筛选，再提交真实进展，消息可用 `Add due-review planning use case`。
-2. **第二段：补齐规则和失败测试，写专属适配器。** 检查 1/3/7 天边界、没有日期的旧记录、主题、数量、稳定排序、个人词汇和个人释义；实现自己的 Controller/Presenter/ViewModel。提交消息可用 `Test review-plan rules and add presentation adapters`。
-3. **第三段：接独立 UI，实际生成计划。** 完成 ReviewPlanPanel 和必要接线。运行 `mvn verify`，用两个测试账号验证隔离，操作界面生成结果；确认单击生成不会增加复习次数。更新 README 和用户故事的真实实现状态，然后提交、push、创建 PR。
+1. **第一阶段：用 AI 实现用例核心和固定日期测试。** 优先按 [Xinyu 第一轮任务](FIRST_TASK_XINYU.zh-CN.md) 操作，实现边界、Entry/Response 和 Interactor，理解“从未复习”“昨天复习过 1 次”“两天前复习过 2 次”的例子。检查通过并确认内容后，可让自己的 AI 协助提交、push、创建 Draft PR，消息可用 `Implement due-review core with fixed-clock tests`。这一阶段未完成就下一轮继续。
+2. **第二阶段：补齐规则和失败测试，写专属适配器。** 检查 1/3/7 天边界、没有日期的旧记录、主题、数量、稳定排序、个人词汇和个人释义；使用 AI 协助实现自己的 Controller/Presenter/ViewModel。提交消息可用 `Test review-plan rules and add presentation adapters`。
+3. **第三阶段：接独立 UI，实际生成计划。** 使用 AI 协助完成 ReviewPlanPanel 和必要接线。运行 `mvn verify`，用两个测试账号验证隔离，操作界面生成结果；本人检查单击生成不会增加复习次数。更新 README 和用户故事的实际实现状态，然后提交、push，更新已有 PR。
 
-一段没做完时继续该段，不用为了“按时完成”省略检查和理解。可以使用 AI 辅助实现，但本人要实际运行并解释结果。保持所有覆盖率检查；通过固定 Clock 和假的仓库测试分支，不通过真实等待几天来验证日期。
+一个阶段没做完时下一轮继续，不用为了“按时完成”省略检查和理解。可以使用 AI 辅助实现和运行，但本人要检查实际结果并能解释。保持所有覆盖率检查；通过固定 Clock 和假的仓库测试分支，不通过真实等待几天来验证日期。
 
 ### 验收清单与本人解释
 
@@ -202,18 +202,18 @@ Interactor 依赖已有 `ContentRepository`、`ProgressRepository`、`SessionCon
 
 先读 docs/TEAM_TASKS.zh-CN.md 中我的任务、README、docs/USER_STORIES.md、docs/ARCHITECTURE.md，以及最新的 Application、HomePanel、专属 Controller/Presenter 结构。基线可能已重构，不依赖旧 AppController 内部。我的功能尚未完成，不要编造完成记录。
 
-按任务单的三个工作段辅导和实施，一次最多安排 30 分钟。先让我手算边界例子，再协助实现当前段；可以帮我生成和修改代码，同时解释每项规则、依赖和修改原因，让我检查、运行和提问。我负责主导这项任务并理解最终实现。实际使用了多少 AI 辅助就如实记录多少，不把生成代码冒充全部本人手写；不要编造课程关于 AI 使用的允许或禁止。
+先以 docs/FIRST_TASK_XINYU.zh-CN.md 的第一轮范围为准，再按本任务单的三个阶段继续；一个阶段可以分多轮，每轮从准备开始最多 30 分钟。先让我理解边界例子，再协助实现当前轮；可以帮我生成、修改、运行和测试代码，同时解释每项规则、依赖和修改原因，让我检查和提问。我负责主导这项任务并理解最终实现；我检查差异和测试结果、确认内容后，你可以使用我的正常 Git 身份协助 commit、push 和创建 Draft PR。实际使用了多少 AI 辅助就如实记录多少，不把生成代码冒充全部本人手写。到时间就报告真实进度，不保证三轮完成。
 
 功能遵循 docs/USE_CASES.md 的 UC-10：已登录用户选主题和 1–20 个词，生成今日到期清单。只使用本人可见词汇及个人释义。没有 lastReviewed 的词今天可安排；完成过 1 次复习的间隔为 1 天，2 次为 3 天，3 次及以上为 7 天；以 Clock 的应用时区本地日期算到期，等于今天也纳入。未复习优先，其余到期日从早到晚，再按词语及 ID 稳定排序，应用主题与数量限制。清单给出词语、释义、到期日及原因。生成不更新学习记录，空结果和错误清楚显示。
 
 按任务单创建 ReviewPlanInputBoundary/OutputBoundary/Response/Entry/Interactor、adapter/reviewplan 专属 Controller/Presenter/ViewModel、ReviewPlanPanel；只对组合根和首页做必要接线。Interactor 放在 com.wordtrail.usecase 以复用 ContentQueries，依赖现有仓库接口、SessionContext、Clock。不要让 UI 直接读仓库，不改 JSON 格式，不重写 flashcard 用例。主题列表使用最新基线公开接口，不访问旧控制器私有字段。
 
-用固定 Clock 和假仓库测试日期边界、稳定排序、数量、主题、空记录、失败、个人释义与账号隔离，并验证生成不保存进度。保持已有测试及覆盖率要求，不关闭它们。让我亲自运行 mvn verify、操作两个测试账号并讲清一次调用流程。每段结束只记录事实，让我检查 git diff 后亲自提交/push。不要替我 commit、push、签名、review 或 merge，也不编造个人贡献。现在只开始第一段。
+用固定 Clock 和假仓库测试日期边界、稳定排序、数量、主题、空记录、失败、个人释义与账号隔离，并验证生成不保存进度。保持已有测试及覆盖率要求，不关闭它们。第一轮只做核心和测试，后续完成 UI 后再操作两个测试账号验证。运行 mvn verify，让我检查结果并能讲清一次调用流程。每轮结束只记录事实，让我检查 git diff；我确认后，可以协助提交/push，并创建或更新 base 为 Emilia/project-delivery 的 Draft PR。不要使用他人身份、冒充他人签名或审核，也不要编造贡献或测试结果。现在只开始个人任务页的第一轮。
 ```
 
-## 每一段真实完成后：本人检查、commit、push
+## 每轮产生真实进展后：本人检查，可由自己的 AI 协助 commit、push
 
-下面步骤由该分支的本人操作。第一次先确认 `git branch --show-current` 是自己的分支。只提交当前段实际写过、能解释的内容；没有变化时不创建空提交。每段可以是一小次有意义的进展，不需要人为拖延、改时间或拆分虚假贡献。
+下面步骤可以由本人操作，也可以在本人检查确认后，由自己的 AI 使用本人正常 Git 身份协助执行。第一次先确认 `git branch --show-current` 是自己的分支。只提交当前轮实际完成、能解释的内容；没有变化时不创建空提交。每轮可以是一小次有意义的进展，不需要人为拖延、改时间或拆分虚假贡献。
 
 ```powershell
 git branch --show-current
@@ -231,23 +231,23 @@ git diff --cached --stat
 git diff --cached
 ```
 
-看完暂存差异，确认全是自己这项任务的变更，再提交。例如第一段分别使用：
+看完暂存差异，确认全是自己这项任务的变更，再提交。例如第一阶段的核心和测试完成时分别使用：
 
 Fuxuan：
 
 ```powershell
-git commit -m "Add export-results use case and boundaries"
+git commit -m "Implement export-results core with behavior tests"
 git push -u origin Emilia/xfx-export-results
 ```
 
 Xinyu：
 
 ```powershell
-git commit -m "Add due-review planning use case"
+git commit -m "Implement due-review core with fixed-clock tests"
 git push -u origin Emilia/xinyu-due-review
 ```
 
-第二、三段将 commit message 改成真实对应内容，仍 push 到自己同一分支。第三段如果已经更新 README 和用户故事，提交前另执行：
+后续轮次将 commit message 改成真实对应内容，仍 push 到自己同一分支。第三阶段如果已经更新 README 和用户故事，提交前另执行：
 
 ```powershell
 git add -- README.md docs/USER_STORIES.md
@@ -258,14 +258,14 @@ git diff --cached
 
 ## 创建个人 PR，并由另一人实际审核
 
-一旦有可审查的真实代码，可以先开 Draft PR，随后继续在同一分支添加自己的提交。功能和检查齐全后再标为 ready；不需要等到整个项目做完才第一次开 PR。
+一旦有可审查的真实代码，本人检查确认后可以自己创建 Draft PR，也可以让自己的 AI 使用本人账号协助创建，随后继续在同一分支添加自己的提交。功能和检查齐全后再标为 ready；不需要等到整个项目做完才第一次开 PR。
 
 - Fuxuan 的比较页面：<https://github.com/fanfan170721/team-project/compare/Emilia%2Fproject-delivery...Emilia%2Fxfx-export-results?expand=1>
 - Xinyu 的比较页面：<https://github.com/fanfan170721/team-project/compare/Emilia%2Fproject-delivery...Emilia%2Fxinyu-due-review?expand=1>
 
 网页上确认 **base 是 `Emilia/project-delivery`，compare 是自己的分支**，Files changed 只包含自己的新增用例及必要接线。若团队交付基线已经合入 `main`，负责人会指导把 base 改为 `main`，再确认差异仍只含自己的功能。这样不会把基线整套 AI-assisted 实现算作个人新写代码。最终课程证据仍要包含本人实质 PR 合入团队 `main` 的记录，停留在 Draft 或未整合分支不能说已完成。
 
-PR 描述由本人按事实填写：实现的用户目标、主要设计、真正跑过的测试、手动验收、AI 辅助范围、尚未完成的项目。不要预先勾选本文件的验收框，也不要填写别人没有给出的审核意见。
+PR 描述可以由自己的 AI 草拟，经本人检查后按事实发布：实现的用户目标、主要设计、真正跑过的测试、实际验收、AI 辅助范围、尚未完成的项目。不要预先勾选本文件的验收框，也不要填写别人没有给出的审核意见。
 
 两人可以互相作为 reviewer：打开对方 PR，读用例与变更，运行功能或检查测试，再给具体反馈。认同最终版本后才用 `Files changed → Review changes → Approve → Submit review`；有问题就写出来。PR 作者不能批准自己的 PR。不代替他人点击批准，也不把普通聊天“没意见”写成已经进行过代码 review。
 

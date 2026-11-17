@@ -72,8 +72,10 @@ primary-provider live request.
 
 The Swing tests operate real components in headless mode. They do not establish
 that every native window layout has been manually checked on another computer.
-Java 17, Linux and a fresh-machine installation were not tested during this run.
-The existing CI configuration is not evidence that remote CI has passed.
+The subsequent [GitHub Actions run for e0214f3](https://github.com/fanfan170721/team-project/actions/runs/44185870260)
+passed all four `mvn verify` jobs: Ubuntu and Windows, each with Java 11 and 17.
+This establishes automated build/test results on clean hosted runners; a
+teammate's local IDE setup and native GUI installation still need their own checks.
 
 The shade plugin reported a shared `META-INF/MANIFEST.MF` resource warning. The
 build succeeded, and the packaged entry point and live diagnostic both ran.

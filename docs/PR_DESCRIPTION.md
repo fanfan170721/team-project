@@ -41,8 +41,9 @@ Validation actually performed on November 17, 2026 in the delivery worktree:
   the primary provider, with source
   `https://api.dictionaryapi.dev/api/v2/entries/en/hello`.
 
-No native GUI, Java 17, Linux or fresh-machine run was performed in this
-verification. Remote CI results are not yet established. More detail is in
+The subsequent [GitHub Actions run for e0214f3](https://github.com/fanfan170721/team-project/actions/runs/44185870260)
+passed all four jobs on Ubuntu/Windows with Java 11/17. No native GUI or
+teammate-machine IDE setup was manually verified. More detail is in
 `docs/VERIFICATION.md`.
 
 This is an AI-assisted initial implementation requested by the user, with its
