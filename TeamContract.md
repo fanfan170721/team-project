@@ -59,4 +59,4 @@ Each member will add their own name to acknowledge this contract.
 | --- | --- |
 | 1 | Zidong Yuan |
 | 2 | Fuxuan Xu |
-| 3 | Pending individual acknowledgement |
+| 3 | Xinyu Huang |
