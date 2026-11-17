@@ -1,7 +1,22 @@
 package com.wordtrail.app;
 
 import com.wordtrail.adapter.AppController;
-import com.wordtrail.adapter.AppPresenter;
+import com.wordtrail.adapter.AuthController;
+import com.wordtrail.adapter.AuthPresenter;
+import com.wordtrail.adapter.CatalogController;
+import com.wordtrail.adapter.CatalogPresenter;
+import com.wordtrail.adapter.ContentController;
+import com.wordtrail.adapter.ContentPresenter;
+import com.wordtrail.adapter.FlashcardController;
+import com.wordtrail.adapter.FlashcardPresenter;
+import com.wordtrail.adapter.PersonalVocabularyController;
+import com.wordtrail.adapter.PersonalVocabularyPresenter;
+import com.wordtrail.adapter.ProgressController;
+import com.wordtrail.adapter.ProgressPresenter;
+import com.wordtrail.adapter.QuizController;
+import com.wordtrail.adapter.QuizPresenter;
+import com.wordtrail.adapter.ReviewController;
+import com.wordtrail.adapter.ReviewPresenter;
 import com.wordtrail.data.ResilientDictionaryGateway;
 import com.wordtrail.data.JsonFileStore;
 import com.wordtrail.data.Pbkdf2PasswordHasher;
@@ -22,13 +37,22 @@ public final class Application implements AutoCloseable {
     public Application(Path directory, DictionaryGateway dictionary, Clock clock) {
         store = new JsonFileStore(directory);
         SessionContext session = new SessionContext();
-        controller = new AppController(new AuthInteractor(store, new Pbkdf2PasswordHasher(), session),
-                new CatalogInteractor(store, store, dictionary, session),
-                new FlashcardInteractor(store, store, session, clock, new Random()),
-                new QuizInteractor(store, store, session, clock, new Random()),
-                new ReviewInteractor(store, store, session), new ProgressInteractor(store, store, session, clock),
-                new ContentInteractor(store, session), new PersonalVocabularyInteractor(store, store, session),
-                new AppPresenter(clock.getZone()));
+        CatalogUseCase catalog = new CatalogInteractor(store, store, dictionary, session);
+        ReviewUseCase review = new ReviewInteractor(store, store, session);
+        PersonalVocabularyController personal = new PersonalVocabularyController(
+                new PersonalVocabularyInteractor(store, store, session), new PersonalVocabularyPresenter(clock.getZone()));
+        controller = new AppController(
+                new AuthController(new AuthInteractor(store, new Pbkdf2PasswordHasher(), session), new AuthPresenter()),
+                new CatalogController(catalog, personal::progress, new CatalogPresenter()),
+                new FlashcardController(new FlashcardInteractor(store, store, session, clock, new Random()),
+                        review, new FlashcardPresenter()),
+                new QuizController(new QuizInteractor(store, store, session, clock, new Random()), new QuizPresenter()),
+                new ReviewController(review, catalog, personal::progress, new ReviewPresenter()),
+                new ProgressController(new ProgressInteractor(store, store, session, clock),
+                        new ProgressPresenter(clock.getZone())),
+                new ContentController(new ContentInteractor(store, session), catalog, personal::progress,
+                        new ContentPresenter()),
+                personal);
     }
 
     public AppController controller() { return controller; }

@@ -1,6 +1,8 @@
 package com.wordtrail.adapter;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /** Plain display data. Swing views do not import entities, repositories or interactors. */
 public final class ViewModels {
@@ -36,6 +38,20 @@ public final class ViewModels {
         public final List<Word> words;
         public Library(List<String> topics, List<Word> words) {
             this.topics = List.copyOf(topics); this.words = List.copyOf(words);
+        }
+    }
+
+    /** Account-specific display metadata, without exposing the persistence entity. */
+    public static final class VocabularyProgress {
+        public final Set<String> savedIds;
+        public final Map<String, Integer> reviewCounts;
+        public final Map<String, String> lastReviewed;
+
+        public VocabularyProgress(Set<String> savedIds, Map<String, Integer> reviewCounts,
+                                  Map<String, String> lastReviewed) {
+            this.savedIds = Set.copyOf(savedIds);
+            this.reviewCounts = Map.copyOf(reviewCounts);
+            this.lastReviewed = Map.copyOf(lastReviewed);
         }
     }
 
