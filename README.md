@@ -4,10 +4,29 @@ A Java 11 / Swing desktop application for learning English vocabulary. Browse
 topics, study flashcards, take quizzes, save difficult words and track progress.
 Administrators add vocabulary and multiple-choice questions through forms.
 
+**Domain:** Education / language learning. **Team:** Zidong Yuan
+([fanfan170721](https://github.com/fanfan170721)), Fuxuan Xu
+([Xfx689781](https://github.com/Xfx689781)) and Xinyu Huang
+([XinyuuHuang](https://github.com/XinyuuHuang)).
+
 [中文启动与修改说明](docs/QUICKSTART.zh-CN.md)
 
-This working copy is **local only**, as requested. No branch was uploaded and no
-remote PR was created. Keep development, commits and review materials on this device.
+This delivery branch integrates the existing AI-assisted application with the
+signed [team contract](TeamContract.md), merged through
+[PR #1](https://github.com/fanfan170721/team-project/pull/1).
+The implementation history is preserved. Code review and each member's own
+use-case contribution must be assessed separately from the contract signatures.
+
+## Contents
+
+- [Run](#run)
+- [Features and stories](#features-and-stories)
+- [Minimum viable product](#minimum-viable-product)
+- [API and persistence](#api-and-persistence)
+- [Design](#design)
+- [Validation](#validation)
+- [Screenshots](#screenshots)
+- [Project documents](#project-documents)
 
 ## Run
 
@@ -23,9 +42,8 @@ project directory for saved data and rebuilds when source files have changed.
 Use `.\run.ps1 -Build` to force a complete build, or `.\run.ps1 -Check` to check
 the packaged entry point without opening a window or accessing the internet.
 
-The local delivery also includes `target/wordtrail-local.zip` (JAR, Windows launcher
-and short instructions) and `target/wordtrail-local.bundle` (an offline Git history
-backup). These generated artifacts stay on this device and are ignored by Git.
+`mvn verify` produces `target/wordtrail.jar`, including the runtime dependency and
+sample content. Generated builds and local account data are ignored by Git.
 
 In IntelliJ IDEA, open `pom.xml` as a Maven project, select JDK 11+, and run
 `com.wordtrail.app.Main`. Keep the working directory set to the project root.
@@ -46,21 +64,22 @@ content, so Maven is not required on the machine running the JAR.
 
 ## Features and stories
 
-| Story | Behavior | Lead owner |
+| Story | Behavior | Initial implementation lead |
 | --- | --- | --- |
-| US-01 | First-run admin setup, learner registration, login and logout | Team to assign |
-| US-02 | Topic vocabulary, case-insensitive search, live dictionary lookup | Team to assign |
-| US-03 | Reveal flashcards, complete reviews, study the review list | Team to assign |
-| US-04 | Randomized four-choice quizzes, feedback and saved results | Team to assign |
-| US-05 | Add/remove words from a private review list | Team to assign |
-| US-06 | Distinct words studied, daily chart, streak and quiz history | Team to assign |
-| US-07 | Admin forms for new words, topics and quiz questions | Team to assign |
-| US-08 | Personal words, personal definitions, completed-review counts and sorting | Team to assign |
+| US-01 | First-run admin setup, learner registration, login and logout | Zidong Yuan (AI-assisted) |
+| US-02 | Topic vocabulary, case-insensitive search, live dictionary lookup | Zidong Yuan (AI-assisted) |
+| US-03 | Reveal flashcards, complete reviews, study the review list | Zidong Yuan (AI-assisted) |
+| US-04 | Randomized four-choice quizzes, feedback and saved results | Zidong Yuan (AI-assisted) |
+| US-05 | Add/remove words from a private review list | Zidong Yuan (AI-assisted) |
+| US-06 | Distinct words studied, daily chart, streak and quiz history | Zidong Yuan (AI-assisted) |
+| US-07 | Admin forms for new words, topics and quiz questions | Zidong Yuan (AI-assisted) |
+| US-08 | Personal words, personal definitions, completed-review counts and sorting | Zidong Yuan (AI-assisted) |
 
-All seven software stories are implemented. The actual team must assign ownership,
-agree its contract, review changes and record its own contributions. This code was
-produced with AI assistance at the user's request; commit authorship does not
-represent independent contributions by multiple teammates.
+All eight software stories are implemented in this baseline. The team contract is
+signed; the baseline's authorship is not evidence of independent code contributions
+from the other members. Additional use-case implementation and review work must
+be attributed to the people who actually perform it. See the
+[delivery checklist](docs/DELIVERY_CHECKLIST.md) for outstanding course evidence.
 
 The personal-vocabulary extension adds **Add my word** and **Edit my definition**
 to Vocabulary. Additions and edits belong only to the logged-in account. Flashcards,
@@ -69,6 +88,49 @@ four-choice questions when at least four different definitions are available.
 Complete a flashcard review once per visit; revisiting it can increase the count
 again on the same day. Vocabulary and Review later offer word order, least/most
 reviewed and most-recently-reviewed order. Daily study bars still count distinct words.
+
+## Minimum viable product
+
+The team delivery plan combines the existing learning loop with a personal review
+plan and a portable record of quiz results. A learner can maintain vocabulary,
+decide what to study today, complete a quiz and retain a copy of the results.
+
+| MVP use case | Designated lead | Current evidence |
+| --- | --- | --- |
+| UC-08: Maintain personal vocabulary and definitions | Zidong Yuan | Implemented AI-assisted baseline; tests and initial commits exist |
+| UC-09: Export my completed quiz results | Fuxuan Xu | Assigned next work; implementation and personal PR still required |
+| UC-10: Generate today's due-review plan | Xinyu Huang | Assigned next work; implementation and personal PR still required |
+
+The lead assignments are a work plan, not a claim that the last two features or
+their individual contributions already exist. They are committed MVP scope for
+the next increment, not optional future features. Each member's use case must
+include its own controller, presenter, interactor/interfaces, UI interaction,
+tests and review evidence. [Individual task instructions](docs/TEAM_TASKS.zh-CN.md)
+give the concrete steps.
+
+Supporting functionality already implemented: accounts, vocabulary browsing and
+external dictionary lookup, saved review lists, flashcards, quizzes, progress and
+local persistence. Learning from the bundled vocabulary also works offline.
+
+Acceptance: run that loop with a fresh data directory, then restart with the same
+directory and verify the account, saved word and completed quiz remain. The
+automated Swing workflow covers the existing loop; the [demo guide](docs/DEMO.md)
+gives manual steps. UC-09/10 have their own pending acceptance checks in the
+[formal use-case specification](docs/USE_CASES.md). Admin content editing is an
+implemented supporting feature.
+
+## Domain entities
+
+| Entity | Instance state | Relevant operations |
+| --- | --- | --- |
+| `User` | username, passwordHash, role | Read canonical username and role; expose the encoded hash to authentication only |
+| `VocabularyWord` | id, term, topic, definition, example, source | Retrieve word content and attribution; immutable snapshot |
+| `QuizQuestion` | id, wordId, prompt, four options, correctIndex | Validate distinct options and correct index; retrieve question data |
+| `QuizAttempt` | completedAt, topic, correct, total | Validate score bounds; retrieve the completed result |
+| `LearningProgress` | reviewWordIds, studyDays, attempts, personalWords, definitions, reviewCounts, lastReviewed | `withReviewWord`, `withCompletedReview`, `withAttempt`, `withPersonalWord`, `withDefinition`; retrieve account-specific history |
+
+The [architecture document](docs/ARCHITECTURE.md) explains invariants and storage;
+the [use-case specification](docs/USE_CASES.md) describes observable behavior.
 
 ## API and persistence
 
@@ -81,7 +143,8 @@ reviewed and most-recently-reviewed order. Daily study bars still count distinct
   `GET https://api.datamuse.com/words?sp={word}&md=d&max=1`. If the primary service
   fails, the app tries this second live provider and accepts only an exact word
   match. Results retain the actual provider URL and show your saved definition
-  separately. The primary service returned HTTP 530 during this update's live checks.
+  separately. The primary service returned HTTP 530 during earlier October checks;
+  the primary lookup of `hello` succeeded again on November 17, 2026.
   Datamuse announces an API-key requirement in 2027; consult its documented policy
   if using the application after that change.
 - **Persistence:** `.wordtrail/wordtrail.json`, UTF-8 JSON. Accounts, salted PBKDF2
@@ -98,7 +161,8 @@ reviewed and most-recently-reviewed order. Daily study bars still count distinct
   data is preserved and reported. Close the app before backing up the JSON file.
 - The supplied `DBUserDataAccessObject.java` informed the repository/adapter design.
   This project uses a public dictionary API plus local storage instead of the
-  example's shared HTTP user server. Both course requirements are met separately.
+  example's shared HTTP user server. These provide the API and persistence
+  mechanisms requested by the project overview.
 
 Local storage is intended for a classroom desktop demo. Anyone with write access
 to the data folder can edit its contents. Cross-device sync, remote account
@@ -120,16 +184,24 @@ Repository, Adapter, Strategy and dependency injection patterns support the desi
 
 ## Validation
 
-`mvn verify` runs 38 JUnit tests: business rules, hashing, atomic persistence,
+On November 17, 2026, `mvn verify` passed 47 JUnit tests: business rules, hashing, atomic persistence,
 malformed data, local HTTP responses, architectural dependencies, presenters and
 an end-to-end Swing flow. Automated tests use a local HTTP server or injected
 dictionary double; they do not rely on the public API being online. A manual
 `--check-api hello` checks the real service separately.
 
 The Swing integration test clicks actual controls in headless mode, verifies all
-seven stories and restarts the real JSON store. It writes screenshots to
+eight stories and restarts the real JSON store. It writes screenshots to
 `target/ui-snapshots/`. A CI workflow is prepared for Java 11 and 17 on Windows and
-Linux; it has not been uploaded or run remotely in this local-only delivery.
+Linux. See the PR checks for actual remote results; configuration alone does not
+establish that all matrix combinations have passed.
+
+JaCoCo measures **445/445 executable lines (100%)** in the current Entity and Use
+Case layers, including the use-case ports. The report covers every class in those
+packages. New MVP code must keep meeting that target. `mvn verify` also runs
+Checkstyle and produces a report with the actual remaining findings; a successful
+build does not mean there are no style warnings. See `docs/VERIFICATION.md` for
+the measured snapshot and report paths.
 
 ## Screenshots
 
@@ -146,11 +218,13 @@ demo accounts and content. Desktop fonts and window decorations vary by OS.
 ## Project documents
 
 - [User stories and acceptance criteria](docs/USER_STORIES.md)
+- [Formal use cases and MVP ownership](docs/USE_CASES.md)
 - [Architecture, patterns, SOLID and tradeoffs](docs/ARCHITECTURE.md)
 - [UI wireframes](docs/UI_WIREFRAMES.md)
-- [Local development and review workflow](docs/DEVELOPMENT.md)
+- [Development and review workflow](docs/DEVELOPMENT.md)
 - [Presentation and demo guide](docs/DEMO.md)
 - [Verification record](docs/VERIFICATION.md)
 - [Future extensions](docs/FUTURE_WORK.md)
-- [Local review summary in PR format](docs/PR_DESCRIPTION.md)
-- [Team contract template](TeamContract.md) — requires the actual team's agreement
+- [Implementation PR description](docs/PR_DESCRIPTION.md)
+- [Course delivery checklist](docs/DELIVERY_CHECKLIST.md)
+- [Signed team contract](TeamContract.md)

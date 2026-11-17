@@ -1,36 +1,55 @@
-Local review summary only. No remote PR has been created; this project must remain local.
+WordTrail adds a runnable Java 11 / Swing vocabulary-learning application to the
+Maven skeleton. Learners can register and sign in, browse and search vocabulary,
+study flashcards, take four-choice quizzes, save review words and inspect their
+progress. A first-run administrator can add vocabulary and quiz questions.
+Account-specific progress persists in local JSON snapshots.
 
-WordTrail adds a complete Java 11 / Swing vocabulary learning application to the
-existing Maven skeleton. Users can create accounts, browse topics, study
-flashcards, take multiple-choice quizzes, save review words and inspect persisted
-learning history. A first-run administrator can add vocabulary and quiz questions
-through forms.
+Personal vocabulary and definition overrides belong to the signed-in account.
+Flashcards and new generated quizzes use that account's content, while an active
+quiz retains its starting snapshot. Review counts track completed card visits,
+daily study totals count distinct words, and vocabulary tables support review
+count and recent-review ordering. Live dictionary lookup uses Free Dictionary
+API with Datamuse as a fallback, retains the responding provider's source, and
+keeps online results separate from saved definitions.
 
-The application separates entities, eight use-case boundaries/interactors,
-repository and service ports, controllers/presenters, infrastructure adapters and
-Swing views. It uses the Free Dictionary API for live definitions and atomic local
-JSON snapshots for persistence. Passwords are salted PBKDF2 hashes, ordinary
-registration creates learners, and admin mutations enforce authorization in the
-use case. A session version invalidates decks/quizzes across account changes.
+Entities and use cases are separated from Swing, HTTP and JSON adapters. The
+application wires input interfaces/interactors, repository and service ports,
+eight specific controller/presenter pairs and plain view models through a composition root. Salted
+PBKDF2 hashes protect stored passwords, admin mutations check the role in the use
+case, and account changes invalidate active decks and quizzes.
 
-The personal-vocabulary extension lets learners add private words and override
-their own definitions, with those definitions used in flashcards and generated
-quizzes. Each completed card visit records a review count and last-review instant;
-tables support numeric count ordering and recent-first ordering. Daily word totals
-remain deduplicated. Primary dictionary HTTP 530 failures now try Datamuse as another
-live provider, preserve its source and keep saved definitions separate from online results.
+Architecture limitation: interactors return results to the controller, which
+invokes the presenter. The implementation does not provide a separate
+`OutputBoundary` callback interface for each use case. This design and the other
+course deliverables still require review against the course criteria; the code
+and passing tests alone do not establish full course compliance.
 
-Validation: `mvn verify` passes 38 tests, including a real Swing button workflow
-covering all seven stories and restart persistence; local HTTP tests cover API
-responses/failures. The executable JAR includes dependencies and seed content.
-CI is configured for Windows/Linux and Java 11/17 but has not been published or run
-remotely. The README includes actual component screenshots, setup
-instructions, architecture notes, acceptance criteria and a demo guide.
+The delivery adds formal use-case specifications, accurate MVP assignments,
+dedicated feature adapters and reproducible quality reports. The existing history
+is retained rather than rewritten to imply additional authors.
 
-The packaged JAR's live diagnostic also successfully fetched definitions for
-`climate` and `accommodation` through Datamuse after primary HTTP 530 failures on
-2026-10-22. Existing version-1 saved data is compatible with optional new fields.
+Validation actually performed on November 17, 2026 in the delivery worktree:
 
-This is an AI-assisted initial implementation requested by the user. Story owner
-names and the existing team contract are left for the real team to agree. Human
-review and individual team contributions remain to be completed.
+- `mvn -B --no-transfer-progress verify`: **47 tests passed**, zero failures,
+  errors or skips; the executable `target/wordtrail.jar` was built.
+- Tests included two architecture checks, four headless Swing workflow tests,
+  business rules, persistence and local HTTP/test-double dictionary cases.
+- JaCoCo: **445/445 lines, 100%** across all Entity and Use Case classes, including ports.
+- Checkstyle: 87 Java files checked; **661 findings retained**, with a non-blocking report.
+- Final packaged-JAR diagnostics: `--help` passed and `--check-api hello`
+  returned a live definition through
+  the primary provider, with source
+  `https://api.dictionaryapi.dev/api/v2/entries/en/hello`.
+
+No native GUI, Java 17, Linux or fresh-machine run was performed in this
+verification. Remote CI results are not yet established. More detail is in
+`docs/VERIFICATION.md`.
+
+This is an AI-assisted initial implementation requested by the user, with its
+original authorship history retained. It is not evidence that other teammates
+implemented these use cases. The team-contract PR #1 has been merged; this
+application code PR provides the baseline for review. **UC-09 CSV export and UC-10
+daily review planning remain pending MVP work** for the designated teammates.
+Those features, their implementation PRs and the group's presentation are not
+claimed complete by this change. Ownership, review and individual contributions
+must be recorded according to the team's actual work.

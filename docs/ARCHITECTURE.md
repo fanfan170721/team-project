@@ -4,7 +4,8 @@
 
 ```mermaid
 flowchart LR
-    V[Swing views] --> C[AppController]
+    V[Swing views] --> F[AppController facade]
+    F --> C[Use-case-specific controllers]
     C --> I[Focused input boundaries]
     I --> U[Interactors]
     U --> E[Entities]
@@ -12,7 +13,7 @@ flowchart LR
     D[JSON file store] -. implements .-> P
     H[HTTP dictionary adapter] -. implements .-> P
     B[PBKDF2 adapter] -. implements .-> P
-    C --> R[AppPresenter]
+    C --> R[Use-case-specific presenters]
     R --> M[Plain view models]
     V --> M
     A[Application composition root] --> C
@@ -30,7 +31,7 @@ exception that knows the concrete implementations.
 | `entity` | Immutable user, word, question, attempt and progress objects | None |
 | `usecase` | Application policies, session, input boundaries and ports | `entity` |
 | `data` | JSON, password hashing and public HTTP API implementations | `entity`, `usecase` |
-| `adapter` | Translate UI requests and format use-case responses | `entity`, `usecase` |
+| `adapter` | Specific controllers/presenters translate requests and format responses; facade preserves UI API | `entity`, `usecase` |
 | `view` | Swing components, event handlers, background UI tasks | `adapter` |
 | `app` | Composition and desktop launch | All outer layers |
 
@@ -39,8 +40,10 @@ business layers, and reject direct core/infrastructure imports in the views.
 
 ## Story boundaries
 
-Each story has an input interface and an interactor. An interface can be replaced
-by a test double without changing the controller.
+Each existing story has an input interface, an interactor and a dedicated
+controller/presenter pair. An input interface can be replaced by a test double
+without changing the controller. `AppController` is only a Swing-facing facade;
+it delegates to the specific controllers instead of owning presentation logic.
 
 | Story | Input boundary / implementation | Outbound ports |
 | --- | --- | --- |
@@ -52,6 +55,15 @@ by a test double without changing the controller.
 | Progress | `ProgressUseCase` / `ProgressInteractor` | `ContentRepository`, `ProgressRepository` |
 | Admin | `ContentUseCase` / `ContentInteractor` | `ContentRepository` |
 | Personal vocabulary | `PersonalVocabularyUseCase` / `PersonalVocabularyInteractor` | `ContentRepository`, `ProgressRepository` |
+
+The controller/presenter prefixes are `Auth`, `Catalog`, `Flashcard`, `Quiz`,
+`Review`, `Progress`, `Content` and `PersonalVocabulary`. Their roles are concrete:
+for example, FlashcardPresenter hides unrevealed definitions, QuizPresenter formats
+answer feedback, and ProgressPresenter formats dated histories and summary views.
+PersonalVocabularyPresenter creates immutable account-specific display metadata;
+catalog, review and content controllers obtain fresh metadata for their own output.
+Shared `WordDisplay` maps one vocabulary row, while `ControllerCalls` translates
+expected application errors into display errors. Neither owns the use cases.
 
 This is a small Clean Architecture implementation with return-value response
 models. Interactors return responses to the controller, which invokes the
@@ -85,7 +97,7 @@ different account or after logging out and back in.
 - **Repository:** account, content and progress interfaces hide JSON. An SQL
   implementation can replace the file adapter.
 - **Adapter:** `DictionaryApiClient` translates HTTP/JSON into a small dictionary
-  response. `AppController` and `AppPresenter` adapt application input/output.
+  response. The specific controllers and presenters adapt application input/output.
 - **Composite/decorator:** `ResilientDictionaryGateway` composes the primary and
   Datamuse adapters. It tries another live provider on failure and preserves the
   provider's source; it never labels local seed text as an online result.
@@ -197,7 +209,7 @@ definition. The chart and local study features do not require networking.
 ## Tradeoffs to discuss in the presentation
 
 The whole JSON file is rewritten for each change, which keeps updates easy to
-reason about but will not scale to large histories. One shared controller and
-presenter are convenient now but may later split by feature. Interactors currently
+reason about but will not scale to large histories. The Swing-facing facade
+preserves the current view API while delegating to feature adapters. Interactors currently
 return some entities; dedicated output DTOs and output ports would further isolate
 the boundaries if the app grows. Native Swing appearance is intentionally simple.

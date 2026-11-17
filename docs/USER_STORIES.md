@@ -1,8 +1,14 @@
 # User stories and acceptance criteria
 
-All lead owners are **unassigned until the actual team confirms them**. A story can
-be used as a starting point for a teammate's extension and review. Do not record
-AI-generated commits as proof that several people independently wrote these stories.
+The initial implementation of US-01 through US-08 was led by **Zidong Yuan with
+AI assistance**. This attribution describes the existing code, not completed
+contributions from other team members. Each additional contributor must lead and
+implement a real use case and record their work through their own commits and PR.
+See `DELIVERY_CHECKLIST.md` for the remaining course evidence.
+
+The next committed MVP increment adds US-09 (Fuxuan Xu) and US-10 (Xinyu Huang).
+Those assignments do not establish completed code contributions. Formal use-case
+flows, preconditions and extensions are in `USE_CASES.md`.
 
 ## US-01 — Accounts
 
@@ -19,7 +25,7 @@ Flow: open app → select action → enter username/password (confirm when creat
 → submit → vocabulary screen. Errors appear in the status area and remain on the form.
 
 Tests: `AuthInteractorTest`, `Pbkdf2PasswordHasherTest`, `SwingWorkflowTest`,
-`JsonFileStoreTest`. Lead owner: team to assign.
+`JsonFileStoreTest`. Initial implementation lead: Zidong Yuan (AI-assisted).
 
 ## US-02 — Topic vocabulary
 
@@ -35,7 +41,7 @@ Flow: Vocabulary → select topic / enter search → select row → read details
 request online definition. Lookup alone does not overwrite saved vocabulary.
 
 Tests: `LearningUseCasesTest`, `DictionaryApiClientTest`, `SwingWorkflowTest`.
-Lead owner: team to assign.
+Initial implementation lead: Zidong Yuan (AI-assisted).
 
 ## US-03 — Flashcards
 
@@ -53,8 +59,8 @@ As a learner, I want to study word definitions using flashcards to memorize them
 Flow: Flashcards → choose topic/review filter → start → recall → reveal → mark
 studied → next. Saving/removing a review word is also available on a card.
 
-Tests: `LearningUseCasesTest`, `AppPresenterTest`, `SwingWorkflowTest`.
-Lead owner: team to assign.
+Tests: `LearningUseCasesTest`, `FeaturePresenterTest`, `SwingWorkflowTest`.
+Initial implementation lead: Zidong Yuan (AI-assisted).
 
 ## US-04 — Multiple-choice quiz
 
@@ -71,7 +77,7 @@ As a learner, I want to take a multiple-choice quiz to test my vocabulary knowle
 Flow: Quiz → select topic/count → start → choose answer → submit → read feedback
 → next → final score saved. Restart abandons the previous unfinished quiz.
 
-Tests: `QuizInteractorTest`, `SwingWorkflowTest`. Lead owner: team to assign.
+Tests: `QuizInteractorTest`, `SwingWorkflowTest`. Initial implementation lead: Zidong Yuan (AI-assisted).
 
 ## US-05 — Review later
 
@@ -84,7 +90,7 @@ As a learner, I want to save difficult words to a personal review list.
 - Restore the list after restart and allow a review-only flashcard deck.
 
 Tests: `LearningUseCasesTest`, `JsonFileStoreTest`, `SwingWorkflowTest`.
-Lead owner: team to assign.
+Initial implementation lead: Zidong Yuan (AI-assisted).
 
 ## US-06 — Progress over time
 
@@ -99,8 +105,8 @@ As a learner, I want to track my progress so I can see improvement.
 - Display a clear state when there are no completed quizzes.
 - Restore progress after restart; each account has its own history.
 
-Tests: `LearningUseCasesTest`, `AppPresenterTest`, `SwingWorkflowTest`.
-Lead owner: team to assign.
+Tests: `LearningUseCasesTest`, `FeaturePresenterTest`, `SwingWorkflowTest`.
+Initial implementation lead: Zidong Yuan (AI-assisted).
 
 ## US-08 — Personal vocabulary and definitions (requested extension)
 
@@ -120,7 +126,7 @@ changing another learner's content.
 
 Tests: `PersonalVocabularyInteractorTest`, `LearningUseCasesTest`, `QuizInteractorTest`,
 `JsonFileStoreTest`, `ResilientDictionaryGatewayTest`, `SwingWorkflowTest`.
-Lead owner: team to assign.
+Initial implementation lead: Zidong Yuan (AI-assisted).
 
 ## US-07 — Admin content forms
 
@@ -136,4 +142,28 @@ As a content admin, I want to add new vocabulary words and quizzes through a for
 - Preserve existing topic capitalization when a matching topic is entered.
 
 Tests: `ContentInteractorTest`, `JsonFileStoreTest`, `SwingWorkflowTest`.
-Lead owner: team to assign.
+Initial implementation lead: Zidong Yuan (AI-assisted).
+
+## US-09 — Export my quiz results (pending MVP)
+
+As a learner, I want to export my completed quiz results so I can keep a portable
+record of my learning. Designated lead: **Fuxuan Xu**.
+
+- Export only this account's results as chronological UTF-8 CSV.
+- Support empty history, correctly escaped text, cancellation and safe overwrite confirmation.
+- Report failures without claiming success or corrupting an existing file.
+
+Implementation and tests are pending. Complete flow and failure cases: UC-09 in
+`USE_CASES.md`; implementation steps: `TEAM_TASKS.zh-CN.md`.
+
+## US-10 — Plan today's vocabulary review (pending MVP)
+
+As a learner, I want to see which words are due today so I can prioritize my
+review time. Designated lead: **Xinyu Huang**.
+
+- Filter the account's visible words by topic, due date and requested limit.
+- Prioritize never-reviewed words, then earliest due words, with deterministic ties.
+- Use private meanings, preserve account isolation and do not count planning as studying.
+
+Implementation and tests are pending. Complete flow and failure cases: UC-10 in
+`USE_CASES.md`; implementation steps: `TEAM_TASKS.zh-CN.md`.

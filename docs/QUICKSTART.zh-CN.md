@@ -24,12 +24,8 @@ Windows 下也可以直接双击项目根目录的 `run.cmd`，或在 PowerShell
 测试时使用 `.\run.ps1 -Build`。`.\run.ps1 -Check` 只检查启动入口，不打开窗口，
 也不访问网络。
 
-另外提供两个只在本机保存的文件：
-
-- `target/wordtrail-local.zip`：解压后双击 `Start-WordTrail.cmd`，需要 Java 11 或更高版本。
-- `target/wordtrail-local.bundle`：包含本地分支和提交历史的离线 Git 备份。
-
-源码仍保留在当前项目目录，直接用 IntelliJ 修改即可。以上文件均未上传。
+`mvn verify` 会生成 `target/wordtrail.jar`。它包含运行依赖和示例内容，运行它只需
+Java 11 或更高版本。构建产物和本地账户数据不提交到 Git。
 
 第一次打开会要求设置管理员。用户名使用 3–30 位英文字母、数字或下划线，
 密码使用 8–128 个字符。用户名不区分大小写；没有预设账户和密码。
@@ -109,18 +105,14 @@ java -jar target/wordtrail.jar --check-api hello
 
 ## Git 和团队部分
 
-开发位于 `codex/vocabulary-learning-app` 分支，按功能提交；提交作者按你的要求
-使用 Allen Yuan / rosemary.yuan@mail.utoronto.ca。按照你的最新要求，全部内容仅保留
-本地，不推送原仓库、不上传其他仓库，也不创建远端 PR。此前推送因未登录而失败，
-远端没有接收任何改动。`main` 保留原状，继续在功能分支修改即可。
+整合分支是 `Emilia/project-delivery`，保留原有 AI 辅助实现的作者和提交历史，并已
+纳入 `main` 上签署完成的 TeamContract。合同 PR #1 已合并。
 
-本地可以运行 `git diff main...codex/vocabulary-learning-app` 查看完整改动。
-此次扩展位于新的本地分支 `codex/personal-vocabulary-review`，原功能分支仍保留。
-可以运行 `git diff codex/vocabulary-learning-app...codex/personal-vocabulary-review`
-只查看这次新增和修复。
-`docs/PR_DESCRIPTION.md` 作为本地评审说明保留。课程要求的真实远端 PR 流程并未执行；
-本地分支和提交记录不会被写成已经发生过的远端评审。
-各功能的具体团队负责人仍然需要你们真实分配，不能从 AI 编写的代码里伪造多人贡献。
-`TeamContract.md` 保留原模板，需要全组讨论、修改和签名。
+README 列出实际完成的基线与下一步 MVP 分工。Fuxuan 的 CSV 导出和 Xinyu 的今日
+复习计划尚待本人实现；操作步骤见 `TEAM_TASKS.zh-CN.md`。不要把分工表、合同签名
+或仅修改文档当成已经完成个人用例。
+
+每次功能改动使用分支、测试和 PR；保留实际审核记录。`mvn verify` 还会产生
+覆盖率和 Checkstyle 报告，详见 `VERIFICATION.md` 和 `DEVELOPMENT.md`。
 
 请先读 `ARCHITECTURE.md` 和 `DEMO.md`，能解释代码和设计选择后再用于展示。
