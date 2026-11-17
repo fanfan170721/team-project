@@ -58,5 +58,5 @@ Each member will add their own name to acknowledge this contract.
 | Member | Name / Signature |
 | --- | --- |
 | 1 | Pending individual acknowledgement |
-| 2 | Pending individual acknowledgement |
+| 2 | Fuxuan Xu |
 | 3 | Pending individual acknowledgement |
