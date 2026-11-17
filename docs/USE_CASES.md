@@ -132,11 +132,13 @@ implemented supporting account operations. Sign-in itself does not create an acc
 - **Main success scenario:**
   1. The learner supplies a word, topic and meaning, with optional example/source.
   2. The system validates the entry and saves it to the learner's personal vocabulary.
-  3. The system shows the new entry in browsing and makes it available for learning.
+  3. The system confirms the save, selects the saved entry in browsing, and makes
+     it available for learning.
 - **Extensions:** 1a. The learner edits a visible word's meaning: save a private
   definition override. 1b. The learner cancels: change nothing. 2a. Empty, duplicate
   or unauthorized data: explain and preserve existing vocabulary. 2b. Save fails:
-  report failure without publishing a partial change. 3a. A quiz was already in
+  report failure without publishing a partial change and keep the entered text
+  available for correction or retry. 3a. A quiz was already in
   progress: keep that quiz's original question snapshot; new quizzes use the new meaning.
 
 ## UC-09: Export my quiz results (MVP; Fuxuan Xu; pending)

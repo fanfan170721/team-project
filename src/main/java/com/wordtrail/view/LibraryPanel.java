@@ -73,12 +73,12 @@ final class LibraryPanel extends JPanel implements Refreshable {
         body.add(split, BorderLayout.CENTER);
         page.add(body, BorderLayout.CENTER);
         add(page, "list");
-        editor = new WordEditorPanel(controller, tasks, prefix, () -> {
+        editor = new WordEditorPanel(controller, tasks, prefix, result -> {
             pages.show(this, "list");
             if (!reviewOnly) {
                 updating = true; topic.setSelectedIndex(0); search.setText(""); updating = false;
             }
-            refresh();
+            refresh(result.wordId, result.message);
         }, () -> pages.show(this, "list"));
         add(editor, "editor");
         refresh.addActionListener(event -> refresh());
@@ -139,10 +139,13 @@ final class LibraryPanel extends JPanel implements Refreshable {
     }
 
     @Override public void refresh() {
+        refresh(selected() == null ? null : selected().id, null);
+    }
+
+    private void refresh(String selectedId, String completionMessage) {
         pages.show(this, "list");
         String chosen = Ui.topic(topic);
         String query = search.getText();
-        String selectedId = selected() == null ? null : selected().id;
         tasks.run("Loading vocabulary", () -> reviewOnly ? controller.reviewList() : controller.browse(chosen, query), library -> {
             updating = true;
             try {
@@ -159,10 +162,14 @@ final class LibraryPanel extends JPanel implements Refreshable {
                 }
                 if (selection >= 0) {
                     int row = table.convertRowIndexToView(selection); table.setRowSelectionInterval(row, row);
+                    table.scrollRectToVisible(table.getCellRect(row, 0, true));
                 }
                 else { detail.setText("No words found. Try another search or save words from the Vocabulary tab."); }
             }
             finally { updating = false; }
+            if (completionMessage != null) {
+                tasks.message(completionMessage);
+            }
         });
     }
 

@@ -46,7 +46,8 @@ class FeaturePresenterTest {
         LocalDate day = LocalDate.of(2026, 11, 17);
         LearningProgress progress = LearningProgress.empty().withReviewWord("id", true)
                 .withCompletedReview("id", day, Instant.parse("2026-11-17T21:20:30Z"));
-        ViewModels.VocabularyProgress metadata = new PersonalVocabularyPresenter(zone).progress(progress);
+        ViewModels.VocabularyProgress metadata = new PersonalVocabularyPresenter(
+                zone, new PersonalVocabularyViewModel()).progress(progress);
         List<ViewModels.Library> screens = List.of(
                 new CatalogPresenter().library(List.of("topic"), List.of(word), metadata),
                 new ReviewPresenter().list(List.of("topic"), List.of(word), metadata),

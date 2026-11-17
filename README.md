@@ -9,9 +9,9 @@ Administrators add vocabulary and multiple-choice questions through forms.
 ([Xfx689781](https://github.com/Xfx689781)) and Xinyu Huang
 ([XinyuuHuang](https://github.com/XinyuuHuang)).
 
-[中文启动与修改说明](docs/QUICKSTART.zh-CN.md)
+[Running and modifying WordTrail](docs/QUICKSTART.md)
 
-**Teammates starting now:** [第一次只做这些（最多 30 分钟）](docs/START_HERE.zh-CN.md).
+**Teammates starting now:** [First working session (up to 30 minutes)](docs/START_HERE.zh-CN.md).
 
 This delivery branch integrates the existing AI-assisted application with the
 signed [team contract](TeamContract.md), merged through
@@ -99,7 +99,7 @@ decide what to study today, complete a quiz and retain a copy of the results.
 
 | MVP use case | Designated lead | Current evidence |
 | --- | --- | --- |
-| UC-08: Maintain personal vocabulary and definitions | Zidong Yuan | Implemented AI-assisted baseline; tests and initial commits exist |
+| UC-08: Maintain personal vocabulary and definitions | Zidong Yuan | AI-assisted implementation with a dedicated edit output boundary, presenter and tested UI flow; PR review/merge remains separate |
 | UC-09: Export my completed quiz results | Fuxuan Xu | Assigned next work; implementation and personal PR still required |
 | UC-10: Generate today's due-review plan | Xinyu Huang | Assigned next work; implementation and personal PR still required |
 
@@ -184,9 +184,16 @@ wires implementations through interfaces. Focused use-case interfaces give each
 story a focused boundary. Background `SwingWorker` tasks keep I/O off the EDT.
 Repository, Adapter, Strategy and dependency injection patterns support the design.
 
+Personal vocabulary edits pass immutable input DTOs to the interactor, which
+reports persisted success or expected failure through `PersonalVocabularyOutputBoundary`.
+The dedicated presenter creates the save result. The UI keeps entered text after
+failure and selects the saved word after a successful refresh. See the
+[UC-08 walkthrough](docs/ARCHITECTURE.md#uc-08-personal-vocabulary-edit-flow) for the
+request, output and thread boundaries.
+
 ## Validation
 
-On November 17, 2026, `mvn verify` passed 47 JUnit tests: business rules, hashing, atomic persistence,
+On November 17, 2026, `mvn verify` passed 58 JUnit tests: business rules, hashing, atomic persistence,
 malformed data, local HTTP responses, architectural dependencies, presenters and
 an end-to-end Swing flow. Automated tests use a local HTTP server or injected
 dictionary double; they do not rely on the public API being online. A manual
@@ -198,7 +205,7 @@ eight stories and restarts the real JSON store. It writes screenshots to
 Linux. See the PR checks for actual remote results; configuration alone does not
 establish that all matrix combinations have passed.
 
-JaCoCo measures **445/445 executable lines (100%)** in the current Entity and Use
+JaCoCo measures **487/487 executable lines (100%)** in the current Entity and Use
 Case layers, including the use-case ports. The report covers every class in those
 packages. New MVP code must keep meeting that target. `mvn verify` also runs
 Checkstyle and produces a report with the actual remaining findings; a successful
@@ -215,6 +222,7 @@ demo accounts and content. Desktop fonts and window decorations vary by OS.
 ![Quiz](docs/screenshots/05-quiz.png)
 ![Progress](docs/screenshots/06-progress.png)
 ![Personal vocabulary](docs/screenshots/07-personal-editor.png)
+![Saved personal definition and confirmation](docs/screenshots/10-personal-save-result.png)
 ![Review counts and sorting](docs/screenshots/08-review-counts.png)
 
 ## Project documents
@@ -227,6 +235,7 @@ demo accounts and content. Desktop fonts and window decorations vary by OS.
 - [Presentation and demo guide](docs/DEMO.md)
 - [Verification record](docs/VERIFICATION.md)
 - [Future extensions](docs/FUTURE_WORK.md)
-- [Implementation PR description](docs/PR_DESCRIPTION.md)
+- [Baseline PR description](docs/PR_DESCRIPTION.md)
+- [Personal vocabulary PR description](docs/PERSONAL_VOCABULARY_PR.md)
 - [Course delivery checklist](docs/DELIVERY_CHECKLIST.md)
 - [Signed team contract](TeamContract.md)

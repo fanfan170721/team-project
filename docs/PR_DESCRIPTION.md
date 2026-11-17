@@ -1,3 +1,10 @@
+# Baseline PR #2 description
+
+This records the scope and verification of [PR #2](https://github.com/fanfan170721/team-project/pull/2)
+at delivery commit `6763eff`. The UC-08 follow-up introduces an explicit output
+boundary for personal edits; see [its PR description](PERSONAL_VOCABULARY_PR.md)
+and the [current verification record](VERIFICATION.md).
+
 WordTrail adds a runnable Java 11 / Swing vocabulary-learning application to the
 Maven skeleton. Learners can register and sign in, browse and search vocabulary,
 study flashcards, take four-choice quizzes, save review words and inspect their

@@ -1,5 +1,15 @@
 # Development and team workflow
 
+## Project language
+
+Use English for code, comments, UI text, project documentation, review descriptions
+and test reports. Chinese is allowed only for teammate communication in these files:
+
+- `docs/TEAM_TASKS.zh-CN.md`
+- `docs/FIRST_TASK_FUXUAN.zh-CN.md`
+- `docs/FIRST_TASK_XINYU.zh-CN.md`
+- `docs/START_HERE.zh-CN.md`
+
 ## Local checks
 
 ```sh

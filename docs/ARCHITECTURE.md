@@ -14,6 +14,8 @@ flowchart LR
     H[HTTP dictionary adapter] -. implements .-> P
     B[PBKDF2 adapter] -. implements .-> P
     C --> R[Use-case-specific presenters]
+    U --> O[Personal vocabulary output boundary]
+    R -. implements for UC-08 .-> O
     R --> M[Plain view models]
     V --> M
     A[Application composition root] --> C
@@ -54,22 +56,68 @@ it delegates to the specific controllers instead of owning presentation logic.
 | Review list | `ReviewUseCase` / `ReviewInteractor` | `ContentRepository`, `ProgressRepository` |
 | Progress | `ProgressUseCase` / `ProgressInteractor` | `ContentRepository`, `ProgressRepository` |
 | Admin | `ContentUseCase` / `ContentInteractor` | `ContentRepository` |
-| Personal vocabulary | `PersonalVocabularyUseCase` / `PersonalVocabularyInteractor` | `ContentRepository`, `ProgressRepository` |
+| Personal vocabulary | `PersonalVocabularyUseCase` / `PersonalVocabularyInteractor` | `ContentRepository`, `ProgressRepository`, `PersonalVocabularyOutputBoundary` |
 
 The controller/presenter prefixes are `Auth`, `Catalog`, `Flashcard`, `Quiz`,
 `Review`, `Progress`, `Content` and `PersonalVocabulary`. Their roles are concrete:
 for example, FlashcardPresenter hides unrevealed definitions, QuizPresenter formats
 answer feedback, and ProgressPresenter formats dated histories and summary views.
-PersonalVocabularyPresenter creates immutable account-specific display metadata;
-catalog, review and content controllers obtain fresh metadata for their own output.
+PersonalVocabularyPresenter implements the personal-edit output boundary, turning
+persisted successes or expected failures into a dedicated immutable save result.
+It also formats account-specific display metadata; catalog, review and content
+controllers obtain fresh metadata for their own output.
 Shared `WordDisplay` maps one vocabulary row, while `ControllerCalls` translates
 expected application errors into display errors. Neither owns the use cases.
 
-This is a small Clean Architecture implementation with return-value response
-models. Interactors return responses to the controller, which invokes the
-presenter. It does not introduce a separate output callback interface per use
-case. That keeps the initial classroom app smaller; output ports could be added
-if multiple asynchronous delivery mechanisms require them.
+The existing read/learning flows use return-value responses: the controller calls
+the presenter with the interactor's result. Personal vocabulary edits use an
+explicit output port and request/response DTOs as detailed below. The lightweight
+`details()` metadata query still returns an immutable `LearningProgress` snapshot
+to the adapter, never to a Swing view. This is a deliberate remaining coupling;
+the project does not claim every existing use case has been converted to output ports.
+
+## UC-08: personal vocabulary edit flow
+
+```mermaid
+sequenceDiagram
+    participant V as WordEditorPanel (EDT)
+    participant C as PersonalVocabularyController (worker)
+    participant I as PersonalVocabularyInteractor
+    participant R as ProgressRepository
+    participant P as PersonalVocabularyPresenter
+    participant M as PersonalVocabularyViewModel
+    V->>C: Add word or change definition
+    C->>M: Clear previous request result
+    C->>I: Immutable input DTO
+    I->>R: Load only the signed-in account
+    I->>I: Validate input and visible word
+    alt Valid input and successful save
+        I->>R: Save a new immutable progress snapshot
+        I->>P: presentSuccess(response), through output boundary
+        P->>M: Immutable successful save result
+    else Expected validation or storage failure
+        I->>P: presentFailure(message), through output boundary
+        P->>M: Immutable failed save result
+    end
+    C->>M: Read this request's result
+    C-->>V: Save result, delivered by SwingWorker.done
+    V->>V: Refresh and select saved word, or retain editable input
+```
+
+`PersonalWordInput` and `PersonalDefinitionInput` carry the submitted text.
+`PersonalVocabularyResponse` contains only the operation, word ID, term and saved
+definition. The interactor calls the output port after persistence succeeds; an
+expected failure produces one failure response and no success notification.
+Presenter failures are outside the interactor's storage/validation catch block,
+so a display failure cannot be misreported as a failed save.
+
+The presenter depends on the core output interface, while the interactor does
+not import the presenter or view model. `Application` supplies the implementation.
+The controller serializes its synchronous edit requests and clears the previous
+result first. A use-case implementation that omits its output fails explicitly
+instead of reusing stale success. `UiTasks` delivers the immutable result to the
+EDT. Failed saves keep the editor and its text available for correction; successful
+saves refresh the list, select the saved word, and display the presenter's message.
 
 ## Entities and state
 
@@ -210,6 +258,6 @@ definition. The chart and local study features do not require networking.
 
 The whole JSON file is rewritten for each change, which keeps updates easy to
 reason about but will not scale to large histories. The Swing-facing facade
-preserves the current view API while delegating to feature adapters. Interactors currently
-return some entities; dedicated output DTOs and output ports would further isolate
-the boundaries if the app grows. Native Swing appearance is intentionally simple.
+preserves a small view API while delegating to feature adapters. Several existing
+read/learning interactors return entities; UC-08 edits now use dedicated input/output
+DTOs and an output port. Native Swing appearance is intentionally simple.
