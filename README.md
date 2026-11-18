@@ -11,6 +11,8 @@ Administrators add vocabulary and multiple-choice questions through forms.
 
 [Running and modifying WordTrail](docs/QUICKSTART.md)
 
+**Switching computers:** [Current progress and continuation instructions](docs/HANDOFF.md).
+
 **Teammates starting now:** [First working session (up to 30 minutes)](docs/START_HERE.zh-CN.md).
 
 This delivery branch integrates the existing AI-assisted application with the
