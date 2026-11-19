@@ -1,5 +1,9 @@
 # Route personal vocabulary edits through a dedicated output boundary
 
+Historical PR #3 implementation description and November 17 verification snapshot.
+PR #3 was merged on November 19. See [VERIFICATION.md](VERIFICATION.md) and
+[HANDOFF.md](HANDOFF.md) for the current combined build and project status.
+
 Personal-word and definition edits previously returned to the controller without
 using the feature presenter for save outcomes. UC-08 now accepts immutable input
 DTOs and reports persisted success or expected failure through

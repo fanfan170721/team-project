@@ -4,16 +4,40 @@ The existing AI-assisted Java/Swing baseline implements eight stories. The signe
 contract is integrated from `main`. The current delivery work aligns the code,
 documentation and validation with the course requirements verified on November 17.
 
-## Planned increments
+## Status on November 19, 2026
 
-1. Preserve the baseline history and signed contract in `Emilia/project-delivery`.
-2. Add formal specifications, accurate ownership/status and entity documentation.
-3. Separate feature controllers/presenters without changing existing behavior.
-4. Measure the full Entity/Use Case line coverage; cover real missing failure paths.
-5. Run Checkstyle, retain its findings and publish reviewable code and CI evidence.
-6. Fuxuan implements MVP CSV export (UC-09); Xinyu implements the daily review
-   plan (UC-10), each with their own interfaces, adapters, UI, tests and PR.
-7. Review and integrate those PRs, rerun all checks and prepare the group presentation.
+- The signed contract is merged through PR #1. `main` remains at `dbde42d`
+  with the template and contract; application delivery PR #2 is still a draft.
+- Formal specifications, feature controllers/presenters, coverage measurement
+  and reproducible quality reports are present in `Emilia/project-delivery`.
+- Allen's complete UC-08 flow is merged through PR #3 (`d0f9f7f`).
+- Fuxuan's UC-09 core and eight interactor tests are merged through PR #4
+  (`62adf65`); the concrete CSV adapter and controller/presenter/UI are unfinished.
+- The combined delivery passed 66 tests with 535/535 Entity/Use Case lines covered.
+  CI for `62adf65` passed all Windows/Linux and Java 11/17 combinations.
+  The latest clean local check retained 677 Checkstyle findings across 101 Java
+  files and passed an offline packaged-JAR wiring, content and persistence check.
+  New CI checks require a subsequent remote run.
+- Xinyu approved PR #2 and PR #3, but no UC-10 implementation branch or PR was
+  observed. Fuxuan's code peer review remains outstanding.
+
+## Remaining increments
+
+1. Allen maintains shared documentation, build/test evidence and integration.
+   Keep measured Checkstyle findings visible; a passing build is not style clearance.
+2. Resolve the proposed handoff of remaining CSV work to Allen with Fuxuan.
+   It is awaiting his reply, so the designated lead remains Fuxuan. Record any
+   agreed change truthfully and preserve each member's required complete use case.
+3. After that reply, complete UC-09's CSV adapter, specific controller/presenter,
+   file-selection UI, safe cancellation/overwrite behavior and acceptance tests.
+4. Xinyu implements UC-10's interactor/interfaces, controller/presenter, UI and
+   tests, with her own meaningful code PR. Existing approvals do not replace code work.
+5. Complete outstanding peer reviews and check each member's full-use-case
+   evidence before claiming the individual requirements are satisfied.
+6. Review and integrate the completed MVP, rerun checks, update the delivery PR's
+   readiness and merge it into `main` only after its review requirements are met.
+7. Prepare the group presentation, rehearse the complete demo and finish each
+   member's reflection and peer evaluation by the course deadlines.
 
 Use meaningful commits and actual review evidence. Initial AI-assisted code remains
 attributed to its original lead; do not manufacture teammates' contributions or

@@ -334,7 +334,7 @@ class SwingWorkflowTest {
     }
 
     private void snapshot(String name) throws Exception {
-        Path output = Path.of("target", "ui-snapshots", name + ".png");
+        Path output = Path.of(System.getProperty("wordtrail.uiSnapshots", "target/ui-snapshots"), name + ".png");
         Files.createDirectories(output.getParent());
         edt(() -> {
             layout(panel);

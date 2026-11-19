@@ -254,6 +254,19 @@ two-provider lookup can take up to roughly sixteen seconds. Results show the act
 provider URL. Both failures produce a user-facing error and preserve the saved
 definition. The chart and local study features do not require networking.
 
+## UC-09 core integration status
+
+Fuxuan's PR #4 adds `ExportResultsInputBoundary`, `ExportResultsInteractor`,
+`ExportResultsOutputBoundary`, response/row DTOs and the `QuizResultsExporter`
+port. The core uses the current session, reads that account's completed quizzes,
+sorts a copy oldest-first and calls the exporter before reporting success. It
+does not write files, change learning progress or reference Swing.
+
+The eight behavior tests use a fake exporter. A concrete CSV adapter, dedicated
+Controller/Presenter/ViewModel, triggering/result UI and application wiring are
+still pending. This core is merged but cannot yet be invoked from a screen.
+The proposed CSV handoff to Allen is on hold awaiting Fuxuan's reply.
+
 ## Tradeoffs to discuss in the presentation
 
 The whole JSON file is rewritten for each change, which keeps updates easy to

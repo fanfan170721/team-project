@@ -55,7 +55,9 @@ must implement, test and explain them before the final integrated demonstration.
   count. Demonstrate cancellation or overwrite refusal, plus an empty history.
 - **Xinyu / UC-10:** generate today's due-review list; explain the local-date interval
   rule and show that generating a plan does not increase the study count.
-- **Zidong / UC-08:** explain the personal vocabulary path and privacy behavior.
+
+**Zidong / UC-08 is already implemented:** explain the personal vocabulary path,
+failed-save input retention and privacy behavior using the existing demonstration.
 
 Assign the actual speakers and rehearse together once these features exist. A
 written script does not establish that rehearsal or individual preparation happened.
@@ -68,9 +70,9 @@ written script does not establish that rehearsal or individual preparation happe
 - Explain at least two SOLID principles using actual classes, rather than definitions alone.
 - Discuss an implemented pattern beyond the starter, such as dictionary adapter
   composition or injected repository/service strategies, and a concrete extension.
-- Be candid that existing interactors use return-value responses; show how source
-  dependencies still point inward. Discuss remaining tradeoffs instead of claiming
-  a particular class name proves Clean Architecture.
+- Explain the implemented hybrid response flow: UC-08 and the UC-09 core use output
+  boundaries; the other existing use cases return results through controllers to
+  presenters. Show how source dependencies point inward and discuss the tradeoffs.
 
 ## Questions to practise
 

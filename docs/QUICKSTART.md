@@ -2,11 +2,11 @@
 
 ## Run the application
 
-The project uses Java 11, Maven and Java Swing. Install JDK 11 or later and
+The project uses Java 11, Maven and Java Swing. CI checks JDK 11 and 17. Install JDK 11 or later and
 Maven 3.9 or later before using the command-line build. From the project root, run:
 
 ```sh
-mvn verify
+mvn clean verify
 java -jar target/wordtrail.jar
 ```
 
@@ -20,14 +20,27 @@ On Windows, double-click `run.cmd` in the project root, or run this in PowerShel
 .\run.ps1
 ```
 
-The launcher uses the project root as its working directory and rebuilds when
-source files change. Use `.\run.ps1 -Build` to force compilation and tests.
+The launcher uses the project root as its working directory and detects added,
+changed and deleted build inputs. Use `.\run.ps1 -Build` to force a clean build and tests.
 `.\run.ps1 -Check` checks the packaged entry point without opening a window or
 accessing the network.
 
 `mvn verify` creates `target/wordtrail.jar`, including runtime dependencies and
 sample content. Running the packaged JAR only requires Java 11 or later. Build
 artifacts and local account data are excluded from Git.
+
+To check the packaged application without opening a window or using the network:
+
+```sh
+java "-Djava.awt.headless=true" --class-path target/wordtrail.jar tools/VerifyPackage.java target/package-check
+```
+
+This checks packaged dependencies and seed content, saves a test word and verifies
+it survives reopening an isolated profile. It does not use personal account data.
+
+The shared feature base is `Emilia/project-delivery`. UC-08 is available in the UI.
+UC-09 currently has a tested core only; CSV export and a review-plan screen are
+not yet available. See [HANDOFF.md](HANDOFF.md) for current contribution status.
 
 The first launch asks you to create an administrator. Usernames contain 3–30
 English letters, digits or underscores; passwords contain 8–128 characters.

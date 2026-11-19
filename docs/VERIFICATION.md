@@ -1,6 +1,61 @@
 # Verification record
 
-## Latest verification — UC-08 follow-up, 2026-11-17
+## Latest verification — shared maintenance, 2026-11-19
+
+Base: `62adf65`, containing Allen's merged UC-08 (PR #3) and Fuxuan's merged
+UC-09 core (PR #4). Shared build/documentation work is on
+`Emilia/shared-project-maintenance`. Environment: Windows 11, Temurin JDK
+11.0.32.1 and Maven 3.9.16.
+
+- `run.ps1 -Build -Check` invoked `mvn -B --no-transfer-progress clean verify`:
+  **67 tests**, zero failures,
+  errors or skips. The executable JAR was rebuilt from clean output.
+- Complete Entity/Use Case coverage: **535/535 lines (100%)**; Entity 102,
+  Use Case 427, and Use Case ports 6. No class exclusions or threshold reductions.
+- Checkstyle: **102 Java files, 676 findings**, non-blocking and unsuppressed.
+- The packaged `--help` entry point passed without a window or network request.
+  Repeating `run.ps1 -Check` with unchanged inputs and JAR skipped rebuilding.
+- A new subprocess regression confirms initialization failures terminate with
+  exit code 1 even when the error dialog itself cannot be displayed. The child
+  JVM is explicitly headless, so this does not test a native error window.
+- `tools/VerifyPackage.java`, run in Java source-file mode with only the packaged
+  JAR on its classpath, passed application wiring, seed vocabulary/questions,
+  JSON dependency, account and personal-word save/reopen checks. It uses a fresh
+  temporary profile and a dictionary fake that fails on any attempted lookup.
+  The profile is removed after the check; `target/package-check/result.txt`
+  retains the result. Personal learning data is never read or changed.
+- `tools/Test-Launcher.ps1` passed **87 assertions** on Windows PowerShell 5.1
+  and PowerShell 7.6.9. These are launcher regression assertions, not additional
+  JUnit test cases. Isolated fake Maven/Java commands test input additions,
+  edits/deletions, unchanged-input skipping, missing output, forced clean builds,
+  build failures, input changes during build, and paths containing spaces. The
+  stamp binds both input contents and the actual JAR hash, so an external build
+  cannot leave a different executable marked as matching restored source files.
+- Swing screenshots are now placed under the selected Maven build directory,
+  rather than always writing to the default `target/ui-snapshots` directory.
+  A separate five-test Swing run with `wordtrail.build.directory=target/isolated-check`
+  passed and left the default screenshots' contents and modification times unchanged.
+- Package-check negative controls removed `seed.json` and then `org/json/` from
+  separate copies of the JAR. Each was correctly rejected with exit status 1 for
+  the missing resource/dependency, demonstrating that the check exercises the package.
+- No native GUI or sound playback was used. The live API was not repeated for
+  this maintenance change; automated HTTP tests use local servers/test doubles.
+
+The [delivery push run](https://github.com/fanfan170721/team-project/actions/runs/44620314535)
+and [delivery PR run](https://github.com/fanfan170721/team-project/actions/runs/44620328913)
+passed Windows/Linux on Java 11/17 at `62adf65`. This maintenance adds offline
+packaged-application checks to all four jobs and launcher regression checks to
+Windows jobs, with a hard failure if the executable JAR upload is missing.
+Consult the maintenance PR's own checks for remote verification of these changes.
+
+The merged UC-09 increment has no CSV file adapter, Controller/Presenter or UI.
+UC-10 has no observed implementation PR. Existing tests and package checks do not
+establish those missing features, native GUI verification or full course compliance.
+
+## Historical UC-08 follow-up, 2026-11-17
+
+The following UC-08 details describe that earlier snapshot; their 58-test and
+487-line counts are historical. The November 19 totals above supersede them.
 
 Environment: Windows, Temurin JDK 11.0.32 and Maven 3.9.16. These checks ran in
 `team-project-allen-personal` after adding UC-08 input/output boundaries, save

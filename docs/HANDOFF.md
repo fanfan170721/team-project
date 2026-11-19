@@ -1,20 +1,22 @@
 # Continue on another computer
 
-Snapshot: November 17, 2026, America/Toronto. Recheck GitHub before acting on
+Snapshot: November 19, 2026, America/Toronto. Recheck GitHub before acting on
 review, branch or teammate status; these can change after this note.
 
 ## Open the correct code
 
-The current personal feature is on **`Emilia/allen-personal-vocabulary`**, not
-`main`. The integrated baseline is on `Emilia/project-delivery`. At this snapshot,
+The shared feature base is **`Emilia/project-delivery`** at `62adf65`, containing
+the merged PR #3 and PR #4. Public documentation/build maintenance is on
+`Emilia/shared-project-maintenance`, for review into that base. At this snapshot,
 `main` contains the merged team contract and original template, not the application.
 
 Install Git, JDK 11 or 17 and Maven 3.9+, then use a new directory:
 
 ```sh
-git clone --branch Emilia/allen-personal-vocabulary https://github.com/fanfan170721/team-project.git team-project-allen
+git clone --branch Emilia/shared-project-maintenance https://github.com/fanfan170721/team-project.git team-project-allen
 cd team-project-allen
-mvn verify
+mvn clean verify
+java "-Djava.awt.headless=true" --class-path target/wordtrail.jar tools/VerifyPackage.java target/package-check
 java -jar target/wordtrail.jar
 ```
 
@@ -27,38 +29,43 @@ Maven wrapper in this repository. Work from the project root. See
 | Work | Evidence / status at this snapshot |
 | --- | --- |
 | Signed team contract | [PR #1](https://github.com/fanfan170721/team-project/pull/1) merged; all three names present |
-| Application baseline | [PR #2](https://github.com/fanfan170721/team-project/pull/2), draft and unmerged; `Emilia/project-delivery` at `6763eff` |
-| Allen's UC-08 personal words and definitions | [PR #3](https://github.com/fanfan170721/team-project/pull/3), open and ready for review; implementation commit `4867865` |
-| PR #3 review | No submitted reviews yet when checked; documentation-only handoff commits may follow the implementation commit |
-| Fuxuan's UC-09 quiz-results export | First core implementation task sent; no teammate feature branch or PR observed yet |
-| Xinyu's UC-10 due-review plan | First core implementation task sent; no teammate feature branch or PR observed yet |
+| Application baseline | [PR #2](https://github.com/fanfan170721/team-project/pull/2), draft and unmerged into `main`; delivery now at `62adf65` |
+| Allen's UC-08 personal words and definitions | [PR #3](https://github.com/fanfan170721/team-project/pull/3) approved by Xinyu and merged as `d0f9f7f` on November 19 |
+| Fuxuan's UC-09 quiz-results export | [PR #4](https://github.com/fanfan170721/team-project/pull/4), core and eight tests, approved by Allen and merged as `62adf65` on November 19; no CSV adapter or UI yet |
+| Xinyu's UC-10 due-review plan | No own feature branch/PR observed; Xinyu has submitted approvals on PR #2 and PR #3 |
+| Subsequent teammate progress | No new remote feature branch, PR, issue or blocker comment observed; unpushed local work and blockers are unknown |
+| Shared maintenance | Allen's documentation, build, package verification and integration work is on `Emilia/shared-project-maintenance`; review remains required |
 
 UC-08 includes input DTOs, an interactor, an output boundary, a dedicated
 controller/presenter/view model and Swing save/edit behavior. Failed saves retain
 input; successful saves select and scroll to the saved word. The original
 implementation history remains attributed to Allen's AI-assisted work.
 
-Verification at implementation commit `4867865`: **58 tests passed**, Entity/Use
-Case line coverage **487/487 (100%)**, and **666 Checkstyle findings** retained.
-The [PR CI run](https://github.com/fanfan170721/team-project/actions/runs/44190680563)
-passed Windows/Linux on Java 11/17. Check later commits' checks independently.
+Current local clean verification: **67 tests passed**, Entity/Use Case line
+coverage **535/535 (100%)**, and **676 Checkstyle findings** across 102 Java files.
+The offline package check passed using the executable JAR only, exercising seed
+data, application wiring, the JSON dependency and persistence across reopening.
+The [merged delivery CI](https://github.com/fanfan170721/team-project/actions/runs/44620314535)
+passed Windows/Linux on Java 11/17. Check the maintenance branch's new checks
+independently; an earlier delivery CI run does not verify later CI changes.
 See [VERIFICATION.md](VERIFICATION.md) and [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## Next steps, in order
 
-1. Recheck PR #3 reviews and open teammate PRs. A copy-ready group review message
-   was drafted for Allen; its delivery and the reviews were not yet confirmed.
-2. Fuxuan's review focus: save-before-success, failure callbacks and no partial
-   changes in `PersonalVocabularyInteractor` and its tests. Xinyu's review focus:
-   retained editor input, saved-word selection/scrolling and the Swing regression.
-   Reviewers should state what they actually inspected and whether they ran locally.
-3. Address actual feedback, then merge reviewed code into its intended base.
-   PR #3 targets `Emilia/project-delivery`; PR #2 targets `main`. This snapshot is
-   not an instruction to merge without checking current reviews and CI.
-4. Review the teammates' first core PRs, then give each one next implementation
-   task of at most 30 minutes for their own adapters, UI and integration.
-5. Allen must also participate in reviewing another member's substantive code PR.
-   Integrate the complete UC-09/10 features and rerun the full final checks.
+1. Recheck online activity before declaring an assigned task complete. The user
+   reports no direct teammate progress replies yet; no new push alone cannot
+   distinguish not started, local work in progress, or a blocker.
+2. **Keep CSV work on hold pending Fuxuan's reply.** A possible handoff of the
+   file adapter and its tests to Allen has been discussed, not confirmed. Do not
+   duplicate or overwrite Fuxuan's unpushed implementation. UC-09 leadership and
+   its specific Controller/Presenter/UI remain with Fuxuan.
+3. Xinyu continues the UC-10 core task from her existing progress. Once code is
+   pushed, review it and assign the next bounded step. Do not restart unseen local work.
+4. Fuxuan still needs a substantive review of another member's code. When Xinyu's
+   PR is ready, he can inspect it with AI assistance and record his actual findings.
+5. Review the shared maintenance PR before integrating it. Keep PR #2 as a draft
+   until the remaining MVP work and course delivery requirements are ready; code
+   checks alone do not establish course completion.
 
 The published teammate instructions are:
 

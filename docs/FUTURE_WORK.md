@@ -20,5 +20,6 @@ The current snapshot intentionally keeps the UI and storage small enough for
 students to understand and modify.
 
 The initial CSV export and fixed-interval daily review plan are **pending MVP
-work**, assigned in the README. They are not optional extensions and are not yet
-implemented in the baseline.
+work**, assigned in the README. They are not optional extensions. UC-09's core
+and tests are merged through PR #4, while its CSV adapter and UI are still pending.
+No UC-10 implementation PR has been observed as of November 19, 2026.

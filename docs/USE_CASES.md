@@ -1,10 +1,13 @@
 # Use-case specification
 
 These specifications describe user-observable behavior. Implementation classes
-belong in `ARCHITECTURE.md`. UC-01 through UC-08 are the existing AI-assisted
-baseline led by Zidong Yuan. UC-09 and UC-10 are assigned, **unimplemented MVP
-work** for Fuxuan Xu and Xinyu Huang respectively; no personal contribution is
-claimed until the work and review actually occur.
+belong in `ARCHITECTURE.md`. UC-01 through UC-08 are the AI-assisted application
+led by Zidong Yuan; his complete UC-08 flow was merged into delivery through
+[PR #3](https://github.com/fanfan170721/team-project/pull/3). Fuxuan Xu's UC-09 core
+and eight tests were merged through [PR #4](https://github.com/fanfan170721/team-project/pull/4).
+Its CSV adapter and controller/presenter/UI remain unfinished. UC-10 is assigned
+to Xinyu Huang; no implementation branch or PR was observed on November 19, 2026.
+The following UC-09/10 scenarios specify the intended complete MVP behavior.
 
 ## UC-01: Sign in to my learning account
 
@@ -141,7 +144,7 @@ implemented supporting account operations. Sign-in itself does not create an acc
   available for correction or retry. 3a. A quiz was already in
   progress: keep that quiz's original question snapshot; new quizzes use the new meaning.
 
-## UC-09: Export my quiz results (MVP; Fuxuan Xu; pending)
+## UC-09: Export my quiz results (MVP; Fuxuan Xu; core merged)
 
 - **Primary actor:** Signed-in learner.
 - **Preconditions:** The account is active; a history with no completed quizzes is valid.
@@ -159,8 +162,14 @@ implemented supporting account operations. Sign-in itself does not create an acc
   files when the write cannot complete. Another account's results are never exported.
 
 Acceptance includes empty history, account isolation, chronological sorting, CSV
-escaping, cancellation, overwrite refusal and write failure. This is planned
-behavior and does not yet have implementation or completed tests.
+escaping, cancellation, overwrite refusal and write failure. The merged core
+handles authentication, destination validation, account-specific chronological
+rows, empty history, unchanged progress and success/failure output through ports.
+Eight interactor tests cover these behaviors using an exporter double. Concrete
+UTF-8 CSV writing/escaping, file safety, cancellation/overwrite interaction and
+the controller/presenter/UI flow still require implementation and acceptance tests.
+A proposed handoff of the remaining CSV work to Allen awaits Fuxuan's reply;
+the designated lead has not changed.
 
 ## UC-10: Generate today's review plan (MVP; Xinyu Huang; pending)
 

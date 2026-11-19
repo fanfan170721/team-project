@@ -21,6 +21,13 @@ signed [team contract](TeamContract.md), merged through
 The implementation history is preserved. Code review and each member's own
 use-case contribution must be assessed separately from the contract signatures.
 
+As checked on November 19, 2026, this delivery includes Allen's completed UC-08
+from [PR #3](https://github.com/fanfan170721/team-project/pull/3) (`d0f9f7f`) and
+Fuxuan's UC-09 core from [PR #4](https://github.com/fanfan170721/team-project/pull/4)
+(`62adf65`). [PR #2](https://github.com/fanfan170721/team-project/pull/2) remains a
+draft targeting `main`; `main` at `dbde42d` still contains the template and signed
+contract, not this application.
+
 ## Contents
 
 - [Run](#run)
@@ -101,13 +108,14 @@ decide what to study today, complete a quiz and retain a copy of the results.
 
 | MVP use case | Designated lead | Current evidence |
 | --- | --- | --- |
-| UC-08: Maintain personal vocabulary and definitions | Zidong Yuan | AI-assisted implementation with a dedicated edit output boundary, presenter and tested UI flow; PR review/merge remains separate |
-| UC-09: Export my completed quiz results | Fuxuan Xu | Assigned next work; implementation and personal PR still required |
-| UC-10: Generate today's due-review plan | Xinyu Huang | Assigned next work; implementation and personal PR still required |
+| UC-08: Maintain personal vocabulary and definitions | Zidong Yuan | Complete flow, dedicated edit output boundary, presenter and tested UI; PR #3 merged into delivery |
+| UC-09: Export my completed quiz results | Fuxuan Xu | Core interactor, boundaries, DTOs, exporter port and 8 tests merged through PR #4; CSV adapter, controller, presenter and UI remain unfinished |
+| UC-10: Generate today's due-review plan | Xinyu Huang | Assigned; no implementation branch or PR observed at the November 19 check |
 
-The lead assignments are a work plan, not a claim that the last two features or
-their individual contributions already exist. They are committed MVP scope for
-the next increment, not optional future features. Each member's use case must
+UC-09 and UC-10 are committed MVP scope, not optional future features. Fuxuan's
+merged core is a real contribution, but does not yet provide a complete runnable
+export flow. A proposed handoff of the remaining CSV work to Allen awaits Fuxuan's
+reply; ownership has not been reassigned. Each member's use case must
 include its own controller, presenter, interactor/interfaces, UI interaction,
 tests and review evidence. [Individual task instructions](docs/TEAM_TASKS.zh-CN.md)
 give the concrete steps.
@@ -195,24 +203,29 @@ request, output and thread boundaries.
 
 ## Validation
 
-On November 17, 2026, `mvn verify` passed 58 JUnit tests: business rules, hashing, atomic persistence,
-malformed data, local HTTP responses, architectural dependencies, presenters and
+On November 19, 2026, clean verification of shared maintenance based on `62adf65`
+passed 67 JUnit tests with no failures, errors or skips: startup-failure process exit, business rules, hashing,
+atomic persistence, malformed data, local HTTP responses, architectural dependencies, presenters and
 an end-to-end Swing flow. Automated tests use a local HTTP server or injected
 dictionary double; they do not rely on the public API being online. A manual
 `--check-api hello` checks the real service separately.
 
 The Swing integration test clicks actual controls in headless mode, verifies all
 eight stories and restarts the real JSON store. It writes screenshots to
-`target/ui-snapshots/`. A CI workflow is prepared for Java 11 and 17 on Windows and
-Linux. See the PR checks for actual remote results; configuration alone does not
-establish that all matrix combinations have passed.
+`target/ui-snapshots/`. GitHub Actions passed all four Windows/Linux and Java 11/17
+combinations for `62adf65`. The eight UC-09 core tests use an exporter double;
+they do not establish working CSV files or an export UI. A separate offline
+packaged-JAR check passed application wiring, bundled words/questions, the JSON
+dependency and account/personal-word persistence after reopening; it uses no UI
+or network. Newly added CI checks need their own remote run before being claimed
+as passed.
 
-JaCoCo measures **487/487 executable lines (100%)** in the current Entity and Use
+JaCoCo measures **535/535 executable lines (100%)** in the current Entity and Use
 Case layers, including the use-case ports. The report covers every class in those
 packages. New MVP code must keep meeting that target. `mvn verify` also runs
-Checkstyle and produces a report with the actual remaining findings; a successful
-build does not mean there are no style warnings. See `docs/VERIFICATION.md` for
-the measured snapshot and report paths.
+Checkstyle: the current run checked 102 Java files and retained 676 findings. A
+successful build does not mean there are no style warnings. See
+`docs/VERIFICATION.md` for the measured snapshot and report paths.
 
 ## Screenshots
 
