@@ -1,15 +1,17 @@
 package com.wordtrail.view;
 
 import com.wordtrail.adapter.AppController;
+import com.wordtrail.adapter.PersonalVocabularyViewModel;
 import com.wordtrail.adapter.ViewModels;
 import java.awt.*;
+import java.util.function.Consumer;
 import javax.swing.*;
 
 /** Inline editor keeps save/cancel behavior testable without modal desktop windows. */
 final class WordEditorPanel extends JPanel {
     private final AppController controller;
     private final UiTasks tasks;
-    private final Runnable onSaved;
+    private final Consumer<PersonalVocabularyViewModel.SaveResult> onSaved;
     private final JLabel title = Ui.label("Add my word", 24);
     private final JTextField term = Ui.field("wordEditor.term", 28);
     private final JTextField topic = Ui.field("wordEditor.topic", 28);
@@ -19,7 +21,8 @@ final class WordEditorPanel extends JPanel {
     private final JButton lookup = Ui.button("wordEditor.lookup", "Fill from online dictionary");
     private ViewModels.Word editing;
 
-    WordEditorPanel(AppController controller, UiTasks tasks, String prefix, Runnable onSaved, Runnable onCancel) {
+    WordEditorPanel(AppController controller, UiTasks tasks, String prefix,
+                    Consumer<PersonalVocabularyViewModel.SaveResult> onSaved, Runnable onCancel) {
         super(new BorderLayout(12, 12));
         this.controller = controller; this.tasks = tasks; this.onSaved = onSaved;
         term.setName(prefix + ".editor.term"); topic.setName(prefix + ".editor.topic");
@@ -54,11 +57,15 @@ final class WordEditorPanel extends JPanel {
             String word = term.getText(), category = topic.getText(), meaning = definition.getText();
             String usage = example.getText(), attribution = source.getText();
             ViewModels.Word selected = editing;
-            tasks.run("Saving personal vocabulary", () -> {
-                if (selected == null) { controller.addPersonalWord(word, category, meaning, usage, attribution); }
-                else { controller.changeDefinition(selected.id, meaning); }
-                return true;
-            }, ignored -> onSaved.run());
+            tasks.run("Saving personal vocabulary", () -> selected == null
+                    ? controller.addPersonalWord(word, category, meaning, usage, attribution)
+                    : controller.changeDefinition(selected.id, meaning), result -> {
+                        if (result.success) {
+                            onSaved.accept(result);
+                        } else {
+                            tasks.message(result.message);
+                        }
+                    });
         });
     }
 

@@ -21,8 +21,8 @@ for a final schedule or revised rubric. Checkmarks below require actual evidence
 - [x] Java/Swing application with an external dictionary API and JSON persistence exists.
 - [x] API successfully called in the packaged application on November 17.
 - [x] Existing tests exercise the complete learning loop, account isolation and restart recovery.
-- [x] Current baseline: 47 passing tests; measured Entity/Use Case line coverage
-  445/445 (100%); Checkstyle report retained with 661 findings; coverage gate tested.
+- [x] Current UC-08 follow-up: 58 passing tests; measured Entity/Use Case line coverage
+  487/487 (100%); Checkstyle report retained with 666 findings; coverage gate passed.
 - [ ] Final integrated MVP includes UC-09 CSV export and UC-10 daily review plan.
 - [ ] Final build and every interactor's tests pass after the pending MVP integrations.
 - [ ] Final Entity/Use Case layers have measured 100% line coverage, including new use cases.

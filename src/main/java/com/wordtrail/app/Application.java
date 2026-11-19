@@ -11,6 +11,7 @@ import com.wordtrail.adapter.FlashcardController;
 import com.wordtrail.adapter.FlashcardPresenter;
 import com.wordtrail.adapter.PersonalVocabularyController;
 import com.wordtrail.adapter.PersonalVocabularyPresenter;
+import com.wordtrail.adapter.PersonalVocabularyViewModel;
 import com.wordtrail.adapter.ProgressController;
 import com.wordtrail.adapter.ProgressPresenter;
 import com.wordtrail.adapter.QuizController;
@@ -39,8 +40,12 @@ public final class Application implements AutoCloseable {
         SessionContext session = new SessionContext();
         CatalogUseCase catalog = new CatalogInteractor(store, store, dictionary, session);
         ReviewUseCase review = new ReviewInteractor(store, store, session);
+        PersonalVocabularyViewModel personalViewModel = new PersonalVocabularyViewModel();
+        PersonalVocabularyPresenter personalPresenter = new PersonalVocabularyPresenter(
+                clock.getZone(), personalViewModel);
         PersonalVocabularyController personal = new PersonalVocabularyController(
-                new PersonalVocabularyInteractor(store, store, session), new PersonalVocabularyPresenter(clock.getZone()));
+                new PersonalVocabularyInteractor(store, store, session, personalPresenter),
+                personalPresenter, personalViewModel);
         controller = new AppController(
                 new AuthController(new AuthInteractor(store, new Pbkdf2PasswordHasher(), session), new AuthPresenter()),
                 new CatalogController(catalog, personal::progress, new CatalogPresenter()),

@@ -23,7 +23,8 @@ final class UseCaseFixture {
     final QuizInteractor quiz = new QuizInteractor(store, store, session, clock, new Random(7));
     final ProgressInteractor progress = new ProgressInteractor(store, store, session, clock);
     final ContentInteractor content = new ContentInteractor(store, session);
-    final PersonalVocabularyInteractor personal = new PersonalVocabularyInteractor(store, store, session);
+    final RecordingPersonalOutput personalOutput = new RecordingPersonalOutput();
+    final PersonalVocabularyInteractor personal = new PersonalVocabularyInteractor(store, store, session, personalOutput);
 
     UseCaseFixture() {
         for (int i = 0; i < 4; i++) {
@@ -37,6 +38,15 @@ final class UseCaseFixture {
     void admin() { auth.setupAdministrator("admin", "password123".toCharArray()); }
     void learner(String name) { auth.register(name, "password123".toCharArray()); }
     void loginAdmin() { auth.login("admin", "password123".toCharArray()); }
+
+    static final class RecordingPersonalOutput implements PersonalVocabularyOutputBoundary {
+        final List<PersonalVocabularyResponse> successes = new ArrayList<>();
+        final List<String> failures = new ArrayList<>();
+
+        public void presentSuccess(PersonalVocabularyResponse response) { successes.add(response); }
+        public void presentFailure(String message) { failures.add(message); }
+        void clear() { successes.clear(); failures.clear(); }
+    }
 
     static final class MemoryStore implements AccountRepository, ContentRepository, ProgressRepository {
         final Map<String, User> users = new LinkedHashMap<>();

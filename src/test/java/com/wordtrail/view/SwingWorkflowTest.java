@@ -220,6 +220,54 @@ class SwingWorkflowTest {
         assertFalse(edt(() -> component("library.lookup", JButton.class).isEnabled()));
     }
 
+    @Test void personalSaveFailuresPreserveInputAndSuccessSelectsTheSavedWord() throws Exception {
+        authenticate("admin", true);
+        click("library.add");
+        text("library.editor.topic", "My words");
+        text("library.editor.definition", "A fortunate discovery.");
+        click("library.editor.save");
+        assertTrue(status().contains("Word is required"));
+        assertEquals("My words", edt(() -> component("library.editor.topic", JTextField.class).getText()));
+        assertEquals("A fortunate discovery.",
+                edt(() -> component("library.editor.definition", JTextArea.class).getText()));
+        assertTrue(edt(() -> visibleInTree(component("library.editor.save", JButton.class))));
+        assertEquals(16, edt(() -> component("library.table", JTable.class).getRowCount()));
+
+        text("library.editor.term", "serendipity");
+        click("library.editor.save");
+        assertEquals("Added \"serendipity\" to your vocabulary.", status());
+        assertEquals("serendipity", edt(() -> {
+            JTable table = component("library.table", JTable.class);
+            return table.getValueAt(table.getSelectedRow(), 0);
+        }));
+        assertTrue(edt(() -> {
+            JTable table = component("library.table", JTable.class);
+            return table.getVisibleRect().intersects(table.getCellRect(table.getSelectedRow(), 0, true));
+        }), "The saved word must be scrolled into view.");
+        click("library.edit");
+        text("library.editor.definition", " ");
+        click("library.editor.save");
+        assertTrue(status().contains("Definition is required"));
+        assertEquals(" ", edt(() -> component("library.editor.definition", JTextArea.class).getText()));
+        assertTrue(edt(() -> visibleInTree(component("library.editor.save", JButton.class))));
+        assertEquals("A fortunate discovery.", application.controller().browse(null, "serendipity").words.get(0).definition);
+
+        text("library.editor.definition", "My own lucky discovery.");
+        click("library.editor.save");
+        assertEquals("Updated your definition of \"serendipity\".", status());
+        assertEquals("My own lucky discovery.", application.controller().browse(null, "serendipity").words.get(0).definition);
+        snapshot("10-personal-save-result");
+    }
+
+    private boolean visibleInTree(Component component) {
+        for (Component current = component; current != null; current = current.getParent()) {
+            if (!current.isVisible()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void authenticate(String username, boolean creating) throws Exception {
         text("auth.username", username); text("auth.password", "password123");
         if (creating) { text("auth.confirm", "password123"); }
@@ -249,7 +297,12 @@ class SwingWorkflowTest {
     private void idle() throws Exception {
         long deadline = System.nanoTime() + java.util.concurrent.TimeUnit.SECONDS.toNanos(10);
         while (System.nanoTime() < deadline) {
-            if (edt(() -> !panel.isBusy())) { return; }
+            if (edt(() -> {
+                if (panel.isBusy()) { return false; }
+                // No native window performs validation for this headless component tree.
+                layout(panel);
+                return true;
+            })) { return; }
             Thread.sleep(15);
         }
         fail("UI did not become idle: " + status());

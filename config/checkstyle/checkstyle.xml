@@ -6,6 +6,8 @@
      readable declarations. No source files or findings are suppressed. -->
 <module name="Checker">
     <property name="charset" value="UTF-8"/>
+    <property name="localeLanguage" value="en"/>
+    <property name="localeCountry" value="CA"/>
     <property name="severity" value="warning"/>
     <property name="fileExtensions" value="java"/>
     <module name="FileTabCharacter"/>

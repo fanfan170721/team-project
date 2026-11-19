@@ -62,11 +62,12 @@ public final class AppController {
         content.addQuestion(wordId, prompt, options, correct);
     }
 
-    public void addPersonalWord(String term, String topic, String definition, String example, String source) {
-        personal.addWord(term, topic, definition, example, source);
+    public PersonalVocabularyViewModel.SaveResult addPersonalWord(
+            String term, String topic, String definition, String example, String source) {
+        return personal.addWord(term, topic, definition, example, source);
     }
 
-    public void changeDefinition(String wordId, String definition) {
-        personal.changeDefinition(wordId, definition);
+    public PersonalVocabularyViewModel.SaveResult changeDefinition(String wordId, String definition) {
+        return personal.changeDefinition(wordId, definition);
     }
 }
