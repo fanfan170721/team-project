@@ -1,6 +1,41 @@
 # Verification record
 
-## Latest verification — shared maintenance, 2026-11-19
+## Latest verification — M2 preparation, 2026-11-20
+
+Branch: `Emilia/m2-demo-safety`, based on the unchanged PR #5 head `f6a4ee2`.
+The Java source is unchanged; this increment protects demo profiles in the
+Windows launcher and corrects demonstration instructions.
+
+- `mvn -B --no-transfer-progress verify`: **74 tests**, zero failures, errors or
+  skips. Full Entity/Use Case line coverage remains **574/574 (100%)**; Checkstyle
+  reports **586 findings across 104 Java files**. The executable JAR was built.
+- The packaged offline check passed again: application wiring, bundled seed
+  content, JSON dependency and account/personal-word persistence across reopening.
+  Its temporary profile was removed, and no personal profile was accessed.
+- The packaged `--check-api hello` diagnostic succeeded at approximately
+  **5:12 p.m. EST**, returning the primary provider's definition and source
+  `https://api.dictionaryapi.dev/api/v2/entries/en/hello`. No native window or
+  sound was used. This observes service availability at that time only.
+- The launcher harness passed **152 assertions** on Windows PowerShell 5.1 and
+  PowerShell 7. Tests verify that existing profiles under `target/` survive both
+  automatic and forced rebuild attempts unchanged; neither fake Maven nor fake
+  Java runs after the guard stops execution. Explicit unsafe data paths,
+  normalization, the `target-other` boundary, safe paths with spaces and `-Check`
+  behavior are covered. These are script assertions, not extra JUnit cases.
+- Persistent demo examples now use `.wordtrail/demo`. The launcher guard does
+  not protect direct `mvn clean` or direct JAR commands. Documentation explains
+  how to back up and relocate an old profile before rebuilding; no existing
+  profile was moved or deleted by this change.
+
+PR #5 at `f6a4ee2` passed eight checks across the
+[push](https://github.com/fanfan170721/team-project/actions/runs/44643837835) and
+[PR](https://github.com/fanfan170721/team-project/actions/runs/44643846486) runs,
+covering Windows/Linux and Java 11/17. It still awaits a submitted peer review
+at this snapshot. Consult the follow-up PR's own checks before merging this
+launcher change. These checks do not establish completed teammate work or a
+native GUI rehearsal.
+
+## Previous verification — shared maintenance, 2026-11-19
 
 Base: `62adf65`, containing Allen's merged UC-08 (PR #3) and Fuxuan's merged
 UC-09 core (PR #4). Shared build/documentation work is on

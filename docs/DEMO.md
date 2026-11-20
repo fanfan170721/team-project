@@ -7,9 +7,19 @@ The official slide template is guidance, not a requirement to present all 16 pag
 
 ## Prepare a reproducible demonstration
 
+Keep reusable demo data in `.wordtrail/demo`, outside the build directory.
+`mvn clean` deletes `target`, including any old `target/presentation-data`.
+If that old directory contains a demo you want to keep, close the application
+and manually back up the entire directory outside `target`; verify the backup,
+then manually move the original profile directory to an unused `.wordtrail/demo`
+before rebuilding. If that destination exists, choose another unused directory
+outside `target` and use it with `--data-dir`; do not overwrite an existing profile.
+The launcher blocks rebuilding while `wordtrail.json` remains under `target`,
+so making a backup alone does not clear the guard. No automatic data move is performed.
+
 ```sh
 mvn verify
-java -jar target/wordtrail.jar --data-dir target/presentation-data
+java -jar target/wordtrail.jar --data-dir .wordtrail/demo
 ```
 
 Use a new demo directory when a fresh dataset is needed. Choose non-personal demo
@@ -17,6 +27,47 @@ credentials, create the demo accounts before presenting, and prepare a few saved
 words and completed quizzes. Do not spend the presentation waiting for account
 setup or dependency downloads. A recording is allowed, but keep a working program
 ready for immediate live follow-up questions.
+
+## November 20: M2 TA progress demonstration
+
+The [course timeline](https://q.utoronto.ca/courses/444184/pages/project-timeline-2)
+requires each member to have a substantial submitted PR, a review of another
+member's PR, and runnable code related to their assigned use case that they can
+demonstrate and discuss. The team needs a real API call and at least one complete
+end-to-end use case. All MVP use cases implemented and integrated is the
+**November 27 M3** target; M2 does not require every member's full UI flow to be
+finished. M1 nevertheless includes initial UI and interactor development.
+
+Use these short demonstrations with dependencies installed and demo data prepared:
+
+| Member / time limit | Demonstration and current evidence |
+| --- | --- |
+| Allen / 20 minutes | Run UC-08: add a personal word, edit its definition, check account isolation, close and reopen `.wordtrail/demo` to show persistence. Perform a live lookup and show its provider URL. [PR #3](https://github.com/fanfan170721/team-project/pull/3) contains the merged flow and Xinyu's approval; Allen's review is on [PR #4](https://github.com/fanfan170721/team-project/pull/4). |
+| Fuxuan / 15 minutes | Run the eight `ExportResultsInteractorTest` cases. Explain one account-isolation/chronological-order example and one failure case, showing the rows handed to the fake exporter. [PR #4](https://github.com/fanfan170721/team-project/pull/4) contains the merged core. This demonstrates runnable core progress, **not working CSV files or an export UI**. |
+| Xinyu / 20 minutes, after her actual PR arrives | Run the command and tests verified in that PR, then explain a fixed-date due/not-due example and why planning leaves study counters unchanged. No UC-10 implementation PR is recorded yet; do not mark this demonstration complete before real code is available. Her approvals on PR #2/#3 do not replace an implementation PR. |
+
+From the project root, the existing Fuxuan core demonstration command is:
+
+```sh
+mvn "-Dtest=ExportResultsInteractorTest" test
+```
+
+This focused test run is not the full verification/coverage check. Use `mvn verify`
+for that. Allen can also show the real API diagnostic without opening another UI:
+
+```sh
+java -jar target/wordtrail.jar --check-api hello
+```
+
+The primary-provider diagnostic succeeded on November 20 at 17:12 EST.
+Report the actual provider/result; if lookup fails, keep that failure visible and
+do not claim a successful live call. Tests are useful runnable evidence when the
+member can explain the behavior; a green test count alone does not establish TA acceptance.
+Fuxuan's peer review remains pending; [PR #5](https://github.com/fanfan170721/team-project/pull/5)
+is available for an actual review of Allen's fixes. The proposed CSV adapter
+handoff awaits Fuxuan's reply. UC-09 file/UI work and UC-10 delivery remain open.
+If a time limit is reached, report the real stopping point and continue in another
+short session; the limits do not guarantee completion.
 
 ## Suggested 15-minute order
 

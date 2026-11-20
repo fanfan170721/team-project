@@ -39,7 +39,7 @@ Manual native GUI and public API checks are separate, opt-in checks:
 
 ```sh
 java -jar target/wordtrail.jar --check-api hello
-java -jar target/wordtrail.jar --data-dir target/demo-data
+java -jar target/wordtrail.jar --data-dir .wordtrail/demo
 ```
 
 `mvn verify` also generates JaCoCo coverage and a Checkstyle report. Inspect
@@ -55,6 +55,14 @@ The saved fingerprint also includes the JAR hash, detecting external builds that
 replace the executable without updating the launcher's input record.
 `run.ps1 -Build` forces `clean verify`; `run.ps1 -Check` checks the entry point without
 a GUI or public API request.
+
+Keep persistent profiles outside `target/`, which `clean` removes. Before
+rebuilding, the launcher checks for `wordtrail.json` beneath `target/` and stops
+if it finds stored data or cannot safely inspect the directory. Normal launches
+also reject an explicit `-DataDirectory` inside `target/`, even before it exists.
+The launcher does not move or delete profiles. Close WordTrail, make and check a
+backup, then move an old demo profile out of `target/` before rebuilding. Direct `mvn clean` commands
+and direct JAR launches bypass this launcher protection.
 
 Do not commit `target/`, `.idea/`, `.wordtrail/`, passwords, local account data or
 API credentials. A `.gitattributes` file normalizes source line endings.

@@ -29,6 +29,16 @@ accessing the network.
 sample content. Running the packaged JAR only requires Java 11 or later. Build
 artifacts and local account data are excluded from Git.
 
+Keep persistent profiles outside `target/`: Maven's `clean` step deletes that
+directory. The Windows launcher rejects an explicit data directory inside
+`target/` and stops a rebuild if it finds an existing `wordtrail.json` there.
+Direct Maven commands do not have this protection. If you used an older demo
+command, close WordTrail, make and check a backup, then move the entire profile
+directory out of `target/` to `.wordtrail/demo` (or another persistent location)
+before rebuilding. Choose a new destination if it already contains a profile;
+do not overwrite it. A backup alone does not clear the guard while the original
+profile remains under `target/`.
+
 To check the packaged application without opening a window or using the network:
 
 ```sh
@@ -89,12 +99,13 @@ commit personal account data; `.gitignore` excludes its directory. To use a
 separate demonstration environment, run:
 
 ```sh
-java -jar target/wordtrail.jar --data-dir target/my-demo
+java -jar target/wordtrail.jar --data-dir .wordtrail/demo
 ```
 
 Only one application instance can use a data directory at a time. If stored data
 is corrupt, the application reports an error and preserves the original file
-instead of clearing it. Rebuilding the project does not remove existing data.
+instead of clearing it. The recommended `.wordtrail/` location survives a
+normal Maven rebuild; profiles stored under `target/` do not.
 
 The primary external service is [Free Dictionary API](https://dictionaryapi.dev/).
 An earlier live check encountered HTTP 530, so the implementation includes

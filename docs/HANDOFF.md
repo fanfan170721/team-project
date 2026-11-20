@@ -1,6 +1,6 @@
 # Continue on another computer
 
-Snapshot: November 19, 2026, America/Toronto. Recheck GitHub before acting on
+Snapshot: November 20, 2026, America/Toronto. Recheck GitHub before acting on
 review, branch or teammate status; these can change after this note.
 
 ## Open the correct code
@@ -10,10 +10,15 @@ the merged PR #3 and PR #4. Public documentation/build maintenance is on
 `Emilia/shared-project-maintenance`, for review into that base. At this snapshot,
 `main` contains the merged team contract and original template, not the application.
 
+The follow-up branch `Emilia/m2-demo-safety` adds protection against deleting
+demo profiles during a launcher rebuild, on top of PR #5 at `f6a4ee2`. Keep
+PR #5 unchanged while its teammate review is in progress. Persistent demo data
+belongs in `.wordtrail/demo`, outside the build output directory.
+
 Install Git, JDK 11 or 17 and Maven 3.9+, then use a new directory:
 
 ```sh
-git clone --branch Emilia/shared-project-maintenance https://github.com/fanfan170721/team-project.git team-project-allen
+git clone --branch Emilia/m2-demo-safety https://github.com/fanfan170721/team-project.git team-project-allen
 cd team-project-allen
 mvn clean verify
 java "-Djava.awt.headless=true" --class-path target/wordtrail.jar tools/VerifyPackage.java target/package-check
@@ -34,7 +39,8 @@ Maven wrapper in this repository. Work from the project root. See
 | Fuxuan's UC-09 quiz-results export | [PR #4](https://github.com/fanfan170721/team-project/pull/4), core and eight tests, approved by Allen and merged as `62adf65` on November 19; no CSV adapter or UI yet |
 | Xinyu's UC-10 due-review plan | No own feature branch/PR observed; Xinyu has submitted approvals on PR #2 and PR #3 |
 | Subsequent teammate progress | No new remote feature branch, PR, issue or blocker comment observed; unpushed local work and blockers are unknown |
-| Shared maintenance | Allen's documentation, build, package verification and integration work is on `Emilia/shared-project-maintenance`; review remains required |
+| Shared maintenance | [PR #5](https://github.com/fanfan170721/team-project/pull/5) at `f6a4ee2` has eight successful CI checks; no submitted review observed at this snapshot |
+| Repository tracking submission | Public repository URL submitted to MarkUs on November 20 at 4:56 p.m. EST; the system confirmed all required files submitted |
 
 UC-08 includes input DTOs, an interactor, an output boundary, a dedicated
 controller/presenter/view model and Swing save/edit behavior. Failed saves retain
@@ -47,11 +53,31 @@ The maintenance branch also fixes real `All topics` names being treated as no
 filter, and recently-reviewed ordering during a repeated daylight-saving hour.
 The offline package check passed using the executable JAR only, exercising seed
 data, application wiring, the JSON dependency and persistence across reopening.
-The [maintenance CI](https://github.com/fanfan170721/team-project/actions/runs/44640187073)
-passed Windows/Linux on Java 11/17 at `8cee42f`, including package and launcher
-checks. Consult [PR #5](https://github.com/fanfan170721/team-project/pull/5)
-for the result on subsequent fixes; review remains outstanding.
+The [maintenance push CI](https://github.com/fanfan170721/team-project/actions/runs/44643837835)
+and [PR CI](https://github.com/fanfan170721/team-project/actions/runs/44643846486)
+passed Windows/Linux on Java 11/17 at `f6a4ee2`, including package and launcher
+checks. Review remains outstanding. On November 20, the follow-up branch passed
+the same 74 Java tests and the offline package check; a silent live lookup also
+succeeded through the primary dictionary provider.
 See [VERIFICATION.md](VERIFICATION.md) and [ARCHITECTURE.md](ARCHITECTURE.md).
+
+## November 20 milestone
+
+M2 requires each member's substantial PR, review of another member, and runnable
+work on their assigned use case that they can demonstrate and discuss with the
+TA. The team also needs a real API call and one complete end-to-end use case.
+All MVP features integrated is the November 27 milestone. Submitting the repo
+link does not by itself satisfy the individual M2 requirements.
+
+- Allen: UC-08 is merged, and the review of Fuxuan's PR #4 is recorded. Packaged
+  persistence and the live API call were verified on November 20.
+- Fuxuan: UC-09 core and eight tests are merged. A substantive peer review is
+  still needed; PR #5 is ready for that review. CSV/UI are later increments.
+- Xinyu: prior reviews are recorded; a substantial UC-10 implementation PR and
+  runnable progress are still unverified. Continue existing local work.
+
+Use the short [M2 demonstration checklist](DEMO.md) to prepare actual runnable
+evidence. A prepared checklist is not a record of a completed demonstration.
 
 ## Next steps, in order
 

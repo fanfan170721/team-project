@@ -5,7 +5,7 @@ on November 17, 2026. The private source archive is kept outside this repository
 The November 15 presentation rubric remains labelled a draft; check later announcements
 for a final schedule or revised rubric. Checkmarks below require actual evidence.
 
-Implementation and collaboration status below was checked on November 19, 2026.
+Implementation and collaboration status below was checked on November 20, 2026.
 `main` remains at `dbde42d` (template and contract); the application is in
 `Emilia/project-delivery`, with [PR #2](https://github.com/fanfan170721/team-project/pull/2)
 still open as a draft targeting `main`.
@@ -17,6 +17,9 @@ still open as a draft targeting `main`.
   `[TUT5101] Group 31 - BA3195`; all three are in LEC5101/TUT5101 (checked November 19).
 - [x] Project name/domain, stories, formal use cases, entities and API description documented.
 - [x] MVP work and designated leads recorded; pending implementations explicitly labelled.
+- [x] Public repository link submitted to MarkUs on November 20 at 4:56 p.m. EST;
+  the system confirmed all required files submitted. This is the repository
+  tracking submission, not the final presentation/reflection submission.
 - [ ] Every member has implemented a complete MVP use case across interactor/interfaces,
   a specific controller/presenter, triggering UI and resulting UI updates.
 - [ ] Every member has a substantial code PR, review of another member and runnable own use case.
@@ -24,7 +27,7 @@ still open as a draft targeting `main`.
 
 | Member | Verified contribution/review evidence | Remaining individual work |
 | --- | --- | --- |
-| Allen | Complete UC-08 merged through PR #3 (`d0f9f7f`) | Retain actual implementation and review evidence for submission |
+| Allen | Complete UC-08 merged through PR #3 (`d0f9f7f`); reviewed Fuxuan's PR #4 | Retain actual implementation and review evidence for submission |
 | Fuxuan | UC-09 core and 8 tests merged through PR #4 (`62adf65`) | Complete the export flow and a code peer review; a CSV handoff proposal awaits his reply |
 | Xinyu | Approved PR #2 and PR #3 | Implement UC-10 and obtain a merged substantial code PR; no implementation branch/PR observed yet |
 
@@ -35,6 +38,7 @@ MVP use case. The proposed CSV handoff has not changed the recorded assignment.
 
 - [x] Java/Swing application with an external dictionary API and JSON persistence exists.
 - [x] API successfully called in the packaged application on November 17.
+- [x] Primary dictionary API succeeded again in a silent packaged diagnostic on November 20.
 - [x] Existing tests exercise the complete learning loop, account isolation and restart recovery.
 - [x] Combined delivery at `62adf65`: 66 passing tests and measured Entity/Use Case
   line coverage 535/535 (100%); coverage gate passed.
@@ -43,11 +47,12 @@ MVP use case. The proposed CSV handoff has not changed the recorded assignment.
   selection, chronological review sorting and startup failure exit status.
 - [x] Current complete Entity/Use Case line coverage: 574/574 (100%).
 - [x] Latest local Checkstyle run: 104 Java files and 586 findings retained.
-- [x] Launcher regression checks: 87 assertions passed on Windows PowerShell 5.1 and PowerShell 7.6.9.
+- [x] Launcher regression checks: 152 assertions passed on Windows PowerShell 5.1
+  and PowerShell 7, including protection of profiles placed in build output.
 - [x] Offline packaged-JAR check passed wiring, bundled content, JSON dependency
   and account/personal-word persistence after reopening, without UI or network.
-- [x] Package and launcher CI additions passed remotely at `8cee42f` on all four
-  Windows/Linux and Java 11/17 combinations. Later commits need their own checks.
+- [x] PR #5 at `f6a4ee2` passed eight push/PR checks across Windows/Linux and
+  Java 11/17. Subsequent changes need their own checks and peer review.
 - [ ] Final integrated MVP includes UC-09 CSV export and UC-10 daily review plan.
 - [ ] Final build and every interactor's tests pass after the pending MVP integrations.
 - [ ] Final Entity/Use Case layers have measured 100% line coverage, including new use cases.
