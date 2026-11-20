@@ -6,9 +6,10 @@ The November 15 presentation rubric remains labelled a draft; check later announ
 for a final schedule or revised rubric. Checkmarks below require actual evidence.
 
 Implementation and collaboration status below was checked on November 20, 2026.
-`main` remains at `dbde42d` (template and contract); the application is in
-`Emilia/project-delivery`, with [PR #2](https://github.com/fanfan170721/team-project/pull/2)
-still open as a draft targeting `main`.
+The runnable application is now on `main` at `064dc56`, merged through
+[PR #2](https://github.com/fanfan170721/team-project/pull/2). Its file tree equals
+`Emilia/project-delivery` at `62adf65`; teammates continue their existing work
+from that delivery base. This is a baseline release, not the finished MVP.
 
 ## Team and specification
 

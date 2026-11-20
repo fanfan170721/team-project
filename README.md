@@ -21,12 +21,14 @@ signed [team contract](TeamContract.md), merged through
 The implementation history is preserved. Code review and each member's own
 use-case contribution must be assessed separately from the contract signatures.
 
-As checked on November 19, 2026, this delivery includes Allen's completed UC-08
+As checked on November 20, 2026, `main` includes Allen's completed UC-08
 from [PR #3](https://github.com/fanfan170721/team-project/pull/3) (`d0f9f7f`) and
 Fuxuan's UC-09 core from [PR #4](https://github.com/fanfan170721/team-project/pull/4)
-(`62adf65`). [PR #2](https://github.com/fanfan170721/team-project/pull/2) remains a
-draft targeting `main`; `main` at `dbde42d` still contains the template and signed
-contract, not this application.
+(`62adf65`). [PR #2](https://github.com/fanfan170721/team-project/pull/2) merged the
+runnable application into `main` as `064dc56`; its tree matches the reviewed and
+tested delivery at `62adf65`. Teammates continue using `Emilia/project-delivery`
+as their current work base. Maintenance PR #5 and its follow-up PR #6 remain
+separate from this merged baseline.
 
 ## Contents
 

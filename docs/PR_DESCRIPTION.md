@@ -3,8 +3,10 @@
 [PR #2](https://github.com/fanfan170721/team-project/pull/2) adds a runnable Java 11 /
 Swing vocabulary-learning application to the Maven skeleton. This description
 reflects the combined delivery at `62adf65`, checked on November 19, 2026. The PR
-remains a draft from `Emilia/project-delivery` to `main`; `main` at `dbde42d`
-contains the template and signed contract, not the application.
+merged from `Emilia/project-delivery` into `main` on November 20 as `064dc56`.
+The merge tree matches reviewed/tested `62adf65`, including PR #3 and PR #4;
+`main` now contains the runnable application. Teammates continue using
+`Emilia/project-delivery` as their current work base.
 
 Learners can register and sign in, browse and search vocabulary, study flashcards,
 take four-choice quizzes, save review words and inspect progress. A first-run
@@ -62,10 +64,11 @@ Validation on November 19 against the combined application code from `62adf65`:
 
 The complete UC-09 CSV flow and UC-10 daily review plan remain committed MVP work.
 
-The separate shared-maintenance branch adds launcher/build checks and one
-startup-failure subprocess regression: 67 JUnit tests, 535/535 core lines and
-102 Java files with 676 Checkstyle findings. These changes are not yet merged into
-PR #2's delivery branch; inspect their own PR and remote checks before integration.
+The separate shared-maintenance PR #5 adds launcher/package checks and fixes
+topic selection and chronological review ordering: 74 JUnit tests, 574/574 core
+lines and 104 Java files with 586 Checkstyle findings. PR #6 adds demo-profile
+protection and 152 launcher assertions. Neither increment is merged into the
+delivery branch or `main`; inspect their reviews and checks before integration.
 
 A proposed handoff of the remaining CSV work to Allen awaits Fuxuan's reply; no
 ownership transfer is claimed. Each member still needs a complete personal use

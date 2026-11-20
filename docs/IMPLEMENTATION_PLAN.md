@@ -4,10 +4,14 @@ The existing AI-assisted Java/Swing baseline implements eight stories. The signe
 contract is integrated from `main`. The current delivery work aligns the code,
 documentation and validation with the course requirements verified on November 17.
 
-## Status on November 19, 2026
+## Status on November 20, 2026
 
-- The signed contract is merged through PR #1. `main` remains at `dbde42d`
-  with the template and contract; application delivery PR #2 is still a draft.
+- The signed contract is merged through PR #1. Application delivery PR #2 merged
+  into `main` as `064dc56`, with the same tree as reviewed/tested `62adf65`.
+  `main` now contains the runnable baseline, including PR #3 and PR #4.
+  Teammates continue using `Emilia/project-delivery` as their current work base.
+- Maintenance PR #5 still awaits review; PR #6 is a separate follow-up based on
+  PR #5. Neither is included in the merged baseline.
 - Formal specifications, feature controllers/presenters, coverage measurement
   and reproducible quality reports are present in `Emilia/project-delivery`.
 - Allen's complete UC-08 flow is merged through PR #3 (`d0f9f7f`).
@@ -34,8 +38,9 @@ documentation and validation with the course requirements verified on November 1
    tests, with her own meaningful code PR. Existing approvals do not replace code work.
 5. Complete outstanding peer reviews and check each member's full-use-case
    evidence before claiming the individual requirements are satisfied.
-6. Review and integrate the completed MVP, rerun checks, update the delivery PR's
-   readiness and merge it into `main` only after its review requirements are met.
+6. Review and test each further increment before integrating it into `main`.
+   The baseline is already merged; further reviewed progress can be integrated
+   incrementally without waiting for the entire MVP to be complete.
 7. Prepare the group presentation, rehearse the complete demo and finish each
    member's reflection and peer evaluation by the course deadlines.
 

@@ -7,8 +7,10 @@ review, branch or teammate status; these can change after this note.
 
 The shared feature base is **`Emilia/project-delivery`** at `62adf65`, containing
 the merged PR #3 and PR #4. Public documentation/build maintenance is on
-`Emilia/shared-project-maintenance`, for review into that base. At this snapshot,
-`main` contains the merged team contract and original template, not the application.
+`Emilia/shared-project-maintenance`, for review into that base. PR #2 was merged
+on November 20: `main` at `064dc56` now contains the runnable application, with
+the same file tree as delivery at `62adf65`. Keep the delivery branch as the base
+for teammates' existing work until the next integrations are coordinated.
 
 The follow-up branch `Emilia/m2-demo-safety` adds protection against deleting
 demo profiles during a launcher rebuild, on top of PR #5 at `f6a4ee2`. Keep
@@ -34,7 +36,7 @@ Maven wrapper in this repository. Work from the project root. See
 | Work | Evidence / status at this snapshot |
 | --- | --- |
 | Signed team contract | [PR #1](https://github.com/fanfan170721/team-project/pull/1) merged; all three names present |
-| Application baseline | [PR #2](https://github.com/fanfan170721/team-project/pull/2), draft and unmerged into `main`; delivery now at `62adf65` |
+| Application baseline | [PR #2](https://github.com/fanfan170721/team-project/pull/2) merged into `main` as `064dc56` on November 20; delivery remains at `62adf65`, with an identical file tree |
 | Allen's UC-08 personal words and definitions | [PR #3](https://github.com/fanfan170721/team-project/pull/3) approved by Xinyu and merged as `d0f9f7f` on November 19 |
 | Fuxuan's UC-09 quiz-results export | [PR #4](https://github.com/fanfan170721/team-project/pull/4), core and eight tests, approved by Allen and merged as `62adf65` on November 19; no CSV adapter or UI yet |
 | Xinyu's UC-10 due-review plan | No own feature branch/PR observed; Xinyu has submitted approvals on PR #2 and PR #3 |
@@ -93,9 +95,11 @@ evidence. A prepared checklist is not a record of a completed demonstration.
 4. Fuxuan still needs a substantive review of another member's code. He can review
    Allen's [PR #5](https://github.com/fanfan170721/team-project/pull/5), focusing on
    the topic-name collision and chronological review ordering regression fixes.
-5. Review the shared maintenance PR before integrating it. Keep PR #2 as a draft
-   until the remaining MVP work and course delivery requirements are ready; code
-   checks alone do not establish course completion.
+5. Review PR #5 before integrating it; then retarget [PR #6](https://github.com/fanfan170721/team-project/pull/6)
+   from the maintenance branch to delivery for its own review and integration.
+   PR #2 already publishes the reviewed baseline on `main`; there is no course
+   requirement to hold a runnable baseline until the entire MVP is complete.
+   Later delivery increments still need review before reaching `main`.
 
 The published teammate instructions are:
 

@@ -35,6 +35,13 @@ at this snapshot. Consult the follow-up PR's own checks before merging this
 launcher change. These checks do not establish completed teammate work or a
 native GUI rehearsal.
 
+PR #2 was also merged on November 20 as `064dc56` after checking its actual
+review history and eight successful checks at `62adf65`. Xinyu's original
+baseline approval is followed only by the reviewed PR #3 and PR #4 increments.
+The PR #3 merge tree equals its approved head, and PR #4 adds exactly its
+reviewed patch without extra merge-resolution changes. The resulting `main`
+tree equals `62adf65`; no PR #5/#6 changes were included in that merge.
+
 ## Previous verification — shared maintenance, 2026-11-19
 
 Base: `62adf65`, containing Allen's merged UC-08 (PR #3) and Fuxuan's merged

@@ -72,7 +72,9 @@ API credentials. A `.gitattributes` file normalizes source line endings.
 1. Use the README's assigned MVP use cases; identify a reviewer for each increment.
 2. Update the acceptance criteria and UI sketch.
 3. Fetch the remote and inspect any existing local changes. The current integration
-   base is `origin/Emilia/project-delivery`; `main` still contains the template and contract.
+   base is `origin/Emilia/project-delivery`; `main` contains the reviewed runnable
+   baseline after PR #2 merged on November 20. Keep existing teammate work on its
+   agreed delivery base until further integrations are coordinated.
 4. Start a new feature branch from that base, e.g.
    `git switch -c Emilia/review-search origin/Emilia/project-delivery`.
 5. Implement the use case through its input/output boundaries; keep Swing and
