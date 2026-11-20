@@ -4,14 +4,176 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>TeamProject</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>com.wordtrail</groupId>
+    <artifactId>wordtrail</artifactId>
+    <version>1.0.0</version>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.release>11</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>5.12.2</junit.version>
+        <jacoco.version>0.8.16</jacoco.version>
+        <checkstyle.version>10.26.1</checkstyle.version>
+        <!-- Override for isolated verification, e.g. target/quality-baseline. -->
+        <wordtrail.build.directory>${project.basedir}/target</wordtrail.build.directory>
+        <!-- Allows direct Surefire execution when prepare-agent has not run. -->
+        <jacocoArgLine></jacocoArgLine>
     </properties>
-
+    <dependencies>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20240303</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <directory>${wordtrail.build.directory}</directory>
+        <finalName>wordtrail</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.14.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.3</version>
+                <configuration>
+                    <argLine>@{jacocoArgLine} -Djava.awt.headless=true</argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>coverage-agent</id>
+                        <goals><goal>prepare-agent</goal></goals>
+                        <configuration>
+                            <propertyName>jacocoArgLine</propertyName>
+                            <append>false</append>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>coverage-all</id>
+                        <phase>verify</phase>
+                        <goals><goal>report</goal></goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/site/jacoco</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>coverage-course-layers</id>
+                        <phase>verify</phase>
+                        <goals><goal>report</goal></goals>
+                        <configuration>
+                            <title>Entity and Use Case layers (all classes)</title>
+                            <includes>
+                                <include>com/wordtrail/entity/**</include>
+                                <include>com/wordtrail/usecase/**</include>
+                            </includes>
+                            <outputDirectory>${project.build.directory}/site/jacoco-course-layers</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>coverage-check</id>
+                        <phase>verify</phase>
+                        <goals><goal>check</goal></goals>
+                        <configuration>
+                            <haltOnFailure>true</haltOnFailure>
+                            <rules>
+                                <rule>
+                                    <element>PACKAGE</element>
+                                    <!-- PACKAGE rules match dotted Java names, unlike report file filters. -->
+                                    <includes>
+                                        <include>com.wordtrail.entity</include>
+                                        <include>com.wordtrail.entity.*</include>
+                                        <include>com.wordtrail.usecase</include>
+                                        <include>com.wordtrail.usecase.*</include>
+                                    </includes>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>1.00</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.6.0</version>
+                <dependencies>
+                    <!-- Checkstyle 10.x runs on Java 11; newer major versions do not. -->
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>${checkstyle.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <configLocation>config/checkstyle/checkstyle.xml</configLocation>
+                    <locale>en</locale>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <includeResources>false</includeResources>
+                    <includeTestResources>false</includeTestResources>
+                    <outputDirectory>${project.build.directory}/site</outputDirectory>
+                    <outputFile>${project.build.directory}/checkstyle-result.xml</outputFile>
+                    <outputFileFormat>xml</outputFileFormat>
+                    <linkXRef>false</linkXRef>
+                    <!-- Report every violation; style findings are not a build gate. -->
+                    <failsOnError>false</failsOnError>
+                    <consoleOutput>false</consoleOutput>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>style-report</id>
+                        <phase>verify</phase>
+                        <goals><goal>checkstyle</goal></goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.5.0</version>
+                <configuration>
+                    <!-- Shade replaces the main artifact; always recreate its clean input. -->
+                    <forceCreation>true</forceCreation>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals><goal>shade</goal></goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.wordtrail.app.Main</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -1,0 +1,329 @@
+{
+  "schemaVersion": 1,
+  "users": [],
+  "words": [
+    {
+      "id": "seed-1",
+      "topic": "Travel",
+      "term": "journey",
+      "definition": "A trip from one place to another.",
+      "example": "Our journey to the mountains took two hours.",
+      "source": "WordTrail original sample content"
+    },
+    {
+      "id": "seed-2",
+      "topic": "Travel",
+      "term": "itinerary",
+      "definition": "A plan listing the places and times of a trip.",
+      "example": "We checked the itinerary before leaving the hotel.",
+      "source": "WordTrail original sample content"
+    },
+    {
+      "id": "seed-3",
+      "topic": "Travel",
+      "term": "destination",
+      "definition": "The place someone is travelling to.",
+      "example": "Tokyo is our final destination.",
+      "source": "WordTrail original sample content"
+    },
+    {
+      "id": "seed-4",
+      "topic": "Travel",
+      "term": "accommodation",
+      "definition": "A place to stay while away from home.",
+      "example": "We booked accommodation near the station.",
+      "source": "WordTrail original sample content"
+    },
+    {
+      "id": "seed-5",
+      "topic": "Technology",
+      "term": "algorithm",
+      "definition": "A sequence of steps for solving a problem.",
+      "example": "The algorithm sorts the words alphabetically.",
+      "source": "WordTrail original sample content"
+    },
+    {
+      "id": "seed-6",
+      "topic": "Technology",
+      "term": "database",
+      "definition": "An organized collection of information.",
+      "example": "The database stores each learner's progress.",
+      "source": "WordTrail original sample content"
+    },
+    {
+      "id": "seed-7",
+      "topic": "Technology",
+      "term": "interface",
+      "definition": "A point where a person or system interacts with another system.",
+      "example": "The application has a simple interface.",
+      "source": "WordTrail original sample content"
+    },
+    {
+      "id": "seed-8",
+      "topic": "Technology",
+      "term": "network",
+      "definition": "A group of connected devices that exchange information.",
+      "example": "The school network connects all the computers.",
+      "source": "WordTrail original sample content"
+    },
+    {
+      "id": "seed-9",
+      "topic": "Daily Life",
+      "term": "routine",
+      "definition": "A set of actions regularly followed.",
+      "example": "Reading is part of my morning routine.",
+      "source": "WordTrail original sample content"
+    },
+    {
+      "id": "seed-10",
+      "topic": "Daily Life",
+      "term": "budget",
+      "definition": "A plan for how much money can be spent.",
+      "example": "We made a budget for groceries.",
+      "source": "WordTrail original sample content"
+    },
+    {
+      "id": "seed-11",
+      "topic": "Daily Life",
+      "term": "errand",
+      "definition": "A short trip to complete a small task.",
+      "example": "I ran an errand to collect a parcel.",
+      "source": "WordTrail original sample content"
+    },
+    {
+      "id": "seed-12",
+      "topic": "Daily Life",
+      "term": "appointment",
+      "definition": "An arrangement to meet at a particular time.",
+      "example": "My dentist appointment is on Friday.",
+      "source": "WordTrail original sample content"
+    },
+    {
+      "id": "seed-13",
+      "topic": "Nature",
+      "term": "habitat",
+      "definition": "The natural place where an organism lives.",
+      "example": "The forest is a habitat for many birds.",
+      "source": "WordTrail original sample content"
+    },
+    {
+      "id": "seed-14",
+      "topic": "Nature",
+      "term": "climate",
+      "definition": "The usual weather conditions of a region over a long period.",
+      "example": "This region has a warm climate.",
+      "source": "WordTrail original sample content"
+    },
+    {
+      "id": "seed-15",
+      "topic": "Nature",
+      "term": "species",
+      "definition": "A group of similar organisms that can reproduce with one another.",
+      "example": "This lake contains several species of fish.",
+      "source": "WordTrail original sample content"
+    },
+    {
+      "id": "seed-16",
+      "topic": "Nature",
+      "term": "conservation",
+      "definition": "The protection of nature and natural resources.",
+      "example": "Wildlife conservation helps protect endangered animals.",
+      "source": "WordTrail original sample content"
+    }
+  ],
+  "questions": [
+    {
+      "id": "question-1",
+      "wordId": "seed-1",
+      "prompt": "What does \"journey\" mean?",
+      "options": [
+        "A trip from one place to another.",
+        "A plan listing the places and times of a trip.",
+        "The place someone is travelling to.",
+        "A place to stay while away from home."
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "question-2",
+      "wordId": "seed-2",
+      "prompt": "What does \"itinerary\" mean?",
+      "options": [
+        "A trip from one place to another.",
+        "A plan listing the places and times of a trip.",
+        "The place someone is travelling to.",
+        "A place to stay while away from home."
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "question-3",
+      "wordId": "seed-3",
+      "prompt": "What does \"destination\" mean?",
+      "options": [
+        "A trip from one place to another.",
+        "A plan listing the places and times of a trip.",
+        "The place someone is travelling to.",
+        "A place to stay while away from home."
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "question-4",
+      "wordId": "seed-4",
+      "prompt": "What does \"accommodation\" mean?",
+      "options": [
+        "A trip from one place to another.",
+        "A plan listing the places and times of a trip.",
+        "The place someone is travelling to.",
+        "A place to stay while away from home."
+      ],
+      "correctIndex": 3
+    },
+    {
+      "id": "question-5",
+      "wordId": "seed-5",
+      "prompt": "What does \"algorithm\" mean?",
+      "options": [
+        "A sequence of steps for solving a problem.",
+        "An organized collection of information.",
+        "A point where a person or system interacts with another system.",
+        "A group of connected devices that exchange information."
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "question-6",
+      "wordId": "seed-6",
+      "prompt": "What does \"database\" mean?",
+      "options": [
+        "A sequence of steps for solving a problem.",
+        "An organized collection of information.",
+        "A point where a person or system interacts with another system.",
+        "A group of connected devices that exchange information."
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "question-7",
+      "wordId": "seed-7",
+      "prompt": "What does \"interface\" mean?",
+      "options": [
+        "A sequence of steps for solving a problem.",
+        "An organized collection of information.",
+        "A point where a person or system interacts with another system.",
+        "A group of connected devices that exchange information."
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "question-8",
+      "wordId": "seed-8",
+      "prompt": "What does \"network\" mean?",
+      "options": [
+        "A sequence of steps for solving a problem.",
+        "An organized collection of information.",
+        "A point where a person or system interacts with another system.",
+        "A group of connected devices that exchange information."
+      ],
+      "correctIndex": 3
+    },
+    {
+      "id": "question-9",
+      "wordId": "seed-9",
+      "prompt": "What does \"routine\" mean?",
+      "options": [
+        "A set of actions regularly followed.",
+        "A plan for how much money can be spent.",
+        "A short trip to complete a small task.",
+        "An arrangement to meet at a particular time."
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "question-10",
+      "wordId": "seed-10",
+      "prompt": "What does \"budget\" mean?",
+      "options": [
+        "A set of actions regularly followed.",
+        "A plan for how much money can be spent.",
+        "A short trip to complete a small task.",
+        "An arrangement to meet at a particular time."
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "question-11",
+      "wordId": "seed-11",
+      "prompt": "What does \"errand\" mean?",
+      "options": [
+        "A set of actions regularly followed.",
+        "A plan for how much money can be spent.",
+        "A short trip to complete a small task.",
+        "An arrangement to meet at a particular time."
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "question-12",
+      "wordId": "seed-12",
+      "prompt": "What does \"appointment\" mean?",
+      "options": [
+        "A set of actions regularly followed.",
+        "A plan for how much money can be spent.",
+        "A short trip to complete a small task.",
+        "An arrangement to meet at a particular time."
+      ],
+      "correctIndex": 3
+    },
+    {
+      "id": "question-13",
+      "wordId": "seed-13",
+      "prompt": "What does \"habitat\" mean?",
+      "options": [
+        "The natural place where an organism lives.",
+        "The usual weather conditions of a region over a long period.",
+        "A group of similar organisms that can reproduce with one another.",
+        "The protection of nature and natural resources."
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "question-14",
+      "wordId": "seed-14",
+      "prompt": "What does \"climate\" mean?",
+      "options": [
+        "The natural place where an organism lives.",
+        "The usual weather conditions of a region over a long period.",
+        "A group of similar organisms that can reproduce with one another.",
+        "The protection of nature and natural resources."
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "question-15",
+      "wordId": "seed-15",
+      "prompt": "What does \"species\" mean?",
+      "options": [
+        "The natural place where an organism lives.",
+        "The usual weather conditions of a region over a long period.",
+        "A group of similar organisms that can reproduce with one another.",
+        "The protection of nature and natural resources."
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "question-16",
+      "wordId": "seed-16",
+      "prompt": "What does \"conservation\" mean?",
+      "options": [
+        "The natural place where an organism lives.",
+        "The usual weather conditions of a region over a long period.",
+        "A group of similar organisms that can reproduce with one another.",
+        "The protection of nature and natural resources."
+      ],
+      "correctIndex": 3
+    }
+  ],
+  "progress": {}
+}
