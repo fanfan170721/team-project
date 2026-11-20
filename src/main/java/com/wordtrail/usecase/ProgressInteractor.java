@@ -13,14 +13,16 @@ public final class ProgressInteractor implements ProgressUseCase {
     private final SessionContext session;
     private final Clock clock;
 
-    public ProgressInteractor(ContentRepository content, ProgressRepository progress, SessionContext session, Clock clock) {
+    public ProgressInteractor(ContentRepository content, ProgressRepository progress,
+                              SessionContext session, Clock clock) {
         this.content = content;
         this.progress = progress;
         this.session = session;
         this.clock = clock;
     }
 
-    @Override public Report report() {
+    @Override
+    public Report report() {
         LearningProgress data = progress.getProgress(session.requireUser().getUsername());
         LocalDate today = LocalDate.now(clock);
         LocalDate day = data.getStudyDays().containsKey(today) ? today : today.minusDays(1);

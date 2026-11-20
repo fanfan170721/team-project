@@ -20,8 +20,16 @@ public final class QuizAttempt {
         this.total = total;
     }
 
-    public Instant getCompletedAt() { return completedAt; }
-    public String getTopic() { return topic; }
-    public int getCorrect() { return correct; }
-    public int getTotal() { return total; }
+    public Instant getCompletedAt() {
+        return completedAt;
+    }
+    public String getTopic() {
+        return topic;
+    }
+    public int getCorrect() {
+        return correct;
+    }
+    public int getTotal() {
+        return total;
+    }
 }

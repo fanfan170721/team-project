@@ -19,19 +19,29 @@ public final class ContentInteractor implements ContentUseCase {
         this.session = session;
     }
 
-    @Override public List<VocabularyWord> sharedWords() { session.requireAdmin(); return content.getWords(); }
+    @Override
+    public List<VocabularyWord> sharedWords() {
+        session.requireAdmin();
+        return content.getWords();
+    }
 
-    @Override public VocabularyWord addWord(String term, String topic, String definition, String example, String source) {
+    @Override
+    public VocabularyWord addWord(String term, String topic, String definition, String example, String source) {
         session.requireAdmin();
         String cleanTerm = InputValidation.text(term, "Word", 80);
         String cleanTopic = InputValidation.text(topic, "Topic", 50);
         // Reuse existing capitalization rather than creating visually duplicate topics.
         for (VocabularyWord existing : content.getWords()) {
-            if (existing.getTopic().equalsIgnoreCase(cleanTopic)) { cleanTopic = existing.getTopic(); break; }
+            if (existing.getTopic().equalsIgnoreCase(cleanTopic)) {
+                cleanTopic = existing.getTopic();
+                break;
+            }
         }
         String cleanDefinition = InputValidation.text(definition, "Definition", 2000);
         String cleanExample = example == null ? "" : example.strip();
-        if (cleanExample.length() > 2000) { throw new AppException("Example must be at most 2000 characters."); }
+        if (cleanExample.length() > 2000) {
+            throw new AppException("Example must be at most 2000 characters.");
+        }
         String cleanSource = source == null || source.isBlank() ? "Admin-created content"
                 : InputValidation.text(source, "Source", 500);
         VocabularyWord word = new VocabularyWord(UUID.randomUUID().toString(), cleanTerm, cleanTopic,
@@ -40,7 +50,8 @@ public final class ContentInteractor implements ContentUseCase {
         return word;
     }
 
-    @Override public QuizQuestion addQuestion(String wordId, String prompt, List<String> options, int correctIndex) {
+    @Override
+    public QuizQuestion addQuestion(String wordId, String prompt, List<String> options, int correctIndex) {
         session.requireAdmin();
         ContentQueries.requireWord(content, wordId);
         String cleanPrompt = InputValidation.text(prompt, "Question", 1000);
@@ -48,12 +59,17 @@ public final class ContentInteractor implements ContentUseCase {
             throw new AppException("Supply four choices and select the correct answer.");
         }
         List<String> cleanOptions = new ArrayList<>();
-        for (String option : options) { cleanOptions.add(InputValidation.text(option, "Answer choice", 2000)); }
+        for (String option : options) {
+            cleanOptions.add(InputValidation.text(option, "Answer choice", 2000));
+        }
         HashSet<String> distinct = new HashSet<>();
         for (String option : cleanOptions) {
-            if (!distinct.add(option.toLowerCase(Locale.ROOT))) { throw new AppException("Answer choices must be distinct."); }
+            if (!distinct.add(option.toLowerCase(Locale.ROOT))) {
+                throw new AppException("Answer choices must be distinct.");
+            }
         }
-        QuizQuestion question = new QuizQuestion(UUID.randomUUID().toString(), wordId, cleanPrompt, cleanOptions, correctIndex);
+        QuizQuestion question = new QuizQuestion(UUID.randomUUID().toString(), wordId,
+                cleanPrompt, cleanOptions, correctIndex);
         content.addQuestion(question);
         return question;
     }

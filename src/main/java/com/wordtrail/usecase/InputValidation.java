@@ -7,9 +7,13 @@ final class InputValidation {
     private InputValidation() { }
 
     static String text(String value, String label, int maximum) {
-        if (value == null || value.strip().isEmpty()) { throw new AppException(label + " is required."); }
+        if (value == null || value.strip().isEmpty()) {
+            throw new AppException(label + " is required.");
+        }
         String result = value.strip();
-        if (result.length() > maximum) { throw new AppException(label + " must be at most " + maximum + " characters."); }
+        if (result.length() > maximum) {
+            throw new AppException(label + " must be at most " + maximum + " characters.");
+        }
         return result;
     }
 

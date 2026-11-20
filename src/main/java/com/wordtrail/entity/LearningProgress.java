@@ -48,8 +48,11 @@ public final class LearningProgress {
 
     public LearningProgress withReviewWord(String wordId, boolean saved) {
         Set<String> ids = new LinkedHashSet<>(reviewWordIds);
-        if (saved) { ids.add(wordId); }
-        else { ids.remove(wordId); }
+        if (saved) {
+            ids.add(wordId);
+        } else {
+            ids.remove(wordId);
+        }
         return new LearningProgress(ids, studyDays, attempts, personalWords, definitions, reviewCounts, lastReviewed);
     }
 
@@ -58,13 +61,15 @@ public final class LearningProgress {
         Set<String> ids = new LinkedHashSet<>(days.getOrDefault(date, Collections.emptySet()));
         ids.add(wordId);
         days.put(date, ids);
-        return new LearningProgress(reviewWordIds, days, attempts, personalWords, definitions, reviewCounts, lastReviewed);
+        return new LearningProgress(reviewWordIds, days, attempts, personalWords,
+                definitions, reviewCounts, lastReviewed);
     }
 
     public LearningProgress withAttempt(QuizAttempt attempt) {
         List<QuizAttempt> updated = new ArrayList<>(attempts);
         updated.add(attempt);
-        return new LearningProgress(reviewWordIds, studyDays, updated, personalWords, definitions, reviewCounts, lastReviewed);
+        return new LearningProgress(reviewWordIds, studyDays, updated, personalWords,
+                definitions, reviewCounts, lastReviewed);
     }
 
     public LearningProgress withPersonalWord(VocabularyWord word) {
@@ -76,7 +81,8 @@ public final class LearningProgress {
     public LearningProgress withDefinition(String wordId, String definition) {
         Map<String, String> updated = new LinkedHashMap<>(definitions);
         updated.put(wordId, definition);
-        return new LearningProgress(reviewWordIds, studyDays, attempts, personalWords, updated, reviewCounts, lastReviewed);
+        return new LearningProgress(reviewWordIds, studyDays, attempts, personalWords,
+                updated, reviewCounts, lastReviewed);
     }
 
     public LearningProgress withCompletedReview(String wordId, LocalDate day, Instant time) {
@@ -85,16 +91,31 @@ public final class LearningProgress {
         Map<String, Instant> times = new LinkedHashMap<>(lastReviewed);
         times.put(wordId, time);
         LearningProgress studied = withStudiedWord(wordId, day);
-        return new LearningProgress(reviewWordIds, studied.studyDays, attempts, personalWords, definitions, counts, times);
+        return new LearningProgress(reviewWordIds, studied.studyDays, attempts, personalWords,
+                definitions, counts, times);
     }
 
-    public Set<String> getReviewWordIds() { return reviewWordIds; }
-    public Map<LocalDate, Set<String>> getStudyDays() { return studyDays; }
-    public List<QuizAttempt> getAttempts() { return attempts; }
-    public List<VocabularyWord> getPersonalWords() { return personalWords; }
-    public Map<String, String> getDefinitions() { return definitions; }
-    public Map<String, Integer> getReviewCounts() { return reviewCounts; }
-    public Map<String, Instant> getLastReviewed() { return lastReviewed; }
+    public Set<String> getReviewWordIds() {
+        return reviewWordIds;
+    }
+    public Map<LocalDate, Set<String>> getStudyDays() {
+        return studyDays;
+    }
+    public List<QuizAttempt> getAttempts() {
+        return attempts;
+    }
+    public List<VocabularyWord> getPersonalWords() {
+        return personalWords;
+    }
+    public Map<String, String> getDefinitions() {
+        return definitions;
+    }
+    public Map<String, Integer> getReviewCounts() {
+        return reviewCounts;
+    }
+    public Map<String, Instant> getLastReviewed() {
+        return lastReviewed;
+    }
     public Set<String> getStudiedWordIds() {
         Set<String> ids = new LinkedHashSet<>();
         studyDays.values().forEach(ids::addAll);

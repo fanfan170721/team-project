@@ -41,9 +41,12 @@ public final class QuizInteractor implements QuizUseCase {
         this.random = random;
     }
 
-    @Override public Question start(String selectedTopic, int maximumQuestions) {
+    @Override
+    public Question start(String selectedTopic, int maximumQuestions) {
         LearningProgress data = progress.getProgress(session.requireUser().getUsername());
-        if (maximumQuestions < 1 || maximumQuestions > 20) { throw new AppException("Choose 1-20 questions."); }
+        if (maximumQuestions < 1 || maximumQuestions > 20) {
+            throw new AppException("Choose 1-20 questions.");
+        }
         List<VocabularyWord> visible = ContentQueries.visibleWords(content, data);
         List<VocabularyWord> topicWords = ContentQueries.filter(visible, selectedTopic, "");
         Set<String> wordIds = topicWords.stream()
@@ -55,11 +58,14 @@ public final class QuizInteractor implements QuizUseCase {
         for (VocabularyWord word : topicWords) {
             if (!covered.contains(word.getId())) {
                 QuizQuestion generated = generateQuestion(word, visible);
-                if (generated != null) { candidates.add(generated); }
+                if (generated != null) {
+                    candidates.add(generated);
+                }
             }
         }
         if (candidates.isEmpty()) {
-            throw new AppException("No questions are available. Add vocabulary with at least four different definitions.");
+            throw new AppException(
+                    "No questions are available. Add vocabulary with at least four different definitions.");
         }
         Collections.shuffle(candidates, random);
         List<QuizQuestion> randomized = new ArrayList<>();
@@ -84,21 +90,31 @@ public final class QuizInteractor implements QuizUseCase {
         String answer = word.getDefinition();
         for (VocabularyWord other : visible) {
             String text = other.getDefinition();
-            if (!text.equalsIgnoreCase(answer)) { definitions.putIfAbsent(text.toLowerCase(Locale.ROOT), text); }
+            if (!text.equalsIgnoreCase(answer)) {
+                definitions.putIfAbsent(text.toLowerCase(Locale.ROOT), text);
+            }
         }
         List<String> distractors = new ArrayList<>(definitions.values());
-        if (distractors.size() < 3) { return null; }
+        if (distractors.size() < 3) {
+            return null;
+        }
         Collections.shuffle(distractors, random);
         List<String> options = new ArrayList<>();
-        options.add(answer); options.addAll(distractors.subList(0, 3));
+        options.add(answer);
+        options.addAll(distractors.subList(0, 3));
         return new QuizQuestion("personal-" + word.getId(), word.getId(),
                 "What does \"" + word.getTerm() + "\" mean?", options, 0);
     }
 
-    @Override public Question answer(int optionIndex) {
+    @Override
+    public Question answer(int optionIndex) {
         requireQuiz();
-        if (selected != -1) { throw new AppException("This question has already been answered."); }
-        if (optionIndex < 0 || optionIndex >= 4) { throw new AppException("Select one answer first."); }
+        if (selected != -1) {
+            throw new AppException("This question has already been answered.");
+        }
+        if (optionIndex < 0 || optionIndex >= 4) {
+            throw new AppException("Select one answer first.");
+        }
         int nextScore = score + (optionIndex == questions.get(position).getCorrectIndex() ? 1 : 0);
         if (position == questions.size() - 1) {
             String username = session.requireUser().getUsername();
@@ -111,10 +127,15 @@ public final class QuizInteractor implements QuizUseCase {
         return current();
     }
 
-    @Override public Question next() {
+    @Override
+    public Question next() {
         requireQuiz();
-        if (selected == -1) { throw new AppException("Submit an answer before continuing."); }
-        if (position == questions.size() - 1) { throw new AppException("Quiz complete. Start a new quiz."); }
+        if (selected == -1) {
+            throw new AppException("Submit an answer before continuing.");
+        }
+        if (position == questions.size() - 1) {
+            throw new AppException("Quiz complete. Start a new quiz.");
+        }
         position++;
         selected = -1;
         return current();
@@ -122,7 +143,9 @@ public final class QuizInteractor implements QuizUseCase {
 
     private void requireQuiz() {
         session.requireUser();
-        if (questions.isEmpty() || sessionVersion != session.getVersion()) { throw new AppException("Start a new quiz."); }
+        if (questions.isEmpty() || sessionVersion != session.getVersion()) {
+            throw new AppException("Start a new quiz.");
+        }
     }
 
     private Question current() {

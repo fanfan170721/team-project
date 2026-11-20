@@ -2,10 +2,26 @@ package com.wordtrail.usecase;
 
 import com.wordtrail.entity.VocabularyWord;
 import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ContentInteractorTest {
+    @Test
+    void oversizedExampleIsRejectedWithoutWritingCatalogContent() {
+        UseCaseFixture f = new UseCaseFixture();
+        f.admin();
+        List<VocabularyWord> before = f.store.getWords();
+        int questionCount = f.store.questions.size();
+
+        AppException failure = assertThrows(AppException.class,
+                () -> f.content.addWord("suitcase", "Travel", "A case for luggage.", "x".repeat(2001), ""));
+
+        assertEquals("Example must be at most 2000 characters.", failure.getMessage());
+        assertEquals(before, f.store.getWords(), "The rejected word must not appear in the catalog.");
+        assertEquals(questionCount, f.store.questions.size());
+    }
+
     @Test
     void malformedQuestionFormDoesNotSavePartialContent() {
         UseCaseFixture f = new UseCaseFixture();

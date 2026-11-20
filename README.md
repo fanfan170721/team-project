@@ -15,7 +15,7 @@ Administrators add vocabulary and multiple-choice questions through forms.
 
 **Teammates starting now:** [First working session (up to 30 minutes)](docs/START_HERE.zh-CN.md).
 
-This delivery branch integrates the existing AI-assisted application with the
+This delivery branch integrates the existing application with the
 signed [team contract](TeamContract.md), merged through
 [PR #1](https://github.com/fanfan170721/team-project/pull/1).
 The implementation history is preserved. Code review and each member's own
@@ -77,14 +77,14 @@ content, so Maven is not required on the machine running the JAR.
 
 | Story | Behavior | Initial implementation lead |
 | --- | --- | --- |
-| US-01 | First-run admin setup, learner registration, login and logout | Zidong Yuan (AI-assisted) |
-| US-02 | Topic vocabulary, case-insensitive search, live dictionary lookup | Zidong Yuan (AI-assisted) |
-| US-03 | Reveal flashcards, complete reviews, study the review list | Zidong Yuan (AI-assisted) |
-| US-04 | Randomized four-choice quizzes, feedback and saved results | Zidong Yuan (AI-assisted) |
-| US-05 | Add/remove words from a private review list | Zidong Yuan (AI-assisted) |
-| US-06 | Distinct words studied, daily chart, streak and quiz history | Zidong Yuan (AI-assisted) |
-| US-07 | Admin forms for new words, topics and quiz questions | Zidong Yuan (AI-assisted) |
-| US-08 | Personal words, personal definitions, completed-review counts and sorting | Zidong Yuan (AI-assisted) |
+| US-01 | First-run admin setup, learner registration, login and logout | Zidong Yuan |
+| US-02 | Topic vocabulary, case-insensitive search, live dictionary lookup | Zidong Yuan |
+| US-03 | Reveal flashcards, complete reviews, study the review list | Zidong Yuan |
+| US-04 | Randomized four-choice quizzes, feedback and saved results | Zidong Yuan |
+| US-05 | Add/remove words from a private review list | Zidong Yuan |
+| US-06 | Distinct words studied, daily chart, streak and quiz history | Zidong Yuan |
+| US-07 | Admin forms for new words, topics and quiz questions | Zidong Yuan |
+| US-08 | Personal words, personal definitions, completed-review counts and sorting | Zidong Yuan |
 
 All eight software stories are implemented in this baseline. The team contract is
 signed; the baseline's authorship is not evidence of independent code contributions
@@ -203,8 +203,8 @@ request, output and thread boundaries.
 
 ## Validation
 
-On November 19, 2026, clean verification of shared maintenance based on `62adf65`
-passed 67 JUnit tests with no failures, errors or skips: startup-failure process exit, business rules, hashing,
+On November 19, 2026, verification of shared maintenance based on `62adf65`
+passed 74 JUnit tests with no failures, errors or skips: startup-failure process exit, business rules, hashing,
 atomic persistence, malformed data, local HTTP responses, architectural dependencies, presenters and
 an end-to-end Swing flow. Automated tests use a local HTTP server or injected
 dictionary double; they do not rely on the public API being online. A manual
@@ -217,13 +217,14 @@ combinations for `62adf65`. The eight UC-09 core tests use an exporter double;
 they do not establish working CSV files or an export UI. A separate offline
 packaged-JAR check passed application wiring, bundled words/questions, the JSON
 dependency and account/personal-word persistence after reopening; it uses no UI
-or network. Newly added CI checks need their own remote run before being claimed
-as passed.
+or network. The package and launcher CI additions passed all four combinations
+at `8cee42f`; consult [PR #5](https://github.com/fanfan170721/team-project/pull/5)
+for the checks on subsequent changes.
 
-JaCoCo measures **535/535 executable lines (100%)** in the current Entity and Use
+JaCoCo measures **574/574 executable lines (100%)** in the current Entity and Use
 Case layers, including the use-case ports. The report covers every class in those
 packages. New MVP code must keep meeting that target. `mvn verify` also runs
-Checkstyle: the current run checked 102 Java files and retained 676 findings. A
+Checkstyle: the current run checked 104 Java files and retained 586 findings. A
 successful build does not mean there are no style warnings. See
 `docs/VERIFICATION.md` for the measured snapshot and report paths.
 

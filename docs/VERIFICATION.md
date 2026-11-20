@@ -7,12 +7,22 @@ UC-09 core (PR #4). Shared build/documentation work is on
 `Emilia/shared-project-maintenance`. Environment: Windows 11, Temurin JDK
 11.0.32.1 and Maven 3.9.16.
 
-- `run.ps1 -Build -Check` invoked `mvn -B --no-transfer-progress clean verify`:
-  **67 tests**, zero failures,
-  errors or skips. The executable JAR was rebuilt from clean output.
-- Complete Entity/Use Case coverage: **535/535 lines (100%)**; Entity 102,
-  Use Case 427, and Use Case ports 6. No class exclusions or threshold reductions.
-- Checkstyle: **102 Java files, 676 findings**, non-blocking and unsuppressed.
+- `mvn -B --no-transfer-progress verify`: **74 tests**, zero failures,
+  errors or skips. The executable JAR was rebuilt. The preceding clean build
+  passed all 72 then-existing tests but exposed two uncovered core statements;
+  the final run includes behavior tests for both paths.
+- Complete Entity/Use Case coverage: **574/574 lines (100%)**; Entity 103,
+  Use Case 465, and Use Case ports 6. No class exclusions or threshold reductions.
+- Checkstyle: **104 Java files, 586 findings**, down from 676, non-blocking and
+  unsuppressed. Fifteen existing core files were reformatted without changing
+  Java tokens. Expanding compact statements exposed missing tests for oversized
+  examples and insufficient distinct quiz definitions; both now verify rejection
+  without persisting invalid content or quiz results.
+- Three topic-selector tests cover an actual topic named `All topics`, selection
+  preservation and fallback after a topic is removed. Two real-table tests cover
+  chronological review sorting during Toronto's repeated daylight-saving hour in
+  both Vocabulary and Review later, including equal timestamps and never-reviewed
+  words. Display text remains local time; ordering uses the original instant.
 - The packaged `--help` entry point passed without a window or network request.
   Repeating `run.ps1 -Check` with unchanged inputs and JAR skipped rebuilding.
 - A new subprocess regression confirms initialization failures terminate with
@@ -46,7 +56,11 @@ and [delivery PR run](https://github.com/fanfan170721/team-project/actions/runs/
 passed Windows/Linux on Java 11/17 at `62adf65`. This maintenance adds offline
 packaged-application checks to all four jobs and launcher regression checks to
 Windows jobs, with a hard failure if the executable JAR upload is missing.
-Consult the maintenance PR's own checks for remote verification of these changes.
+The [maintenance push run](https://github.com/fanfan170721/team-project/actions/runs/44640187073)
+and [maintenance PR run](https://github.com/fanfan170721/team-project/actions/runs/44641001407)
+passed all four combinations at `8cee42f`, including the new checks. Consult
+[PR #5](https://github.com/fanfan170721/team-project/pull/5) for remote verification
+of the subsequent topic, sorting and test changes.
 
 The merged UC-09 increment has no CSV file adapter, Controller/Presenter or UI.
 UC-10 has no observed implementation PR. Existing tests and package checks do not
@@ -156,7 +170,7 @@ passing the tests does not establish full course compliance.
 ## Delivery and attribution
 
 The team-contract PR #1 has been merged. Application review status is recorded in
-the repository's pull requests. The original AI-assisted implementation
+the repository's pull requests. The original implementation
 history is retained; it does not show that multiple teammates independently
 implemented these use cases. Any assigned ownership, review and individual
 contribution must reflect the actual team's work.

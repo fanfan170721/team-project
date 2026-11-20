@@ -35,7 +35,8 @@ public final class FlashcardInteractor implements FlashcardUseCase {
         this.random = random;
     }
 
-    @Override public Card start(String topic, boolean reviewOnly) {
+    @Override
+    public Card start(String topic, boolean reviewOnly) {
         String username = session.requireUser().getUsername();
         List<VocabularyWord> candidates = new ArrayList<>(ContentQueries.filter(
                 ContentQueries.visibleWords(content, progress, username), topic, ""));
@@ -43,7 +44,9 @@ public final class FlashcardInteractor implements FlashcardUseCase {
             Set<String> saved = progress.getProgress(username).getReviewWordIds();
             candidates.removeIf(word -> !saved.contains(word.getId()));
         }
-        if (candidates.isEmpty()) { throw new AppException("No words match this deck. Save some words or choose another topic."); }
+        if (candidates.isEmpty()) {
+            throw new AppException("No words match this deck. Save some words or choose another topic.");
+        }
         Collections.shuffle(candidates, random);
         deck = candidates;
         position = 0;
@@ -53,12 +56,22 @@ public final class FlashcardInteractor implements FlashcardUseCase {
         return current();
     }
 
-    @Override public Card reveal() { requireDeck(); revealed = true; return current(); }
-
-    @Override public Card markStudied() {
+    @Override
+    public Card reveal() {
         requireDeck();
-        if (!revealed) { throw new AppException("Reveal the definition before marking a card studied."); }
-        if (reviewed) { return current(); }
+        revealed = true;
+        return current();
+    }
+
+    @Override
+    public Card markStudied() {
+        requireDeck();
+        if (!revealed) {
+            throw new AppException("Reveal the definition before marking a card studied.");
+        }
+        if (reviewed) {
+            return current();
+        }
         String username = session.requireUser().getUsername();
         LearningProgress updated = progress.getProgress(username)
                 .withCompletedReview(deck.get(position).getId(), LocalDate.now(clock), Instant.now(clock));
@@ -67,7 +80,8 @@ public final class FlashcardInteractor implements FlashcardUseCase {
         return current();
     }
 
-    @Override public Card next() {
+    @Override
+    public Card next() {
         requireDeck();
         position = (position + 1) % deck.size();
         revealed = false;

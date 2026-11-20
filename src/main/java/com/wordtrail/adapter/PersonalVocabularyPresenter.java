@@ -35,6 +35,7 @@ public final class PersonalVocabularyPresenter implements PersonalVocabularyOutp
     public ViewModels.VocabularyProgress progress(LearningProgress progress) {
         Map<String, String> lastReviewed = new LinkedHashMap<>();
         progress.getLastReviewed().forEach((id, instant) -> lastReviewed.put(id, reviewTime.format(instant)));
-        return new ViewModels.VocabularyProgress(progress.getReviewWordIds(), progress.getReviewCounts(), lastReviewed);
+        return new ViewModels.VocabularyProgress(progress.getReviewWordIds(), progress.getReviewCounts(),
+                lastReviewed, progress.getLastReviewed());
     }
 }

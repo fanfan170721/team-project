@@ -39,15 +39,18 @@ Maven wrapper in this repository. Work from the project root. See
 UC-08 includes input DTOs, an interactor, an output boundary, a dedicated
 controller/presenter/view model and Swing save/edit behavior. Failed saves retain
 input; successful saves select and scroll to the saved word. The original
-implementation history remains attributed to Allen's AI-assisted work.
+implementation history remains attributed to Allen's work.
 
-Current local clean verification: **67 tests passed**, Entity/Use Case line
-coverage **535/535 (100%)**, and **676 Checkstyle findings** across 102 Java files.
+Current local verification: **74 tests passed**, Entity/Use Case line
+coverage **574/574 (100%)**, and **586 Checkstyle findings** across 104 Java files.
+The maintenance branch also fixes real `All topics` names being treated as no
+filter, and recently-reviewed ordering during a repeated daylight-saving hour.
 The offline package check passed using the executable JAR only, exercising seed
 data, application wiring, the JSON dependency and persistence across reopening.
-The [merged delivery CI](https://github.com/fanfan170721/team-project/actions/runs/44620314535)
-passed Windows/Linux on Java 11/17. Check the maintenance branch's new checks
-independently; an earlier delivery CI run does not verify later CI changes.
+The [maintenance CI](https://github.com/fanfan170721/team-project/actions/runs/44640187073)
+passed Windows/Linux on Java 11/17 at `8cee42f`, including package and launcher
+checks. Consult [PR #5](https://github.com/fanfan170721/team-project/pull/5)
+for the result on subsequent fixes; review remains outstanding.
 See [VERIFICATION.md](VERIFICATION.md) and [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## Next steps, in order
@@ -61,8 +64,9 @@ See [VERIFICATION.md](VERIFICATION.md) and [ARCHITECTURE.md](ARCHITECTURE.md).
    its specific Controller/Presenter/UI remain with Fuxuan.
 3. Xinyu continues the UC-10 core task from her existing progress. Once code is
    pushed, review it and assign the next bounded step. Do not restart unseen local work.
-4. Fuxuan still needs a substantive review of another member's code. When Xinyu's
-   PR is ready, he can inspect it with AI assistance and record his actual findings.
+4. Fuxuan still needs a substantive review of another member's code. He can review
+   Allen's [PR #5](https://github.com/fanfan170721/team-project/pull/5), focusing on
+   the topic-name collision and chronological review ordering regression fixes.
 5. Review the shared maintenance PR before integrating it. Keep PR #2 as a draft
    until the remaining MVP work and course delivery requirements are ready; code
    checks alone do not establish course completion.
@@ -82,12 +86,13 @@ without coordinating. Their first task implements the core only, not the complet
 
 - Read [COURSE_REQUIREMENTS.md](COURSE_REQUIREMENTS.md) and
   [DELIVERY_CHECKLIST.md](DELIVERY_CHECKLIST.md) before planning the next work.
-  Quercus group/TUT membership remains unverified; final presentation, reflection
-  and peer evaluations remain outstanding.
+  Quercus lists all three members in `[TUT5101] Group 31 - BA3195` and
+  LEC5101/TUT5101 (checked November 19). Final presentation, reflection and peer
+  evaluations remain outstanding.
 - Use English for project code, UI and documentation; Chinese is reserved for
   teammate communication. Communicate with Allen concisely in Chinese, one small
   actionable step at a time. Each human task should fit within 30 minutes.
-- AI assistance is allowed in the team's stated workflow. Contributions,
+- The course syllabus allows generative AI throughout the course. Contributions,
   authorship, reviews and statements about test execution must reflect real work.
   Do not implement teammates' entire assigned use cases in their identities.
 - Do not initiate audible playback or sound tests without Allen's explicit

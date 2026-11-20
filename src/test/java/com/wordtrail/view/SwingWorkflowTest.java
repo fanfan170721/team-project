@@ -51,7 +51,7 @@ class SwingWorkflowTest {
         assertEquals(6, edt(() -> component("home.tabs", JTabbedPane.class).getTabCount()));
         assertTrue(edt(() -> allEnabled(component("library.topic", JComboBox.class))));
         snapshot("01-vocabulary");
-        edt(() -> { component("library.topic", JComboBox.class).setSelectedItem("Nature"); return null; });
+        edt(() -> { Ui.selectTopic(component("library.topic", JComboBox.class), "Nature"); return null; });
         idle();
         text("library.search", "climate"); click("library.find");
         assertEquals(1, edt(() -> component("library.table", JTable.class).getRowCount()));
@@ -96,7 +96,7 @@ class SwingWorkflowTest {
         text("admin.option3", "Made of glass.");
         click("admin.addQuestion");
         tab(2);
-        edt(() -> { component("quiz.topic", JComboBox.class).setSelectedItem("Mindset"); return null; });
+        edt(() -> { Ui.selectTopic(component("quiz.topic", JComboBox.class), "Mindset"); return null; });
         click("quiz.start");
         for (int i = 0; i < 4; i++) {
             final int option = i;
@@ -173,7 +173,7 @@ class SwingWorkflowTest {
         snapshot("08-review-counts");
         tab(2);
         edt(() -> {
-            component("quiz.topic", JComboBox.class).setSelectedItem("My words");
+            Ui.selectTopic(component("quiz.topic", JComboBox.class), "My words");
             component("quiz.count", JSpinner.class).setValue(1); return null;
         });
         click("quiz.start");

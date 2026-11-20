@@ -1,4 +1,8 @@
-# Fuxuan 第一轮：用 AI 实现导出用例核心
+# Fuxuan 第一轮：导出用例核心（已完成）
+
+**2026-11-19：**本轮核心和 8 个测试已通过 [PR #4](https://github.com/fanfan170721/team-project/pull/4) 合入交付分支（`62adf65`）。下面保留原任务提示和命令供核对，不要重新创建这些文件、提交同一项工作或再次打开核心 PR。实际 CSV 写入器、Controller、Presenter 和 UI 尚未完成；CSV 工作拟交给 Allen 的安排仍等 Fuxuan 回复，暂不开始后续实现。
+
+## 已完成的第一轮参考
 
 **最多 30 分钟，包含准备与检查时间。**先按 [START_HERE 第 1–3 步](START_HERE.zh-CN.md) 打开自己的新 clone，并切到 `Emilia/xfx-export-results`。已做好就跳过。没完成就下次继续，不要求 30 分钟内保证写完。
 
@@ -25,9 +29,9 @@ src/test/java/com/wordtrail/usecase/ExportResultsInteractorTest.java
 
 测试必须验证本人账号隔离、不同时间记录的排序、空成绩、未登录、空目标、读取失败、导出失败和进度不变，验证输出内容，不写只检查非 null 的形式测试。复用测试中合适的假仓库，测试保持独立；覆盖新增 DTO 的实际可用字段。遵守已有 Entity/Use Case 100% line coverage，不降低阈值、不排除新类、不关闭检查。
 
-运行完整 mvn verify。若命令行没有 Maven，找已安装 IntelliJ 使用的 Maven 或指导我从 Maven 面板运行 verify；未实际运行就明确说未运行。成功时报告实际测试数和新增核心覆盖率，不沿用旧的 47 作为本次结果。
+运行完整 mvn verify。若命令行没有 Maven，找已安装 IntelliJ 使用的 Maven 或指导我从 Maven 面板运行 verify；未实际运行就明确说未运行。成功时报告实际测试数和新增核心覆盖率，不沿用旧结果。
 
-最后只给我：改了哪些文件、实际测试结果、未完成事项、真实 AI 辅助范围，以及“为什么只导出本人记录、为什么 Interactor 不直接写文件”的简短解释。先让我检查 git diff 和结果；我确认后，你可以使用我自己的正常 Git 身份协助提交、push，并创建以 Emilia/project-delivery 为 base 的 Draft PR，正文写实际结果及尚缺文件实现和 UI。不要代替其他人审核，不要假称功能界面已经完成。
+最后只给我：改了哪些文件、实际测试结果、未完成事项，以及“为什么只导出本人记录、为什么 Interactor 不直接写文件”的简短解释。先让我检查 git diff 和结果；我确认后，你可以使用我自己的正常 Git 身份协助提交、push，并创建以 Emilia/project-delivery 为 base 的 Draft PR，正文写实际结果及尚缺文件实现和 UI。不要代替其他人审核，不要假称功能界面已经完成。
 ```
 
 AI 做完后，你看一遍改动和测试结果，并能指出测试如何验证“没有读到另一账号成绩”。不清楚就让 AI 解释该测试。本轮实际文件导出和界面尚未完成。
@@ -57,6 +61,6 @@ git commit -m "Implement export-results core with behavior tests"
 git push -u origin Emilia/xfx-export-results
 ```
 
-推送成功后，可让 AI 按上面的要求创建 Draft PR；也可打开[本轮比较页面](https://github.com/fanfan170721/team-project/compare/Emilia%2Fproject-delivery...Emilia%2Fxfx-export-results?expand=1)，确认 base 为 `Emilia/project-delivery`，compare 为自己的分支，选择 **Create draft pull request**。标题可用 `Implement export-results core with behavior tests`，正文填写实际改动、测试结果、AI 辅助范围，以及尚未完成文件写入和 UI。
+第一轮已通过 [PR #4](https://github.com/fanfan170721/team-project/pull/4) 完成提交和合并。后续若有确认分工后的新改动，应使用新的 PR，正文填写实际改动、测试结果及尚未完成事项，不重复创建本轮 PR。
 
 群里回复：`Fuxuan：测试通过/卡在___；本轮 PR 链接___。` 30 分钟到了未完成就保留文件、反馈问题，下轮继续。完整 MVP 仍需后续适配器、文件实现、界面和审核。

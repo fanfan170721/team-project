@@ -10,6 +10,7 @@ final class WordDisplay {
         return new ViewModels.Word(word.getId(), word.getTerm(), word.getTopic(), word.getDefinition(),
                 word.getExample(), word.getSource(), progress.savedIds.contains(word.getId()),
                 progress.reviewCounts.getOrDefault(word.getId(), 0),
-                progress.lastReviewed.getOrDefault(word.getId(), ""));
+                progress.lastReviewed.getOrDefault(word.getId(), ""),
+                progress.lastReviewedInstants.get(word.getId()));
     }
 }
