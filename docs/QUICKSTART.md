@@ -32,7 +32,7 @@ artifacts and local account data are excluded from Git.
 To check the packaged application without opening a window or using the network:
 
 ```sh
-java "-Djava.awt.headless=true" --class-path target/wordtrail.jar tools/VerifyPackage.java target/package-check
+java tools/CheckPackage.java target/wordtrail.jar target/package-check
 ```
 
 This checks packaged dependencies and seed content, saves a test word and verifies

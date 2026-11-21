@@ -10,13 +10,14 @@ the merged PR #3 and PR #4. Public documentation/build maintenance is on
 `Emilia/shared-project-maintenance`, for review into that base. At this snapshot,
 `main` contains the merged team contract and original template, not the application.
 
-Install Git, JDK 11 or 17 and Maven 3.9+, then use a new directory:
+Install Git, JDK 11 or 17 and Maven 3.9+, then use a new directory. The commands
+below follow the current delivery branch, not the historical maintenance branch:
 
 ```sh
-git clone --branch Emilia/shared-project-maintenance https://github.com/fanfan170721/team-project.git team-project-allen
+git clone --branch Emilia/project-delivery https://github.com/fanfan170721/team-project.git team-project-allen
 cd team-project-allen
 mvn clean verify
-java "-Djava.awt.headless=true" --class-path target/wordtrail.jar tools/VerifyPackage.java target/package-check
+java tools/CheckPackage.java target/wordtrail.jar target/package-check
 java -jar target/wordtrail.jar
 ```
 
