@@ -92,7 +92,7 @@ class ExportResultsPanelTest {
             useCaseCalls.add(destination);
             behaviour.accept(destination);
         }, viewModel);
-        AppController controller = new AppController(null, null, null, null, null, null, null, null, export);
+        AppController controller = new AppController(null, null, null, null, null, null, null, null, null, export);
         JPanel root = edt(JPanel::new);
         tasks = new UiTasks(root, statusMessages::add);
         panel = edt(() -> {

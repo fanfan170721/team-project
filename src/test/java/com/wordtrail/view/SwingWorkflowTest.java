@@ -13,6 +13,8 @@ import java.nio.file.Path;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 import javax.imageio.ImageIO;
@@ -275,12 +277,15 @@ class SwingWorkflowTest {
         assertNotNull(edt(() -> component("home.tabs", JTabbedPane.class)), status());
     }
 
-    /** Existing tabs keep their positions; Admin only for administrators; other features may append tabs. */
+    /** Existing tabs keep their positions; both added workflows follow the optional Admin tab. */
     private void assertHomeTabs(boolean admin) throws Exception {
-        java.util.List<String> expected = java.util.List.of("Vocabulary", "Flashcards", "Quiz", "Review later", "Progress");
+        List<String> expected = new ArrayList<>(List.of("Vocabulary", "Flashcards", "Quiz", "Review later", "Progress"));
+        if (admin) { expected.add("Admin"); }
+        expected.add("Export results");
+        expected.add("Review plan");
+        assertEquals(expected, tabTitles());
         edt(() -> {
             JTabbedPane tabs = component("home.tabs", JTabbedPane.class);
-            for (int i = 0; i < expected.size(); i++) { assertEquals(expected.get(i), tabs.getTitleAt(i)); }
             assertEquals(admin ? 5 : -1, tabs.indexOfTab("Admin"));
             assertTrue(tabs.indexOfTab("Export results") > tabs.indexOfTab("Progress"));
             return null;
@@ -289,6 +294,17 @@ class SwingWorkflowTest {
 
     private void tab(int index) throws Exception {
         edt(() -> { component("home.tabs", JTabbedPane.class).setSelectedIndex(index); return null; }); idle();
+    }
+
+    private List<String> tabTitles() throws Exception {
+        return edt(() -> {
+            JTabbedPane tabs = component("home.tabs", JTabbedPane.class);
+            List<String> titles = new ArrayList<>();
+            for (int index = 0; index < tabs.getTabCount(); index++) {
+                titles.add(tabs.getTitleAt(index));
+            }
+            return titles;
+        });
     }
 
     private void text(String name, String value) throws Exception {
