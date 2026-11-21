@@ -109,13 +109,14 @@ decide what to study today, complete a quiz and retain a copy of the results.
 | MVP use case | Designated lead | Current evidence |
 | --- | --- | --- |
 | UC-08: Maintain personal vocabulary and definitions | Zidong Yuan | Complete flow, dedicated edit output boundary, presenter and tested UI; PR #3 merged into delivery |
-| UC-09: Export my completed quiz results | Fuxuan Xu | Core interactor, boundaries, DTOs, exporter port and 8 tests merged through PR #4; CSV adapter, controller, presenter and UI remain unfinished |
+| UC-09: Export my completed quiz results | Fuxuan Xu | Core (PR #4) and atomic UTF-8 CSV exporter (PR #8) merged; controller, presenter, **Export results** tab and application wiring with acceptance tests in PR #9, awaiting review and merge |
 | UC-10: Generate today's due-review plan | Xinyu Huang | Assigned; no implementation branch or PR observed at the November 19 check |
 
-UC-09 and UC-10 are committed MVP scope, not optional future features. Fuxuan's
-merged core is a real contribution, but does not yet provide a complete runnable
-export flow. A proposed handoff of the remaining CSV work to Allen awaits Fuxuan's
-reply; ownership has not been reassigned. Each member's use case must
+UC-09 and UC-10 are committed MVP scope, not optional future features. With PR #9,
+a signed-in learner opens the **Export results** tab, chooses **Export results (CSV)...**
+and saves only their own completed quizzes; an existing file is replaced only after
+confirmation, and cancelling writes nothing ([UC-09 details](docs/USE_CASES.md)).
+Each member's use case must
 include its own controller, presenter, interactor/interfaces, UI interaction,
 tests and review evidence. [Individual task instructions](docs/TEAM_TASKS.zh-CN.md)
 give the concrete steps.
@@ -214,7 +215,7 @@ The Swing integration test clicks actual controls in headless mode, verifies all
 eight stories and restarts the real JSON store. It writes screenshots to
 `target/ui-snapshots/`. GitHub Actions passed all four Windows/Linux and Java 11/17
 combinations for `62adf65`. The eight UC-09 core tests use an exporter double;
-they do not establish working CSV files or an export UI. A separate offline
+the CSV exporter and the PR #9 export flow have their own tests with real files. A separate offline
 packaged-JAR check passed application wiring, bundled words/questions, the JSON
 dependency and account/personal-word persistence after reopening; it uses no UI
 or network. The package and launcher CI additions passed all four combinations
