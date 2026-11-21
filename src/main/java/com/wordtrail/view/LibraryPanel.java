@@ -14,14 +14,16 @@ final class LibraryPanel extends JPanel implements Refreshable {
     private final AppController controller;
     private final UiTasks tasks;
     private final boolean reviewOnly;
-    private final JComboBox<String> topic = new JComboBox<>(new String[]{"All topics"});
+    private final JComboBox<Ui.TopicOption> topic = Ui.topicSelector();
     private final JTextField search = Ui.field("library.search", 18);
     private final JComboBox<String> order = new JComboBox<>(new String[]{
             "Word A-Z", "Reviews: low to high", "Reviews: high to low", "Recently reviewed"});
     private final DefaultTableModel model = new DefaultTableModel(
             new String[]{"Word", "Topic", "Definition", "Saved", "Reviews", "Last reviewed"}, 0) {
         @Override public boolean isCellEditable(int row, int column) { return false; }
-        @Override public Class<?> getColumnClass(int column) { return column == 4 ? Integer.class : String.class; }
+        @Override public Class<?> getColumnClass(int column) {
+            return column == 4 ? Integer.class : column == 5 ? ViewModels.ReviewTime.class : String.class;
+        }
     };
     private final JTable table = new JTable(model);
     private final TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
@@ -157,7 +159,7 @@ final class LibraryPanel extends JPanel implements Refreshable {
                 for (int i = 0; i < words.size(); i++) {
                     ViewModels.Word word = words.get(i);
                     model.addRow(new Object[]{word.term, word.topic, word.definition, word.saved ? "Yes" : "",
-                            word.reviewCount, word.lastReviewed});
+                            word.reviewCount, word.reviewTime});
                     if (word.id.equals(selectedId)) { selection = i; }
                 }
                 if (selection >= 0) {

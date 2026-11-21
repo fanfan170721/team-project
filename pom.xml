@@ -47,6 +47,9 @@
                 <version>3.5.3</version>
                 <configuration>
                     <argLine>@{jacocoArgLine} -Djava.awt.headless=true</argLine>
+                    <systemPropertyVariables>
+                        <wordtrail.uiSnapshots>${project.build.directory}/ui-snapshots</wordtrail.uiSnapshots>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <plugin>

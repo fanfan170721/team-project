@@ -89,5 +89,8 @@ public final class PersonalVocabularyInteractor implements PersonalVocabularyUse
                 word.getId(), word.getTerm(), definition);
     }
 
-    @Override public LearningProgress details() { return progress.getProgress(session.requireUser().getUsername()); }
+    @Override
+    public LearningProgress details() {
+        return progress.getProgress(session.requireUser().getUsername());
+    }
 }

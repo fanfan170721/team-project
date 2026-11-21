@@ -23,7 +23,15 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: maven
       - name: Compile, test and package
-        run: mvn -B --no-transfer-progress verify
+        run: mvn -B --no-transfer-progress clean verify
+      - name: Check packaged entry point
+        run: java "-Djava.awt.headless=true" -jar target/wordtrail.jar --help
+      - name: Check packaged application offline
+        run: java "-Djava.awt.headless=true" --class-path target/wordtrail.jar tools/VerifyPackage.java target/package-check
+      - name: Check Windows launcher behavior
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: ./tools/Test-Launcher.ps1
       - name: Save test reports and rendered Swing screens
         if: always()
         uses: actions/upload-artifact@v4
@@ -34,9 +42,11 @@ jobs:
             target/ui-snapshots/
             target/site/
             target/checkstyle-result.xml
+            target/package-check/
       - name: Save executable JAR
         if: matrix.os == 'ubuntu-latest' && matrix.java == '11'
         uses: actions/upload-artifact@v4
         with:
           name: wordtrail-jar
           path: target/wordtrail.jar
+          if-no-files-found: error

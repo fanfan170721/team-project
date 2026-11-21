@@ -5,10 +5,16 @@ on November 17, 2026. The private source archive is kept outside this repository
 The November 15 presentation rubric remains labelled a draft; check later announcements
 for a final schedule or revised rubric. Checkmarks below require actual evidence.
 
+Implementation and collaboration status below was checked on November 19, 2026.
+`main` remains at `dbde42d` (template and contract); the application is in
+`Emilia/project-delivery`, with [PR #2](https://github.com/fanfan170721/team-project/pull/2)
+still open as a draft targeting `main`.
+
 ## Team and specification
 
 - [x] Shared repository and signed team contract merged through [PR #1](https://github.com/fanfan170721/team-project/pull/1).
-- [ ] Verify all members belong to the same Quercus group/TUT.
+- [x] Quercus lists Fuxuan Xu, Xinyu Huang and Zidong Yuan together in
+  `[TUT5101] Group 31 - BA3195`; all three are in LEC5101/TUT5101 (checked November 19).
 - [x] Project name/domain, stories, formal use cases, entities and API description documented.
 - [x] MVP work and designated leads recorded; pending implementations explicitly labelled.
 - [ ] Every member has implemented a complete MVP use case across interactor/interfaces,
@@ -16,13 +22,32 @@ for a final schedule or revised rubric. Checkmarks below require actual evidence
 - [ ] Every member has a substantial code PR, review of another member and runnable own use case.
 - [ ] Every member has a merged PR demonstrating meaningful own code contributions.
 
+| Member | Verified contribution/review evidence | Remaining individual work |
+| --- | --- | --- |
+| Allen | Complete UC-08 merged through PR #3 (`d0f9f7f`) | Retain actual implementation and review evidence for submission |
+| Fuxuan | UC-09 core and 8 tests merged through PR #4 (`62adf65`) | Complete the export flow and a code peer review; a CSV handoff proposal awaits his reply |
+| Xinyu | Approved PR #2 and PR #3 | Implement UC-10 and obtain a merged substantial code PR; no implementation branch/PR observed yet |
+
+A merged core-only PR or a review approval does not establish a complete personal
+MVP use case. The proposed CSV handoff has not changed the recorded assignment.
+
 ## Software and validation
 
 - [x] Java/Swing application with an external dictionary API and JSON persistence exists.
 - [x] API successfully called in the packaged application on November 17.
 - [x] Existing tests exercise the complete learning loop, account isolation and restart recovery.
-- [x] Current UC-08 follow-up: 58 passing tests; measured Entity/Use Case line coverage
-  487/487 (100%); Checkstyle report retained with 666 findings; coverage gate passed.
+- [x] Combined delivery at `62adf65`: 66 passing tests and measured Entity/Use Case
+  line coverage 535/535 (100%); coverage gate passed.
+- [x] CI at `62adf65` passed all four Windows/Linux and Java 11/17 jobs.
+- [x] Shared maintenance verification: 74 passing JUnit tests, including topic
+  selection, chronological review sorting and startup failure exit status.
+- [x] Current complete Entity/Use Case line coverage: 574/574 (100%).
+- [x] Latest local Checkstyle run: 104 Java files and 586 findings retained.
+- [x] Launcher regression checks: 87 assertions passed on Windows PowerShell 5.1 and PowerShell 7.6.9.
+- [x] Offline packaged-JAR check passed wiring, bundled content, JSON dependency
+  and account/personal-word persistence after reopening, without UI or network.
+- [x] Package and launcher CI additions passed remotely at `8cee42f` on all four
+  Windows/Linux and Java 11/17 combinations. Later commits need their own checks.
 - [ ] Final integrated MVP includes UC-09 CSV export and UC-10 daily review plan.
 - [ ] Final build and every interactor's tests pass after the pending MVP integrations.
 - [ ] Final Entity/Use Case layers have measured 100% line coverage, including new use cases.
@@ -45,6 +70,6 @@ Milestones: M2 November 20 (individual PR/review/runnable work), M3 November 27
 (100% Entity/Use Case line coverage and rehearsed presentation). Presentations
 are during December 7/8 labs, subject to the course's detailed schedule.
 
-The initial implementation is AI-assisted work led by Zidong Yuan. Additional
-members' future implementation and review work must remain attributable to them;
+The initial implementation is work led by Zidong Yuan. Additional
+members' implementation and review work must remain attributable to them;
 the existence of a finished baseline cannot replace those course requirements.

@@ -1,4 +1,6 @@
-# Xinyu 第一轮：用 AI 实现今日复习计划核心
+# Xinyu 第一轮：实现今日复习计划核心
+
+**2026-11-19 状态：**尚未看到 UC-10 的线上实现分支或 PR，本地进度未知。若已经开始，先检查现有改动，从停下的位置继续，不重复创建或覆盖文件。可以使用下面的提示词让自己的 AI 协助。
 
 **最多 30 分钟，包含准备与检查时间。**先按 [START_HERE 第 1–3 步](START_HERE.zh-CN.md) 打开自己的新 clone，并切到 `Emilia/xinyu-due-review`。已做好就跳过。没完成就下次继续，不要求 30 分钟内保证写完。
 
@@ -26,9 +28,9 @@ Interactor 依赖现有 ContentRepository、ProgressRepository、SessionContext 
 
 用固定 Clock 和假仓库做行为测试：从未复习、1/3/7 天的今天与未来边界、跨时区本地日期、旧记录无日期、主题、1–20 限制、稳定排序、空结果、本人个人释义、账号隔离、未登录和读取失败；验证生成两次都没有调用 saveProgress。固定例子“今天 2026-11-17”：从未复习应纳入；11 月 16 日已复习 1 次应纳入；11 月 15 日已复习 2 次尚未到期。遵守已有 Entity/Use Case 100% line coverage，不降低阈值、不排除新类、不关闭检查。
 
-运行完整 mvn verify。若命令行没有 Maven，找已安装 IntelliJ 使用的 Maven 或指导我从 Maven 面板运行 verify；未实际运行就明确说未运行。成功时报告实际测试数和新增核心覆盖率，不沿用旧的 47 作为本次结果。
+运行完整 mvn verify。若命令行没有 Maven，找已安装 IntelliJ 使用的 Maven 或指导我从 Maven 面板运行 verify；未实际运行就明确说未运行。成功时报告实际测试数和新增核心覆盖率，不沿用旧结果。
 
-最后只给我：改了哪些文件、实际测试结果、未完成事项、真实 AI 辅助范围，以及“为什么注入 Clock、为什么生成计划不能增加复习次数”的简短解释。先让我检查 git diff 和结果；我确认后，你可以使用我自己的正常 Git 身份协助提交、push，并创建以 Emilia/project-delivery 为 base 的 Draft PR，正文写实际结果及尚缺适配器和 UI。不要代替其他人审核，不要假称功能界面已经完成。
+最后只给我：改了哪些文件、实际测试结果、未完成事项，以及“为什么注入 Clock、为什么生成计划不能增加复习次数”的简短解释。先让我检查 git diff 和结果；我确认后，你可以使用我自己的正常 Git 身份协助提交、push，并创建以 Emilia/project-delivery 为 base 的 Draft PR，正文写实际结果及尚缺适配器和 UI。不要代替其他人审核，不要假称功能界面已经完成。
 ```
 
 AI 做完后，你看一遍改动和测试结果，并能用上面的三个日期例子说明谁今天到期。不清楚就让 AI 解释对应测试。本轮界面尚未完成。
@@ -58,6 +60,6 @@ git commit -m "Implement due-review core with fixed-clock tests"
 git push -u origin Emilia/xinyu-due-review
 ```
 
-推送成功后，可让 AI 按上面的要求创建 Draft PR；也可打开[本轮比较页面](https://github.com/fanfan170721/team-project/compare/Emilia%2Fproject-delivery...Emilia%2Fxinyu-due-review?expand=1)，确认 base 为 `Emilia/project-delivery`，compare 为自己的分支，选择 **Create draft pull request**。标题可用 `Implement due-review core with fixed-clock tests`，正文填写实际改动、测试结果、AI 辅助范围，以及尚未完成适配器和 UI。
+推送成功后，可让 AI 按上面的要求创建 Draft PR；也可打开[本轮比较页面](https://github.com/fanfan170721/team-project/compare/Emilia%2Fproject-delivery...Emilia%2Fxinyu-due-review?expand=1)，确认 base 为 `Emilia/project-delivery`，compare 为自己的分支，选择 **Create draft pull request**。标题可用 `Implement due-review core with fixed-clock tests`，正文填写实际改动、测试结果，以及尚未完成适配器和 UI。
 
 群里回复：`Xinyu：测试通过/卡在___；本轮 PR 链接___。` 30 分钟到了未完成就保留文件、反馈问题，下轮继续。完整 MVP 仍需后续适配器、界面和审核。

@@ -6,9 +6,12 @@ contributions from other team members. Each additional contributor must lead and
 implement a real use case and record their work through their own commits and PR.
 See `DELIVERY_CHECKLIST.md` for the remaining course evidence.
 
-The next committed MVP increment adds US-09 (Fuxuan Xu) and US-10 (Xinyu Huang).
-Those assignments do not establish completed code contributions. Formal use-case
-flows, preconditions and extensions are in `USE_CASES.md`.
+The committed MVP increment adds US-09 (Fuxuan Xu) and US-10 (Xinyu Huang).
+As checked on November 19, 2026, Allen's complete US-08 flow is merged through
+[PR #3](https://github.com/fanfan170721/team-project/pull/3); Fuxuan's US-09 core
+and eight tests are merged through [PR #4](https://github.com/fanfan170721/team-project/pull/4).
+The CSV/UI flow and US-10 remain unfinished. Formal use-case flows, preconditions
+and extensions are in `USE_CASES.md`.
 
 ## US-01 — Accounts
 
@@ -144,7 +147,7 @@ As a content admin, I want to add new vocabulary words and quizzes through a for
 Tests: `ContentInteractorTest`, `JsonFileStoreTest`, `SwingWorkflowTest`.
 Initial implementation lead: Zidong Yuan (AI-assisted).
 
-## US-09 — Export my quiz results (pending MVP)
+## US-09 — Export my quiz results (MVP; core merged)
 
 As a learner, I want to export my completed quiz results so I can keep a portable
 record of my learning. Designated lead: **Fuxuan Xu**.
@@ -153,8 +156,13 @@ record of my learning. Designated lead: **Fuxuan Xu**.
 - Support empty history, correctly escaped text, cancellation and safe overwrite confirmation.
 - Report failures without claiming success or corrupting an existing file.
 
-Implementation and tests are pending. Complete flow and failure cases: UC-09 in
-`USE_CASES.md`; implementation steps: `TEAM_TASKS.zh-CN.md`.
+Implemented: `ExportResultsInteractor`, input/output boundaries, response/row
+DTOs and `QuizResultsExporter` port. Eight `ExportResultsInteractorTest` cases
+verify account isolation, chronological rows, empty history, unchanged progress,
+authentication/destination validation and read/export failure handling with doubles.
+The concrete CSV adapter, controller, presenter, UI and full-flow acceptance tests
+remain pending. A proposed handoff of the remaining CSV work to Allen awaits
+Fuxuan's reply. Complete flow and failure cases: UC-09 in `USE_CASES.md`.
 
 ## US-10 — Plan today's vocabulary review (pending MVP)
 
@@ -165,5 +173,6 @@ review time. Designated lead: **Xinyu Huang**.
 - Prioritize never-reviewed words, then earliest due words, with deterministic ties.
 - Use private meanings, preserve account isolation and do not count planning as studying.
 
-Implementation and tests are pending. Complete flow and failure cases: UC-10 in
+No implementation branch or PR was observed at the November 19 check;
+implementation and tests remain pending. Complete flow and failure cases: UC-10 in
 `USE_CASES.md`; implementation steps: `TEAM_TASKS.zh-CN.md`.
