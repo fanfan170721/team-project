@@ -9,15 +9,18 @@ public final class AppController {
     private final FlashcardController flashcards;
     private final QuizController quiz;
     private final ReviewController review;
+    private final ReviewPlanController reviewPlan;
     private final ProgressController progress;
     private final ContentController content;
     private final PersonalVocabularyController personal;
 
-    public AppController(AuthController auth, CatalogController catalog, FlashcardController flashcards,
+    public AppController(AuthController auth, ReviewPlanController reviewPlan, CatalogController catalog,
+                         FlashcardController flashcards,
                          QuizController quiz, ReviewController review, ProgressController progress,
                          ContentController content, PersonalVocabularyController personal) {
         this.auth = auth; this.catalog = catalog; this.flashcards = flashcards; this.quiz = quiz;
         this.review = review; this.progress = progress; this.content = content;
+        this.reviewPlan = reviewPlan;
         this.personal = personal;
     }
 
@@ -38,6 +41,9 @@ public final class AppController {
     }
     public ViewModels.Library reviewList() {
         return review.list();
+    }
+    public ReviewPlanViewModel.Result generateReviewPlan(String topic, int limit) {
+        return reviewPlan.generate(topic, limit);
     }
     public ViewModels.Library sharedWords() {
         return content.sharedWords();

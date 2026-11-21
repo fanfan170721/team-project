@@ -13,6 +13,8 @@ import java.nio.file.Path;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 import javax.imageio.ImageIO;
@@ -48,7 +50,8 @@ class SwingWorkflowTest {
 
     @Test void allSevenStoriesWorkThroughTheUIAndSurviveRestart() throws Exception {
         authenticate("admin", true);
-        assertEquals(6, edt(() -> component("home.tabs", JTabbedPane.class).getTabCount()));
+        assertEquals(List.of("Vocabulary", "Flashcards", "Quiz", "Review later", "Progress", "Admin", "Review plan"),
+                tabTitles());
         assertTrue(edt(() -> allEnabled(component("library.topic", JComboBox.class))));
         snapshot("01-vocabulary");
         edt(() -> { Ui.selectTopic(component("library.topic", JComboBox.class), "Nature"); return null; });
@@ -114,7 +117,8 @@ class SwingWorkflowTest {
         click("account.logout");
         edt(() -> { component("auth.mode", JComboBox.class).setSelectedIndex(1); return null; });
         authenticate("learner", true);
-        assertEquals(5, edt(() -> component("home.tabs", JTabbedPane.class).getTabCount()));
+        assertEquals(List.of("Vocabulary", "Flashcards", "Quiz", "Review later", "Progress", "Review plan"),
+                tabTitles());
         tab(3);
         assertEquals(0, edt(() -> component("review.table", JTable.class).getRowCount()));
         tab(4);
@@ -277,6 +281,17 @@ class SwingWorkflowTest {
 
     private void tab(int index) throws Exception {
         edt(() -> { component("home.tabs", JTabbedPane.class).setSelectedIndex(index); return null; }); idle();
+    }
+
+    private List<String> tabTitles() throws Exception {
+        return edt(() -> {
+            JTabbedPane tabs = component("home.tabs", JTabbedPane.class);
+            List<String> titles = new ArrayList<>();
+            for (int index = 0; index < tabs.getTabCount(); index++) {
+                titles.add(tabs.getTitleAt(index));
+            }
+            return titles;
+        });
     }
 
     private void text(String name, String value) throws Exception {

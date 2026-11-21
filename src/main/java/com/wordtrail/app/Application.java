@@ -17,6 +17,9 @@ import com.wordtrail.adapter.ProgressPresenter;
 import com.wordtrail.adapter.QuizController;
 import com.wordtrail.adapter.QuizPresenter;
 import com.wordtrail.adapter.ReviewController;
+import com.wordtrail.adapter.ReviewPlanController;
+import com.wordtrail.adapter.ReviewPlanPresenter;
+import com.wordtrail.adapter.ReviewPlanViewModel;
 import com.wordtrail.adapter.ReviewPresenter;
 import com.wordtrail.data.ResilientDictionaryGateway;
 import com.wordtrail.data.JsonFileStore;
@@ -40,6 +43,10 @@ public final class Application implements AutoCloseable {
         SessionContext session = new SessionContext();
         CatalogUseCase catalog = new CatalogInteractor(store, store, dictionary, session);
         ReviewUseCase review = new ReviewInteractor(store, store, session);
+        ReviewPlanViewModel reviewPlanViewModel = new ReviewPlanViewModel();
+        ReviewPlanPresenter reviewPlanPresenter = new ReviewPlanPresenter(reviewPlanViewModel);
+        ReviewPlanController reviewPlan = new ReviewPlanController(
+                new ReviewPlanInteractor(store, store, session, clock, reviewPlanPresenter), reviewPlanViewModel);
         PersonalVocabularyViewModel personalViewModel = new PersonalVocabularyViewModel();
         PersonalVocabularyPresenter personalPresenter = new PersonalVocabularyPresenter(
                 clock.getZone(), personalViewModel);
@@ -48,6 +55,7 @@ public final class Application implements AutoCloseable {
                 personalPresenter, personalViewModel);
         controller = new AppController(
                 new AuthController(new AuthInteractor(store, new Pbkdf2PasswordHasher(), session), new AuthPresenter()),
+                reviewPlan,
                 new CatalogController(catalog, personal::progress, new CatalogPresenter()),
                 new FlashcardController(new FlashcardInteractor(store, store, session, clock, new Random()),
                         review, new FlashcardPresenter()),

@@ -22,6 +22,7 @@ final class HomePanel extends JPanel {
         tabs.addTab("Review later", new LibraryPanel(controller, tasks, true));
         tabs.addTab("Progress", new ProgressPanel(controller, tasks));
         if (account.admin) { tabs.addTab("Admin", new AdminPanel(controller, tasks)); }
+        tabs.addTab("Review plan", new ReviewPlanPanel(controller, tasks));
         add(tabs, BorderLayout.CENTER);
         tabs.addChangeListener(event -> ((Refreshable) tabs.getSelectedComponent()).refresh());
         logout.addActionListener(event -> tasks.run("Logging out", () -> { controller.logout(); return true; }, ignored -> onLogout.run()));
