@@ -38,9 +38,10 @@ end-to-end use case. All MVP use cases implemented and integrated is the
 **November 27 M3** target; M2 does not require every member's full UI flow to be
 finished. M1 nevertheless includes initial UI and interactor development.
 
-Use these short demonstrations with dependencies installed and demo data prepared:
+Use these focused rehearsals with dependencies installed and demo data prepared.
+The preparation durations below are team estimates, not course-imposed coding limits:
 
-| Member / time limit | Demonstration and current evidence |
+| Member / estimated preparation | Demonstration and current evidence |
 | --- | --- |
 | Allen / 20 minutes | Run UC-08: add a personal word, edit its definition, check account isolation, close and reopen `.wordtrail/demo` to show persistence. Perform a live lookup and show its provider URL. [PR #3](https://github.com/fanfan170721/team-project/pull/3) contains the merged flow and Xinyu's approval; Allen's review is on [PR #4](https://github.com/fanfan170721/team-project/pull/4). |
 | Fuxuan / 15 minutes | Run the eight `ExportResultsInteractorTest` cases and 11 `CsvQuizResultsExporterTest` cases. Explain account isolation, chronological rows, CSV escaping and a failed atomic replacement that preserves an existing file. [PR #4](https://github.com/fanfan170721/team-project/pull/4) and [PR #8](https://github.com/fanfan170721/team-project/pull/8) contain this merged progress; the export UI is still unfinished. |
@@ -73,8 +74,9 @@ Fuxuan left an actual review comment on [PR #5](https://github.com/fanfan170721/
 after merging it; this was not an Approve review event before the merge. No CSV
 handoff is needed. Both use cases still need controller/presenter/UI and wiring.
 Each member's own TA demonstration and explanation remain unverified.
-If a time limit is reached, report the real stopping point and continue in another
-short session; the limits do not guarantee completion.
+If preparation takes longer, report the real stopping point and continue as needed.
+These estimates do not guarantee completion; the presentation timing below is a
+separate constraint from development or preparation time.
 
 ## Suggested 15-minute order
 

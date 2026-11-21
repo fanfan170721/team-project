@@ -1,15 +1,19 @@
-# 从这里继续：本轮最多 30 分钟
+# 从这里继续：每人完成自己的完整功能
 
 **2026-11-20 当前进度：**Fuxuan 的导出核心 [PR #4](https://github.com/fanfan170721/team-project/pull/4) 和 CSV 写入器 [PR #8](https://github.com/fanfan170721/team-project/pull/8)、Xinyu 的复习计划核心 [PR #7](https://github.com/fanfan170721/team-project/pull/7) 均已合并。不要重复第一轮。
 
+**本轮按每人约 2–3 小时估算，完成自己的界面、接线、测试和 PR。**这是我们的安排估计，不是教授规定的最短时间、最长时间或完成保证。原先的 30 分钟上限已取消；可以连续完成，也可以分段继续，提前完成不用等待，遇阻及时反馈。
+
+教授的项目要求强调每人主导完整用例并持续贡献，没有在本次核对的项目要求中规定每次开发的小时上限。完整用例包括自己的 Controller、Presenter、触发界面和结果更新；已有核心无需重做。参见 [Project Expectations](https://q.utoronto.ca/courses/444184/pages/project-expectations) 和 [MVP 要求](https://q.utoronto.ca/courses/444184/pages/project-readme-and-minimum-viable-product-mvp)。
+
 **现在只打开自己这一页，复制顶部“当前任务”的提示词给自己的 AI：**
 
-- **Fuxuan：**[导出结果的 Controller / Presenter / ViewModel](FIRST_TASK_FUXUAN.zh-CN.md)。新分支：`Emilia/xfx-export-adapters`。
-- **Xinyu：**[复习计划的 Controller / Presenter / ViewModel](FIRST_TASK_XINYU.zh-CN.md)。新分支：`Emilia/xinyu-review-adapters`。
+- **Fuxuan：**先审核 [PR #6](https://github.com/fanfan170721/team-project/pull/6)，再完成[导出成绩完整功能](FIRST_TASK_FUXUAN.zh-CN.md)。沿用分支：`Emilia/xfx-export-adapters`。
+- **Xinyu：**完成[今日复习计划完整功能](FIRST_TASK_XINYU.zh-CN.md)。沿用分支：`Emilia/xinyu-review-adapters`。
 
-两页已写明如何检查现有工作、从最新 `origin/Emilia/project-delivery` 开新分支、实现和测试。先保留并检查已有本地修改，不覆盖；本轮不接 Swing 界面或共享应用。本人检查结果并确认后，可以让自己的 AI 使用本人正常 Git 身份协助提交、push 和创建 Draft PR，不能代替别人审核。
+两页已写明如何检查现有工作、从最新 `origin/Emilia/project-delivery` 开分支、实现和测试。已经按上一版任务开始的，就在原分支接着做，不覆盖或重建。本轮允许为自己的功能做最小必要的 Swing 和应用接线；两人独立提交，Allen 在合并时整合共同文件，保留双方改动。不要为避免冲突而留下无法从真实应用进入的界面。
 
-从准备开始计时 30 分钟，安装、下载、解释和检查都算在内。到时未完成就保留工作、报告真实进度，下轮继续；不要求一轮保证做完。群里只需回复：`姓名：测试通过/卡在___；PR 链接___（未创建就写未创建）。`
+本人检查实际差异和结果后，可以让自己的 AI 使用本人正常 Git 身份协助提交、push 和创建 PR。已完成且检查通过的 PR 可直接 Ready；尚未完成则保留 Draft 并列明缺项，不自己批准自己的 PR。按实际完成的改动提交，无需等满预计时长。群里回复：`姓名：已实现___；实际测试/演示___；PR 链接___；剩余/卡点___。`
 
 ## 仅当本机还没有可用项目时
 

@@ -1,19 +1,21 @@
 # 两位组员的当前任务与历史参考
 
-**2026-11-20 当前任务：只执行各自个人页面顶部的第二轮提示词，每轮最多 30 分钟。**[START_HERE](START_HERE.zh-CN.md) 是简短入口；下面的历史计划不是当前操作步骤，不需要通读。
+**2026-11-20 更新：原先的 30 分钟上限已取消。当前按每人约 2–3 小时安排一个完整功能，包括适配器、Swing 界面、应用接线、测试和 PR。**这是工作量估计，不是教授规定的最低/最高时长，也不是完成保证。只执行各自个人页面顶部的当前提示词；[START_HERE](START_HERE.zh-CN.md) 是简短入口，下面的历史计划不需要通读。
 
-Fuxuan 的 UC-09 核心已通过 [PR #4](https://github.com/fanfan170721/team-project/pull/4)、CSV 写入器已通过 [PR #8](https://github.com/fanfan170721/team-project/pull/8) 合并。Xinyu 的 UC-10 核心和 13 个测试已通过 [PR #7](https://github.com/fanfan170721/team-project/pull/7) 合并。两人现在分别实现自己的 Controller、Presenter、ViewModel 和行为测试；界面及应用接线尚未完成，留到后续轮次。
+Fuxuan 的 UC-09 核心已通过 [PR #4](https://github.com/fanfan170721/team-project/pull/4)、CSV 写入器已通过 [PR #8](https://github.com/fanfan170721/team-project/pull/8) 合并。Xinyu 的 UC-10 核心和 13 个测试已通过 [PR #7](https://github.com/fanfan170721/team-project/pull/7) 合并。两人继续完成各自的 Controller、Presenter、ViewModel、界面、接线和测试，不重复已有核心。Fuxuan 先审核 [PR #6](https://github.com/fanfan170721/team-project/pull/6)，再继续自己的功能。
 
 | 实施负责人 | 当前唯一执行入口 | 从最新交付分支创建的新分支 |
 | --- | --- | --- |
-| Fuxuan | [第二轮：导出结果适配器](FIRST_TASK_FUXUAN.zh-CN.md) | `Emilia/xfx-export-adapters` |
-| Xinyu | [第二轮：复习计划适配器](FIRST_TASK_XINYU.zh-CN.md) | `Emilia/xinyu-review-adapters` |
+| Fuxuan | [当前轮：完整导出成绩功能](FIRST_TASK_FUXUAN.zh-CN.md) | `Emilia/xfx-export-adapters` |
+| Xinyu | [当前轮：完整今日复习计划功能](FIRST_TASK_XINYU.zh-CN.md) | `Emilia/xinyu-review-adapters` |
+
+已开始上一版任务就沿用已有分支和代码；尚未开始才从最新交付分支创建。各自可以对共享文件做最小必要接线；Allen 负责在合并时整合冲突，保留双方功能。不要为隔离文件而留下无法从实际应用进入的界面。
 
 每人应实际主导自己的 Interactor、相关接口、专属 Controller/Presenter、触发操作与结果显示的 UI，检查改动和运行结果，并能讲解自己的用例。保留实际贡献归属；共享工作或分工调整先沟通，不能把已有实现重新署名为自己的代码。
 
 成员可以使用自己的 AI 帮助生成、修改、运行、测试和解释代码。本人检查差异与实际测试结果、确认内容后，也可以授权自己的 AI 使用本人正常 Git 身份协助 commit、push 和创建 Draft PR；不要求必须手动点击或输入 Git 命令。使用自己的账号，由实际审核者提交审核，按事实描述测试和贡献。课程允许使用生成式 AI，同时要求每人对自己的学习负责；AI 不代替本人参与。正式用例规格见 `docs/USE_CASES.md` 的 **UC-09/UC-10**。
 
-本任务单依据 2026-11-17 保存的课程要求整理，负责人电脑上的完整材料位于 `C:\Users\Administrator\Documents\Codex\CSC207-project-requirements\2026-11-17\`。课程要求每人主导 MVP 用例、提交实质代码 PR、review 他人、参与展示；测试数不等于覆盖率。下面的三个阶段可以分多轮完成，每轮从准备开始最多 30 分钟，不保证 90 分钟内完成全部工作。安装、下载、解释和检查也计入本轮时间；计时结束就反馈实际进度，下次继续，不需要赶时间制造完成记录。
+本任务单依据 2026-11-17 保存、并于 11 月 20 日针对时长和个人职责重新核对的课程要求整理。教授要求每人主导 MVP 用例、提交实质代码 PR、review 他人、参与展示；没有在这些项目页面中规定单次编码时长上限。两三小时包括检查、实现、测试、说明和提交，可连续做也可分段继续。提前完成即可交付；遇到具体阻碍或预计时间不够，就报告已完成部分和剩余工作，不保证本轮全部完成。测试数不等于覆盖率。
 
 ## 历史参考：截至 2026-11-19 的完整规格与实施计划
 

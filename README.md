@@ -13,7 +13,7 @@ Administrators add vocabulary and multiple-choice questions through forms.
 
 **Switching computers:** [Current progress and continuation instructions](docs/HANDOFF.md).
 
-**Teammates starting now:** [First working session (up to 30 minutes)](docs/START_HERE.zh-CN.md).
+**Teammates continuing now:** [Complete-feature assignments (estimated 2–3 hours each)](docs/START_HERE.zh-CN.md).
 
 This delivery branch integrates the existing application with the
 signed [team contract](TeamContract.md), merged through

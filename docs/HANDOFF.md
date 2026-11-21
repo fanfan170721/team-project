@@ -95,11 +95,13 @@ evidence. A prepared checklist is not a record of a completed demonstration.
 
 1. Recheck online and local progress before assigning work; do not recreate the
    merged cores or CSV adapter, or overwrite unpushed changes.
-2. Fuxuan continues UC-09 with its dedicated Controller/Presenter/ViewModel and
-   behavior tests, then the UI and wiring in a later short session. He already
-   implemented CSV, so no handoff to Allen is needed.
-3. Xinyu continues UC-10 with its dedicated Controller/Presenter/ViewModel and
-   behavior tests, then the UI and wiring. Keep each working session within 30 minutes.
+2. Fuxuan reviews updated PR #6 and completes UC-09's dedicated adapters, Swing
+   UI, application wiring and behavior/flow tests. His CSV adapter already exists.
+3. Xinyu completes UC-10's dedicated adapters, Swing UI, application wiring and
+   behavior/flow tests. Budget roughly 2–3 hours per member for a complete-feature
+   round; this is a planning estimate, not a course minimum, maximum or guarantee.
+   Continue existing work and branches, finish earlier when ready, or report a
+   real blocker. Allen coordinates integration of minimal shared-file changes.
 4. Each member prepares to run and explain their current code using the M2 demo
    checklist. Distinguish preparation from an actually completed TA demonstration.
 5. Obtain peer review of updated PR #6 before integration. It already targets
@@ -108,9 +110,9 @@ evidence. A prepared checklist is not a record of a completed demonstration.
 
 The published teammate instructions are:
 
-- [First-session setup](START_HERE.zh-CN.md)
-- [Fuxuan's first task](FIRST_TASK_FUXUAN.zh-CN.md), completed core reference
-- [Xinyu's first task](FIRST_TASK_XINYU.zh-CN.md), completed core reference
+- [Current assignment entry point](START_HERE.zh-CN.md)
+- [Fuxuan's complete export flow](FIRST_TASK_FUXUAN.zh-CN.md)
+- [Xinyu's complete review-plan flow](FIRST_TASK_XINYU.zh-CN.md)
 - [Full task plan](TEAM_TASKS.zh-CN.md)
 
 Further teammate branches start from and submit PRs into `Emilia/project-delivery`.
@@ -125,8 +127,10 @@ merged; both complete UI flows remain unfinished.
   LEC5101/TUT5101 (checked November 19). Final presentation, reflection and peer
   evaluations remain outstanding.
 - Use English for project code, UI and documentation; Chinese is reserved for
-  teammate communication. Communicate with Allen concisely in Chinese, one small
-  actionable step at a time. Each human task should fit within 30 minutes.
+  teammate communication. Communicate with Allen concisely in Chinese with
+  concrete instructions. On November 20, Allen replaced the earlier 30-minute
+  cap with larger complete-feature assignments, estimated at 2–3 hours per member.
+  Do not impose artificial waiting or commit timing; report actual work.
 - The course syllabus allows generative AI throughout the course. Contributions,
   authorship, reviews and statements about test execution must reflect real work.
   Do not implement teammates' entire assigned use cases in their identities.

@@ -33,12 +33,16 @@ documentation and validation with the course requirements verified on November 1
 
 1. Allen maintains shared documentation, build/test evidence and integration.
    Keep measured Checkstyle findings visible; a passing build is not style clearance.
-2. Fuxuan continues from his merged core and CSV adapter; no CSV handoff to Allen
-   is needed. Add the specific controller/presenter and their behavior tests.
-3. Complete UC-09's file-selection UI, safe cancellation/overwrite interaction,
-   application wiring and full-flow acceptance tests.
+2. Fuxuan reviews PR #6, then continues from his merged core and CSV adapter;
+   no CSV handoff to Allen is needed. His current assignment includes dedicated
+   adapters, behavior tests, file-selection UI, safe cancellation/overwrite
+   interaction, application wiring and full-flow acceptance tests.
+3. Allen integrates the members' minimal shared-file changes, preserving both
+   flows and checking the combined application after peer review.
 4. Xinyu continues from her merged UC-10 core with controller/presenter, UI,
-   wiring and tests through further focused PRs.
+   wiring and tests in one coherent feature increment. Estimate 2–3 hours per
+   member for this round, including validation and submission; this is a team
+   planning estimate, not a professor-prescribed limit or completion guarantee.
 5. Complete outstanding peer reviews and check each member's full-use-case
    evidence before claiming the individual requirements are satisfied.
 6. Review and test each further increment before integrating it into `main`.
