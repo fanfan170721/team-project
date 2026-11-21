@@ -3,7 +3,7 @@ package com.wordtrail.adapter;
 import com.wordtrail.usecase.ExportResultsOutputBoundary;
 import com.wordtrail.usecase.ExportResultsResponse;
 
-/** Turns UC-09 outcomes into the messages shown on the Progress screen. */
+/** Turns UC-09 outcomes into plain display results for the export screen. */
 public final class ExportResultsPresenter implements ExportResultsOutputBoundary {
     private final ExportResultsViewModel viewModel;
 

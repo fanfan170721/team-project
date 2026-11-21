@@ -1,8 +1,14 @@
 package com.wordtrail.adapter;
 
+import com.wordtrail.usecase.ExportResultsInputBoundary;
 import com.wordtrail.usecase.ExportResultsResponse;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
+import java.util.function.Consumer;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -13,22 +19,39 @@ class ExportResultsAdaptersTest {
     private final ExportResultsViewModel viewModel = new ExportResultsViewModel();
     private final ExportResultsPresenter presenter = new ExportResultsPresenter(viewModel);
     private final List<String> received = new ArrayList<>();
+    /** What the scripted use case does for each successive request. */
+    private final Deque<Consumer<String>> script = new ArrayDeque<>();
+    private final ExportResultsInputBoundary useCase = destination -> {
+        received.add(destination);
+        script.removeFirst().accept(destination);
+    };
+    private final ExportResultsController controller = new ExportResultsController(useCase, viewModel);
 
-    private ExportResultsController controllerThat(java.util.function.Consumer<String> behaviour) {
-        return new ExportResultsController(destination -> {
-            received.add(destination);
-            behaviour.accept(destination);
-        }, viewModel);
+    private void thenSucceeds(int count) {
+        script.add(destination -> presenter.prepareSuccessView(new ExportResultsResponse(destination, count)));
+    }
+
+    private void thenFails(String message) {
+        script.add(destination -> presenter.prepareFailView(message));
     }
 
     @Test
-    void successReportsDestinationAndPluralCount() {
-        ExportResultsController controller = controllerThat(
-                destination -> presenter.prepareSuccessView(new ExportResultsResponse(destination, 3)));
+    void passesTheDestinationUnchangedAndCallsTheUseCaseOnce() {
+        String destination = "  C:/My exports/résultats, 2026.csv ";
+        thenSucceeds(1);
+
+        controller.export(destination);
+
+        assertEquals(List.of(destination), received);
+        assertTrue(script.isEmpty());
+    }
+
+    @Test
+    void successReportsDestinationAndCount() {
+        thenSucceeds(3);
 
         ExportResultsViewModel.Result result = controller.export("C:/exports/results.csv");
 
-        assertEquals(List.of("C:/exports/results.csv"), received);
         assertTrue(result.success);
         assertEquals("C:/exports/results.csv", result.destination);
         assertEquals(3, result.exportedCount);
@@ -36,34 +59,74 @@ class ExportResultsAdaptersTest {
     }
 
     @Test
-    void singleAndZeroResultsUseClearWording() {
-        assertEquals("Exported 1 quiz result to one.csv.", controllerThat(
-                d -> presenter.prepareSuccessView(new ExportResultsResponse(d, 1))).export("one.csv").message);
+    void singleResultUsesSingularWording() {
+        thenSucceeds(1);
 
-        ExportResultsViewModel.Result empty = controllerThat(
-                d -> presenter.prepareSuccessView(new ExportResultsResponse(d, 0))).export("empty.csv");
+        assertEquals("Exported 1 quiz result to one.csv.", controller.export("one.csv").message);
+    }
+
+    @Test
+    void zeroResultsIsAnExplicitSuccess() {
+        thenSucceeds(0);
+
+        ExportResultsViewModel.Result empty = controller.export("empty.csv");
+
         assertTrue(empty.success);
+        assertEquals("empty.csv", empty.destination);
         assertEquals(0, empty.exportedCount);
         assertEquals("Exported 0 quiz results to empty.csv. The file contains only the header row.", empty.message);
     }
 
     @Test
-    void failureIsPresentedWithoutSuccessData() {
-        ExportResultsViewModel.Result result = controllerThat(
-                d -> presenter.prepareFailView("Export failed: Disk is full.")).export("results.csv");
+    void failureAfterSuccessKeepsOnlyTheNewError() {
+        thenSucceeds(2);
+        thenFails("Export failed: Disk is full.");
+        ExportResultsViewModel.Result first = controller.export("first.csv");
 
-        assertFalse(result.success);
-        assertEquals("", result.destination);
-        assertEquals(0, result.exportedCount);
-        assertEquals("Export failed: Disk is full.", result.message);
+        ExportResultsViewModel.Result failed = controller.export("second.csv");
+
+        assertFalse(failed.success);
+        assertEquals("", failed.destination);
+        assertEquals(0, failed.exportedCount);
+        assertEquals("Export failed: Disk is full.", failed.message);
+        assertTrue(first.success, "the earlier result object is not changed by a later request");
+        assertEquals("first.csv", first.destination);
+        assertEquals(2, first.exportedCount);
+        assertEquals("Exported 2 quiz results to first.csv.", first.message);
     }
 
     @Test
-    void eachRequestClearsThePreviousResult() {
-        controllerThat(d -> presenter.prepareSuccessView(new ExportResultsResponse(d, 2))).export("first.csv");
+    void successAfterFailureKeepsNoOldError() {
+        thenFails("Please choose where to save the exported results.");
+        thenSucceeds(4);
+        ExportResultsViewModel.Result failed = controller.export(" ");
 
-        ExportResultsController silent = controllerThat(d -> { });
-        IllegalStateException error = assertThrows(IllegalStateException.class, () -> silent.export("second.csv"));
+        ExportResultsViewModel.Result result = controller.export("retry.csv");
+
+        assertTrue(result.success);
+        assertEquals("Exported 4 quiz results to retry.csv.", result.message);
+        assertFalse(failed.success);
+        assertEquals("Please choose where to save the exported results.", failed.message);
+    }
+
+    @Test
+    void aRequestWithoutOutputNeverReusesThePreviousResult() {
+        thenSucceeds(2);
+        script.add(destination -> { });
+        controller.export("first.csv");
+
+        IllegalStateException error = assertThrows(IllegalStateException.class, () -> controller.export("second.csv"));
+
         assertEquals("The export request did not produce a result.", error.getMessage());
+        assertEquals(List.of("first.csv", "second.csv"), received);
+    }
+
+    @Test
+    void resultIsImmutableDisplayDataOnly() {
+        for (Field field : ExportResultsViewModel.Result.class.getDeclaredFields()) {
+            assertTrue(Modifier.isFinal(field.getModifiers()), field.getName());
+            Class<?> type = field.getType();
+            assertTrue(type == boolean.class || type == int.class || type == String.class, field.getName());
+        }
     }
 }

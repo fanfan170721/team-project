@@ -4,8 +4,10 @@ These specifications describe user-observable behavior. Implementation classes
 belong in `ARCHITECTURE.md`. UC-01 through UC-08 are the AI-assisted application
 led by Zidong Yuan; his complete UC-08 flow was merged into delivery through
 [PR #3](https://github.com/fanfan170721/team-project/pull/3). Fuxuan Xu's UC-09 core
-and eight tests were merged through [PR #4](https://github.com/fanfan170721/team-project/pull/4).
-Its CSV adapter and controller/presenter/UI remain unfinished. UC-10 is assigned
+and eight tests were merged through [PR #4](https://github.com/fanfan170721/team-project/pull/4)
+and its CSV exporter through [PR #8](https://github.com/fanfan170721/team-project/pull/8); the
+controller, presenter, Swing screen and application wiring are in
+[PR #9](https://github.com/fanfan170721/team-project/pull/9), which still awaits review and merge. UC-10 is assigned
 to Xinyu Huang; no implementation branch or PR was observed on November 19, 2026.
 The following UC-09/10 scenarios specify the intended complete MVP behavior.
 
@@ -144,7 +146,7 @@ implemented supporting account operations. Sign-in itself does not create an acc
   available for correction or retry. 3a. A quiz was already in
   progress: keep that quiz's original question snapshot; new quizzes use the new meaning.
 
-## UC-09: Export my quiz results (MVP; Fuxuan Xu; core merged)
+## UC-09: Export my quiz results (MVP; Fuxuan Xu; complete flow in PR #9)
 
 - **Primary actor:** Signed-in learner.
 - **Preconditions:** The account is active; a history with no completed quizzes is valid.
@@ -164,12 +166,24 @@ implemented supporting account operations. Sign-in itself does not create an acc
 Acceptance includes empty history, account isolation, chronological sorting, CSV
 escaping, cancellation, overwrite refusal and write failure. The merged core
 handles authentication, destination validation, account-specific chronological
-rows, empty history, unchanged progress and success/failure output through ports.
-Eight interactor tests cover these behaviors using an exporter double. Concrete
-UTF-8 CSV writing/escaping, file safety, cancellation/overwrite interaction and
-the controller/presenter/UI flow still require implementation and acceptance tests.
-A proposed handoff of the remaining CSV work to Allen awaits Fuxuan's reply;
-the designated lead has not changed.
+rows, empty history, unchanged progress and success/failure output through ports
+(eight interactor tests with an exporter double). The merged CSV exporter writes
+UTF-8 with RFC 4180 quoting through a temporary file and an atomic replace, so a
+failed write leaves any existing file unchanged.
+
+**Using it (PR #9):** sign in, open the **Export results** tab (shown to every
+account, after the existing tabs) and choose **Export results (CSV)...**. The save
+dialog adds `.csv` when the name has none; if that final file already exists, the
+learner must confirm replacing it. Cancelling either dialog writes nothing and shows
+"Export cancelled". The screen then shows the saved path and the number of results
+(0 for an empty history, whose file has only the header), or the error on failure.
+Columns are `completed_at_utc,topic,correct,total`, oldest first.
+
+Automated acceptance tests cover each scenario above through the real application,
+the real Swing button with scripted dialog answers, and the real CSV files. On
+November 20, 2026 the author also manually operated the native dialogs with a
+separate demo data directory: export, declining a replacement (file unchanged),
+confirming a replacement, and switching accounts (only that account's results).
 
 ## UC-10: Generate today's review plan (MVP; Xinyu Huang; pending)
 
