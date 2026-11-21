@@ -42,8 +42,43 @@ function Get-LauncherInputFingerprint {
     }
 }
 
+function Assert-CleanBuildPreservesData([string]$BuildDirectory) {
+    if (-not (Test-Path -LiteralPath $BuildDirectory -PathType Container)) { return }
+    $taskPendingDirectories = [System.Collections.Generic.Stack[string]]::new()
+    $taskPendingDirectories.Push($BuildDirectory)
+    while ($taskPendingDirectories.Count -gt 0) {
+        $taskDirectory = Get-Item -LiteralPath $taskPendingDirectories.Pop() -Force
+        if (($taskDirectory.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -ne 0) {
+            throw 'Refusing to clean a linked directory under target. Keep build output in ordinary directories; no data was changed.'
+        }
+        foreach ($taskEntry in Get-ChildItem -LiteralPath $taskDirectory.FullName -Force) {
+            if ($taskEntry.PSIsContainer) {
+                $taskPendingDirectories.Push($taskEntry.FullName)
+            }
+            elseif ($taskEntry.Name -eq 'wordtrail.json') {
+                throw ('Refusing to rebuild because WordTrail data exists under target: ' + $taskEntry.FullName +
+                    '. Close WordTrail, make a backup, and move this profile directory outside target (for example .wordtrail/demo) without overwriting an existing profile before retrying. No data was changed.')
+            }
+        }
+    }
+}
+
 Push-Location -LiteralPath $PSScriptRoot
 try {
+    $taskBuildDirectory = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot 'target')).TrimEnd('\', '/')
+    if (-not $Check -and -not [string]::IsNullOrWhiteSpace($DataDirectory)) {
+        $taskDataPath = [System.IO.Path]::GetFullPath(
+            $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($DataDirectory)).TrimEnd('\', '/')
+        $taskPathComparison = if ([System.IO.Path]::DirectorySeparatorChar -eq '\') {
+            [StringComparison]::OrdinalIgnoreCase
+        } else {
+            [StringComparison]::Ordinal
+        }
+        if ([string]::Equals($taskDataPath, $taskBuildDirectory, $taskPathComparison) -or
+            $taskDataPath.StartsWith($taskBuildDirectory + [System.IO.Path]::DirectorySeparatorChar, $taskPathComparison)) {
+            throw 'DataDirectory must be outside target, which Maven clean deletes. Use .wordtrail/demo or another persistent folder. For an existing profile, close WordTrail, make a backup, and move the profile directory outside target without overwriting another profile. No data was changed.'
+        }
+    }
     $taskJarPath = Join-Path $PSScriptRoot 'target/wordtrail.jar'
     $taskStampPath = Join-Path $PSScriptRoot 'target/launcher-inputs.sha256'
     $taskInputFingerprint = Get-LauncherInputFingerprint
@@ -59,6 +94,7 @@ try {
         $taskSavedFingerprint -ne ($taskInputFingerprint + ':' + $taskJarFingerprint)
 
     if ($taskNeedsBuild) {
+        Assert-CleanBuildPreservesData $taskBuildDirectory
         # Invalidate the previous stamp even if Maven fails before its clean phase.
         if (Test-Path -LiteralPath $taskStampPath) { Remove-Item -LiteralPath $taskStampPath -Force }
         Get-Command mvn -ErrorAction Stop | Out-Null
