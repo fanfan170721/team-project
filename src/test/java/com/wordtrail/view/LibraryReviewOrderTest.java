@@ -93,7 +93,7 @@ class LibraryReviewOrderTest {
         };
         AppController controller = new AppController(null,
                 new CatalogController(catalog, () -> metadata, new CatalogPresenter()), null, null,
-                new ReviewController(review, catalog, () -> metadata, new ReviewPresenter()), null, null, null);
+                new ReviewController(review, catalog, () -> metadata, new ReviewPresenter()), null, null, null, null);
         JPanel root = edt(JPanel::new);
         UiTasks tasks = new UiTasks(root, message -> { });
         LibraryPanel panel = edt(() -> {
