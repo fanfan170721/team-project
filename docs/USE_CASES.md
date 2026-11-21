@@ -5,8 +5,10 @@ belong in `ARCHITECTURE.md`. UC-01 through UC-08 are the AI-assisted application
 led by Zidong Yuan; his complete UC-08 flow was merged into delivery through
 [PR #3](https://github.com/fanfan170721/team-project/pull/3). Fuxuan Xu's UC-09 core
 and eight tests were merged through [PR #4](https://github.com/fanfan170721/team-project/pull/4).
-Its CSV adapter and controller/presenter/UI remain unfinished. UC-10 is assigned
-to Xinyu Huang; no implementation branch or PR was observed on November 19, 2026.
+Fuxuan's CSV adapter and 11 tests are now merged through
+[PR #8](https://github.com/fanfan170721/team-project/pull/8). Xinyu Huang's UC-10
+core and 13 tests are merged through [PR #7](https://github.com/fanfan170721/team-project/pull/7).
+Both use cases still need controller/presenter/UI and application wiring.
 The following UC-09/10 scenarios specify the intended complete MVP behavior.
 
 ## UC-01: Sign in to my learning account
@@ -144,7 +146,7 @@ implemented supporting account operations. Sign-in itself does not create an acc
   available for correction or retry. 3a. A quiz was already in
   progress: keep that quiz's original question snapshot; new quizzes use the new meaning.
 
-## UC-09: Export my quiz results (MVP; Fuxuan Xu; core merged)
+## UC-09: Export my quiz results (MVP; Fuxuan Xu; core and CSV adapter merged)
 
 - **Primary actor:** Signed-in learner.
 - **Preconditions:** The account is active; a history with no completed quizzes is valid.
@@ -165,13 +167,13 @@ Acceptance includes empty history, account isolation, chronological sorting, CSV
 escaping, cancellation, overwrite refusal and write failure. The merged core
 handles authentication, destination validation, account-specific chronological
 rows, empty history, unchanged progress and success/failure output through ports.
-Eight interactor tests cover these behaviors using an exporter double. Concrete
-UTF-8 CSV writing/escaping, file safety, cancellation/overwrite interaction and
-the controller/presenter/UI flow still require implementation and acceptance tests.
-A proposed handoff of the remaining CSV work to Allen awaits Fuxuan's reply;
-the designated lead has not changed.
+Eight interactor tests cover these behaviors using an exporter double. The merged
+CSV adapter has 11 tests for UTF-8 output, escaping, empty history, atomic replacement
+and ordinary failure protection/cleanup. Cancellation/overwrite interaction,
+the controller/presenter/UI, wiring and full-flow acceptance tests remain pending.
+Fuxuan implemented the CSV adapter; no handoff to Allen is needed.
 
-## UC-10: Generate today's review plan (MVP; Xinyu Huang; pending)
+## UC-10: Generate today's review plan (MVP; Xinyu Huang; core merged)
 
 - **Primary actor:** Signed-in learner.
 - **Preconditions:** The account is active; its visible vocabulary and review history can be read.
@@ -193,3 +195,6 @@ the designated lead has not changed.
 Acceptance includes fixed-date due/not-due boundaries, topic and limit behavior,
 private-word isolation, personal meanings and unchanged study counters. This is
 a simple disclosed scheduling policy, not a claim of a mature adaptive algorithm.
+The interactor, input/output boundaries, entry/response DTOs and 13 fixed-clock
+tests are merged through PR #7. The controller/presenter/UI, wiring and complete
+application-flow acceptance tests remain pending.

@@ -1,10 +1,12 @@
 # Application delivery PR #2 description
 
-[PR #2](https://github.com/fanfan170721/team-project/pull/2) adds a runnable Java 11 /
+[PR #2](https://github.com/fanfan170721/team-project/pull/2) added a runnable Java 11 /
 Swing vocabulary-learning application to the Maven skeleton. This description
 reflects the combined delivery at `62adf65`, checked on November 19, 2026. The PR
-remains a draft from `Emilia/project-delivery` to `main`; `main` at `dbde42d`
-contains the template and signed contract, not the application.
+merged from `Emilia/project-delivery` into `main` on November 20 as `064dc56`.
+The merge tree matches reviewed/tested `62adf65`, including PR #3 and PR #4;
+`main` now contains the runnable application. Teammates continue using
+`Emilia/project-delivery` as their current work base.
 
 Learners can register and sign in, browse and search vocabulary, study flashcards,
 take four-choice quizzes, save review words and inspect progress. A first-run
@@ -37,10 +39,10 @@ with AI assistance. Later contributions are recorded separately:
   UC-08 personal-vocabulary flow into delivery (`d0f9f7f`).
 - [PR #4](https://github.com/fanfan170721/team-project/pull/4) merged Fuxuan's UC-09
   interactor, input/output boundaries, row/response DTOs, exporter port and eight
-  tests into delivery (`62adf65`). Tests use an exporter double; no concrete CSV
-  adapter, controller, presenter or export UI is implemented yet.
-- Xinyu approved PR #2 and PR #3. No UC-10 implementation branch or PR was observed
-  at the latest check. Fuxuan's code peer review remains outstanding.
+  tests into delivery (`62adf65`). At that snapshot, the tests used an exporter
+  double; the concrete CSV adapter and UI flow were not part of PR #2.
+- Xinyu approved PR #2 and PR #3. Later implementation and review evidence is
+  recorded in the progress update below.
 
 Validation on November 19 against the combined application code from `62adf65`:
 
@@ -60,15 +62,27 @@ Validation on November 19 against the combined application code from `62adf65`:
 - The packaged application's live `--check-api hello` diagnostic succeeded against
   the primary provider on November 17. Automated tests do not require public API access.
 
-The complete UC-09 CSV flow and UC-10 daily review plan remain committed MVP work.
+## Subsequent progress on November 20
 
-The separate shared-maintenance branch adds launcher/build checks and one
-startup-failure subprocess regression: 67 JUnit tests, 535/535 core lines and
-102 Java files with 676 Checkstyle findings. These changes are not yet merged into
-PR #2's delivery branch; inspect their own PR and remote checks before integration.
+Delivery is now at `cebde6d`, beyond the baseline on `main`:
 
-A proposed handoff of the remaining CSV work to Allen awaits Fuxuan's reply; no
-ownership transfer is claimed. Each member still needs a complete personal use
-case and genuine review/contribution evidence. Final integration, final checks,
-presentation and individual submissions are not complete. See
+- Fuxuan merged maintenance [PR #5](https://github.com/fanfan170721/team-project/pull/5)
+  as `ba26bfb`, then left an actual review comment. This was not an Approve review
+  event before the merge.
+- Xinyu's [PR #7](https://github.com/fanfan170721/team-project/pull/7) merged the
+  UC-10 core and 13 tests as `e93804d` after review.
+- Fuxuan's [PR #8](https://github.com/fanfan170721/team-project/pull/8) merged the
+  CSV adapter and 11 tests as `cebde6d` after review. No CSV handoff to Allen is needed.
+- [PR #6](https://github.com/fanfan170721/team-project/pull/6) now targets delivery.
+  Its updated working tree includes those increments, demo-data protection and
+  typed-topic/review-time follow-up fixes. Local verification passed **100 tests**,
+  **633/633 core lines covered**, and an offline packaged-JAR check. Checkstyle
+  retains **588 findings**; the project has **113 Java source files**. These local
+  results do not replace current remote checks or the outstanding peer approval.
+
+All members now have substantial merged code, real peer-review records and
+runnable progress. UC-09 and UC-10 still need controller/presenter/UI and wiring;
+their complete flows remain committed MVP work. Each member's own TA demonstration
+and explanation have not been verified. Final integration, final checks,
+presentation and individual submissions remain incomplete. See
 `DELIVERY_CHECKLIST.md` and `VERIFICATION.md` for the remaining work and evidence.

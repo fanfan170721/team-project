@@ -97,9 +97,9 @@ final class Ui {
     }
 
     /** Selects the actual topic value, independently of its display label. */
-    static void selectTopic(JComboBox<?> combo, String topic) {
+    static void selectTopic(JComboBox<TopicOption> combo, String topic) {
         for (int index = 0; index < combo.getItemCount(); index++) {
-            TopicOption option = (TopicOption) combo.getItemAt(index);
+            TopicOption option = combo.getItemAt(index);
             if (java.util.Objects.equals(option.value, topic)) {
                 combo.setSelectedIndex(index);
                 return;
