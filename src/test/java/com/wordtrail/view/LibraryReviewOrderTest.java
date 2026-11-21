@@ -91,7 +91,7 @@ class LibraryReviewOrderTest {
                 throw new AssertionError("Sorting must not change saved vocabulary.");
             }
         };
-        AppController controller = new AppController(null,
+        AppController controller = new AppController(null, null,
                 new CatalogController(catalog, () -> metadata, new CatalogPresenter()), null, null,
                 new ReviewController(review, catalog, () -> metadata, new ReviewPresenter()), null, null, null);
         JPanel root = edt(JPanel::new);
