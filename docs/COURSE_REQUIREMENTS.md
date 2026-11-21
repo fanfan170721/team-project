@@ -2,6 +2,8 @@
 
 Source audit: **November 17, 2026, Toronto time**; CSC207H1F 20269, Quercus course 444184.
 The syllabus AI policy was additionally checked on **November 19, 2026**.
+The Project Expectations, Timeline and README/MVP pages were rechecked on
+**November 20, 2026** for task scope and working-time guidance.
 This is an English paraphrase of the verified requirements notes, not a copy of course pages or slides.
 Check the official sources for later announcements. The November 15 presentation rubric was still
 labeled **draft**, and the exact presentation schedule and duration were awaiting confirmation.
@@ -15,6 +17,9 @@ This document records requirements, not current project completion; inspect the 
 - Develop the contract on a branch, obtain the whole team's agreement and each member's signature, then merge it through a PR.
 - Use PRs and reviews throughout planning, implementation, testing and improvement. A contract PR and one final code dump do not establish continuous collaboration.
 - Attend labs and agreed meetings, communicate delays and absences, contribute regularly and treat teammates respectfully. Staff consider lab interactions, peer evaluations and Git records.
+- The checked project pages expect progress outside labs and weekly participation;
+  they do not specify a minimum or maximum duration for an individual coding session.
+  Task-duration estimates are team planning choices, not professor-prescribed limits.
 
 ## Software and architecture
 

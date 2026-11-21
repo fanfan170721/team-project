@@ -3,6 +3,7 @@ package com.wordtrail.adapter;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /** Plain display data. Swing views do not import entities, repositories or interactors. */
@@ -60,6 +61,17 @@ public final class ViewModels {
                 return 1;
             }
             return instant.compareTo(other.instant);
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            return other instanceof ReviewTime
+                    && Objects.equals(instant, ((ReviewTime) other).instant);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(instant);
         }
 
         @Override

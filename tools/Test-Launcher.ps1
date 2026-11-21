@@ -42,6 +42,19 @@ function Invoke-ExpectedLauncherFailure([string]$Message) {
     Assert-LauncherCheck (-not (Test-Path -LiteralPath $taskStamp)) 'failed build must not retain a success stamp'
 }
 
+function Invoke-ExpectedDataGuard([hashtable]$LauncherOptions, [string]$Message) {
+    $taskBuildsBefore = @(Get-StubCalls 'mvn').Count
+    $taskLaunchesBefore = @(Get-StubCalls 'java').Count
+    $taskFailed = $false
+    try { & $taskLauncher @LauncherOptions }
+    catch {
+        $taskFailed = $true
+        Assert-LauncherCheck ($_.Exception.Message.Contains($Message)) "expected data guard: $Message"
+    }
+    Assert-LauncherCheck $taskFailed 'unsafe data configuration must stop the launcher'
+    Assert-CallCounts $taskBuildsBefore $taskLaunchesBefore 'data guard must run before Maven or Java'
+}
+
 try {
     foreach ($taskChild in @('bin', 'state', 'src/main/resources', 'config/checkstyle')) {
         [void][System.IO.Directory]::CreateDirectory((Join-Path $taskFixture $taskChild))
@@ -179,6 +192,56 @@ $global:LASTEXITCODE = 0
     Assert-LauncherCheck ([System.IO.File]::ReadAllText($taskStamp).EndsWith(':' + $taskCurrentJarHash)) 'stamp binds the exact JAR'
     & $taskLauncher -Check
     Assert-CallCounts 16 17 'matching inputs and JAR skip rebuilding'
+
+    # Existing profiles must survive both forced and automatic clean builds, including -Check.
+    $taskProfileDirectory = Join-Path $taskFixture 'target/presentation-data/nested'
+    [void][System.IO.Directory]::CreateDirectory($taskProfileDirectory)
+    $taskProtectedProfile = Join-Path $taskProfileDirectory 'wordtrail.json'
+    $taskProfileBytes = [byte[]](0, 10, 13, 127, 255)
+    [System.IO.File]::WriteAllBytes($taskProtectedProfile, $taskProfileBytes)
+    $taskStampBeforeGuard = [System.IO.File]::ReadAllText($taskStamp)
+    $taskDataMessage = 'Refusing to rebuild because WordTrail data exists under target'
+    Invoke-ExpectedDataGuard @{ Build = $true } $taskDataMessage
+    Invoke-ExpectedDataGuard @{ Build = $true; Check = $true } $taskDataMessage
+    [System.IO.File]::AppendAllText($taskPom, '<!-- automatic rebuild required -->')
+    Invoke-ExpectedDataGuard @{} $taskDataMessage
+    Invoke-ExpectedDataGuard @{ Check = $true; DataDirectory = 'target/ignored-by-check' } $taskDataMessage
+    Assert-LauncherCheck ([Convert]::ToBase64String([System.IO.File]::ReadAllBytes($taskProtectedProfile)) -eq
+        [Convert]::ToBase64String($taskProfileBytes)) 'nested profile remains byte-identical after every blocked build'
+    Assert-LauncherCheck ([System.IO.File]::ReadAllText($taskStamp) -eq $taskStampBeforeGuard) 'data guard does not alter the successful build stamp'
+    Remove-Item -LiteralPath $taskProtectedProfile
+
+    $taskRootProfile = Join-Path $taskFixture 'target/wordtrail.json'
+    [System.IO.File]::WriteAllBytes($taskRootProfile, $taskProfileBytes)
+    Invoke-ExpectedDataGuard @{ Check = $true } $taskDataMessage
+    Assert-LauncherCheck ([Convert]::ToBase64String([System.IO.File]::ReadAllBytes($taskRootProfile)) -eq
+        [Convert]::ToBase64String($taskProfileBytes)) 'profile directly in target remains byte-identical'
+    Remove-Item -LiteralPath $taskRootProfile
+
+    # Explicit data paths cannot create future profiles inside the disposable build tree.
+    $taskUnsafeDataPaths = @('target', './target/', 'target/new-profile', 'target/child/..',
+        'target/../target/new-profile', 'target-other/../target/new-profile',
+        (Join-Path $taskFixture 'target/new-profile'))
+    if ([System.IO.Path]::DirectorySeparatorChar -eq '\') { $taskUnsafeDataPaths += 'TARGET/new-profile' }
+    foreach ($taskUnsafeDataPath in $taskUnsafeDataPaths) {
+        Invoke-ExpectedDataGuard @{ DataDirectory = $taskUnsafeDataPath } 'DataDirectory must be outside target'
+    }
+    Assert-LauncherCheck (-not (Test-Path -LiteralPath (Join-Path $taskFixture 'target/new-profile'))) 'rejected data path is never created'
+
+    & $taskLauncher -Check -DataDirectory 'target/ignored-by-check'
+    Assert-CallCounts 17 18 'check ignores the explicit path after existing data has been removed'
+    $taskLaunchCalls = @(Get-StubCalls 'java')
+    $taskArguments = $taskLaunchCalls[-1]
+    Assert-LauncherCheck ($taskArguments.Count -eq 3 -and $taskArguments[2] -eq '--help') 'check still forwards only help'
+    Assert-LauncherCheck (-not (Test-Path -LiteralPath (Join-Path $taskFixture 'target/ignored-by-check'))) 'check does not create the ignored profile'
+    foreach ($taskSafeDataPath in @('target-other', '.wordtrail/demo', 'target/../.wordtrail/demo with spaces')) {
+        & $taskLauncher -DataDirectory $taskSafeDataPath
+        $taskLaunchCalls = @(Get-StubCalls 'java')
+        $taskArguments = $taskLaunchCalls[-1]
+        Assert-LauncherCheck ($taskArguments.Count -eq 4 -and $taskArguments[2] -eq '--data-dir' -and
+            $taskArguments[3] -eq $taskSafeDataPath) 'safe persistent data path is forwarded unchanged'
+    }
+    Assert-CallCounts 17 21 'safe paths neither trigger a build nor collide with target prefix'
     Write-Output "Launcher regression checks passed: $taskChecks assertions; stubbed Maven/Java only."
 }
 finally {
