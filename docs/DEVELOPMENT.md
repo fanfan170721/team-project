@@ -16,7 +16,7 @@ and test reports. Chinese is allowed only for teammate communication in these fi
 mvn clean verify
 git diff --check
 java "-Djava.awt.headless=true" -jar target/wordtrail.jar --help
-java "-Djava.awt.headless=true" --class-path target/wordtrail.jar tools/VerifyPackage.java target/package-check
+java tools/CheckPackage.java target/wordtrail.jar target/package-check
 ```
 
 Unit tests never need the public API. HTTP tests start a local server. Swing tests
@@ -25,11 +25,13 @@ configured for Java 11 and 17 on Windows and Linux; consult the actual PR checks
 for remote results.
 
 The package check runs against the executable JAR rather than Maven's test
-classpath. It creates an isolated temporary profile, verifies the packaged seed
-data and JSON dependency, saves a personal word and reopens the application to
-check persistence. It deletes its own test profile and writes
-`target/package-check/result.txt`. It does not open a native window or access the
-public API. Keep the `-Djava.awt.headless=true` argument quoted in PowerShell.
+classpath. Its wrapper clears previous success evidence before compiling the
+probe, records the outcome and JAR checksums, and runs the offline persistence
+check in headless mode. It writes `target/package-check/result.txt` and
+`target/package-check/verification.properties`; see
+[Package verification](PACKAGE_VERIFICATION.md) for their scope and interpretation.
+Keep the `-Djava.awt.headless=true` argument for the separate help check quoted in
+PowerShell.
 
 On Windows, run `powershell -NoProfile -File tools/Test-Launcher.ps1` to check
 launcher rebuild decisions with isolated fake Java/Maven commands. The harness
