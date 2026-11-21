@@ -44,8 +44,8 @@ The preparation durations below are team estimates, not course-imposed coding li
 | Member / estimated preparation | Demonstration and current evidence |
 | --- | --- |
 | Allen / 20 minutes | Run UC-08: add a personal word, edit its definition, check account isolation, close and reopen `.wordtrail/demo` to show persistence. Perform a live lookup and show its provider URL. [PR #3](https://github.com/fanfan170721/team-project/pull/3) contains the merged flow and Xinyu's approval; Allen's review is on [PR #4](https://github.com/fanfan170721/team-project/pull/4). |
-| Fuxuan / 15 minutes | Run the eight `ExportResultsInteractorTest` cases and 11 `CsvQuizResultsExporterTest` cases. Explain account isolation, chronological rows, CSV escaping and a failed atomic replacement that preserves an existing file. [PR #4](https://github.com/fanfan170721/team-project/pull/4) and [PR #8](https://github.com/fanfan170721/team-project/pull/8) contain this merged progress; the export UI is still unfinished. |
-| Xinyu / 20 minutes | Run the 13 `ReviewPlanInteractorTest` cases merged through [PR #7](https://github.com/fanfan170721/team-project/pull/7), then explain a fixed-date due/not-due example and why planning leaves study counters unchanged. Her approvals on PR #2/#3 provide peer-review evidence; the review-plan UI is still unfinished. |
+| Fuxuan / 15 minutes | Open **Export results**, export a completed quiz and explain account isolation, chronological rows, CSV escaping and overwrite refusal. The complete flow is merged through [PR #9](https://github.com/fanfan170721/team-project/pull/9), extending #4/#8; his formal review of #6 is recorded. |
+| Xinyu / 20 minutes | Open **Review plan**, choose a topic and limit, and explain one due/not-due example and why planning leaves study counters unchanged. The complete flow is merged through [PR #11](https://github.com/fanfan170721/team-project/pull/11), extending #7; her approvals on #2/#3 provide peer-review evidence. |
 
 From the project root, Fuxuan can run the core and CSV tests:
 
@@ -72,7 +72,8 @@ do not claim a successful live call. Tests are useful runnable evidence when the
 member can explain the behavior; a green test count alone does not establish TA acceptance.
 Fuxuan left an actual review comment on [PR #5](https://github.com/fanfan170721/team-project/pull/5)
 after merging it; this was not an Approve review event before the merge. No CSV
-handoff is needed. Both use cases still need controller/presenter/UI and wiring.
+handoff is needed. His later formal approval of PR #6 is also recorded. Both
+complete use-case flows are now merged through PR #9 and PR #11.
 Each member's own TA demonstration and explanation remain unverified.
 If preparation takes longer, report the real stopping point and continue as needed.
 These estimates do not guarantee completion; the presentation timing below is a
@@ -106,11 +107,11 @@ keeping all required evidence and all speakers. Avoid reading paragraphs from sl
 4. Complete a short quiz and show the saved result. Close and reopen using the
    same data directory, then sign in and show that the result and review list remain.
 
-## Pending MVP demonstrations
+## MVP demonstrations to rehearse
 
-These complete UI flows are **not available yet**, although UC-09's core/CSV
-adapter and UC-10's core are merged. Their leads must complete and test the
-controller/presenter/UI and wiring before the final integrated demonstration.
+Both complete UI flows are now reviewed, tested and merged into delivery through
+PR #9 and PR #11. The steps below are preparation; each member's own TA
+demonstration and a joint rehearsal remain unverified.
 
 - **Fuxuan / UC-09:** export the account's quiz results; inspect the CSV and result
   count. Demonstrate cancellation or overwrite refusal, plus an empty history.
@@ -120,7 +121,7 @@ controller/presenter/UI and wiring before the final integrated demonstration.
 **Zidong / UC-08 is already implemented:** explain the personal vocabulary path,
 failed-save input retention and privacy behavior using the existing demonstration.
 
-Assign the actual speakers and rehearse together once these features exist. A
+Assign the actual speakers and rehearse together with the integrated build. A
 written script does not establish that rehearsal or individual preparation happened.
 
 ## Design evidence to prepare
@@ -147,4 +148,4 @@ written script does not establish that rehearsal or individual preparation happe
 - What did each member actually implement and review? Point to their real PRs.
 
 The team still needs its presentation material, real rehearsal and individual
-reflections. Keep the evidence current after the remaining MVP integrations.
+reflections. Keep the evidence current after publishing the reviewed delivery to `main`.

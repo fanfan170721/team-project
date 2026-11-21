@@ -8,11 +8,13 @@ and eight tests were merged through [PR #4](https://github.com/fanfan170721/team
 Fuxuan's CSV adapter and 11 tests are now merged through
 [PR #8](https://github.com/fanfan170721/team-project/pull/8). Its controller,
 presenter, Swing screen and application wiring are in
-[PR #9](https://github.com/fanfan170721/team-project/pull/9), awaiting re-review
-and merge. Xinyu Huang's UC-10 core and 13 tests are merged through
+[PR #9](https://github.com/fanfan170721/team-project/pull/9), reviewed and merged
+as `f968b44`. Xinyu Huang's UC-10 core and 13 tests are merged through
 [PR #7](https://github.com/fanfan170721/team-project/pull/7); the complete
 review-plan flow is in [PR #11](https://github.com/fanfan170721/team-project/pull/11),
-pending separate review and merge. Each member's own TA demonstration and
+reviewed and merged as `3f4b4f3` after the combined integration passed 147 tests
+and eight online checks. Both complete flows are included in this PR #10 integration.
+Each member's own TA demonstration and
 explanation remain unverified.
 The following UC-09/10 scenarios specify the intended complete MVP behavior.
 
@@ -151,7 +153,7 @@ implemented supporting account operations. Sign-in itself does not create an acc
   available for correction or retry. 3a. A quiz was already in
   progress: keep that quiz's original question snapshot; new quizzes use the new meaning.
 
-## UC-09: Export my quiz results (MVP; Fuxuan Xu; complete flow in PR #9)
+## UC-09: Export my quiz results (MVP; Fuxuan Xu; complete flow merged)
 
 - **Primary actor:** Signed-in learner.
 - **Preconditions:** The account is active; a history with no completed quizzes is valid.
@@ -186,7 +188,7 @@ learner must confirm replacing it. Cancelling either dialog writes nothing and s
 (0 for an empty history, whose file has only the header), or the error on failure.
 Columns are `completed_at_utc,topic,correct,total`, oldest first.
 
-PR #9 awaits re-review and merge. Its automated acceptance tests cover each
+PR #9 is reviewed and merged. Its automated acceptance tests cover each
 scenario above through the real application,
 the real Swing button with scripted dialog answers, and the real CSV files. On
 November 20, 2026 the author also manually operated the native dialogs with a
@@ -194,7 +196,7 @@ separate demo data directory: export, declining a replacement (file unchanged),
 confirming a replacement, and switching accounts (only that account's results).
 This records the author's manual verification, not a verified TA demonstration.
 
-## UC-10: Generate today's review plan (MVP; Xinyu Huang; core merged)
+## UC-10: Generate today's review plan (MVP; Xinyu Huang; complete flow merged)
 
 - **Primary actor:** Signed-in learner.
 - **Preconditions:** The account is active; its visible vocabulary and review history can be read.
@@ -219,5 +221,15 @@ a simple disclosed scheduling policy, not a claim of a mature adaptive algorithm
 The interactor, input/output boundaries, entry/response DTOs and 13 fixed-clock
 tests are merged through PR #7. The dedicated controller, presenter, **Review plan**
 tab, application wiring and complete application-flow acceptance tests are in
-PR #11, pending separate review and merge. That flow is not included in this
-UC-09 integration branch.
+PR #11, reviewed and merged as `3f4b4f3`; it is included in this PR #10 integration branch.
+
+**Using it:** sign in and open **Review plan**. Choose a topic and a word limit
+from 1 to 20, then select **Generate plan**. The table shows due words, effective
+personal definitions, due dates and scheduling reasons; select a row to read its
+full definition and reason. Changing a filter or re-entering the tab clears the
+old plan. The unfiltered choice is distinct from a real topic named **All topics**.
+
+Adapter, panel and real Swing workflow tests cover filtering, due boundaries,
+private definitions, account isolation, empty/failure states and identical saved
+progress after repeated plan generation. Automated tests run headlessly; they
+are not evidence of a completed personal desktop or TA demonstration.

@@ -13,7 +13,7 @@ Administrators add vocabulary and multiple-choice questions through forms.
 
 **Switching computers:** [Current progress and continuation instructions](docs/HANDOFF.md).
 
-**Teammates continuing now:** [Complete-feature assignments (estimated 2–3 hours each)](docs/START_HERE.zh-CN.md).
+**Teammates continuing now:** [Completed feature work and remaining review/demo steps](docs/START_HERE.zh-CN.md).
 
 This delivery branch integrates the existing application with the
 signed [team contract](TeamContract.md), merged through
@@ -27,11 +27,12 @@ Fuxuan's UC-09 core from [PR #4](https://github.com/fanfan170721/team-project/pu
 (`62adf65`). [PR #2](https://github.com/fanfan170721/team-project/pull/2) merged the
 runnable application into `main` as `064dc56`; its tree matches the reviewed and
 tested delivery at `62adf65`. Teammates continue using `Emilia/project-delivery`,
-now at `0ed4c82` after maintenance PR #5, Xinyu's UC-10 core PR #7, Fuxuan's
-CSV adapter PR #8 and reviewed demo-safety PR #6 merged. These later increments
-are not yet on `main`. PR #9 contains the complete export flow and awaits
-re-review and merge; PR #11 contains the complete review-plan flow and is under
-separate review. Neither pending flow is claimed as merged into delivery here.
+now at `3f4b4f3` after maintenance PR #5, Xinyu's UC-10 core PR #7, Fuxuan's
+CSV adapter PR #8, reviewed demo-safety PR #6 and complete export-flow PR #9
+merged. PR #11's complete review-plan flow is also merged after renewed review
+and eight successful online checks. These later increments are not yet on `main`.
+This PR #10 branch includes both feature
+flows for package verification, but PR #10 still needs peer review and merge.
 
 ## Contents
 
@@ -114,13 +115,16 @@ decide what to study today, complete a quiz and retain a copy of the results.
 | MVP use case | Designated lead | Current evidence |
 | --- | --- | --- |
 | UC-08: Maintain personal vocabulary and definitions | Zidong Yuan | Complete flow, dedicated edit output boundary, presenter and tested UI; PR #3 merged into delivery |
-| UC-09: Export my completed quiz results | Fuxuan Xu | Core and 8 tests (PR #4), atomic UTF-8 CSV exporter and 11 tests (PR #8) merged; controller, presenter, **Export results** tab and application wiring with acceptance tests in PR #9, awaiting re-review and merge |
-| UC-10: Generate today's due-review plan | Xinyu Huang | Core, boundaries, DTOs and 13 tests merged through PR #7; controller, presenter, **Review plan** tab, wiring and acceptance tests in PR #11, pending separate review and merge |
+| UC-09: Export my completed quiz results | Fuxuan Xu | Core (PR #4), atomic CSV adapter (PR #8), dedicated controller/presenter, **Export results** tab, application wiring and acceptance tests (PR #9) reviewed and merged |
+| UC-10: Generate today's due-review plan | Xinyu Huang | Core and 13 tests (PR #7), dedicated controller/presenter, **Review plan** tab, wiring and acceptance tests (PR #11) reviewed and merged |
 
 UC-09 and UC-10 are committed MVP scope, not optional future features. With PR #9,
 a signed-in learner opens the **Export results** tab, chooses **Export results (CSV)...**
 and saves only their own completed quizzes; an existing file is replaced only after
 confirmation, and cancelling writes nothing ([UC-09 details](docs/USE_CASES.md)).
+The **Review plan** tab selects a topic and a limit of 1–20 words, then shows
+due words, personal definitions, due dates and reasons. Generating a plan does
+not mark words as studied. Both complete flows are present in this integration.
 Fuxuan implemented the CSV adapter, so no handoff to Allen is needed. Each member
 has substantial merged code and a real peer-review record; their own TA
 demonstration and explanation have not been verified. Each use case must
@@ -135,7 +139,8 @@ local persistence. Learning from the bundled vocabulary also works offline.
 Acceptance: run that loop with a fresh data directory, then restart with the same
 directory and verify the account, saved word and completed quiz remain. The
 automated Swing workflow covers the existing loop; the [demo guide](docs/DEMO.md)
-gives manual steps. UC-09/10 have their own pending acceptance checks in the
+gives manual steps. UC-09/10 have automated acceptance evidence and remaining
+personal demonstration steps in the
 [formal use-case specification](docs/USE_CASES.md). Admin content editing is an
 implemented supporting feature.
 
@@ -224,10 +229,14 @@ eight stories and restarts the real JSON store. It writes screenshots to
 `target/ui-snapshots/`. GitHub Actions passed all four Windows/Linux and Java 11/17
 combinations for `62adf65`. The eight UC-09 core tests use an exporter double;
 11 CSV adapter tests exercise real files, and 13 UC-10 core tests use fixed clocks.
-PR #9 adds export adapter, chooser, panel and real-application tests. Independent
-verification of its `6776e67` revision passed 133 tests on November 21, 2026,
-before integrating PR #6. Verification of the combined tree is pending. PR #11's
-review-plan UI and acceptance tests are being reviewed separately. A separate offline
+PR #9 adds export adapter, chooser, panel and real-application tests. Its reviewed
+integration with PR #6 (`69b9ee9`) passed 135 tests and eight online checks before
+merging. The combined UC-09/UC-10 feature tree (`669cde3`, also the tree of
+PR #11's `5a512ae`) passed 147 tests on November 21, 2026; all eight current
+online checks passed before PR #11 merged as `3f4b4f3`. PR #10's updated working
+tree passed 147 tests again at 15:00 EST, plus its offline package probe and 23
+package-check regression assertions. PR #10 still needs current remote checks
+and peer review. A separate offline
 packaged-JAR check passed application wiring, bundled words/questions, the JSON
 dependency and account/personal-word persistence after reopening; it uses no UI
 or network. The package and launcher CI additions passed all four combinations
@@ -238,7 +247,8 @@ JaCoCo measures **633/633 executable lines (100%)** in the current Entity and Us
 Case layers, including the use-case ports. The report covers every class in those
 packages. New MVP code must keep meeting that target. `mvn verify` also runs
 Checkstyle: the PR #6 snapshot retained 588 findings across 113 Java source
-files; this is not a measurement of the pending combined tree. Cached report
+files; the current integrated tree reports 623 findings across 130 Java source
+files. Cached report
 entries are not a count of all source files. A
 successful build does not mean there are no style warnings. See
 `docs/VERIFICATION.md` for the measured snapshot and report paths.

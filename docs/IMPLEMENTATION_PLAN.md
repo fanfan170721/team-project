@@ -4,28 +4,31 @@ The existing AI-assisted Java/Swing baseline implements eight stories. The signe
 contract is integrated from `main`. The current delivery work aligns the code,
 documentation and validation with the course requirements verified on November 17.
 
-## Status on November 20, 2026
+## Status on November 21, 2026
 
 - The signed contract is merged through PR #1. Application delivery PR #2 merged
   into `main` as `064dc56`, with the same tree as reviewed/tested `62adf65`.
   `main` now contains the runnable baseline, including PR #3 and PR #4.
   Teammates continue using `Emilia/project-delivery` as their current work base.
 - Fuxuan merged maintenance PR #5 as `ba26bfb`, then left an actual review comment;
-  there was no Approve review event before that merge. PR #6 now targets delivery
-  and awaits peer approval. These changes are not included in the `main` baseline.
+  there was no Approve review event before that merge. He later formally approved
+  PR #6 at `c1bfcae`, which merged as `0ed4c82`. These changes are not included in `main`.
 - Formal specifications, feature controllers/presenters, coverage measurement
   and reproducible quality reports are present in `Emilia/project-delivery`.
 - Allen's complete UC-08 flow is merged through PR #3 (`d0f9f7f`).
 - Fuxuan's UC-09 core and eight interactor tests are merged through PR #4
   (`62adf65`); his CSV adapter and 11 tests are merged through PR #8 (`cebde6d`).
   Xinyu's UC-10 core and 13 tests are merged through PR #7 (`e93804d`).
-  Delivery is now at `cebde6d`; both use cases still need controller/presenter/UI
-  and wiring to become complete application flows.
-- The updated PR #6 working tree, including merged PR #7/#8 and follow-up fixes,
-  passed 100 tests with 633/633 Entity/Use Case lines covered and an offline
-  packaged-JAR wiring/content/persistence check. Checkstyle retains 588 findings;
-  the project has 113 Java source files, independently of cached report entries.
-  Updated PR #6 still requires its own remote checks and peer approval.
+  PR #9 completes UC-09's adapters/UI/wiring and acceptance tests, and merged as
+  `f968b44` after renewed review and eight successful checks. PR #11 completes
+  UC-10's adapters/UI/wiring and acceptance tests; its combined integration
+  received renewed review, passed eight online checks and merged as `3f4b4f3`.
+- The PR #10 working tree includes both full flows and passed 147 tests on
+  November 21 at 15:00 EST, with 633/633 Entity/Use Case lines covered and the
+  executable JAR built. Checkstyle retains 623 findings across 130 Java source
+  files. The package probe and 23 regression assertions passed. The probe
+  exercises all three MVP flows; its wrapper records current outcome and JAR
+  hash evidence. PR #10 still needs current checks and peer review.
 - All three members have substantial merged contributions and actual peer-review
   records. Their personal TA demonstrations and explanations remain unverified.
 
@@ -33,16 +36,12 @@ documentation and validation with the course requirements verified on November 1
 
 1. Allen maintains shared documentation, build/test evidence and integration.
    Keep measured Checkstyle findings visible; a passing build is not style clearance.
-2. Fuxuan reviews PR #6, then continues from his merged core and CSV adapter;
-   no CSV handoff to Allen is needed. His current assignment includes dedicated
-   adapters, behavior tests, file-selection UI, safe cancellation/overwrite
-   interaction, application wiring and full-flow acceptance tests.
-3. Allen integrates the members' minimal shared-file changes, preserving both
-   flows and checking the combined application after peer review.
-4. Xinyu continues from her merged UC-10 core with controller/presenter, UI,
-   wiring and tests in one coherent feature increment. Estimate 2–3 hours per
-   member for this round, including validation and submission; this is a team
-   planning estimate, not a professor-prescribed limit or completion guarantee.
+2. Continue from delivery `3f4b4f3`, which contains all three complete MVP flows.
+   Do not repeat completed implementations.
+3. Have a teammate review PR #10's updated package probe, regression evidence,
+   CI and handoff; Allen addresses feedback and integrates after review.
+4. Each member prepares to demonstrate and explain their full use case using
+   the integrated build. Automated tests do not establish a completed TA demo.
 5. Complete outstanding peer reviews and check each member's full-use-case
    evidence before claiming the individual requirements are satisfied.
 6. Review and test each further increment before integrating it into `main`.

@@ -103,10 +103,15 @@ and [PR #8](https://github.com/fanfan170721/team-project/pull/8), Fuxuan's CSV a
 All are merged into `Emilia/project-delivery`. Consult `HANDOFF.md` before
 starting new work; do not create a new teammate feature from an old local snapshot.
 
+The complete UC-09 and UC-10 flows are also merged through PR #9 and PR #11.
+PR #6 received Fuxuan's formal approval and merged. PR #10's package verification
+and handoff update still needs peer review; do not reuse earlier CI for its new revision.
+
 ## Individual implementation work
 
-The README assigns new MVP work to each member. `TEAM_TASKS.zh-CN.md` gives exact
-steps for completing the two partially implemented use cases. Each member leads their own interactor and
+The README records each member's implemented MVP work. `TEAM_TASKS.zh-CN.md`
+retains historical assignment steps; do not repeat the completed features.
+Each member leads their own interactor and
 interfaces, controller/presenter, UI, tests and review. The assignment is not
 evidence of completion; link real PRs and explain actual contributions as they occur.
 

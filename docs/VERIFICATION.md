@@ -1,5 +1,36 @@
 # Verification record
 
+## Latest verification — integrated MVP and packaged flows, 2026-11-21
+
+Branch: `Emilia/package-verification-evidence` (PR #10), a working-tree
+integration of the reviewed UC-08, UC-09 and UC-10 flows. The measurements below
+precede publication of the current PR #10 revision; they are not clean-commit
+provenance or evidence that PR #10 has received peer review.
+
+- Full Maven verification finished at **3:00 p.m. EST**: **147 tests**, zero
+  failures, errors or skips; executable JAR built.
+- Entity/Use Case line coverage: **633/633 (100%)**, with the existing scope and
+  thresholds unchanged. Checkstyle retained **623 findings** across **130 Java
+  source files**; the report remains visible and non-blocking.
+- The offline packaged-JAR probe **passed** personal-vocabulary editing and
+  persistence (UC-08), account-isolated quiz-results CSV export (UC-09), review
+  planning without progress mutation (UC-10), and reopening the stored profile.
+  It used synthetic isolated data and no native window, audio or public API.
+- **23 process-level package-check regression assertions passed**, separately
+  from the JUnit total. The wrapper invalidates old success reports, rejects
+  broken/missing/changed JARs or a child without a result, and records hash/outcome
+  metadata. See [PACKAGE_VERIFICATION.md](PACKAGE_VERIFICATION.md).
+- PR #9's renewed integration review covered `69b9ee9` (135 tests and eight
+  successful online checks); it merged as `f968b44`. PR #11's `5a512ae`
+  integration passed 147 tests and eight online checks before merging as
+  `3f4b4f3`. All three complete MVP flows are now on delivery, while `main`
+  remains the earlier `064dc56` baseline.
+- The updated PR #10 still needs publication, current CI and peer review. These
+  results do not establish personal TA demonstrations, rehearsal, presentation,
+  reflections or peer evaluations.
+
+The dated sections below are historical measurements of their named revisions.
+
 ## Latest verification — teammate integration and review follow-up, 2026-11-20
 
 Branch: `Emilia/m2-demo-safety`, including delivery merge `cebde6d` and review
