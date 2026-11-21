@@ -33,14 +33,25 @@ application classpath, rather than Maven's compiled classes or test dependencies
 
 - `Application` and its controllers can initialize an isolated profile.
 - Packaged vocabulary and quiz questions can be loaded.
-- Initial account setup and a personal vocabulary save succeed.
+- Initial account setup, a completed seed quiz, a personal vocabulary save and a
+  personal-definition edit succeed.
 - A JSON data file is created using the dependency packaged in the JAR.
-- Closing and reopening `Application`, signing in and finding the saved word
-  preserves its identifier and definition.
+- UC-10 produces a topic-filtered review plan containing the saved personal word
+  and its edited definition, with the expected due date.
+- UC-09 writes a real UTF-8 CSV with the expected header, UTC timestamp, topic,
+  score and quiz count. Its reported destination matches the written file.
+- Closing and reopening `Application` preserves the account, personal edit and
+  completed quiz; the new export is byte-identical to the first export.
+- A second account sees neither the first account's personal word nor its quiz
+  result; its plan is empty for that private topic and its CSV has only a header.
+- Generating each plan and exporting results leaves the JSON profile bytes
+  unchanged. All CSV fixtures are inside the isolated profile and removed with it.
 
 The probe supplies a fixed clock and a dictionary gateway that fails if called.
-It does not test a real server, native rendering, pronunciation or every use case.
-Those require their own tests or separately reported manual checks.
+This is a small combined packaging smoke check for UC-08/09/10, not a replacement
+for their detailed behavior and Swing tests. It does not test a real server,
+native rendering, save/overwrite dialogs, pronunciation or every use case. Those
+require their own tests or separately reported manual checks.
 
 ## Read the evidence
 
