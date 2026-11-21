@@ -270,7 +270,8 @@ class ReviewPlanPanelTest {
         return control("reviewPlan.message", JLabel.class);
     }
 
-    private JComboBox<?> topic() {
+    @SuppressWarnings("unchecked")
+    private JComboBox<Ui.TopicOption> topic() {
         return control("reviewPlan.topic", JComboBox.class);
     }
 

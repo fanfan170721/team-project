@@ -213,13 +213,17 @@ class ReviewPlanWorkflowTest {
     }
 
     private void selectPlanTopic(String topic) throws Exception {
-        SwingUtilities.invokeAndWait(() -> Ui.selectTopic(control("reviewPlan.topic", JComboBox.class), topic));
+        SwingUtilities.invokeAndWait(() -> Ui.selectTopic(planTopicSelector(), topic));
         awaitIdle();
     }
 
     @SuppressWarnings("unchecked")
+    private JComboBox<Ui.TopicOption> planTopicSelector() {
+        return control("reviewPlan.topic", JComboBox.class);
+    }
+
     private String selectedPlanTopic() throws Exception {
-        return onEdt(() -> Ui.topic(control("reviewPlan.topic", JComboBox.class)));
+        return onEdt(() -> Ui.topic(planTopicSelector()));
     }
 
     private void setLimit(int limit) throws Exception {

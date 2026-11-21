@@ -7,9 +7,19 @@ The official slide template is guidance, not a requirement to present all 16 pag
 
 ## Prepare a reproducible demonstration
 
+Keep reusable demo data in `.wordtrail/demo`, outside the build directory.
+`mvn clean` deletes `target`, including any old `target/presentation-data`.
+If that old directory contains a demo you want to keep, close the application
+and manually back up the entire directory outside `target`; verify the backup,
+then manually move the original profile directory to an unused `.wordtrail/demo`
+before rebuilding. If that destination exists, choose another unused directory
+outside `target` and use it with `--data-dir`; do not overwrite an existing profile.
+The launcher blocks rebuilding while `wordtrail.json` remains under `target`,
+so making a backup alone does not clear the guard. No automatic data move is performed.
+
 ```sh
 mvn verify
-java -jar target/wordtrail.jar --data-dir target/presentation-data
+java -jar target/wordtrail.jar --data-dir .wordtrail/demo
 ```
 
 Use a new demo directory when a fresh dataset is needed. Choose non-personal demo
@@ -17,6 +27,56 @@ credentials, create the demo accounts before presenting, and prepare a few saved
 words and completed quizzes. Do not spend the presentation waiting for account
 setup or dependency downloads. A recording is allowed, but keep a working program
 ready for immediate live follow-up questions.
+
+## November 20: M2 TA progress demonstration
+
+The [course timeline](https://q.utoronto.ca/courses/444184/pages/project-timeline-2)
+requires each member to have a substantial submitted PR, a review of another
+member's PR, and runnable code related to their assigned use case that they can
+demonstrate and discuss. The team needs a real API call and at least one complete
+end-to-end use case. All MVP use cases implemented and integrated is the
+**November 27 M3** target; M2 does not require every member's full UI flow to be
+finished. M1 nevertheless includes initial UI and interactor development.
+
+Use these focused rehearsals with dependencies installed and demo data prepared.
+The preparation durations below are team estimates, not course-imposed coding limits:
+
+| Member / estimated preparation | Demonstration and current evidence |
+| --- | --- |
+| Allen / 20 minutes | Run UC-08: add a personal word, edit its definition, check account isolation, close and reopen `.wordtrail/demo` to show persistence. Perform a live lookup and show its provider URL. [PR #3](https://github.com/fanfan170721/team-project/pull/3) contains the merged flow and Xinyu's approval; Allen's review is on [PR #4](https://github.com/fanfan170721/team-project/pull/4). |
+| Fuxuan / 15 minutes | Run the eight `ExportResultsInteractorTest` cases and 11 `CsvQuizResultsExporterTest` cases. Explain account isolation, chronological rows, CSV escaping and a failed atomic replacement that preserves an existing file. [PR #4](https://github.com/fanfan170721/team-project/pull/4) and [PR #8](https://github.com/fanfan170721/team-project/pull/8) contain this merged progress; the export UI is still unfinished. |
+| Xinyu / 20 minutes | Run the 13 `ReviewPlanInteractorTest` cases merged through [PR #7](https://github.com/fanfan170721/team-project/pull/7), then explain a fixed-date due/not-due example and why planning leaves study counters unchanged. Her approvals on PR #2/#3 provide peer-review evidence; the review-plan UI is still unfinished. |
+
+From the project root, Fuxuan can run the core and CSV tests:
+
+```sh
+mvn "-Dtest=ExportResultsInteractorTest,CsvQuizResultsExporterTest" test
+```
+
+Xinyu can run her core tests:
+
+```sh
+mvn "-Dtest=ReviewPlanInteractorTest" test
+```
+
+These focused test runs are not the full verification/coverage check. Use `mvn verify`
+for that. Allen can also show the real API diagnostic without opening another UI:
+
+```sh
+java -jar target/wordtrail.jar --check-api hello
+```
+
+The primary-provider diagnostic succeeded on November 20 at 17:12 EST.
+Report the actual provider/result; if lookup fails, keep that failure visible and
+do not claim a successful live call. Tests are useful runnable evidence when the
+member can explain the behavior; a green test count alone does not establish TA acceptance.
+Fuxuan left an actual review comment on [PR #5](https://github.com/fanfan170721/team-project/pull/5)
+after merging it; this was not an Approve review event before the merge. No CSV
+handoff is needed. Both use cases still need controller/presenter/UI and wiring.
+Each member's own TA demonstration and explanation remain unverified.
+If preparation takes longer, report the real stopping point and continue as needed.
+These estimates do not guarantee completion; the presentation timing below is a
+separate constraint from development or preparation time.
 
 ## Suggested 15-minute order
 
@@ -48,8 +108,9 @@ keeping all required evidence and all speakers. Avoid reading paragraphs from sl
 
 ## Pending MVP demonstrations
 
-These steps are **not available in the baseline yet**. Their designated leads
-must implement, test and explain them before the final integrated demonstration.
+These complete UI flows are **not available yet**, although UC-09's core/CSV
+adapter and UC-10's core are merged. Their leads must complete and test the
+controller/presenter/UI and wiring before the final integrated demonstration.
 
 - **Fuxuan / UC-09:** export the account's quiz results; inspect the CSV and result
   count. Demonstrate cancellation or overwrite refusal, plus an empty history.
@@ -70,7 +131,7 @@ written script does not establish that rehearsal or individual preparation happe
 - Explain at least two SOLID principles using actual classes, rather than definitions alone.
 - Discuss an implemented pattern beyond the starter, such as dictionary adapter
   composition or injected repository/service strategies, and a concrete extension.
-- Explain the implemented hybrid response flow: UC-08 and the UC-09 core use output
+- Explain the implemented hybrid response flow: UC-08 and the UC-09/UC-10 cores use output
   boundaries; the other existing use cases return results through controllers to
   presenters. Show how source dependencies point inward and discuss the tradeoffs.
 

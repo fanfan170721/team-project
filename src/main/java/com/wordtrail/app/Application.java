@@ -7,6 +7,9 @@ import com.wordtrail.adapter.CatalogController;
 import com.wordtrail.adapter.CatalogPresenter;
 import com.wordtrail.adapter.ContentController;
 import com.wordtrail.adapter.ContentPresenter;
+import com.wordtrail.adapter.ExportResultsController;
+import com.wordtrail.adapter.ExportResultsPresenter;
+import com.wordtrail.adapter.ExportResultsViewModel;
 import com.wordtrail.adapter.FlashcardController;
 import com.wordtrail.adapter.FlashcardPresenter;
 import com.wordtrail.adapter.PersonalVocabularyController;
@@ -21,6 +24,7 @@ import com.wordtrail.adapter.ReviewPlanController;
 import com.wordtrail.adapter.ReviewPlanPresenter;
 import com.wordtrail.adapter.ReviewPlanViewModel;
 import com.wordtrail.adapter.ReviewPresenter;
+import com.wordtrail.data.CsvQuizResultsExporter;
 import com.wordtrail.data.ResilientDictionaryGateway;
 import com.wordtrail.data.JsonFileStore;
 import com.wordtrail.data.Pbkdf2PasswordHasher;
@@ -53,6 +57,10 @@ public final class Application implements AutoCloseable {
         PersonalVocabularyController personal = new PersonalVocabularyController(
                 new PersonalVocabularyInteractor(store, store, session, personalPresenter),
                 personalPresenter, personalViewModel);
+        ExportResultsViewModel exportViewModel = new ExportResultsViewModel();
+        ExportResultsController export = new ExportResultsController(new ExportResultsInteractor(
+                store, new CsvQuizResultsExporter(), session, new ExportResultsPresenter(exportViewModel)),
+                exportViewModel);
         controller = new AppController(
                 new AuthController(new AuthInteractor(store, new Pbkdf2PasswordHasher(), session), new AuthPresenter()),
                 reviewPlan,
@@ -65,7 +73,7 @@ public final class Application implements AutoCloseable {
                         new ProgressPresenter(clock.getZone())),
                 new ContentController(new ContentInteractor(store, session), catalog, personal::progress,
                         new ContentPresenter()),
-                personal);
+                personal, export);
     }
 
     public AppController controller() { return controller; }
