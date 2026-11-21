@@ -48,7 +48,7 @@ class SwingWorkflowTest {
 
     @Test void allSevenStoriesWorkThroughTheUIAndSurviveRestart() throws Exception {
         authenticate("admin", true);
-        assertEquals(6, edt(() -> component("home.tabs", JTabbedPane.class).getTabCount()));
+        assertHomeTabs(true);
         assertTrue(edt(() -> allEnabled(component("library.topic", JComboBox.class))));
         snapshot("01-vocabulary");
         edt(() -> { Ui.selectTopic(topicSelector("library.topic"), "Nature"); return null; });
@@ -114,7 +114,7 @@ class SwingWorkflowTest {
         click("account.logout");
         edt(() -> { component("auth.mode", JComboBox.class).setSelectedIndex(1); return null; });
         authenticate("learner", true);
-        assertEquals(5, edt(() -> component("home.tabs", JTabbedPane.class).getTabCount()));
+        assertHomeTabs(false);
         tab(3);
         assertEquals(0, edt(() -> component("review.table", JTable.class).getRowCount()));
         tab(4);
@@ -273,6 +273,18 @@ class SwingWorkflowTest {
         if (creating) { text("auth.confirm", "password123"); }
         click("auth.submit");
         assertNotNull(edt(() -> component("home.tabs", JTabbedPane.class)), status());
+    }
+
+    /** Existing tabs keep their positions; Admin only for administrators; other features may append tabs. */
+    private void assertHomeTabs(boolean admin) throws Exception {
+        java.util.List<String> expected = java.util.List.of("Vocabulary", "Flashcards", "Quiz", "Review later", "Progress");
+        edt(() -> {
+            JTabbedPane tabs = component("home.tabs", JTabbedPane.class);
+            for (int i = 0; i < expected.size(); i++) { assertEquals(expected.get(i), tabs.getTitleAt(i)); }
+            assertEquals(admin ? 5 : -1, tabs.indexOfTab("Admin"));
+            assertTrue(tabs.indexOfTab("Export results") > tabs.indexOfTab("Progress"));
+            return null;
+        });
     }
 
     private void tab(int index) throws Exception {
