@@ -41,7 +41,7 @@ Manual native GUI and public API checks are separate, opt-in checks:
 
 ```sh
 java -jar target/wordtrail.jar --check-api hello
-java -jar target/wordtrail.jar --data-dir target/demo-data
+java -jar target/wordtrail.jar --data-dir .wordtrail/demo
 ```
 
 `mvn verify` also generates JaCoCo coverage and a Checkstyle report. Inspect
@@ -58,6 +58,14 @@ replace the executable without updating the launcher's input record.
 `run.ps1 -Build` forces `clean verify`; `run.ps1 -Check` checks the entry point without
 a GUI or public API request.
 
+Keep persistent profiles outside `target/`, which `clean` removes. Before
+rebuilding, the launcher checks for `wordtrail.json` beneath `target/` and stops
+if it finds stored data or cannot safely inspect the directory. Normal launches
+also reject an explicit `-DataDirectory` inside `target/`, even before it exists.
+The launcher does not move or delete profiles. Close WordTrail, make and check a
+backup, then move an old demo profile out of `target/` before rebuilding. Direct `mvn clean` commands
+and direct JAR launches bypass this launcher protection.
+
 Do not commit `target/`, `.idea/`, `.wordtrail/`, passwords, local account data or
 API credentials. A `.gitattributes` file normalizes source line endings.
 
@@ -66,7 +74,9 @@ API credentials. A `.gitattributes` file normalizes source line endings.
 1. Use the README's assigned MVP use cases; identify a reviewer for each increment.
 2. Update the acceptance criteria and UI sketch.
 3. Fetch the remote and inspect any existing local changes. The current integration
-   base is `origin/Emilia/project-delivery`; `main` still contains the template and contract.
+   base is `origin/Emilia/project-delivery`; `main` contains the reviewed runnable
+   baseline after PR #2 merged on November 20. Keep existing teammate work on its
+   agreed delivery base until further integrations are coordinated.
 4. Start a new feature branch from that base, e.g.
    `git switch -c Emilia/review-search origin/Emilia/project-delivery`.
 5. Implement the use case through its input/output boundaries; keep Swing and
@@ -86,15 +96,17 @@ or reauthor existing commits to imply different teammates wrote them. Additional
 MVP work uses the actual contributor's own branch and focused commits.
 
 Those `codex/` branches are historical local work. Current online contributions
-are [PR #3](https://github.com/fanfan170721/team-project/pull/3), Allen's UC-08,
-and [PR #4](https://github.com/fanfan170721/team-project/pull/4), Fuxuan's UC-09
-core. Both are merged into `Emilia/project-delivery`. Consult `HANDOFF.md` before
+include [PR #3](https://github.com/fanfan170721/team-project/pull/3), Allen's UC-08;
+[PR #4](https://github.com/fanfan170721/team-project/pull/4), Fuxuan's UC-09 core;
+[PR #7](https://github.com/fanfan170721/team-project/pull/7), Xinyu's UC-10 core;
+and [PR #8](https://github.com/fanfan170721/team-project/pull/8), Fuxuan's CSV adapter.
+All are merged into `Emilia/project-delivery`. Consult `HANDOFF.md` before
 starting new work; do not create a new teammate feature from an old local snapshot.
 
 ## Individual implementation work
 
 The README assigns new MVP work to each member. `TEAM_TASKS.zh-CN.md` gives exact
-steps for the two pending use cases. Each member leads their own interactor and
+steps for completing the two partially implemented use cases. Each member leads their own interactor and
 interfaces, controller/presenter, UI, tests and review. The assignment is not
 evidence of completion; link real PRs and explain actual contributions as they occur.
 

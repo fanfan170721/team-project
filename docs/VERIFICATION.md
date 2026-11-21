@@ -1,6 +1,89 @@
 # Verification record
 
-## Latest verification — shared maintenance, 2026-11-19
+## Latest verification — teammate integration and review follow-up, 2026-11-20
+
+Branch: `Emilia/m2-demo-safety`, including delivery merge `cebde6d` and review
+follow-up `80f0edd`. PR #6 now targets `Emilia/project-delivery` directly.
+
+- `mvn -B --no-transfer-progress verify` finished successfully at **8:13 p.m.
+  EST**: **100 tests**, zero failures, errors or skips. The executable JAR was
+  built. Full Entity/Use Case line coverage is **633/633 (100%)**: Entity 103,
+  Use Case 524 and Use Case ports 6. No classes or thresholds were excluded.
+- Checkstyle reports **588 findings**; the project contains **113 Java source
+  files**. The report remains visible and non-blocking. A passing build does
+  not mean the style findings are resolved.
+- The packaged offline check passed: application wiring, bundled seed data,
+  JSON dependency and account/personal-word persistence across reopening. Its
+  isolated profile was removed; no network request, native window or sound was
+  used.
+- PR #7's UC-10 core was reviewed and tested against the merged maintenance
+  baseline: **87 tests**, **633/633 core lines**. PR #8's CSV adapter was checked
+  independently and together with PR #7: the combined tree passed **98 tests**
+  before this branch's two new review-time tests. Both PRs had eight successful
+  checks, received Allen's approval and were merged into delivery as `e93804d`
+  and `cebde6d`, respectively.
+- The two new tests verify that review-time equality and hashing agree with
+  chronological ordering, including repeated daylight-saving local times and
+  never-reviewed values. Topic selection now uses a typed `TopicOption` combo
+  box. Five changed documentation screenshots were refreshed from the passing
+  headless Swing workflow output; these are component renders, not a native
+  desktop rehearsal.
+- PR #5 was merged as `ba26bfb`. Fuxuan's substantive review was posted as a
+  comment **after** that merge; it was not a pre-merge approval event. The
+  review-time equality, typed selector and screenshot updates address that
+  feedback. PR #6 still requires another member's review before merging.
+
+The launcher protection is unchanged from the earlier **152-assertion** run
+below; that is previous evidence, not a new run in this integration check.
+Likewise the latest live API observation remains the **5:12 p.m. EST** result
+below. UC-09 still needs its Controller/Presenter/ViewModel, UI and application
+wiring; UC-10 still needs those adapters and its UI/wiring. The tests do not
+establish either complete UI flow or each member's own TA demonstration.
+The published `main` remains the runnable baseline at `064dc56`.
+
+## Earlier verification — M2 launcher preparation, 2026-11-20
+
+Branch: `Emilia/m2-demo-safety`, based on the unchanged PR #5 head `f6a4ee2`.
+The Java source is unchanged; this increment protects demo profiles in the
+Windows launcher and corrects demonstration instructions.
+
+- `mvn -B --no-transfer-progress verify`: **74 tests**, zero failures, errors or
+  skips. Full Entity/Use Case line coverage remains **574/574 (100%)**; Checkstyle
+  reports **586 findings across 104 Java files**. The executable JAR was built.
+- The packaged offline check passed again: application wiring, bundled seed
+  content, JSON dependency and account/personal-word persistence across reopening.
+  Its temporary profile was removed, and no personal profile was accessed.
+- The packaged `--check-api hello` diagnostic succeeded at approximately
+  **5:12 p.m. EST**, returning the primary provider's definition and source
+  `https://api.dictionaryapi.dev/api/v2/entries/en/hello`. No native window or
+  sound was used. This observes service availability at that time only.
+- The launcher harness passed **152 assertions** on Windows PowerShell 5.1 and
+  PowerShell 7. Tests verify that existing profiles under `target/` survive both
+  automatic and forced rebuild attempts unchanged; neither fake Maven nor fake
+  Java runs after the guard stops execution. Explicit unsafe data paths,
+  normalization, the `target-other` boundary, safe paths with spaces and `-Check`
+  behavior are covered. These are script assertions, not extra JUnit cases.
+- Persistent demo examples now use `.wordtrail/demo`. The launcher guard does
+  not protect direct `mvn clean` or direct JAR commands. Documentation explains
+  how to back up and relocate an old profile before rebuilding; no existing
+  profile was moved or deleted by this change.
+
+PR #5 at `f6a4ee2` passed eight checks across the
+[push](https://github.com/fanfan170721/team-project/actions/runs/44643837835) and
+[PR](https://github.com/fanfan170721/team-project/actions/runs/44643846486) runs,
+covering Windows/Linux and Java 11/17. It still awaits a submitted peer review
+at this snapshot. Consult the follow-up PR's own checks before merging this
+launcher change. These checks do not establish completed teammate work or a
+native GUI rehearsal.
+
+PR #2 was also merged on November 20 as `064dc56` after checking its actual
+review history and eight successful checks at `62adf65`. Xinyu's original
+baseline approval is followed only by the reviewed PR #3 and PR #4 increments.
+The PR #3 merge tree equals its approved head, and PR #4 adds exactly its
+reviewed patch without extra merge-resolution changes. The resulting `main`
+tree equals `62adf65`; no PR #5/#6 changes were included in that merge.
+
+## Previous verification — shared maintenance, 2026-11-19
 
 Base: `62adf65`, containing Allen's merged UC-08 (PR #3) and Fuxuan's merged
 UC-09 core (PR #4). Shared build/documentation work is on
@@ -62,9 +145,11 @@ passed all four combinations at `8cee42f`, including the new checks. Consult
 [PR #5](https://github.com/fanfan170721/team-project/pull/5) for remote verification
 of the subsequent topic, sorting and test changes.
 
-The merged UC-09 increment has no CSV file adapter, Controller/Presenter or UI.
-UC-10 has no observed implementation PR. Existing tests and package checks do not
-establish those missing features, native GUI verification or full course compliance.
+At that November 19 snapshot, the merged UC-09 increment had no CSV file
+adapter, Controller/Presenter or UI, and no UC-10 implementation PR had been
+observed. The latest integration section above supersedes that implementation
+status. Existing tests and package checks do not establish native GUI
+verification or full course compliance.
 
 ## Historical UC-08 follow-up, 2026-11-17
 

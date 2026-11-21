@@ -29,6 +29,16 @@ accessing the network.
 sample content. Running the packaged JAR only requires Java 11 or later. Build
 artifacts and local account data are excluded from Git.
 
+Keep persistent profiles outside `target/`: Maven's `clean` step deletes that
+directory. The Windows launcher rejects an explicit data directory inside
+`target/` and stops a rebuild if it finds an existing `wordtrail.json` there.
+Direct Maven commands do not have this protection. If you used an older demo
+command, close WordTrail, make and check a backup, then move the entire profile
+directory out of `target/` to `.wordtrail/demo` (or another persistent location)
+before rebuilding. Choose a new destination if it already contains a profile;
+do not overwrite it. A backup alone does not clear the guard while the original
+profile remains under `target/`.
+
 To check the packaged application without opening a window or using the network:
 
 ```sh
@@ -39,8 +49,9 @@ This checks packaged dependencies and seed content, saves a test word and verifi
 it survives reopening an isolated profile. It does not use personal account data.
 
 The shared feature base is `Emilia/project-delivery`. UC-08 is available in the UI.
-UC-09 currently has a tested core only; CSV export and a review-plan screen are
-not yet available. See [HANDOFF.md](HANDOFF.md) for current contribution status.
+UC-09's core and CSV adapter and UC-10's core are merged, but both still need
+controller/presenter/UI and wiring. Export and review-plan screens are not yet
+available. See [HANDOFF.md](HANDOFF.md) for current contribution status.
 
 The first launch asks you to create an administrator. Usernames contain 3–30
 English letters, digits or underscores; passwords contain 8–128 characters.
@@ -89,12 +100,13 @@ commit personal account data; `.gitignore` excludes its directory. To use a
 separate demonstration environment, run:
 
 ```sh
-java -jar target/wordtrail.jar --data-dir target/my-demo
+java -jar target/wordtrail.jar --data-dir .wordtrail/demo
 ```
 
 Only one application instance can use a data directory at a time. If stored data
 is corrupt, the application reports an error and preserves the original file
-instead of clearing it. Rebuilding the project does not remove existing data.
+instead of clearing it. The recommended `.wordtrail/` location survives a
+normal Maven rebuild; profiles stored under `target/` do not.
 
 The primary external service is [Free Dictionary API](https://dictionaryapi.dev/).
 An earlier live check encountered HTTP 530, so the implementation includes
@@ -146,9 +158,9 @@ The integration branch is `Emilia/project-delivery`. It preserves the authorship
 and history of the original AI-assisted implementation and includes the signed
 TeamContract from `main`. Contract PR #1 has been merged.
 
-The README distinguishes implemented baseline features from planned MVP work.
-Fuxuan's CSV export and Xinyu's daily review plan remain assigned work for those
-members; their operating instructions are in [TEAM_TASKS.zh-CN.md](TEAM_TASKS.zh-CN.md).
+The README distinguishes implemented increments from unfinished MVP flows.
+Fuxuan's export core/CSV adapter and Xinyu's review-plan core are merged. Their
+remaining adapter/UI work is described in [TEAM_TASKS.zh-CN.md](TEAM_TASKS.zh-CN.md).
 Assignments, contract signatures and documentation-only changes do not establish
 that an individual's use case has been implemented.
 
