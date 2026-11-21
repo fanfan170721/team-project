@@ -1,6 +1,40 @@
-# Xinyu 第一轮：实现今日复习计划核心
+# Xinyu 第二轮（当前）：复习计划的 Controller / Presenter / ViewModel
 
-**2026-11-19 状态：**尚未看到 UC-10 的线上实现分支或 PR，本地进度未知。若已经开始，先检查现有改动，从停下的位置继续，不重复创建或覆盖文件。可以使用下面的提示词让自己的 AI 协助。
+**当前任务（2026-11-20）：只做下面这一轮，最多 30 分钟。**核心和 13 个测试已通过 [PR #7](https://github.com/fanfan170721/team-project/pull/7) 合并（`e93804d`），不要重复第一轮。现在补上自己的输入与显示适配器；Swing 界面和应用接线留到下一轮。
+
+把下面整段交给能访问你自己项目的 AI；已有本地工作先检查并接着做，不覆盖。
+
+```text
+我是 CSC207 team-project 的 Xinyu / XinyuuHuang。本轮只做 UC-10 复习计划的 Controller、Presenter、ViewModel 和行为测试，最多工作 30 分钟（含检查、测试）；到时间或遇阻就保留工作、报告实际进度，不保证一轮完成。
+
+先检查 git status、分支、remote 和 Git 姓名/邮箱。remote 应为 https://github.com/fanfan170721/team-project.git，身份应为我本人；不要改身份、借用他人账号或重写历史。若有未提交工作或同名分支，先读清现有内容、说明怎样继续，不 reset/clean、强制切分支或覆盖。工作区干净且无同名分支时，git fetch origin，再从最新 origin/Emilia/project-delivery 创建 Emilia/xinyu-review-adapters。确认已包含 PR #7 的核心代码。
+
+先读 docs/USE_CASES.md 的 UC-10、ReviewPlanInputBoundary / OutputBoundary / Response / Entry，以及 adapter 包的 PersonalVocabularyController、PersonalVocabularyPresenter、PersonalVocabularyViewModel 和 PersonalVocabularyAdaptersTest。代码、注释和界面消息使用英文。只新增以下四个文件；若确需其他文件，先解释，不自行扩展：
+src/main/java/com/wordtrail/adapter/ReviewPlanController.java
+src/main/java/com/wordtrail/adapter/ReviewPlanPresenter.java
+src/main/java/com/wordtrail/adapter/ReviewPlanViewModel.java
+src/test/java/com/wordtrail/adapter/ReviewPlanAdaptersTest.java
+
+Controller 依赖 ReviewPlanInputBoundary 和自己的 ViewModel，提供 generate(String topic, int limit) 并返回不可变的显示结果。每次请求先清除上一次结果，再调用 input.execute(topic, limit) 一次，不能重复调用；原样传入主题和数量，让用例负责验证，不复制日期、排序、账号或数量规则。沿用现有同步 Controller 的模式，不增加异步机制。
+
+Presenter 实现现有 ReviewPlanOutputBoundary：presentPlan(ReviewPlanResponse) 和 presentFailure(String)。成功保留 response.entries 的顺序，将每项 wordId、term、definition、dueDate、reason 转为自己的不可变显示行；dueDate 用 yyyy-MM-dd 的 ISO 本地日期字符串，不重新换时区或计算到期日。ViewModel 结果包含 success、不可变的显示行列表和清晰的英文 message。空列表也是成功，明确提示今天没有符合条件的到期词，并清空旧行；失败 success=false，保留本次错误消息，行列表为空，不能显示上次计划。结果不得暴露实体、用例 Entry/Response、仓库或 Swing 对象。
+
+ViewModel 参考 PersonalVocabularyViewModel 的 beginRequest / complete / result：每次请求独立。若用例没有调用输出边界，应抛出清楚的 IllegalStateException，不能返回旧计划。新结果不能修改已返回的旧列表或旧显示行。
+
+用真实 Controller → Presenter → ViewModel 做行为测试：原样传递 topic/limit 且只调用一次；非空计划全部显示字段、日期和原顺序；成功空列表；成功后失败清空旧行；非空成功后空成功清空旧行；失败后成功清除旧错误；成功后下一次无输出时抛异常；结果列表不能被修改且旧结果不随后续请求变化。可用假 InputBoundary 测传参与输出缺失。注意 ReviewPlanEntry 构造器是包内可见：非空样例使用真实 ReviewPlanInteractor、固定 Clock 和假仓库生成，测试账号可通过公开 AuthInteractor 配合假账号仓库/密码工具登录；不要使用反射、改核心构造器可见性或改现有测试夹具来绕过边界。测试检查具体行为，不只断言非 null。
+
+本轮不要修改 usecase/entity、共享 ViewModels、AppController、Application 或 Swing 面板，不接按钮、不改 JSON 格式。保持 1/3/7 天等既有核心规则和覆盖率门槛，不关闭检查。运行完整 mvn verify，报告实际测试数及 Entity/Use Case 覆盖结果；没有运行或未跑完必须明说，不能沿用以前的数据。
+
+最后给我简短说明：四个文件做了什么、测试结果、尚缺 Swing/应用接线，以及为什么失败或空计划不能继续显示旧行。展示 git diff 让我检查；我确认后，可使用我自己的正常 Git 身份协助 commit、push 到 Emilia/xinyu-review-adapters，并创建 base 为 Emilia/project-delivery 的 Draft PR。正文写本轮真实范围、实际测试结果和未完成事项，不宣称界面已可用，不代替别人审核。到 30 分钟未完成就停止扩展，反馈卡点和已完成部分，下轮继续。
+```
+
+本轮结束在群里只回复：`Xinyu：适配器测试通过/卡在___；PR 链接___（未创建就写未创建）。` 下一轮才接自己的复习计划界面。
+
+---
+
+## 历史：已完成的第一轮参考（以下不是当前任务）
+
+核心和 13 个测试已通过 PR #7 合入交付分支。下面保留当时的提示和命令供核对；不要再次执行旧分支的提交/推送步骤，也不要重复创建核心 PR。历史文字中的“尚未完成”描述的是当时状态，当前进度以上方为准。
 
 **最多 30 分钟，包含准备与检查时间。**先按 [START_HERE 第 1–3 步](START_HERE.zh-CN.md) 打开自己的新 clone，并切到 `Emilia/xinyu-due-review`。已做好就跳过。没完成就下次继续，不要求 30 分钟内保证写完。
 

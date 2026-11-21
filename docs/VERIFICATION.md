@@ -1,6 +1,47 @@
 # Verification record
 
-## Latest verification — M2 preparation, 2026-11-20
+## Latest verification — teammate integration and review follow-up, 2026-11-20
+
+Branch: `Emilia/m2-demo-safety`, including delivery merge `cebde6d` and review
+follow-up `80f0edd`. PR #6 now targets `Emilia/project-delivery` directly.
+
+- `mvn -B --no-transfer-progress verify` finished successfully at **8:13 p.m.
+  EST**: **100 tests**, zero failures, errors or skips. The executable JAR was
+  built. Full Entity/Use Case line coverage is **633/633 (100%)**: Entity 103,
+  Use Case 524 and Use Case ports 6. No classes or thresholds were excluded.
+- Checkstyle reports **588 findings**; the project contains **113 Java source
+  files**. The report remains visible and non-blocking. A passing build does
+  not mean the style findings are resolved.
+- The packaged offline check passed: application wiring, bundled seed data,
+  JSON dependency and account/personal-word persistence across reopening. Its
+  isolated profile was removed; no network request, native window or sound was
+  used.
+- PR #7's UC-10 core was reviewed and tested against the merged maintenance
+  baseline: **87 tests**, **633/633 core lines**. PR #8's CSV adapter was checked
+  independently and together with PR #7: the combined tree passed **98 tests**
+  before this branch's two new review-time tests. Both PRs had eight successful
+  checks, received Allen's approval and were merged into delivery as `e93804d`
+  and `cebde6d`, respectively.
+- The two new tests verify that review-time equality and hashing agree with
+  chronological ordering, including repeated daylight-saving local times and
+  never-reviewed values. Topic selection now uses a typed `TopicOption` combo
+  box. Five changed documentation screenshots were refreshed from the passing
+  headless Swing workflow output; these are component renders, not a native
+  desktop rehearsal.
+- PR #5 was merged as `ba26bfb`. Fuxuan's substantive review was posted as a
+  comment **after** that merge; it was not a pre-merge approval event. The
+  review-time equality, typed selector and screenshot updates address that
+  feedback. PR #6 still requires another member's review before merging.
+
+The launcher protection is unchanged from the earlier **152-assertion** run
+below; that is previous evidence, not a new run in this integration check.
+Likewise the latest live API observation remains the **5:12 p.m. EST** result
+below. UC-09 still needs its Controller/Presenter/ViewModel, UI and application
+wiring; UC-10 still needs those adapters and its UI/wiring. The tests do not
+establish either complete UI flow or each member's own TA demonstration.
+The published `main` remains the runnable baseline at `064dc56`.
+
+## Earlier verification — M2 launcher preparation, 2026-11-20
 
 Branch: `Emilia/m2-demo-safety`, based on the unchanged PR #5 head `f6a4ee2`.
 The Java source is unchanged; this increment protects demo profiles in the
@@ -104,9 +145,11 @@ passed all four combinations at `8cee42f`, including the new checks. Consult
 [PR #5](https://github.com/fanfan170721/team-project/pull/5) for remote verification
 of the subsequent topic, sorting and test changes.
 
-The merged UC-09 increment has no CSV file adapter, Controller/Presenter or UI.
-UC-10 has no observed implementation PR. Existing tests and package checks do not
-establish those missing features, native GUI verification or full course compliance.
+At that November 19 snapshot, the merged UC-09 increment had no CSV file
+adapter, Controller/Presenter or UI, and no UC-10 implementation PR had been
+observed. The latest integration section above supersedes that implementation
+status. Existing tests and package checks do not establish native GUI
+verification or full course compliance.
 
 ## Historical UC-08 follow-up, 2026-11-17
 

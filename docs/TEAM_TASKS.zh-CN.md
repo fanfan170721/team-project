@@ -1,13 +1,13 @@
-# 两位组员的下一步：各完成一个新的 MVP 用例
+# 两位组员的当前任务与历史参考
 
-**第一次开始请只看 [START_HERE：最多 30 分钟](START_HERE.zh-CN.md)，再打开自己的第一轮页面：[Fuxuan（已完成的参考）](FIRST_TASK_FUXUAN.zh-CN.md) / [Xinyu](FIRST_TASK_XINYU.zh-CN.md)。**可以使用自己的 AI 协助实现用例核心和测试；下面是后续工作参考，不要求现在通读或一次完成。每轮最多工作 30 分钟，一个实施阶段可以分多轮完成。
+**2026-11-20 当前任务：只执行各自个人页面顶部的第二轮提示词，每轮最多 30 分钟。**[START_HERE](START_HERE.zh-CN.md) 是简短入口；下面的历史计划不是当前操作步骤，不需要通读。
 
-**2026-11-19 状态：**Fuxuan 的 UC-09 核心和 8 个测试已通过 [PR #4](https://github.com/fanfan170721/team-project/pull/4) 合入交付分支（`62adf65`），实际 CSV 写入器、Controller、Presenter 和 UI 尚未完成。CSV 工作拟交给 Allen 的安排仍等 Fuxuan 回复，暂不开始这部分，也不重复第一轮。Xinyu 尚未有线上 UC-10 实现分支或 PR，本地进度未知。以下两项仍属于本项目的 **MVP**：
+Fuxuan 的 UC-09 核心已通过 [PR #4](https://github.com/fanfan170721/team-project/pull/4)、CSV 写入器已通过 [PR #8](https://github.com/fanfan170721/team-project/pull/8) 合并。Xinyu 的 UC-10 核心和 13 个测试已通过 [PR #7](https://github.com/fanfan170721/team-project/pull/7) 合并。两人现在分别实现自己的 Controller、Presenter、ViewModel 和行为测试；界面及应用接线尚未完成，留到后续轮次。
 
-| 实施负责人 | 新用户故事与用例 | 自己的工作分支 |
+| 实施负责人 | 当前唯一执行入口 | 从最新交付分支创建的新分支 |
 | --- | --- | --- |
-| Fuxuan | 导出本人已完成测验的成绩 CSV | 第一轮 `Emilia/xfx-export-results` 已合并；后续分工待回复 |
-| Xinyu | 根据复习记录生成今日到期复习清单 | `Emilia/xinyu-due-review` |
+| Fuxuan | [第二轮：导出结果适配器](FIRST_TASK_FUXUAN.zh-CN.md) | `Emilia/xfx-export-adapters` |
+| Xinyu | [第二轮：复习计划适配器](FIRST_TASK_XINYU.zh-CN.md) | `Emilia/xinyu-review-adapters` |
 
 每人应实际主导自己的 Interactor、相关接口、专属 Controller/Presenter、触发操作与结果显示的 UI，检查改动和运行结果，并能讲解自己的用例。保留实际贡献归属；共享工作或分工调整先沟通，不能把已有实现重新署名为自己的代码。
 
@@ -15,7 +15,11 @@
 
 本任务单依据 2026-11-17 保存的课程要求整理，负责人电脑上的完整材料位于 `C:\Users\Administrator\Documents\Codex\CSC207-project-requirements\2026-11-17\`。课程要求每人主导 MVP 用例、提交实质代码 PR、review 他人、参与展示；测试数不等于覆盖率。下面的三个阶段可以分多轮完成，每轮从准备开始最多 30 分钟，不保证 90 分钟内完成全部工作。安装、下载、解释和检查也计入本轮时间；计时结束就反馈实际进度，下次继续，不需要赶时间制造完成记录。
 
-## 先用自己的账号和自己的新文件夹
+## 历史参考：截至 2026-11-19 的完整规格与实施计划
+
+**从本节开始到文末都是历史参考，不是当前可执行任务。旧状态、分支命令、目录建议和 AI 提示词均已由上方 2026-11-20 进度及两份个人任务页取代。不要复制执行旧提示词、重新实现已合并的核心或 CSV，也不要重复创建第一轮 PR。当前只使用上方两份个人任务页；完整用例规格以 `docs/USE_CASES.md` 为准。**
+
+## 历史设置：先用自己的账号和自己的新文件夹
 
 仅首次设置时执行下面步骤；已有 clone 和分支就从现有进度继续，Fuxuan 不重复已完成的核心任务。两个人分别在自己的电脑上操作，不要操作别人现有的 `team-project` 目录。仓库是：
 
@@ -123,7 +127,7 @@ mvn verify
 - [ ] 能指出请求经过哪个 Controller、Interactor、输出边界、Presenter 和文件 adapter。
 - [ ] 能解释为什么 Interactor 不直接调用 Swing 或 `Files.write`，以及失败测试在验证什么。
 
-### 可以发给自己 AI 的完整提示词
+### 历史 AI 提示词（已停用，不作为当前任务执行）
 
 以下提示词在后续分工确认后使用；当前先等待 Fuxuan 回复，不开始 CSV 实现。
 
@@ -197,7 +201,7 @@ Interactor 依赖已有 `ContentRepository`、`ProgressRepository`、`SessionCon
 - [ ] 能解释为什么注入 Clock，以及为什么在 Interactor 中计算到期而不是在 Swing Panel 中计算。
 - [ ] 能从自己的按钮指到 Controller、Interactor、输出边界、Presenter，再指回结果表。
 
-### 可以发给自己 AI 的完整提示词
+### 历史 AI 提示词（已停用，不作为当前任务执行）
 
 ```text
 我是在 CSC207 项目中负责新 MVP 用例“生成今日到期复习清单”的 Xinyu。请在我当前 clone 的 team-project-work 内辅导我完成，当前分支应为 Emilia/xinyu-due-review。先核实路径和分支；不碰别的 team-project 目录、不改 Git 身份、不登录他人账号。

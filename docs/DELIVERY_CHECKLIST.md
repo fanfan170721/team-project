@@ -8,8 +8,9 @@ for a final schedule or revised rubric. Checkmarks below require actual evidence
 Implementation and collaboration status below was checked on November 20, 2026.
 The runnable application is now on `main` at `064dc56`, merged through
 [PR #2](https://github.com/fanfan170721/team-project/pull/2). Its file tree equals
-`Emilia/project-delivery` at `62adf65`; teammates continue their existing work
-from that delivery base. This is a baseline release, not the finished MVP.
+delivery at `62adf65`. The current work base, `Emilia/project-delivery` at
+`cebde6d`, additionally contains PR #5, UC-10 core PR #7 and CSV adapter PR #8.
+Those later increments are not yet on `main`. Neither branch is the finished MVP.
 
 ## Team and specification
 
@@ -23,17 +24,21 @@ from that delivery base. This is a baseline release, not the finished MVP.
   tracking submission, not the final presentation/reflection submission.
 - [ ] Every member has implemented a complete MVP use case across interactor/interfaces,
   a specific controller/presenter, triggering UI and resulting UI updates.
-- [ ] Every member has a substantial code PR, review of another member and runnable own use case.
-- [ ] Every member has a merged PR demonstrating meaningful own code contributions.
+- [x] Every member has a substantial code PR, a real review record on another
+  member's work and runnable code related to their own use case.
+- [x] Every member has a merged PR demonstrating meaningful own code contributions.
+- [ ] Each member personally demonstrates and explains their runnable work to the TA.
 
 | Member | Verified contribution/review evidence | Remaining individual work |
 | --- | --- | --- |
 | Allen | Complete UC-08 merged through PR #3 (`d0f9f7f`); reviewed Fuxuan's PR #4 | Retain actual implementation and review evidence for submission |
-| Fuxuan | UC-09 core and 8 tests merged through PR #4 (`62adf65`) | Complete the export flow and a code peer review; a CSV handoff proposal awaits his reply |
-| Xinyu | Approved PR #2 and PR #3 | Implement UC-10 and obtain a merged substantial code PR; no implementation branch/PR observed yet |
+| Fuxuan | UC-09 core PR #4 and CSV adapter PR #8 (`cebde6d`) merged; actual review comment on PR #5 after he merged it, without an Approve review event | Complete controller/presenter/UI/wiring and demonstrate the flow |
+| Xinyu | UC-10 core and 13 tests merged through PR #7 (`e93804d`); approved PR #2 and PR #3 | Complete controller/presenter/UI/wiring and demonstrate the flow |
 
 A merged core-only PR or a review approval does not establish a complete personal
-MVP use case. The proposed CSV handoff has not changed the recorded assignment.
+MVP use case. Fuxuan implemented the CSV adapter himself; no handoff to Allen is
+needed. PR #6 targets delivery and still lacks peer approval. Fuxuan's PR #5
+comment must not be described as approval before that merge.
 
 ## Software and validation
 
@@ -44,16 +49,18 @@ MVP use case. The proposed CSV handoff has not changed the recorded assignment.
 - [x] Combined delivery at `62adf65`: 66 passing tests and measured Entity/Use Case
   line coverage 535/535 (100%); coverage gate passed.
 - [x] CI at `62adf65` passed all four Windows/Linux and Java 11/17 jobs.
-- [x] Shared maintenance verification: 74 passing JUnit tests, including topic
-  selection, chronological review sorting and startup failure exit status.
-- [x] Current complete Entity/Use Case line coverage: 574/574 (100%).
-- [x] Latest local Checkstyle run: 104 Java files and 586 findings retained.
+- [x] Updated PR #6 working-tree verification: 100 passing JUnit tests, including
+  merged PR #7/#8 and the typed-topic/review-time follow-up fixes.
+- [x] Current complete Entity/Use Case line coverage: 633/633 (100%).
+- [x] Latest local Checkstyle report: 588 findings retained; 113 Java source
+  files exist in the project, independently of cached report entry counts.
 - [x] Launcher regression checks: 152 assertions passed on Windows PowerShell 5.1
   and PowerShell 7, including protection of profiles placed in build output.
 - [x] Offline packaged-JAR check passed wiring, bundled content, JSON dependency
   and account/personal-word persistence after reopening, without UI or network.
 - [x] PR #5 at `f6a4ee2` passed eight push/PR checks across Windows/Linux and
   Java 11/17. Subsequent changes need their own checks and peer review.
+- [ ] Updated PR #6 receives peer approval and passes its own remote checks.
 - [ ] Final integrated MVP includes UC-09 CSV export and UC-10 daily review plan.
 - [ ] Final build and every interactor's tests pass after the pending MVP integrations.
 - [ ] Final Entity/Use Case layers have measured 100% line coverage, including new use cases.

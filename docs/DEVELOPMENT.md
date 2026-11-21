@@ -94,15 +94,17 @@ or reauthor existing commits to imply different teammates wrote them. Additional
 MVP work uses the actual contributor's own branch and focused commits.
 
 Those `codex/` branches are historical local work. Current online contributions
-are [PR #3](https://github.com/fanfan170721/team-project/pull/3), Allen's UC-08,
-and [PR #4](https://github.com/fanfan170721/team-project/pull/4), Fuxuan's UC-09
-core. Both are merged into `Emilia/project-delivery`. Consult `HANDOFF.md` before
+include [PR #3](https://github.com/fanfan170721/team-project/pull/3), Allen's UC-08;
+[PR #4](https://github.com/fanfan170721/team-project/pull/4), Fuxuan's UC-09 core;
+[PR #7](https://github.com/fanfan170721/team-project/pull/7), Xinyu's UC-10 core;
+and [PR #8](https://github.com/fanfan170721/team-project/pull/8), Fuxuan's CSV adapter.
+All are merged into `Emilia/project-delivery`. Consult `HANDOFF.md` before
 starting new work; do not create a new teammate feature from an old local snapshot.
 
 ## Individual implementation work
 
 The README assigns new MVP work to each member. `TEAM_TASKS.zh-CN.md` gives exact
-steps for the two pending use cases. Each member leads their own interactor and
+steps for completing the two partially implemented use cases. Each member leads their own interactor and
 interfaces, controller/presenter, UI, tests and review. The assignment is not
 evidence of completion; link real PRs and explain actual contributions as they occur.
 

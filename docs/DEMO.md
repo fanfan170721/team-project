@@ -43,16 +43,22 @@ Use these short demonstrations with dependencies installed and demo data prepare
 | Member / time limit | Demonstration and current evidence |
 | --- | --- |
 | Allen / 20 minutes | Run UC-08: add a personal word, edit its definition, check account isolation, close and reopen `.wordtrail/demo` to show persistence. Perform a live lookup and show its provider URL. [PR #3](https://github.com/fanfan170721/team-project/pull/3) contains the merged flow and Xinyu's approval; Allen's review is on [PR #4](https://github.com/fanfan170721/team-project/pull/4). |
-| Fuxuan / 15 minutes | Run the eight `ExportResultsInteractorTest` cases. Explain one account-isolation/chronological-order example and one failure case, showing the rows handed to the fake exporter. [PR #4](https://github.com/fanfan170721/team-project/pull/4) contains the merged core. This demonstrates runnable core progress, **not working CSV files or an export UI**. |
-| Xinyu / 20 minutes, after her actual PR arrives | Run the command and tests verified in that PR, then explain a fixed-date due/not-due example and why planning leaves study counters unchanged. No UC-10 implementation PR is recorded yet; do not mark this demonstration complete before real code is available. Her approvals on PR #2/#3 do not replace an implementation PR. |
+| Fuxuan / 15 minutes | Run the eight `ExportResultsInteractorTest` cases and 11 `CsvQuizResultsExporterTest` cases. Explain account isolation, chronological rows, CSV escaping and a failed atomic replacement that preserves an existing file. [PR #4](https://github.com/fanfan170721/team-project/pull/4) and [PR #8](https://github.com/fanfan170721/team-project/pull/8) contain this merged progress; the export UI is still unfinished. |
+| Xinyu / 20 minutes | Run the 13 `ReviewPlanInteractorTest` cases merged through [PR #7](https://github.com/fanfan170721/team-project/pull/7), then explain a fixed-date due/not-due example and why planning leaves study counters unchanged. Her approvals on PR #2/#3 provide peer-review evidence; the review-plan UI is still unfinished. |
 
-From the project root, the existing Fuxuan core demonstration command is:
+From the project root, Fuxuan can run the core and CSV tests:
 
 ```sh
-mvn "-Dtest=ExportResultsInteractorTest" test
+mvn "-Dtest=ExportResultsInteractorTest,CsvQuizResultsExporterTest" test
 ```
 
-This focused test run is not the full verification/coverage check. Use `mvn verify`
+Xinyu can run her core tests:
+
+```sh
+mvn "-Dtest=ReviewPlanInteractorTest" test
+```
+
+These focused test runs are not the full verification/coverage check. Use `mvn verify`
 for that. Allen can also show the real API diagnostic without opening another UI:
 
 ```sh
@@ -63,9 +69,10 @@ The primary-provider diagnostic succeeded on November 20 at 17:12 EST.
 Report the actual provider/result; if lookup fails, keep that failure visible and
 do not claim a successful live call. Tests are useful runnable evidence when the
 member can explain the behavior; a green test count alone does not establish TA acceptance.
-Fuxuan's peer review remains pending; [PR #5](https://github.com/fanfan170721/team-project/pull/5)
-is available for an actual review of Allen's fixes. The proposed CSV adapter
-handoff awaits Fuxuan's reply. UC-09 file/UI work and UC-10 delivery remain open.
+Fuxuan left an actual review comment on [PR #5](https://github.com/fanfan170721/team-project/pull/5)
+after merging it; this was not an Approve review event before the merge. No CSV
+handoff is needed. Both use cases still need controller/presenter/UI and wiring.
+Each member's own TA demonstration and explanation remain unverified.
 If a time limit is reached, report the real stopping point and continue in another
 short session; the limits do not guarantee completion.
 
@@ -99,8 +106,9 @@ keeping all required evidence and all speakers. Avoid reading paragraphs from sl
 
 ## Pending MVP demonstrations
 
-These steps are **not available in the baseline yet**. Their designated leads
-must implement, test and explain them before the final integrated demonstration.
+These complete UI flows are **not available yet**, although UC-09's core/CSV
+adapter and UC-10's core are merged. Their leads must complete and test the
+controller/presenter/UI and wiring before the final integrated demonstration.
 
 - **Fuxuan / UC-09:** export the account's quiz results; inspect the CSV and result
   count. Demonstrate cancellation or overwrite refusal, plus an empty history.
@@ -121,7 +129,7 @@ written script does not establish that rehearsal or individual preparation happe
 - Explain at least two SOLID principles using actual classes, rather than definitions alone.
 - Discuss an implemented pattern beyond the starter, such as dictionary adapter
   composition or injected repository/service strategies, and a concrete extension.
-- Explain the implemented hybrid response flow: UC-08 and the UC-09 core use output
+- Explain the implemented hybrid response flow: UC-08 and the UC-09/UC-10 cores use output
   boundaries; the other existing use cases return results through controllers to
   presenters. Show how source dependencies point inward and discuss the tradeoffs.
 

@@ -10,32 +10,35 @@ documentation and validation with the course requirements verified on November 1
   into `main` as `064dc56`, with the same tree as reviewed/tested `62adf65`.
   `main` now contains the runnable baseline, including PR #3 and PR #4.
   Teammates continue using `Emilia/project-delivery` as their current work base.
-- Maintenance PR #5 still awaits review; PR #6 is a separate follow-up based on
-  PR #5. Neither is included in the merged baseline.
+- Fuxuan merged maintenance PR #5 as `ba26bfb`, then left an actual review comment;
+  there was no Approve review event before that merge. PR #6 now targets delivery
+  and awaits peer approval. These changes are not included in the `main` baseline.
 - Formal specifications, feature controllers/presenters, coverage measurement
   and reproducible quality reports are present in `Emilia/project-delivery`.
 - Allen's complete UC-08 flow is merged through PR #3 (`d0f9f7f`).
 - Fuxuan's UC-09 core and eight interactor tests are merged through PR #4
-  (`62adf65`); the concrete CSV adapter and controller/presenter/UI are unfinished.
-- The combined delivery passed 66 tests with 535/535 Entity/Use Case lines covered.
-  CI for `62adf65` passed all Windows/Linux and Java 11/17 combinations.
-  The latest clean local check retained 677 Checkstyle findings across 101 Java
-  files and passed an offline packaged-JAR wiring, content and persistence check.
-  New CI checks require a subsequent remote run.
-- Xinyu approved PR #2 and PR #3, but no UC-10 implementation branch or PR was
-  observed. Fuxuan's code peer review remains outstanding.
+  (`62adf65`); his CSV adapter and 11 tests are merged through PR #8 (`cebde6d`).
+  Xinyu's UC-10 core and 13 tests are merged through PR #7 (`e93804d`).
+  Delivery is now at `cebde6d`; both use cases still need controller/presenter/UI
+  and wiring to become complete application flows.
+- The updated PR #6 working tree, including merged PR #7/#8 and follow-up fixes,
+  passed 100 tests with 633/633 Entity/Use Case lines covered and an offline
+  packaged-JAR wiring/content/persistence check. Checkstyle retains 588 findings;
+  the project has 113 Java source files, independently of cached report entries.
+  Updated PR #6 still requires its own remote checks and peer approval.
+- All three members have substantial merged contributions and actual peer-review
+  records. Their personal TA demonstrations and explanations remain unverified.
 
 ## Remaining increments
 
 1. Allen maintains shared documentation, build/test evidence and integration.
    Keep measured Checkstyle findings visible; a passing build is not style clearance.
-2. Resolve the proposed handoff of remaining CSV work to Allen with Fuxuan.
-   It is awaiting his reply, so the designated lead remains Fuxuan. Record any
-   agreed change truthfully and preserve each member's required complete use case.
-3. After that reply, complete UC-09's CSV adapter, specific controller/presenter,
-   file-selection UI, safe cancellation/overwrite behavior and acceptance tests.
-4. Xinyu implements UC-10's interactor/interfaces, controller/presenter, UI and
-   tests, with her own meaningful code PR. Existing approvals do not replace code work.
+2. Fuxuan continues from his merged core and CSV adapter; no CSV handoff to Allen
+   is needed. Add the specific controller/presenter and their behavior tests.
+3. Complete UC-09's file-selection UI, safe cancellation/overwrite interaction,
+   application wiring and full-flow acceptance tests.
+4. Xinyu continues from her merged UC-10 core with controller/presenter, UI,
+   wiring and tests through further focused PRs.
 5. Complete outstanding peer reviews and check each member's full-use-case
    evidence before claiming the individual requirements are satisfied.
 6. Review and test each further increment before integrating it into `main`.

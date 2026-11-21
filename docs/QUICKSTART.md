@@ -49,8 +49,9 @@ This checks packaged dependencies and seed content, saves a test word and verifi
 it survives reopening an isolated profile. It does not use personal account data.
 
 The shared feature base is `Emilia/project-delivery`. UC-08 is available in the UI.
-UC-09 currently has a tested core only; CSV export and a review-plan screen are
-not yet available. See [HANDOFF.md](HANDOFF.md) for current contribution status.
+UC-09's core and CSV adapter and UC-10's core are merged, but both still need
+controller/presenter/UI and wiring. Export and review-plan screens are not yet
+available. See [HANDOFF.md](HANDOFF.md) for current contribution status.
 
 The first launch asks you to create an administrator. Usernames contain 3–30
 English letters, digits or underscores; passwords contain 8–128 characters.
@@ -157,9 +158,9 @@ The integration branch is `Emilia/project-delivery`. It preserves the authorship
 and history of the original AI-assisted implementation and includes the signed
 TeamContract from `main`. Contract PR #1 has been merged.
 
-The README distinguishes implemented baseline features from planned MVP work.
-Fuxuan's CSV export and Xinyu's daily review plan remain assigned work for those
-members; their operating instructions are in [TEAM_TASKS.zh-CN.md](TEAM_TASKS.zh-CN.md).
+The README distinguishes implemented increments from unfinished MVP flows.
+Fuxuan's export core/CSV adapter and Xinyu's review-plan core are merged. Their
+remaining adapter/UI work is described in [TEAM_TASKS.zh-CN.md](TEAM_TASKS.zh-CN.md).
 Assignments, contract signatures and documentation-only changes do not establish
 that an individual's use case has been implemented.
 

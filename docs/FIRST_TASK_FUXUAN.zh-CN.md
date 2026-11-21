@@ -1,8 +1,40 @@
-# Fuxuan 第一轮：导出用例核心（已完成）
+# Fuxuan 第二轮（当前）：导出结果的 Controller / Presenter / ViewModel
 
-**2026-11-19：**本轮核心和 8 个测试已通过 [PR #4](https://github.com/fanfan170721/team-project/pull/4) 合入交付分支（`62adf65`）。下面保留原任务提示和命令供核对，不要重新创建这些文件、提交同一项工作或再次打开核心 PR。实际 CSV 写入器、Controller、Presenter 和 UI 尚未完成；CSV 工作拟交给 Allen 的安排仍等 Fuxuan 回复，暂不开始后续实现。
+**当前任务（2026-11-20）：只做下面这一轮，最多 30 分钟。**核心已通过 [PR #4](https://github.com/fanfan170721/team-project/pull/4) 合并，CSV 写入器已通过 [PR #8](https://github.com/fanfan170721/team-project/pull/8) 合并（`cebde6d`）。不要重做这两项。现在补上自己的输入与显示适配器；Swing 界面和应用接线留到下一轮。
 
-## 已完成的第一轮参考
+把下面整段交给能访问你自己项目的 AI；已有本地工作先检查并接着做，不覆盖。
+
+```text
+我是 CSC207 team-project 的 Fuxuan / Xfx689781。本轮只做 UC-09 导出结果的 Controller、Presenter、ViewModel 和行为测试，最多工作 30 分钟（含检查、测试）；到时间或遇阻就保留工作、报告实际进度，不保证一轮完成。
+
+先检查 git status、分支、remote 和 Git 姓名/邮箱。remote 应为 https://github.com/fanfan170721/team-project.git，身份应为我本人；不要改身份、借用他人账号或重写历史。若有未提交工作或同名分支，先读清现有内容、说明怎样继续，不 reset/clean、强制切分支或覆盖。工作区干净且无同名分支时，git fetch origin，再从最新 origin/Emilia/project-delivery 创建 Emilia/xfx-export-adapters。确认已包含 PR #4 和 PR #8 的代码。
+
+先读 docs/USE_CASES.md 的 UC-09、ExportResultsInputBoundary / OutputBoundary / Response，以及 adapter 包的 PersonalVocabularyController、PersonalVocabularyPresenter、PersonalVocabularyViewModel 和 PersonalVocabularyAdaptersTest。代码、注释和界面消息使用英文。只新增以下四个文件；若确需其他文件，先解释，不自行扩展：
+src/main/java/com/wordtrail/adapter/ExportResultsController.java
+src/main/java/com/wordtrail/adapter/ExportResultsPresenter.java
+src/main/java/com/wordtrail/adapter/ExportResultsViewModel.java
+src/test/java/com/wordtrail/adapter/ExportResultsAdaptersTest.java
+
+Controller 依赖 ExportResultsInputBoundary 和自己的 ViewModel，提供 export(String destination) 并返回不可变的显示结果。每次请求先清除上一次结果，再调用 input.execute(destination) 一次，不能重复调用；将输入原样交给用例验证，不复制账号检查、CSV 写入或业务规则。沿用现有同步 Controller 的模式，不增加异步机制。
+
+Presenter 实现现有 ExportResultsOutputBoundary：方法名必须是 prepareSuccessView(ExportResultsResponse) 和 prepareFailView(String)。成功通过 response.getDestination() / getExportedCount() 转为 ViewModel 的显示结果，包含 success、destination、exportedCount 和清晰的英文 message；0 条也是成功，明确显示 0，不能显示失败。失败结果 success=false，保留本次错误消息，清空 destination 和旧成功内容，计数置 0。Presenter 不写文件、不访问仓库、不触发 Swing。
+
+ViewModel 参考 PersonalVocabularyViewModel 的 beginRequest / complete / result：结果不可变，每次请求独立。若用例没有调用输出边界，应抛出清楚的 IllegalStateException，不能返回上次成功。Controller 返回的显示结果不暴露用例 Response、实体、仓库或 Swing 对象。
+
+使用假 InputBoundary 驱动真实 Controller → Presenter → ViewModel 做行为测试：准确传递含空格的目标路径且只调用一次；成功的目标位置、数量和消息；0 条成功；先成功再失败不泄漏旧目标/数量；先失败再成功清除旧错误；成功后下一次完全没有输出时抛异常而非复用旧结果；后续请求不能改变此前返回的不可变结果。检查具体字段与调用次数，不只断言非 null。不需要实际写文件或重复 CSV 测试。
+
+本轮不要修改 usecase/entity、CSV 写入器、共享 ViewModels、AppController、Application 或 Swing 面板，不接按钮、不改 JSON 格式。保持现有业务规则和覆盖率门槛，不关闭检查。运行完整 mvn verify，报告实际测试数及 Entity/Use Case 覆盖结果；没有运行或未跑完必须明说，不能沿用以前的数据。
+
+最后给我简短说明：四个文件做了什么、测试结果、尚缺 Swing/应用接线，以及为什么每次请求要清除旧结果。展示 git diff 让我检查；我确认后，可使用我自己的正常 Git 身份协助 commit、push 到 Emilia/xfx-export-adapters，并创建 base 为 Emilia/project-delivery 的 Draft PR。正文写本轮真实范围、实际测试结果和未完成事项，不宣称界面已可用，不代替别人审核。到 30 分钟未完成就停止扩展，反馈卡点和已完成部分，下轮继续。
+```
+
+本轮结束在群里只回复：`Fuxuan：适配器测试通过/卡在___；PR 链接___（未创建就写未创建）。` 下一轮才接自己的导出界面。
+
+---
+
+## 历史：已完成的第一轮参考（以下不是当前任务）
+
+核心和 8 个测试已通过 PR #4 合入交付分支。下面保留当时的提示和命令供核对；不要再次执行旧分支的提交/推送步骤，也不要重复创建核心 PR。历史文字中的“尚未完成”描述的是当时状态，当前进度以上方为准。
 
 **最多 30 分钟，包含准备与检查时间。**先按 [START_HERE 第 1–3 步](START_HERE.zh-CN.md) 打开自己的新 clone，并切到 `Emilia/xfx-export-results`。已做好就跳过。没完成就下次继续，不要求 30 分钟内保证写完。
 
