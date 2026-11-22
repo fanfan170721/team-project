@@ -13,16 +13,41 @@ and test reports. Chinese is allowed only for teammate communication in these fi
 ## Local checks
 
 ```sh
-mvn verify
+mvn clean verify
 git diff --check
-java -jar target/wordtrail.jar --check-api hello
-java -jar target/wordtrail.jar --data-dir target/demo-data
+java "-Djava.awt.headless=true" -jar target/wordtrail.jar --help
+java tools/CheckPackage.java target/wordtrail.jar target/package-check
+java tools/TestPackageCheck.java target/wordtrail.jar target/package-check-regressions
 ```
 
 Unit tests never need the public API. HTTP tests start a local server. Swing tests
 run on the EDT in headless mode, drive real buttons and render screenshots. CI is
 configured for Java 11 and 17 on Windows and Linux; consult the actual PR checks
 for remote results.
+
+The package check runs against the executable JAR rather than Maven's test
+classpath. Its wrapper clears previous success evidence before compiling the
+probe, records the outcome and JAR checksums, and runs the offline persistence
+check in headless mode. An exclusive output-directory lock prevents overlapping
+wrappers from borrowing or overwriting each other's report; use distinct output
+directories for parallel invocations. The regression command checks these failure
+paths as 31 process assertions, separate from JUnit. The wrapper writes
+`target/package-check/result.txt` and
+`target/package-check/verification.properties`; see
+[Package verification](PACKAGE_VERIFICATION.md) for their scope and interpretation.
+Keep the `-Djava.awt.headless=true` argument for the separate help check quoted in
+PowerShell.
+
+On Windows, run `powershell -NoProfile -File tools/Test-Launcher.ps1` to check
+launcher rebuild decisions with isolated fake Java/Maven commands. The harness
+does not open the application or alter the real project sources.
+
+Manual native GUI and public API checks are separate, opt-in checks:
+
+```sh
+java -jar target/wordtrail.jar --check-api hello
+java -jar target/wordtrail.jar --data-dir .wordtrail/demo
+```
 
 `mvn verify` also generates JaCoCo coverage and a Checkstyle report. Inspect
 `target/site/jacoco-course-layers/index.html` for the complete Entity and Use Case
@@ -31,9 +56,20 @@ not inferred from the number of passing tests. Checkstyle findings are reported
 without suppressing them merely to make the build look clean.
 
 On Windows, `run.cmd` or `run.ps1` starts the application from the project directory.
-The PowerShell launcher rebuilds when source files are newer than the JAR.
-`run.ps1 -Build` forces verification; `run.ps1 -Check` checks the entry point without
+The PowerShell launcher compares build-input fingerprints so additions, edits
+and deletions trigger a clean build. Its fingerprint lives under ignored `target/`.
+The saved fingerprint also includes the JAR hash, detecting external builds that
+replace the executable without updating the launcher's input record.
+`run.ps1 -Build` forces `clean verify`; `run.ps1 -Check` checks the entry point without
 a GUI or public API request.
+
+Keep persistent profiles outside `target/`, which `clean` removes. Before
+rebuilding, the launcher checks for `wordtrail.json` beneath `target/` and stops
+if it finds stored data or cannot safely inspect the directory. Normal launches
+also reject an explicit `-DataDirectory` inside `target/`, even before it exists.
+The launcher does not move or delete profiles. Close WordTrail, make and check a
+backup, then move an old demo profile out of `target/` before rebuilding. Direct `mvn clean` commands
+and direct JAR launches bypass this launcher protection.
 
 Do not commit `target/`, `.idea/`, `.wordtrail/`, passwords, local account data or
 API credentials. A `.gitattributes` file normalizes source line endings.
@@ -42,8 +78,13 @@ API credentials. A `.gitattributes` file normalizes source line endings.
 
 1. Use the README's assigned MVP use cases; identify a reviewer for each increment.
 2. Update the acceptance criteria and UI sketch.
-3. Start from the desired local base. Keep the current `main` unchanged for comparison.
-4. Create a feature branch, e.g. `git switch -c Emilia/review-search`.
+3. Fetch the remote and inspect any existing local changes. The integration base
+   remains `origin/Emilia/project-delivery`. The November 22 publication candidate
+   `Emilia/publish-reviewed-mvp` carries reviewed delivery at `924c56f` to `main`;
+   check its merge status before using `main` as the complete MVP. Keep existing
+   teammate work on its agreed delivery base until a change is coordinated.
+4. Start a new feature branch from that base, e.g.
+   `git switch -c Emilia/review-search origin/Emilia/project-delivery`.
 5. Implement the use case through its input/output boundaries; keep Swing and
    infrastructure details out of the core.
 6. Add tests for observable behavior, invalid input and meaningful failure paths.
@@ -60,14 +101,26 @@ AI-assisted history and integrates the signed contract from `main`. Do not split
 or reauthor existing commits to imply different teammates wrote them. Additional
 MVP work uses the actual contributor's own branch and focused commits.
 
-The personal-vocabulary/review-count/lookup extension is on the separate local
-branch `codex/personal-vocabulary-review`. The initial branch is preserved as its
-base. Use `git diff codex/vocabulary-learning-app...HEAD` to inspect only the extension.
+Those `codex/` branches are historical local work. Current online contributions
+include [PR #3](https://github.com/fanfan170721/team-project/pull/3), Allen's UC-08;
+[PR #4](https://github.com/fanfan170721/team-project/pull/4), Fuxuan's UC-09 core;
+[PR #7](https://github.com/fanfan170721/team-project/pull/7), Xinyu's UC-10 core;
+and [PR #8](https://github.com/fanfan170721/team-project/pull/8), Fuxuan's CSV adapter.
+All are merged into `Emilia/project-delivery`. Consult `HANDOFF.md` before
+starting new work; do not create a new teammate feature from an old local snapshot.
+
+The complete UC-09 and UC-10 flows are also merged through PR #9 and PR #11.
+PR #6 received Fuxuan's formal approval and merged. PR #10's corrected package
+verification received Xinyu's follow-up approval at `87d903e`, passed eight online
+checks and merged as `924c56f`. The publication candidate needs its own checks
+and review. [PR #12](https://github.com/fanfan170721/team-project/pull/12)'s demo
+tools and presentation guides remain a separate increment awaiting teammate review.
 
 ## Individual implementation work
 
-The README assigns new MVP work to each member. `TEAM_TASKS.zh-CN.md` gives exact
-steps for the two pending use cases. Each member leads their own interactor and
+The README records each member's implemented MVP work. `TEAM_TASKS.zh-CN.md`
+retains historical assignment steps; do not repeat the completed features.
+Each member leads their own interactor and
 interfaces, controller/presenter, UI, tests and review. The assignment is not
 evidence of completion; link real PRs and explain actual contributions as they occur.
 

@@ -9,16 +9,22 @@ public final class AppController {
     private final FlashcardController flashcards;
     private final QuizController quiz;
     private final ReviewController review;
+    private final ReviewPlanController reviewPlan;
     private final ProgressController progress;
     private final ContentController content;
     private final PersonalVocabularyController personal;
+    private final ExportResultsController export;
 
-    public AppController(AuthController auth, CatalogController catalog, FlashcardController flashcards,
+    public AppController(AuthController auth, ReviewPlanController reviewPlan, CatalogController catalog,
+                         FlashcardController flashcards,
                          QuizController quiz, ReviewController review, ProgressController progress,
-                         ContentController content, PersonalVocabularyController personal) {
+                         ContentController content, PersonalVocabularyController personal,
+                         ExportResultsController export) {
         this.auth = auth; this.catalog = catalog; this.flashcards = flashcards; this.quiz = quiz;
         this.review = review; this.progress = progress; this.content = content;
+        this.reviewPlan = reviewPlan;
         this.personal = personal;
+        this.export = export;
     }
 
     public boolean needsSetup() { return auth.needsSetup(); }
@@ -38,6 +44,9 @@ public final class AppController {
     }
     public ViewModels.Library reviewList() {
         return review.list();
+    }
+    public ReviewPlanViewModel.Result generateReviewPlan(String topic, int limit) {
+        return reviewPlan.generate(topic, limit);
     }
     public ViewModels.Library sharedWords() {
         return content.sharedWords();
@@ -69,5 +78,9 @@ public final class AppController {
 
     public PersonalVocabularyViewModel.SaveResult changeDefinition(String wordId, String definition) {
         return personal.changeDefinition(wordId, definition);
+    }
+
+    public ExportResultsViewModel.Result exportResults(String destination) {
+        return export.export(destination);
     }
 }

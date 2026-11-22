@@ -1,9 +1,34 @@
 package com.wordtrail.usecase;
 
+import com.wordtrail.entity.LearningProgress;
+import com.wordtrail.entity.VocabularyWord;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class QuizInteractorTest {
+    @Test
+    void fewerThanFourDistinctDefinitionsCannotStartOrSaveAnUnanswerableQuiz() {
+        UseCaseFixture f = new UseCaseFixture();
+        f.admin();
+        f.learner("alice");
+        f.store.questions.clear();
+        // Four words still provide only three distinct meanings, ignoring capitalization.
+        f.store.words.set(3, new VocabularyWord("w3", "word3", "Nature",
+                "DEFINITION0", "example", "original"));
+        LearningProgress before = LearningProgress.empty().withReviewWord("w0", true);
+        f.store.progress.put("alice", before);
+        f.store.failSave = true;
+
+        AppException failure = assertThrows(AppException.class, () -> f.quiz.start(null, 4));
+
+        assertEquals("No questions are available. Add vocabulary with at least four different definitions.",
+                failure.getMessage());
+        assertEquals("Start a new quiz.", assertThrows(AppException.class, () -> f.quiz.answer(0)).getMessage());
+        assertSame(before, f.store.getProgress("alice"));
+        assertTrue(f.store.getProgress("alice").getAttempts().isEmpty());
+        assertTrue(f.store.questions.isEmpty(), "A rejected quiz must not create stored questions.");
+    }
+
     @Test void answersAreHiddenAndOnlyCompletedQuizzesAreSavedOnce() {
         UseCaseFixture f = new UseCaseFixture();
         f.admin();

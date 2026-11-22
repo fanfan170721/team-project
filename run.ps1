@@ -6,21 +6,109 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+
+function Get-LauncherInputFingerprint {
+    $taskInputPaths = [System.Collections.Generic.List[string]]::new()
+    $taskInputPaths.Add('pom.xml')
+    $taskInputPaths.Add('run.ps1')
+    foreach ($taskInputDirectory in @('src', 'config/checkstyle')) {
+        $taskDirectoryPath = Join-Path $PSScriptRoot $taskInputDirectory
+        if (Test-Path -LiteralPath $taskDirectoryPath -PathType Container) {
+            foreach ($taskInputFile in Get-ChildItem -LiteralPath $taskDirectoryPath -Recurse -File -Force) {
+                $taskRelativePath = $taskInputFile.FullName.Substring($PSScriptRoot.Length + 1).Replace('\', '/')
+                $taskInputPaths.Add($taskRelativePath)
+            }
+        }
+    }
+    $taskSortedPaths = $taskInputPaths.ToArray()
+    [Array]::Sort($taskSortedPaths, [StringComparer]::Ordinal)
+    $taskManifest = [System.Text.StringBuilder]::new()
+    [void]$taskManifest.Append("wordtrail-launcher-inputs-v1`n")
+    foreach ($taskInputPath in $taskSortedPaths) {
+        $taskAbsolutePath = Join-Path $PSScriptRoot $taskInputPath
+        $taskHash = 'MISSING'
+        if (Test-Path -LiteralPath $taskAbsolutePath -PathType Leaf) {
+            $taskHash = (Get-FileHash -LiteralPath $taskAbsolutePath -Algorithm SHA256).Hash
+        }
+        [void]$taskManifest.Append($taskInputPath).Append([char]0).Append($taskHash).Append("`n")
+    }
+    $taskHasher = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        $taskBytes = [System.Text.Encoding]::UTF8.GetBytes($taskManifest.ToString())
+        return [BitConverter]::ToString($taskHasher.ComputeHash($taskBytes)).Replace('-', '')
+    }
+    finally {
+        $taskHasher.Dispose()
+    }
+}
+
+function Assert-CleanBuildPreservesData([string]$BuildDirectory) {
+    if (-not (Test-Path -LiteralPath $BuildDirectory -PathType Container)) { return }
+    $taskPendingDirectories = [System.Collections.Generic.Stack[string]]::new()
+    $taskPendingDirectories.Push($BuildDirectory)
+    while ($taskPendingDirectories.Count -gt 0) {
+        $taskDirectory = Get-Item -LiteralPath $taskPendingDirectories.Pop() -Force
+        if (($taskDirectory.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -ne 0) {
+            throw 'Refusing to clean a linked directory under target. Keep build output in ordinary directories; no data was changed.'
+        }
+        foreach ($taskEntry in Get-ChildItem -LiteralPath $taskDirectory.FullName -Force) {
+            if ($taskEntry.PSIsContainer) {
+                $taskPendingDirectories.Push($taskEntry.FullName)
+            }
+            elseif ($taskEntry.Name -eq 'wordtrail.json') {
+                throw ('Refusing to rebuild because WordTrail data exists under target: ' + $taskEntry.FullName +
+                    '. Close WordTrail, make a backup, and move this profile directory outside target (for example .wordtrail/demo) without overwriting an existing profile before retrying. No data was changed.')
+            }
+        }
+    }
+}
+
 Push-Location -LiteralPath $PSScriptRoot
 try {
-    $taskJarPath = Join-Path $PSScriptRoot 'target/wordtrail.jar'
-    $taskNeedsBuild = $Build -or -not (Test-Path -LiteralPath $taskJarPath)
-    if (-not $taskNeedsBuild) {
-        $taskJarTime = (Get-Item -LiteralPath $taskJarPath).LastWriteTimeUtc
-        $taskBuildInputs = @(Get-Item -LiteralPath (Join-Path $PSScriptRoot 'pom.xml'))
-        $taskBuildInputs += @(Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'src') -Recurse -File)
-        $taskNeedsBuild = @($taskBuildInputs | Where-Object { $_.LastWriteTimeUtc -gt $taskJarTime }).Count -gt 0
+    $taskBuildDirectory = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot 'target')).TrimEnd('\', '/')
+    if (-not $Check -and -not [string]::IsNullOrWhiteSpace($DataDirectory)) {
+        $taskDataPath = [System.IO.Path]::GetFullPath(
+            $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($DataDirectory)).TrimEnd('\', '/')
+        $taskPathComparison = if ([System.IO.Path]::DirectorySeparatorChar -eq '\') {
+            [StringComparison]::OrdinalIgnoreCase
+        } else {
+            [StringComparison]::Ordinal
+        }
+        if ([string]::Equals($taskDataPath, $taskBuildDirectory, $taskPathComparison) -or
+            $taskDataPath.StartsWith($taskBuildDirectory + [System.IO.Path]::DirectorySeparatorChar, $taskPathComparison)) {
+            throw 'DataDirectory must be outside target, which Maven clean deletes. Use .wordtrail/demo or another persistent folder. For an existing profile, close WordTrail, make a backup, and move the profile directory outside target without overwriting another profile. No data was changed.'
+        }
     }
+    $taskJarPath = Join-Path $PSScriptRoot 'target/wordtrail.jar'
+    $taskStampPath = Join-Path $PSScriptRoot 'target/launcher-inputs.sha256'
+    $taskInputFingerprint = Get-LauncherInputFingerprint
+    $taskJarFingerprint = ''
+    if (Test-Path -LiteralPath $taskJarPath -PathType Leaf) {
+        $taskJarFingerprint = (Get-FileHash -LiteralPath $taskJarPath -Algorithm SHA256).Hash
+    }
+    $taskSavedFingerprint = ''
+    if (Test-Path -LiteralPath $taskStampPath -PathType Leaf) {
+        $taskSavedFingerprint = [System.IO.File]::ReadAllText($taskStampPath).Trim()
+    }
+    $taskNeedsBuild = $Build -or -not (Test-Path -LiteralPath $taskJarPath -PathType Leaf) -or
+        $taskSavedFingerprint -ne ($taskInputFingerprint + ':' + $taskJarFingerprint)
 
     if ($taskNeedsBuild) {
+        Assert-CleanBuildPreservesData $taskBuildDirectory
+        # Invalidate the previous stamp even if Maven fails before its clean phase.
+        if (Test-Path -LiteralPath $taskStampPath) { Remove-Item -LiteralPath $taskStampPath -Force }
         Get-Command mvn -ErrorAction Stop | Out-Null
-        & mvn -B --no-transfer-progress verify
+        & mvn -B --no-transfer-progress clean verify
         if ($LASTEXITCODE -ne 0) { throw 'Build failed. See the Maven output above.' }
+        if (-not (Test-Path -LiteralPath $taskJarPath -PathType Leaf)) {
+            throw 'Build completed without target/wordtrail.jar. WordTrail was not started.'
+        }
+        if ((Get-LauncherInputFingerprint) -ne $taskInputFingerprint) {
+            throw 'Project files changed during the build. Run the launcher again to rebuild them.'
+        }
+        $taskJarFingerprint = (Get-FileHash -LiteralPath $taskJarPath -Algorithm SHA256).Hash
+        [System.IO.File]::WriteAllText($taskStampPath, ($taskInputFingerprint + ':' + $taskJarFingerprint),
+            [System.Text.Encoding]::ASCII)
     }
 
     Get-Command java -ErrorAction Stop | Out-Null

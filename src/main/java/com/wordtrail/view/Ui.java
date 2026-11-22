@@ -77,16 +77,48 @@ final class Ui {
         form.add(input, c);
     }
 
-    static String topic(JComboBox<String> combo) {
-        return combo.getSelectedIndex() <= 0 ? null : (String) combo.getSelectedItem();
+    static JComboBox<TopicOption> topicSelector() {
+        JComboBox<TopicOption> combo = new JComboBox<>();
+        combo.addItem(new TopicOption(null));
+        return combo;
     }
 
-    static void topics(JComboBox<String> combo, java.util.List<String> topics) {
-        String previous = (String) combo.getSelectedItem();
+    static String topic(JComboBox<TopicOption> combo) {
+        TopicOption selected = (TopicOption) combo.getSelectedItem();
+        return selected == null ? null : selected.value;
+    }
+
+    static void topics(JComboBox<TopicOption> combo, java.util.List<String> topics) {
+        String previous = topic(combo);
         combo.removeAllItems();
-        combo.addItem("All topics");
-        for (String topic : topics) { combo.addItem(topic); }
-        combo.setSelectedItem(previous);
-        if (combo.getSelectedIndex() < 0) { combo.setSelectedIndex(0); }
+        combo.addItem(new TopicOption(null));
+        for (String topic : topics) { combo.addItem(new TopicOption(topic)); }
+        selectTopic(combo, previous);
+    }
+
+    /** Selects the actual topic value, independently of its display label. */
+    static void selectTopic(JComboBox<TopicOption> combo, String topic) {
+        for (int index = 0; index < combo.getItemCount(); index++) {
+            TopicOption option = combo.getItemAt(index);
+            if (java.util.Objects.equals(option.value, topic)) {
+                combo.setSelectedIndex(index);
+                return;
+            }
+        }
+        combo.setSelectedIndex(0);
+    }
+
+    /** A null value denotes all topics; any non-null topic name remains selectable. */
+    static final class TopicOption {
+        private final String value;
+
+        private TopicOption(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return value == null ? "All topics" : "Topic: " + value;
+        }
     }
 }

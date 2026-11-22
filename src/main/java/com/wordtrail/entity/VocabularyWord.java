@@ -21,10 +21,22 @@ public final class VocabularyWord {
         this.source = Objects.requireNonNull(source);
     }
 
-    public String getId() { return id; }
-    public String getTerm() { return term; }
-    public String getTopic() { return topic; }
-    public String getDefinition() { return definition; }
-    public String getExample() { return example; }
-    public String getSource() { return source; }
+    public String getId() {
+        return id;
+    }
+    public String getTerm() {
+        return term;
+    }
+    public String getTopic() {
+        return topic;
+    }
+    public String getDefinition() {
+        return definition;
+    }
+    public String getExample() {
+        return example;
+    }
+    public String getSource() {
+        return source;
+    }
 }

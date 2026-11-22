@@ -7,6 +7,11 @@ import javax.swing.*;
 
 final class HomePanel extends JPanel {
     HomePanel(AppController controller, UiTasks tasks, ViewModels.Account account, Runnable onLogout) {
+        this(controller, tasks, account, onLogout, new SwingExportDestinationChooser());
+    }
+
+    HomePanel(AppController controller, UiTasks tasks, ViewModels.Account account, Runnable onLogout,
+              ExportDestinationChooser exportChooser) {
         super(new BorderLayout(8, 8));
         JPanel header = new JPanel(new BorderLayout());
         header.setBorder(BorderFactory.createEmptyBorder(10, 18, 4, 18));
@@ -22,6 +27,8 @@ final class HomePanel extends JPanel {
         tabs.addTab("Review later", new LibraryPanel(controller, tasks, true));
         tabs.addTab("Progress", new ProgressPanel(controller, tasks));
         if (account.admin) { tabs.addTab("Admin", new AdminPanel(controller, tasks)); }
+        tabs.addTab("Export results", new ExportResultsPanel(controller, tasks, exportChooser));
+        tabs.addTab("Review plan", new ReviewPlanPanel(controller, tasks));
         add(tabs, BorderLayout.CENTER);
         tabs.addChangeListener(event -> ((Refreshable) tabs.getSelectedComponent()).refresh());
         logout.addActionListener(event -> tasks.run("Logging out", () -> { controller.logout(); return true; }, ignored -> onLogout.run()));

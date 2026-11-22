@@ -1,10 +1,22 @@
 # Use-case specification
 
 These specifications describe user-observable behavior. Implementation classes
-belong in `ARCHITECTURE.md`. UC-01 through UC-08 are the existing AI-assisted
-baseline led by Zidong Yuan. UC-09 and UC-10 are assigned, **unimplemented MVP
-work** for Fuxuan Xu and Xinyu Huang respectively; no personal contribution is
-claimed until the work and review actually occur.
+belong in `ARCHITECTURE.md`. UC-01 through UC-08 are the AI-assisted application
+led by Zidong Yuan; his complete UC-08 flow was merged into delivery through
+[PR #3](https://github.com/fanfan170721/team-project/pull/3). Fuxuan Xu's UC-09 core
+and eight tests were merged through [PR #4](https://github.com/fanfan170721/team-project/pull/4).
+Fuxuan's CSV adapter and 11 tests are now merged through
+[PR #8](https://github.com/fanfan170721/team-project/pull/8). Its controller,
+presenter, Swing screen and application wiring are in
+[PR #9](https://github.com/fanfan170721/team-project/pull/9), reviewed and merged
+as `f968b44`. Xinyu Huang's UC-10 core and 13 tests are merged through
+[PR #7](https://github.com/fanfan170721/team-project/pull/7); the complete
+review-plan flow is in [PR #11](https://github.com/fanfan170721/team-project/pull/11),
+reviewed and merged as `3f4b4f3` after the combined integration passed 147 tests
+and eight online checks. Both complete flows are included in integrated delivery.
+Each member's own TA demonstration and
+explanation remain unverified.
+The following UC-09/10 scenarios specify the intended complete MVP behavior.
 
 ## UC-01: Sign in to my learning account
 
@@ -141,7 +153,7 @@ implemented supporting account operations. Sign-in itself does not create an acc
   available for correction or retry. 3a. A quiz was already in
   progress: keep that quiz's original question snapshot; new quizzes use the new meaning.
 
-## UC-09: Export my quiz results (MVP; Fuxuan Xu; pending)
+## UC-09: Export my quiz results (MVP; Fuxuan Xu; complete flow merged)
 
 - **Primary actor:** Signed-in learner.
 - **Preconditions:** The account is active; a history with no completed quizzes is valid.
@@ -159,10 +171,32 @@ implemented supporting account operations. Sign-in itself does not create an acc
   files when the write cannot complete. Another account's results are never exported.
 
 Acceptance includes empty history, account isolation, chronological sorting, CSV
-escaping, cancellation, overwrite refusal and write failure. This is planned
-behavior and does not yet have implementation or completed tests.
+escaping, cancellation, overwrite refusal and write failure. The merged core
+handles authentication, destination validation, account-specific chronological
+rows, empty history, unchanged progress and success/failure output through ports
+(eight interactor tests with an exporter double). The merged CSV exporter writes
+UTF-8 with RFC 4180 quoting through a temporary file and an atomic replace, so a
+failed write leaves any existing file unchanged. Its 11 tests cover UTF-8 output,
+escaping, empty history, atomic replacement and ordinary failure protection/cleanup.
+Fuxuan implemented the CSV adapter; no handoff to Allen is needed.
 
-## UC-10: Generate today's review plan (MVP; Xinyu Huang; pending)
+**Using it (PR #9):** sign in, open the **Export results** tab (shown to every
+account, after the existing tabs) and choose **Export results (CSV)...**. The save
+dialog adds `.csv` when the name has none; if that final file already exists, the
+learner must confirm replacing it. Cancelling either dialog writes nothing and shows
+"Export cancelled". The screen then shows the saved path and the number of results
+(0 for an empty history, whose file has only the header), or the error on failure.
+Columns are `completed_at_utc,topic,correct,total`, oldest first.
+
+PR #9 is reviewed and merged. Its automated acceptance tests cover each
+scenario above through the real application,
+the real Swing button with scripted dialog answers, and the real CSV files. On
+November 20, 2026 the author also manually operated the native dialogs with a
+separate demo data directory: export, declining a replacement (file unchanged),
+confirming a replacement, and switching accounts (only that account's results).
+This records the author's manual verification, not a verified TA demonstration.
+
+## UC-10: Generate today's review plan (MVP; Xinyu Huang; complete flow merged)
 
 - **Primary actor:** Signed-in learner.
 - **Preconditions:** The account is active; its visible vocabulary and review history can be read.
@@ -184,3 +218,18 @@ behavior and does not yet have implementation or completed tests.
 Acceptance includes fixed-date due/not-due boundaries, topic and limit behavior,
 private-word isolation, personal meanings and unchanged study counters. This is
 a simple disclosed scheduling policy, not a claim of a mature adaptive algorithm.
+The interactor, input/output boundaries, entry/response DTOs and 13 fixed-clock
+tests are merged through PR #7. The dedicated controller, presenter, **Review plan**
+tab, application wiring and complete application-flow acceptance tests are in
+PR #11, reviewed and merged as `3f4b4f3`; it is included in integrated delivery.
+
+**Using it:** sign in and open **Review plan**. Choose a topic and a word limit
+from 1 to 20, then select **Generate plan**. The table shows due words, effective
+personal definitions, due dates and scheduling reasons; select a row to read its
+full definition and reason. Changing a filter or re-entering the tab clears the
+old plan. The unfiltered choice is distinct from a real topic named **All topics**.
+
+Adapter, panel and real Swing workflow tests cover filtering, due boundaries,
+private definitions, account isolation, empty/failure states and identical saved
+progress after repeated plan generation. Automated tests run headlessly; they
+are not evidence of a completed personal desktop or TA demonstration.

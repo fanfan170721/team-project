@@ -42,7 +42,7 @@ business layers, and reject direct core/infrastructure imports in the views.
 
 ## Story boundaries
 
-Each existing story has an input interface, an interactor and a dedicated
+Each of the eight UI-supported baseline stories has an input interface, an interactor and a dedicated
 controller/presenter pair. An input interface can be replaced by a test double
 without changing the controller. `AppController` is only a Swing-facing facade;
 it delegates to the specific controllers instead of owning presentation logic.
@@ -253,6 +253,45 @@ Both providers have bounded requests (up to eight seconds each), so an unsuccess
 two-provider lookup can take up to roughly sixteen seconds. Results show the actual
 provider URL. Both failures produce a user-facing error and preserve the saved
 definition. The chart and local study features do not require networking.
+
+## UC-09 integration status
+
+Fuxuan's PR #4 adds `ExportResultsInputBoundary`, `ExportResultsInteractor`,
+`ExportResultsOutputBoundary`, response/row DTOs and the `QuizResultsExporter`
+port. The core uses the current session, reads that account's completed quizzes,
+sorts a copy oldest-first and calls the exporter before reporting success. It
+does not write files, change learning progress or reference Swing.
+
+The eight core behavior tests use a fake exporter. Fuxuan's PR #8 adds the concrete
+`CsvQuizResultsExporter` and 11 tests. It writes UTF-8 CSV with CRLF record endings,
+quotes commas/quotes/line breaks, writes a same-directory temporary file and then
+replaces the destination atomically. Unsupported atomic replacement fails without
+a direct-overwrite fallback. Temporary-file cleanup is best effort.
+
+The complete flow is merged through PR #9. `ExportResultsController` clears the
+prior result, invokes the input boundary and returns the immutable result created
+by `ExportResultsPresenter`. `ExportResultsPanel` obtains a final destination
+through `SwingExportDestinationChooser`, including cancellation and overwrite
+confirmation, before `UiTasks` runs export off the EDT. `Application` wires the
+shared session/store to the interactor and CSV adapter. No CSV handoff is needed.
+
+## UC-10 integration status
+
+Xinyu's PR #7 adds `ReviewPlanInputBoundary`, `ReviewPlanInteractor`,
+`ReviewPlanOutputBoundary`, entry/response DTOs and 13 fixed-clock behavior tests.
+It selects only the signed-in account's visible vocabulary and personal meanings,
+using 1/3/7-day intervals based on the injected clock's local date. Missing review
+dates are eligible today; a stored date with no valid count uses the one-day rule.
+It filters by topic and a 1–20 limit, orders missing-date entries first and then
+due date/term/ID, and never saves or changes progress. Results and expected failures
+go through the output boundary.
+
+The full flow is merged through PR #11. `ReviewPlanController`,
+`ReviewPlanPresenter` and `ReviewPlanViewModel` turn the core response into
+immutable display rows. `ReviewPlanPanel` provides topic/limit controls and a
+result table, clears stale plans after filter changes and runs generation through
+`UiTasks`; `Application` supplies the shared store, session and clock. Planning
+does not save progress. Adapter, panel and real Swing tests cover this path.
 
 ## Tradeoffs to discuss in the presentation
 

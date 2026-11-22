@@ -14,7 +14,13 @@ public final class User {
         this.role = Objects.requireNonNull(role);
     }
 
-    public String getUsername() { return username; }
-    public String getPasswordHash() { return passwordHash; }
-    public Role getRole() { return role; }
+    public String getUsername() {
+        return username;
+    }
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+    public Role getRole() {
+        return role;
+    }
 }

@@ -8,7 +8,7 @@ import javax.swing.*;
 final class FlashcardPanel extends JPanel implements Refreshable {
     private final AppController controller;
     private final UiTasks tasks;
-    private final JComboBox<String> topic = new JComboBox<>(new String[]{"All topics"});
+    private final JComboBox<Ui.TopicOption> topic = Ui.topicSelector();
     private final JCheckBox reviewOnly = new JCheckBox("Use review list only");
     private final JLabel counter = Ui.label("Start a deck to study.", 15);
     private final JLabel term = Ui.label("Ready to learn?", 36);

@@ -19,6 +19,7 @@ These are proposals, not currently implemented features.
 The current snapshot intentionally keeps the UI and storage small enough for
 students to understand and modify.
 
-The initial CSV export and fixed-interval daily review plan are **pending MVP
-work**, assigned in the README. They are not optional extensions and are not yet
-implemented in the baseline.
+The initial CSV export and fixed-interval daily review plan are **implemented MVP
+features**, merged through PR #9 and PR #11 on November 21, 2026. Their core and
+adapter contributions remain recorded in PR #4/#7/#8. The proposals above extend
+those features; do not repeat their initial implementation.

@@ -2,11 +2,11 @@
 
 ## Run the application
 
-The project uses Java 11, Maven and Java Swing. Install JDK 11 or later and
+The project uses Java 11, Maven and Java Swing. CI checks JDK 11 and 17. Install JDK 11 or later and
 Maven 3.9 or later before using the command-line build. From the project root, run:
 
 ```sh
-mvn verify
+mvn clean verify
 java -jar target/wordtrail.jar
 ```
 
@@ -20,14 +20,43 @@ On Windows, double-click `run.cmd` in the project root, or run this in PowerShel
 .\run.ps1
 ```
 
-The launcher uses the project root as its working directory and rebuilds when
-source files change. Use `.\run.ps1 -Build` to force compilation and tests.
+The launcher uses the project root as its working directory and detects added,
+changed and deleted build inputs. Use `.\run.ps1 -Build` to force a clean build and tests.
 `.\run.ps1 -Check` checks the packaged entry point without opening a window or
 accessing the network.
 
 `mvn verify` creates `target/wordtrail.jar`, including runtime dependencies and
 sample content. Running the packaged JAR only requires Java 11 or later. Build
 artifacts and local account data are excluded from Git.
+
+Keep persistent profiles outside `target/`: Maven's `clean` step deletes that
+directory. The Windows launcher rejects an explicit data directory inside
+`target/` and stops a rebuild if it finds an existing `wordtrail.json` there.
+Direct Maven commands do not have this protection. If you used an older demo
+command, close WordTrail, make and check a backup, then move the entire profile
+directory out of `target/` to `.wordtrail/demo` (or another persistent location)
+before rebuilding. Choose a new destination if it already contains a profile;
+do not overwrite it. A backup alone does not clear the guard while the original
+profile remains under `target/`.
+
+To check the packaged application without opening a window or using the network:
+
+```sh
+java tools/CheckPackage.java target/wordtrail.jar target/package-check
+```
+
+This command checks packaged dependencies, seed content, personal-word
+persistence, account-isolated CSV export and review planning without changing
+progress, then reopens an isolated profile. It records the JAR hash and outcome;
+it does not use personal account data. PR #10 was approved and merged on
+November 22. An exclusive lock prevents overlapping checks from sharing evidence;
+use a different output directory for a parallel check.
+
+The November 22 shared feature base is `Emilia/project-delivery` at `924c56f`. UC-08, UC-09
+and UC-10 are complete UI flows; **Export results** and **Review plan** are
+available to every account. The publication candidate carries this reviewed
+version to `main`; check its merge status before choosing a checkout.
+See [HANDOFF.md](HANDOFF.md) for current contribution and merge status.
 
 The first launch asks you to create an administrator. Usernames contain 3–30
 English letters, digits or underscores; passwords contain 8–128 characters.
@@ -76,12 +105,13 @@ commit personal account data; `.gitignore` excludes its directory. To use a
 separate demonstration environment, run:
 
 ```sh
-java -jar target/wordtrail.jar --data-dir target/my-demo
+java -jar target/wordtrail.jar --data-dir .wordtrail/demo
 ```
 
 Only one application instance can use a data directory at a time. If stored data
 is corrupt, the application reports an error and preserves the original file
-instead of clearing it. Rebuilding the project does not remove existing data.
+instead of clearing it. The recommended `.wordtrail/` location survives a
+normal Maven rebuild; profiles stored under `target/` do not.
 
 The primary external service is [Free Dictionary API](https://dictionaryapi.dev/).
 An earlier live check encountered HTTP 530, so the implementation includes
@@ -133,9 +163,10 @@ The integration branch is `Emilia/project-delivery`. It preserves the authorship
 and history of the original AI-assisted implementation and includes the signed
 TeamContract from `main`. Contract PR #1 has been merged.
 
-The README distinguishes implemented baseline features from planned MVP work.
-Fuxuan's CSV export and Xinyu's daily review plan remain assigned work for those
-members; their operating instructions are in [TEAM_TASKS.zh-CN.md](TEAM_TASKS.zh-CN.md).
+The README records the three complete MVP flows now merged into delivery.
+Fuxuan's export flow and Xinyu's review-plan flow include their dedicated
+adapters/UI/wiring and tests. [TEAM_TASKS.zh-CN.md](TEAM_TASKS.zh-CN.md) retains
+the completed assignments as historical reference; do not repeat them.
 Assignments, contract signatures and documentation-only changes do not establish
 that an individual's use case has been implemented.
 

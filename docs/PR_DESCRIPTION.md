@@ -1,63 +1,94 @@
-# Baseline PR #2 description
+# Application delivery PR #2 description
 
-This records the scope and verification of [PR #2](https://github.com/fanfan170721/team-project/pull/2)
-at delivery commit `6763eff`. The UC-08 follow-up introduces an explicit output
-boundary for personal edits; see [its PR description](PERSONAL_VOCABULARY_PR.md)
-and the [current verification record](VERIFICATION.md).
+**Historical PR #2 description.** The November 22 delivery snapshot is `924c56f`:
+all three MVP flows and PR #10's approved package-verification update are merged.
+Publication and PR #12's separate demo-preparation review remain pending at this
+snapshot. See [HANDOFF.md](HANDOFF.md) for current status. The dated snapshots
+below describe earlier revisions and are not current pending-work assignments.
 
-WordTrail adds a runnable Java 11 / Swing vocabulary-learning application to the
-Maven skeleton. Learners can register and sign in, browse and search vocabulary,
-study flashcards, take four-choice quizzes, save review words and inspect their
-progress. A first-run administrator can add vocabulary and quiz questions.
-Account-specific progress persists in local JSON snapshots.
+[PR #2](https://github.com/fanfan170721/team-project/pull/2) added a runnable Java 11 /
+Swing vocabulary-learning application to the Maven skeleton. This description
+reflects the combined delivery at `62adf65`, checked on November 19, 2026. The PR
+merged from `Emilia/project-delivery` into `main` on November 20 as `064dc56`.
+The merge tree matches reviewed/tested `62adf65`, including PR #3 and PR #4;
+`main` now contains the runnable application. Teammates continue using
+`Emilia/project-delivery` as their current work base.
+
+Learners can register and sign in, browse and search vocabulary, study flashcards,
+take four-choice quizzes, save review words and inspect progress. A first-run
+administrator can add vocabulary and quiz questions. Account-specific progress
+persists in local JSON snapshots.
 
 Personal vocabulary and definition overrides belong to the signed-in account.
 Flashcards and new generated quizzes use that account's content, while an active
-quiz retains its starting snapshot. Review counts track completed card visits,
-daily study totals count distinct words, and vocabulary tables support review
-count and recent-review ordering. Live dictionary lookup uses Free Dictionary
-API with Datamuse as a fallback, retains the responding provider's source, and
-keeps online results separate from saved definitions.
+quiz retains its starting snapshot. Review counts track completed card visits;
+daily study totals count distinct words. Vocabulary tables support review-count
+and recent-review ordering. Live lookup uses Free Dictionary API with Datamuse
+as a fallback, retains the responding provider's source and keeps online results
+separate from saved definitions.
 
 Entities and use cases are separated from Swing, HTTP and JSON adapters. The
-application wires input interfaces/interactors, repository and service ports,
-eight specific controller/presenter pairs and plain view models through a composition root. Salted
-PBKDF2 hashes protect stored passwords, admin mutations check the role in the use
-case, and account changes invalidate active decks and quizzes.
+composition root wires interfaces, interactors, repository/service ports and
+specific controllers/presenters. Salted PBKDF2 hashes protect stored passwords,
+admin mutations check the role in the use case, and account changes invalidate
+active decks and quizzes. Allen's UC-08 edit flow now uses immutable input DTOs,
+an explicit output boundary and a presenter for saved success or expected failure.
+Other baseline flows return results to a controller that invokes the presenter;
+do not describe every use case as using an output callback.
 
-Architecture limitation: interactors return results to the controller, which
-invokes the presenter. The implementation does not provide a separate
-`OutputBoundary` callback interface for each use case. This design and the other
-course deliverables still require review against the course criteria; the code
-and passing tests alone do not establish full course compliance.
+The delivery includes formal specifications, MVP ownership, architecture and
+quality evidence. Original implementation history remains attributable to Allen
+with AI assistance. Later contributions are recorded separately:
 
-The delivery adds formal use-case specifications, accurate MVP assignments,
-dedicated feature adapters and reproducible quality reports. The existing history
-is retained rather than rewritten to imply additional authors.
+- PR #1 merged the contract signed by all three members into `main`.
+- [PR #3](https://github.com/fanfan170721/team-project/pull/3) merged Allen's complete
+  UC-08 personal-vocabulary flow into delivery (`d0f9f7f`).
+- [PR #4](https://github.com/fanfan170721/team-project/pull/4) merged Fuxuan's UC-09
+  interactor, input/output boundaries, row/response DTOs, exporter port and eight
+  tests into delivery (`62adf65`). At that snapshot, the tests used an exporter
+  double; the concrete CSV adapter and UI flow were not part of PR #2.
+- Xinyu approved PR #2 and PR #3. Later implementation and review evidence is
+  recorded in the progress update below.
 
-Validation actually performed on November 17, 2026 in the delivery worktree:
+Validation on November 19 against the combined application code from `62adf65`:
 
-- `mvn -B --no-transfer-progress verify`: **47 tests passed**, zero failures,
-  errors or skips; the executable `target/wordtrail.jar` was built.
-- Tests included two architecture checks, four headless Swing workflow tests,
-  business rules, persistence and local HTTP/test-double dictionary cases.
-- JaCoCo: **445/445 lines, 100%** across all Entity and Use Case classes, including ports.
-- Checkstyle: 87 Java files checked; **661 findings retained**, with a non-blocking report.
-- Final packaged-JAR diagnostics: `--help` passed and `--check-api hello`
-  returned a live definition through
-  the primary provider, with source
-  `https://api.dictionaryapi.dev/api/v2/entries/en/hello`.
+- A clean verification passed **66 JUnit tests**, with zero failures, errors or
+  skips, including business rules, account isolation,
+  persistence, architecture, presenters, local HTTP/dictionary doubles and the
+  headless Swing workflow. The UC-09 tests verify core behavior, not CSV files/UI.
+- JaCoCo measured **535/535 executable Entity/Use Case lines covered (100%)**.
+  This is line coverage, not a claim of complete branch coverage or course compliance.
+- GitHub Actions at `62adf65` passed all four Windows/Linux and Java 11/17
+  combinations. Newly added CI checks still require a subsequent remote run.
+- Checkstyle at that base checked **101 Java files** and retained **677 findings** in its
+  non-blocking report. A passing build does not mean the code has no style warnings.
+- The offline packaged-JAR check passed application wiring, bundled words/questions,
+  the JSON dependency and account/personal-word persistence after reopening.
+  It uses no UI or network and is separate from the headless Swing workflow.
+- The packaged application's live `--check-api hello` diagnostic succeeded against
+  the primary provider on November 17. Automated tests do not require public API access.
 
-The subsequent [GitHub Actions run for e0214f3](https://github.com/fanfan170721/team-project/actions/runs/44185870260)
-passed all four jobs on Ubuntu/Windows with Java 11/17. No native GUI or
-teammate-machine IDE setup was manually verified. More detail is in
-`docs/VERIFICATION.md`.
+## Subsequent progress on November 20
 
-This is an AI-assisted initial implementation requested by the user, with its
-original authorship history retained. It is not evidence that other teammates
-implemented these use cases. The team-contract PR #1 has been merged; this
-application code PR provides the baseline for review. **UC-09 CSV export and UC-10
-daily review planning remain pending MVP work** for the designated teammates.
-Those features, their implementation PRs and the group's presentation are not
-claimed complete by this change. Ownership, review and individual contributions
-must be recorded according to the team's actual work.
+Delivery is now at `cebde6d`, beyond the baseline on `main`:
+
+- Fuxuan merged maintenance [PR #5](https://github.com/fanfan170721/team-project/pull/5)
+  as `ba26bfb`, then left an actual review comment. This was not an Approve review
+  event before the merge.
+- Xinyu's [PR #7](https://github.com/fanfan170721/team-project/pull/7) merged the
+  UC-10 core and 13 tests as `e93804d` after review.
+- Fuxuan's [PR #8](https://github.com/fanfan170721/team-project/pull/8) merged the
+  CSV adapter and 11 tests as `cebde6d` after review. No CSV handoff to Allen is needed.
+- [PR #6](https://github.com/fanfan170721/team-project/pull/6) now targets delivery.
+  Its updated working tree includes those increments, demo-data protection and
+  typed-topic/review-time follow-up fixes. Local verification passed **100 tests**,
+  **633/633 core lines covered**, and an offline packaged-JAR check. Checkstyle
+  retains **588 findings**; the project has **113 Java source files**. These local
+  results do not replace current remote checks or the outstanding peer approval.
+
+All members now have substantial merged code, real peer-review records and
+runnable progress. UC-09 and UC-10 still need controller/presenter/UI and wiring;
+their complete flows remain committed MVP work. Each member's own TA demonstration
+and explanation have not been verified. Final integration, final checks,
+presentation and individual submissions remain incomplete. See
+`DELIVERY_CHECKLIST.md` and `VERIFICATION.md` for the remaining work and evidence.

@@ -1,7 +1,9 @@
 package com.wordtrail.adapter;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /** Plain display data. Swing views do not import entities, repositories or interactors. */
@@ -24,13 +26,58 @@ public final class ViewModels {
         public final boolean saved;
         public final int reviewCount;
         public final String lastReviewed;
+        public final ReviewTime reviewTime;
         public Word(String id, String term, String topic, String definition, String example, String source,
                     boolean saved, int reviewCount, String lastReviewed) {
+            this(id, term, topic, definition, example, source, saved, reviewCount, lastReviewed, null);
+        }
+
+        public Word(String id, String term, String topic, String definition, String example, String source,
+                    boolean saved, int reviewCount, String lastReviewed, Instant lastReviewedInstant) {
             this.id = id; this.term = term; this.topic = topic; this.definition = definition;
             this.example = example; this.source = source; this.saved = saved;
             this.reviewCount = reviewCount; this.lastReviewed = lastReviewed;
+            this.reviewTime = new ReviewTime(lastReviewedInstant, lastReviewed);
         }
         @Override public String toString() { return term + " (" + topic + ")"; }
+    }
+
+    /** Keeps local display text while sorting by the actual instant, including during a DST overlap. */
+    public static final class ReviewTime implements Comparable<ReviewTime> {
+        private final Instant instant;
+        private final String text;
+
+        public ReviewTime(Instant instant, String text) {
+            this.instant = instant;
+            this.text = text;
+        }
+
+        @Override
+        public int compareTo(ReviewTime other) {
+            if (instant == null) {
+                return other.instant == null ? 0 : -1;
+            }
+            if (other.instant == null) {
+                return 1;
+            }
+            return instant.compareTo(other.instant);
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            return other instanceof ReviewTime
+                    && Objects.equals(instant, ((ReviewTime) other).instant);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(instant);
+        }
+
+        @Override
+        public String toString() {
+            return text;
+        }
     }
 
     public static final class Library {
@@ -46,12 +93,19 @@ public final class ViewModels {
         public final Set<String> savedIds;
         public final Map<String, Integer> reviewCounts;
         public final Map<String, String> lastReviewed;
+        public final Map<String, Instant> lastReviewedInstants;
 
         public VocabularyProgress(Set<String> savedIds, Map<String, Integer> reviewCounts,
                                   Map<String, String> lastReviewed) {
+            this(savedIds, reviewCounts, lastReviewed, Map.of());
+        }
+
+        public VocabularyProgress(Set<String> savedIds, Map<String, Integer> reviewCounts,
+                                  Map<String, String> lastReviewed, Map<String, Instant> lastReviewedInstants) {
             this.savedIds = Set.copyOf(savedIds);
             this.reviewCounts = Map.copyOf(reviewCounts);
             this.lastReviewed = Map.copyOf(lastReviewed);
+            this.lastReviewedInstants = Map.copyOf(lastReviewedInstants);
         }
     }
 

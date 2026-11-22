@@ -27,9 +27,19 @@ public final class QuizQuestion {
         this.correctIndex = correctIndex;
     }
 
-    public String getId() { return id; }
-    public String getWordId() { return wordId; }
-    public String getPrompt() { return prompt; }
-    public List<String> getOptions() { return options; }
-    public int getCorrectIndex() { return correctIndex; }
+    public String getId() {
+        return id;
+    }
+    public String getWordId() {
+        return wordId;
+    }
+    public String getPrompt() {
+        return prompt;
+    }
+    public List<String> getOptions() {
+        return options;
+    }
+    public int getCorrectIndex() {
+        return correctIndex;
+    }
 }

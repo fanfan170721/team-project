@@ -45,8 +45,7 @@ public final class Main {
         final Application application;
         try { application = new Application(directory); }
         catch (RuntimeException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "Startup failed", ex);
-            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, ex.getMessage(), "WordTrail could not start", JOptionPane.ERROR_MESSAGE));
+            reportStartupFailure(ex);
             return;
         }
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -70,6 +69,21 @@ public final class Main {
             });
             frame.pack(); frame.setMinimumSize(new java.awt.Dimension(950, 700));
             frame.setLocationRelativeTo(null); frame.setVisible(true);
+        });
+    }
+
+    static void reportStartupFailure(RuntimeException failure) {
+        Logger logger = Logger.getLogger(Main.class.getName());
+        logger.log(Level.SEVERE, "Startup failed", failure);
+        SwingUtilities.invokeLater(() -> {
+            try {
+                JOptionPane.showMessageDialog(null, failure.getMessage(),
+                        "WordTrail could not start", JOptionPane.ERROR_MESSAGE);
+            } catch (RuntimeException displayFailure) {
+                logger.log(Level.WARNING, "Could not display startup error", displayFailure);
+            } finally {
+                System.exit(1);
+            }
         });
     }
 }

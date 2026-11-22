@@ -8,7 +8,7 @@ import javax.swing.*;
 final class QuizPanel extends JPanel implements Refreshable {
     private final AppController controller;
     private final UiTasks tasks;
-    private final JComboBox<String> topic = new JComboBox<>(new String[]{"All topics"});
+    private final JComboBox<Ui.TopicOption> topic = Ui.topicSelector();
     private final JSpinner count = new JSpinner(new SpinnerNumberModel(5, 1, 20, 1));
     private final JLabel counter = Ui.label("Start a quiz when you are ready.", 16);
     private final JTextArea prompt = Ui.display("Choose a topic to test your vocabulary.");
