@@ -7,7 +7,7 @@ flowchart LR
     V[Swing views] --> F[AppController facade]
     F --> C[Use-case-specific controllers]
     C --> I[Focused input boundaries]
-    I --> U[Interactors]
+    U[Interactors] -. implements .-> I
     U --> E[Entities]
     U --> P[Repository / service ports]
     D[JSON file store] -. implements .-> P
@@ -25,7 +25,9 @@ flowchart LR
 ```
 
 Runtime calls reach outer adapters through interfaces declared in the use-case
-layer. Source dependencies point inward. The composition root is the deliberate
+layer. The diagram shows source dependencies: each interactor implements its
+input boundary, rather than the boundary depending on the implementation.
+Source dependencies point inward. The composition root is the deliberate
 exception that knows the concrete implementations.
 
 | Package | Responsibility | Allowed project dependencies |
@@ -247,8 +249,10 @@ All component states are captured before any parent is disabled, because some
 Swing parents propagate enabled changes to children.
 
 Dictionary connections have a four-second connect timeout and requests have an
-eight-second timeout. HTTP 404, 429, other error statuses, interruption, network
+eight-second timeout. HTTP 404, 429, other error statuses, network
 failures and malformed JSON trigger an attempt against the backup live provider.
+If the thread is interrupted, the fallback wrapper rethrows the primary failure
+without contacting the backup, preserving cancellation.
 Both providers have bounded requests (up to eight seconds each), so an unsuccessful
 two-provider lookup can take up to roughly sixteen seconds. Results show the actual
 provider URL. Both failures produce a user-facing error and preserve the saved

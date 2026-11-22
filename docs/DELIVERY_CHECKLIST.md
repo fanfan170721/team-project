@@ -5,15 +5,12 @@ on November 17, 2026. The private source archive is kept outside this repository
 The November 15 presentation rubric remains labelled a draft; check later announcements
 for a final schedule or revised rubric. Checkmarks below require actual evidence.
 
-Implementation and collaboration snapshot: November 22, 2026. The work base
-`Emilia/project-delivery` at `924c56f` contains all three reviewed MVP flows and
-the approved package-verification increment from PR #10. The candidate
-`Emilia/publish-reviewed-mvp` prepares this source for publication to `main`.
-At preparation time, `main` was still the `064dc56` baseline merged through
-[PR #2](https://github.com/fanfan170721/team-project/pull/2), with the earlier
-delivery tree at `62adf65`; publication is not marked complete below.
-[PR #12](https://github.com/fanfan170721/team-project/pull/12) proposes separate
-demo tools and presentation guides and remains pending teammate review.
+Implementation and collaboration snapshot: November 22, 2026. Peer-approved
+[PR #13](https://github.com/fanfan170721/team-project/pull/13) and
+[PR #12](https://github.com/fanfan170721/team-project/pull/12) are merged.
+Published `main` and the fast-forwarded `Emilia/project-delivery` are both
+`77ea22e`, containing all three MVP flows, package checks and demo tools/guides.
+All four Windows/Linux and Java 11/17 jobs passed on that `main` commit.
 
 ## Team and specification
 
@@ -63,8 +60,10 @@ at `87d903e` and merged as `924c56f` on November 22.
   zero failures/errors/skips; executable JAR built at 15:00 EST.
 - [x] Latest integrated Checkstyle report: 623 findings across 130 Java source files; a passing build
   is not a statement that the source is free of style findings.
-- [x] Launcher regression checks: 152 assertions passed on Windows PowerShell 5.1
+- [x] Historical launcher checks passed 152 assertions on Windows PowerShell 5.1
   and PowerShell 7, including protection of profiles placed in build output.
+  The current published-tree run passed on PowerShell 7.6.9; its local PowerShell
+  5.1 invocation was blocked by script policy before execution, with no policy change.
 - [x] Offline packaged-JAR check passed wiring, bundled content, JSON dependency
   and account/personal-word persistence after reopening, without UI or network.
 - [x] PR #5 at `f6a4ee2` passed eight push/PR checks across Windows/Linux and
@@ -82,14 +81,20 @@ at `87d903e` and merged as `924c56f` on November 22.
   zero failures/errors/skips, 633/633 core lines, packaged-flow probe and 31
   package-check assertions passed; 623 Checkstyle findings retained. This is
   local candidate evidence; source/build/tools match reviewed delivery `924c56f`.
-- [ ] Reviewed MVP delivery is published to `main` and checked there.
+- [x] Reviewed MVP delivery and demo preparation published to `main` as `77ea22e`;
+  all four `main` CI jobs passed. The matching combined tree passed 147 JUnit
+  tests, 633/633 core lines, 31 package assertions, 18 demo assertions and 152
+  PowerShell 7 launcher assertions. The package check was refreshed for the actual
+  merged revision; Checkstyle retains 623 findings.
 - [ ] Final Checkstyle run is retained and findings reviewed; all warnings need not be fixed
   to meet the rubric's tool-use condition.
 - [ ] Final presentation build, style report and PR/CI evidence correspond to the published revision.
 
 ## Presentation and individual submission
 
-- [ ] Review and integrate PR #12's synthetic demo preparation and presentation guides.
+- [x] PR #12's synthetic demo preparation and presentation guides reviewed and merged.
+- [x] A 14-slide English rehearsal deck and [speaker notes](PRESENTATION_SPEAKER_NOTES.md)
+  prepared with member labels, proposed timing, diagrams and source/test evidence.
 - [ ] Prepare a roughly 15-minute presentation and up to 5-minute Q&A; every member speaks.
 - [ ] Cover all 11 rubric categories; show actual saving/loading, API use, architecture,
   at least two SOLID examples, an appropriate added pattern and extensibility.
@@ -97,6 +102,10 @@ at `87d903e` and merged as `924c56f` on November 22.
 - [ ] Prepare demo data and a working executable; rehearse transitions and the complete demo.
 - [ ] Each member writes their own truthful reflection, at most one page, for MarkUs by December 8.
 - [ ] Each member submits the peer evaluation by December 8 once it is available.
+
+Allen reported on November 22 that both teammates completed their individual
+practice. No timings, screenshots or recordings were inspected; the final team
+rehearsal, TA demonstrations and individual submissions remain unverified.
 
 Milestones: M2 November 20 (individual PR/review/runnable work), M3 November 27
 (at least one unit test per interactor and integrated MVP), M4 December 4

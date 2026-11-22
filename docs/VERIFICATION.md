@@ -1,5 +1,33 @@
 # Verification record
 
+## Published MVP and demo preparation — 2026-11-22
+
+Published `main` is `77ea22e`, after peer-approved PR #13 published the reviewed
+MVP and peer-approved PR #12 added demo preparation. `Emilia/project-delivery`
+was fast-forwarded to the same commit. This section supersedes the pending
+publication/review status in the dated historical entries below.
+
+- All four published-main Windows/Linux and Java 11/17 jobs passed in
+  [CI run 45071207416](https://github.com/fanfan170721/team-project/actions/runs/45071207416).
+- Fresh local verification of the combined tree, identical to the published
+  tree, passed **147 JUnit tests** with zero failures, errors or skips and
+  **633/633 Entity and Use Case lines** covered. Checkstyle retained **623
+  findings** across **130 Java source files**.
+- The offline packaged UC-08/09/10 probe, all **31 package-check assertions** and
+  **18 demo-preparation assertions** passed; the local link case was not skipped.
+  After aligning the checkout to `77ea22e`, the package check was repeated with
+  that actual merged revision in its metadata.
+- **152 launcher assertions passed under PowerShell 7.6.9** with stubbed
+  Maven/Java. The separate local Windows PowerShell 5.1 invocation was blocked
+  by its existing script policy before executing the harness; no policy changed.
+- The verified local executable's SHA-256 is
+  `9088639d894bd622b7216bf6cf7951a389796467d0fb8894e8a9289c7052dc7d`.
+  This identifies the local artifact; CI artifacts have their own build evidence.
+
+These checks used synthetic data without native windows, audio or public API
+requests. They do not establish final team rehearsal, TA demonstration, slide
+submission, reflection or peer-evaluation completion.
+
 ## Publication candidate and approved package fix — 2026-11-22
 
 This dated snapshot covers `Emilia/publish-reviewed-mvp`, based on reviewed
