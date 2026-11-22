@@ -61,4 +61,3 @@ Evidence snapshot: main 77ea22e, November 22. Maven: 147 tests, zero failures/er
 ## Slide 14 — Questions and implementation evidence
 
 Keep the runnable app, source, test reports and PR links available. Allen answers UC-08, output boundaries and dictionary fallback. Fuxuan answers UC-09, CSV escaping, cancellation and safe file replacement. Xinyu answers UC-10, due-date rules, injected Clock and display separation. Discuss actual tradeoffs. Rehearsal target is 15 minutes; timings must be measured in a real team run. Course expectation checked November 22: https://q.utoronto.ca/courses/444184/pages/final-project-presentation-expectations .
-
