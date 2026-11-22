@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
@@ -92,14 +93,70 @@ public final class TestPackageCheck {
                 changed.getProperty("jar.sha256.after", "")), "Both artifact hashes must expose the change.");
         require(originalHash.equals(hash(jar)), "Regressions must not alter the supplied executable JAR.");
 
+        concurrentChecksCannotBorrowEvidence();
+
         String summary = "PASS: " + assertions + " package-check regression assertions.\n"
-                + "Real JAR, compile-before-main failure, recovery, missing input, missing result and changed artifact.\n"
+                + "Real JAR, compile failure, recovery, missing input/result, changed artifact and concurrent checks.\n"
                 + "Fixtures and child logs are retained in " + cases.getFileName() + ".\n";
         Files.writeString(cases.getParent().resolve("result.txt"), summary, StandardCharsets.UTF_8);
         System.out.print(summary);
     }
 
+    private void concurrentChecksCannotBorrowEvidence() throws Exception {
+        Path output = cases.resolve("concurrent-report");
+        Files.createDirectories(output);
+        Path ready = output.resolve("silent.ready");
+        Path release = output.resolve("silent.release");
+        Path probe = cases.resolve("WaitingSilentProbe.java");
+        Files.writeString(probe,
+                "import java.nio.file.*;\n"
+                + "public class WaitingSilentProbe { public static void main(String[] args) throws Exception {\n"
+                + "  Path output = Path.of(args[0]);\n"
+                + "  Files.writeString(output.resolve(\"silent.ready\"), \"ready\");\n"
+                + "  long deadline = System.nanoTime() + 60000000000L;\n"
+                + "  while (!Files.exists(output.resolve(\"silent.release\"))) {\n"
+                + "    if (System.nanoTime() > deadline) throw new IllegalStateException(\"Release timed out\");\n"
+                + "    Thread.sleep(20);\n"
+                + "  }\n"
+                + "} }\n");
+        Process silent = start(jar, output, probe, "concurrent-silent");
+        try {
+            long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(45);
+            while (!Files.exists(ready) && silent.isAlive() && System.nanoTime() < deadline) {
+                Thread.sleep(20);
+            }
+            require(Files.exists(ready), "The silent probe must be running before the competing check starts.");
+            byte[] initialReport = Files.readAllBytes(output.resolve("result.txt"));
+            byte[] initialMetadata = Files.readAllBytes(output.resolve("verification.properties"));
+            int competingExit = check(jar, output, null, "concurrent-valid");
+            boolean reportUnchanged = Arrays.equals(initialReport, Files.readAllBytes(output.resolve("result.txt")));
+            boolean metadataUnchanged = Arrays.equals(initialMetadata,
+                    Files.readAllBytes(output.resolve("verification.properties")));
+            Files.writeString(release, "release");
+            int silentExit = await(silent, "concurrent-silent");
+            require(competingExit != 0, "A competing invocation must reject the occupied evidence directory.");
+            require(reportUnchanged && metadataUnchanged, "A rejected contender must not overwrite the owner's evidence.");
+            require(silentExit != 0, "A silent child must not borrow a concurrent invocation's PASS.");
+            failed(output, "The silent owner must end with its own failure report.");
+            require(check(jar, output, null, "after-concurrency") == 0,
+                    "The output lock must be released after failure for a later valid check.");
+            require(report(output).startsWith("PASS:") && "PASS".equals(metadata(output).getProperty("status")),
+                    "A later valid invocation must recover with its own evidence.");
+        } finally {
+            Files.writeString(release, "release");
+            if (silent.isAlive()) {
+                silent.descendants().forEach(child -> child.destroyForcibly());
+                silent.destroyForcibly();
+                silent.waitFor(5, TimeUnit.SECONDS);
+            }
+        }
+    }
+
     private int check(Path candidate, Path output, Path probe, String label) throws Exception {
+        return await(start(candidate, output, probe, label), label);
+    }
+
+    private Process start(Path candidate, Path output, Path probe, String label) throws IOException {
         String executable = System.getProperty("os.name").startsWith("Windows") ? "java.exe" : "java";
         ProcessBuilder builder = new ProcessBuilder(
                 Path.of(System.getProperty("java.home"), "bin", executable).toString(),
@@ -108,7 +165,10 @@ public final class TestPackageCheck {
             builder.command().add(probe.toString());
         }
         builder.redirectErrorStream(true).redirectOutput(cases.resolve(label + ".log").toFile());
-        Process process = builder.start();
+        return builder.start();
+    }
+
+    private int await(Process process, String label) throws Exception {
         if (!process.waitFor(90, TimeUnit.SECONDS)) {
             process.descendants().forEach(child -> child.destroyForcibly());
             process.destroyForcibly();

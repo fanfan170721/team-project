@@ -1,11 +1,33 @@
 # Verification record
 
+## Review follow-up — concurrent package evidence, 2026-11-21
+
+[Xinyu's review of `6bb9926`](https://github.com/fanfan170721/team-project/pull/10#pullrequestreview-6009182724)
+confirmed the 147-test build and 23 existing package regressions, then reproduced
+a false PASS when two wrappers shared an output directory. This was feedback
+requiring a fix, not an approval to merge.
+
+- A marker-coordinated regression reproduced the problem locally: the silent
+  probe exited zero and its manifest accepted a concurrent valid probe's PASS.
+- The wrapper now acquires an exclusive file lock before changing any evidence,
+  keeps it through success/failure reporting, and rejects an overlapping check
+  without modifying the active invocation's evidence.
+- All **31 package-check process assertions passed** after the fix, including
+  unchanged active evidence, rejection of the silent probe and successful reuse
+  of the output directory after lock release. No application source changed.
+- The earlier published revision's four matrix jobs passed in
+  [CI run 44944509157](https://github.com/fanfan170721/team-project/actions/runs/44944509157).
+  That run predates this locking change. Consult the current revision's
+  [PR #10 checks](https://github.com/fanfan170721/team-project/pull/10/checks)
+  for the fix's CI result; merge only after successful current checks and
+  Xinyu's follow-up review.
+
 ## Latest verification — integrated MVP and packaged flows, 2026-11-21
 
-Branch: `Emilia/package-verification-evidence` (PR #10), a working-tree
-integration of the reviewed UC-08, UC-09 and UC-10 flows. The measurements below
-precede publication of the current PR #10 revision; they are not clean-commit
-provenance or evidence that PR #10 has received peer review.
+Branch: `Emilia/package-verification-evidence` (PR #10). The measurements below
+are the **3:00 p.m. local working-tree snapshot**, subsequently published as
+`6bb9926`. They are not clean-commit provenance. Publication, CI and review
+updates are recorded separately above.
 
 - Full Maven verification finished at **3:00 p.m. EST**: **147 tests**, zero
   failures, errors or skips; executable JAR built.
@@ -25,9 +47,9 @@ provenance or evidence that PR #10 has received peer review.
   integration passed 147 tests and eight online checks before merging as
   `3f4b4f3`. All three complete MVP flows are now on delivery, while `main`
   remains the earlier `064dc56` baseline.
-- The updated PR #10 still needs publication, current CI and peer review. These
-  results do not establish personal TA demonstrations, rehearsal, presentation,
-  reflections or peer evaluations.
+- These local results do not establish personal TA demonstrations, rehearsal,
+  presentation, reflections or peer evaluations. See the follow-up above for
+  the published revision's CI and review status.
 
 The dated sections below are historical measurements of their named revisions.
 

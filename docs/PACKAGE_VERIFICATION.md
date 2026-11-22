@@ -55,7 +55,7 @@ require their own tests or separately reported manual checks.
 
 ## Read the evidence
 
-The output directory contains two companion files:
+The output directory contains two companion evidence files:
 
 | File | Meaning |
 | --- | --- |
@@ -66,11 +66,23 @@ The wrapper replaces earlier success evidence before compiling the probe. This
 matters because a missing packaged class can prevent Java from entering the
 probe's `main` method; a reset inside that method alone would leave an old report.
 
+An exclusive operating-system file lock serializes access to each output
+directory. The wrapper acquires `.package-check.lock` before touching either
+evidence file and holds it through all success/failure writes. A simultaneous
+wrapper using the same directory exits nonzero without starting its probe or
+changing the active wrapper's evidence. Use separate output directories for
+parallel checks, or retry after the active invocation finishes. The empty lock
+file remains intentionally; do not delete or replace it while a check is running.
+Closing the process releases the operating-system lock, so a retained lock file
+does not by itself mean another check is active.
+
 Treat only a completed `PASS` for the selected JAR as a successful check.
 `NOT_RUN` is incomplete and `FAIL` records an unsuccessful invocation. A successful
 child exit alone is insufficient: the probe must produce its success report, and
 the JAR must retain the same checksum throughout the check. Inspect the wrapper's
-exit status as well as both output files; a missing report is not a pass.
+exit status as well as both output files; a missing report is not a pass. Files
+left by an active or later invocation do not turn a rejected invocation into a
+success. The output files are a shared latest-run snapshot, not a run history.
 
 The revision is taken from `WORDTRAIL_REVISION`, then `GITHUB_SHA`, or recorded as
 unknown when neither is supplied. This is reported provenance, not proof that a
@@ -86,6 +98,9 @@ evidence does not apply automatically to a replacement JAR.
 `VerifyPackage.java` remains the low-level probe. Running it directly can help
 diagnosis, but bypasses the wrapper's pre-compilation reset and artifact metadata.
 Its report alone is not the authoritative current package-verification record.
+The low-level probe does not acquire the wrapper's lock; do not run it directly
+against an output directory owned by a wrapper. The optional probe source is
+trusted executable code, not an isolation or security boundary.
 
 ## Regression checks
 
@@ -99,8 +114,12 @@ This source-file harness checks a real successful package, then removes
 `Application.class` from a separate JAR copy to reproduce failure before the
 probe's `main` can run. It verifies that the same output directory loses the old
 PASS, that a valid later check recovers, and that missing input, a child without a
-result, and a JAR changed during checking all fail. The original JAR's checksum
-must stay unchanged. These process-level assertions are separate from JUnit totals.
+result, and a JAR changed during checking all fail. A marker-coordinated pair of
+processes reproduces a silent child overlapping a valid probe: the contender must
+fail without changing the owner's report/metadata, the silent owner must fail,
+and a later valid check must recover. This failed before the locking fix and
+passes with it. The original JAR's checksum must stay unchanged. There are now
+31 process-level assertions, separate from JUnit totals.
 
 Fixtures and child logs remain under the chosen output directory for diagnosis.
 Use an ignored build directory, not a personal data directory. CI runs the harness

@@ -1,9 +1,13 @@
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.security.MessageDigest;
 import java.time.Instant;
 import java.util.Properties;
@@ -18,6 +22,9 @@ public final class CheckPackage {
         Path report = null;
         Path manifest = null;
         Process child = null;
+        FileChannel lockChannel = null;
+        FileLock outputLock = null;
+        int wrapperExit = 0;
         String step = "checking command arguments";
         Properties evidence = initialEvidence();
         try {
@@ -27,6 +34,15 @@ public final class CheckPackage {
             step = "initializing the evidence directory";
             Path output = Path.of(args[1]).toAbsolutePath().normalize();
             Files.createDirectories(output);
+            step = "acquiring exclusive access to the evidence directory";
+            lockChannel = FileChannel.open(output.resolve(".package-check.lock"),
+                    StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+            outputLock = lockChannel.tryLock();
+            if (outputLock == null) {
+                throw new IOException("Another package check is using this directory; use a different directory or retry later.");
+            }
+            // Set these paths only after acquiring the lock: a rejected contender must not
+            // overwrite the active invocation's STARTED, PASS, FAIL or metadata in the catch block.
             report = output.resolve("result.txt");
             manifest = output.resolve("verification.properties");
             Files.writeString(report, "STARTED: this run has not verified the package.\n", StandardCharsets.UTF_8);
@@ -104,7 +120,30 @@ public final class CheckPackage {
             if (failure instanceof InterruptedException) {
                 Thread.currentThread().interrupt();
             }
-            System.exit(1);
+            wrapperExit = 1;
+        } finally {
+            // Keep the lock through all success/failure writes. Never unlink the lock file:
+            // replacing its filesystem identity can let two processes own different locks.
+            try {
+                if (outputLock != null) {
+                    outputLock.release();
+                }
+            } catch (IOException failure) {
+                System.err.println("Could not release the evidence lock: " + failure);
+                wrapperExit = 1;
+            } finally {
+                try {
+                    if (lockChannel != null) {
+                        lockChannel.close();
+                    }
+                } catch (IOException failure) {
+                    System.err.println("Could not close the evidence lock: " + failure);
+                    wrapperExit = 1;
+                }
+            }
+        }
+        if (wrapperExit != 0) {
+            System.exit(wrapperExit);
         }
     }
 
