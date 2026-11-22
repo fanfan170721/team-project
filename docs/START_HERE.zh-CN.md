@@ -1,5 +1,9 @@
 # 从这里继续：每人完成自己的完整功能
 
+**2026-11-21 最新状态：下面的功能开发任务已完成，保留为历史参考，不要重复执行。**Fuxuan 已审核 #6，完整导出功能 [PR #9](https://github.com/fanfan170721/team-project/pull/9) 已合并；Xinyu 的完整复习计划 [PR #11](https://github.com/fanfan170721/team-project/pull/11) 也已合并。共享交付分支为 `Emilia/project-delivery`（`3f4b4f3`）。现在剩下更新后的 [PR #10](https://github.com/fanfan170721/team-project/pull/10) 同伴审核、发布到 `main`、各自讲解/演示和小组展示准备；不要再复制下面的实现提示词。后续以 [HANDOFF](HANDOFF.md) 和实际 PR 状态为准。
+
+## 以下为 11 月 20 日已执行的历史安排
+
 **2026-11-20 当前进度：**Fuxuan 的导出核心 [PR #4](https://github.com/fanfan170721/team-project/pull/4) 和 CSV 写入器 [PR #8](https://github.com/fanfan170721/team-project/pull/8)、Xinyu 的复习计划核心 [PR #7](https://github.com/fanfan170721/team-project/pull/7) 均已合并。不要重复第一轮。
 
 **本轮按每人约 2–3 小时估算，完成自己的界面、接线、测试和 PR。**这是我们的安排估计，不是教授规定的最短时间、最长时间或完成保证。原先的 30 分钟上限已取消；可以连续完成，也可以分段继续，提前完成不用等待，遇阻及时反馈。

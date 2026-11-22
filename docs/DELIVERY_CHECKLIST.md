@@ -5,12 +5,14 @@ on November 17, 2026. The private source archive is kept outside this repository
 The November 15 presentation rubric remains labelled a draft; check later announcements
 for a final schedule or revised rubric. Checkmarks below require actual evidence.
 
-Implementation and collaboration status below was checked on November 20, 2026.
+Implementation and collaboration status below was checked on November 21, 2026.
 The runnable application is now on `main` at `064dc56`, merged through
 [PR #2](https://github.com/fanfan170721/team-project/pull/2). Its file tree equals
 delivery at `62adf65`. The current work base, `Emilia/project-delivery` at
-`cebde6d`, additionally contains PR #5, UC-10 core PR #7 and CSV adapter PR #8.
-Those later increments are not yet on `main`. Neither branch is the finished MVP.
+`3f4b4f3`, additionally contains PR #5, UC-10 core PR #7, CSV adapter PR #8,
+demo-safety PR #6 and the complete UC-09/UC-10 flows from PR #9/#11. PR #10
+includes both flows and package verification, and still requires peer review.
+These later increments are not yet on `main`.
 
 ## Team and specification
 
@@ -22,8 +24,9 @@ Those later increments are not yet on `main`. Neither branch is the finished MVP
 - [x] Public repository link submitted to MarkUs on November 20 at 4:56 p.m. EST;
   the system confirmed all required files submitted. This is the repository
   tracking submission, not the final presentation/reflection submission.
-- [ ] Every member has implemented a complete MVP use case across interactor/interfaces,
+- [x] Every member has implemented a complete MVP use case across interactor/interfaces,
   a specific controller/presenter, triggering UI and resulting UI updates.
+  UC-08/#3, UC-09/#9 and UC-10/#11 are reviewed, tested and merged into delivery.
 - [x] Every member has a substantial code PR, a real review record on another
   member's work and runnable code related to their own use case.
 - [x] Every member has a merged PR demonstrating meaningful own code contributions.
@@ -32,13 +35,14 @@ Those later increments are not yet on `main`. Neither branch is the finished MVP
 | Member | Verified contribution/review evidence | Remaining individual work |
 | --- | --- | --- |
 | Allen | Complete UC-08 merged through PR #3 (`d0f9f7f`); reviewed Fuxuan's PR #4 | Retain actual implementation and review evidence for submission |
-| Fuxuan | UC-09 core PR #4 and CSV adapter PR #8 (`cebde6d`) merged; actual review comment on PR #5 after he merged it, without an Approve review event | Complete controller/presenter/UI/wiring and demonstrate the flow |
-| Xinyu | UC-10 core and 13 tests merged through PR #7 (`e93804d`); approved PR #2 and PR #3 | Complete controller/presenter/UI/wiring and demonstrate the flow |
+| Fuxuan | Complete UC-09 flow merged through PR #9 (`f968b44`), extending core #4 and CSV #8; formally approved PR #6 at `c1bfcae` | Personally demonstrate and explain the flow; retain actual evidence |
+| Xinyu | UC-10 core #7 and complete UI/adapters/wiring/acceptance tests #11 (`3f4b4f3`) reviewed and merged; approved PR #2 and PR #3 | Personally demonstrate and explain the flow; retain actual evidence |
 
 A merged core-only PR or a review approval does not establish a complete personal
 MVP use case. Fuxuan implemented the CSV adapter himself; no handoff to Allen is
-needed. PR #6 targets delivery and still lacks peer approval. Fuxuan's PR #5
-comment must not be described as approval before that merge.
+needed. PR #6 received Fuxuan's formal approval and merged as `0ed4c82`.
+His earlier PR #5 comment must not be described as approval before that merge.
+PR #10's current package-verification and handoff increment still needs peer review.
 
 ## Software and validation
 
@@ -52,21 +56,27 @@ comment must not be described as approval before that merge.
 - [x] Updated PR #6 working-tree verification: 100 passing JUnit tests, including
   merged PR #7/#8 and the typed-topic/review-time follow-up fixes.
 - [x] Current complete Entity/Use Case line coverage: 633/633 (100%).
-- [x] Latest local Checkstyle report: 588 findings retained; 113 Java source
-  files exist in the project, independently of cached report entry counts.
+- [x] November 21 integrated PR #10 working-tree verification: 147 JUnit tests,
+  zero failures/errors/skips; executable JAR built at 15:00 EST.
+- [x] Latest integrated Checkstyle report: 623 findings across 130 Java source files; a passing build
+  is not a statement that the source is free of style findings.
 - [x] Launcher regression checks: 152 assertions passed on Windows PowerShell 5.1
   and PowerShell 7, including protection of profiles placed in build output.
 - [x] Offline packaged-JAR check passed wiring, bundled content, JSON dependency
   and account/personal-word persistence after reopening, without UI or network.
 - [x] PR #5 at `f6a4ee2` passed eight push/PR checks across Windows/Linux and
   Java 11/17. Subsequent changes need their own checks and peer review.
-- [ ] Updated PR #6 receives peer approval and passes its own remote checks.
-- [ ] Final integrated MVP includes UC-09 CSV export and UC-10 daily review plan.
-- [ ] Final build and every interactor's tests pass after the pending MVP integrations.
-- [ ] Final Entity/Use Case layers have measured 100% line coverage, including new use cases.
+- [x] Updated PR #6 received formal peer approval and passed its remote checks before merge.
+- [x] PR #9's reviewed `69b9ee9` integration passed 135 tests and eight online checks before merge.
+- [x] Combined local MVP includes UC-09 CSV export and UC-10 daily review plan,
+  with all interactor tests passing and Entity/Use Case coverage 633/633 (100%).
+- [x] PR #11's reviewed `5a512ae` integration passed all eight online checks and merged as `3f4b4f3`.
+- [x] Updated PR #10 packaged-flow probe and 23 regression assertions passed locally.
+- [ ] Updated PR #10 package-verification increment passes current checks, receives peer review and merges.
+- [ ] Reviewed MVP delivery is published to `main` and checked there.
 - [ ] Final Checkstyle run is retained and findings reviewed; all warnings need not be fixed
   to meet the rubric's tool-use condition.
-- [ ] Pull-request review and CI evidence correspond to the code being merged.
+- [ ] Final presentation build, style report and PR/CI evidence correspond to the published revision.
 
 ## Presentation and individual submission
 

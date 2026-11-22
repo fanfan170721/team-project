@@ -27,7 +27,9 @@ jobs:
       - name: Check packaged entry point
         run: java "-Djava.awt.headless=true" -jar target/wordtrail.jar --help
       - name: Check packaged application offline
-        run: java "-Djava.awt.headless=true" --class-path target/wordtrail.jar tools/VerifyPackage.java target/package-check
+        run: java tools/CheckPackage.java target/wordtrail.jar target/package-check
+      - name: Check package evidence failure handling
+        run: java tools/TestPackageCheck.java target/wordtrail.jar target/package-check-regressions
       - name: Check Windows launcher behavior
         if: runner.os == 'Windows'
         shell: powershell
@@ -45,10 +47,15 @@ jobs:
             target/site/
             target/checkstyle-result.xml
             target/package-check/
+            target/package-check-regressions/result.txt
+            target/package-check-regressions/**/*.log
       - name: Save executable JAR
         if: matrix.os == 'ubuntu-latest' && matrix.java == '11'
         uses: actions/upload-artifact@v4
         with:
           name: wordtrail-jar
-          path: target/wordtrail.jar
+          path: |
+            target/wordtrail.jar
+            target/package-check/result.txt
+            target/package-check/verification.properties
           if-no-files-found: error
