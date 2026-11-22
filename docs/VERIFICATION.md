@@ -1,5 +1,35 @@
 # Verification record
 
+## Publication candidate and approved package fix — 2026-11-22
+
+This dated snapshot covers `Emilia/publish-reviewed-mvp`, based on reviewed
+delivery `924c56f`. Its application source, build configuration, launchers and
+tools match that delivery revision; the publication increment updates status
+documentation. At this snapshot, `main` is still `064dc56` and the publication
+PR has not merged.
+
+- [Xinyu approved `87d903e`](https://github.com/fanfan170721/team-project/pull/10#pullrequestreview-6009455370)
+  after rechecking both earlier findings. Its eight push/PR checks passed;
+  [PR #10](https://github.com/fanfan170721/team-project/pull/10) merged into
+  delivery as `924c56f` on November 22. This supersedes the pending-review
+  status in the historical entries below.
+- Fresh local Maven `verify` finished at **13:15 EST** on Windows/JDK 11:
+  **147 tests**, zero failures, errors or skips, with the executable JAR built.
+  Entity/Use Case line coverage remains **633/633 (100%)**. Checkstyle reports
+  **623 findings** with its existing scope and non-blocking behavior unchanged.
+- All **31 package-check process assertions passed** against that fresh JAR,
+  including the real UC-08/09/10 probe, reopening/isolation, a compiler failure
+  before `main`, concurrent invocations, recovery and artifact mutation checks.
+  The resulting JAR SHA-256 is
+  `15d93eb781695deec9d992347a650b70aefe0a00e5952cb4edd581ef59ef62f1`.
+- [PR #12](https://github.com/fanfan170721/team-project/pull/12) is a separate
+  pending increment for synthetic demo preparation and presentation guides.
+  It is not part of this publication candidate. After incorporating delivery at
+  `0a7a20a`, its 31 package and 18 demo-tool assertions passed locally.
+- Publication needs the current candidate's CI and peer review. These checks
+  used synthetic data without native windows, sound or public API requests;
+  they do not establish a timed rehearsal or individual TA demonstration.
+
 ## Review follow-up — concurrent package evidence, 2026-11-21
 
 [Xinyu's review of `6bb9926`](https://github.com/fanfan170721/team-project/pull/10#pullrequestreview-6009182724)

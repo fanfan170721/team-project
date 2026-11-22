@@ -1,6 +1,6 @@
 # 从这里继续：每人完成自己的完整功能
 
-**2026-11-21 最新状态：下面的功能开发任务已完成，保留为历史参考，不要重复执行。**Fuxuan 已审核 #6，完整导出功能 [PR #9](https://github.com/fanfan170721/team-project/pull/9) 已合并；Xinyu 的完整复习计划 [PR #11](https://github.com/fanfan170721/team-project/pull/11) 也已合并。共享交付分支为 `Emilia/project-delivery`（`3f4b4f3`）。现在剩下更新后的 [PR #10](https://github.com/fanfan170721/team-project/pull/10) 同伴审核、发布到 `main`、各自讲解/演示和小组展示准备；不要再复制下面的实现提示词。后续以 [HANDOFF](HANDOFF.md) 和实际 PR 状态为准。
+**2026-11-22 状态：下面的功能开发任务已完成，仅作历史参考。**完整导出功能 #9 和复习计划 #11 均已合并；Xinyu 已复查批准修复后的 [PR #10](https://github.com/fanfan170721/team-project/pull/10)，也已合并。交付分支为 `Emilia/project-delivery`（`924c56f`）。现在准备审核发布到 `main` 的整合版本，以及独立的演示工具和讲解稿 [PR #12](https://github.com/fanfan170721/team-project/pull/12)。各自真实演示、讲解和小组排练仍需完成。后续以 [HANDOFF](HANDOFF.md) 和实际 PR 状态为准，不重复下面的实现任务。
 
 ## 以下为 11 月 20 日已执行的历史安排
 

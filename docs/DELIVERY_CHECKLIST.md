@@ -5,14 +5,15 @@ on November 17, 2026. The private source archive is kept outside this repository
 The November 15 presentation rubric remains labelled a draft; check later announcements
 for a final schedule or revised rubric. Checkmarks below require actual evidence.
 
-Implementation and collaboration status below was checked on November 21, 2026.
-The runnable application is now on `main` at `064dc56`, merged through
-[PR #2](https://github.com/fanfan170721/team-project/pull/2). Its file tree equals
-delivery at `62adf65`. The current work base, `Emilia/project-delivery` at
-`3f4b4f3`, additionally contains PR #5, UC-10 core PR #7, CSV adapter PR #8,
-demo-safety PR #6 and the complete UC-09/UC-10 flows from PR #9/#11. PR #10
-includes both flows and package verification, and still requires peer review.
-These later increments are not yet on `main`.
+Implementation and collaboration snapshot: November 22, 2026. The work base
+`Emilia/project-delivery` at `924c56f` contains all three reviewed MVP flows and
+the approved package-verification increment from PR #10. The candidate
+`Emilia/publish-reviewed-mvp` prepares this source for publication to `main`.
+At preparation time, `main` was still the `064dc56` baseline merged through
+[PR #2](https://github.com/fanfan170721/team-project/pull/2), with the earlier
+delivery tree at `62adf65`; publication is not marked complete below.
+[PR #12](https://github.com/fanfan170721/team-project/pull/12) proposes separate
+demo tools and presentation guides and remains pending teammate review.
 
 ## Team and specification
 
@@ -36,13 +37,15 @@ These later increments are not yet on `main`.
 | --- | --- | --- |
 | Allen | Complete UC-08 merged through PR #3 (`d0f9f7f`); reviewed Fuxuan's PR #4 | Retain actual implementation and review evidence for submission |
 | Fuxuan | Complete UC-09 flow merged through PR #9 (`f968b44`), extending core #4 and CSV #8; formally approved PR #6 at `c1bfcae` | Personally demonstrate and explain the flow; retain actual evidence |
-| Xinyu | UC-10 core #7 and complete UI/adapters/wiring/acceptance tests #11 (`3f4b4f3`) reviewed and merged; approved PR #2 and PR #3 | Personally demonstrate and explain the flow; retain actual evidence |
+| Xinyu | UC-10 core #7 and complete UI/adapters/wiring/acceptance tests #11 (`3f4b4f3`) reviewed and merged; approved PR #2/#3 and corrected PR #10 at `87d903e` | Personally demonstrate and explain the flow; retain actual evidence |
 
 A merged core-only PR or a review approval does not establish a complete personal
 MVP use case. Fuxuan implemented the CSV adapter himself; no handoff to Allen is
 needed. PR #6 received Fuxuan's formal approval and merged as `0ed4c82`.
 His earlier PR #5 comment must not be described as approval before that merge.
-PR #10's current package-verification and handoff increment still needs peer review.
+PR #10's corrected package-verification increment received Xinyu's
+[follow-up approval](https://github.com/fanfan170721/team-project/pull/10#pullrequestreview-6009455370)
+at `87d903e` and merged as `924c56f` on November 22.
 
 ## Software and validation
 
@@ -71,8 +74,14 @@ PR #10's current package-verification and handoff increment still needs peer rev
 - [x] Combined local MVP includes UC-09 CSV export and UC-10 daily review plan,
   with all interactor tests passing and Entity/Use Case coverage 633/633 (100%).
 - [x] PR #11's reviewed `5a512ae` integration passed all eight online checks and merged as `3f4b4f3`.
-- [x] Updated PR #10 packaged-flow probe and 23 regression assertions passed locally.
-- [ ] Updated PR #10 package-verification increment passes current checks, receives peer review and merges.
+- [x] November 21 initial PR #10 packaged-flow probe and 23 regression assertions passed locally.
+- [x] Corrected PR #10 at `87d903e`: 31 package-check assertions, packaged UC-08/09/10
+  probe and 147-test build verified in Xinyu's follow-up review; all eight online
+  checks passed; merged as `924c56f`.
+- [x] November 22 publication-worktree verification at 13:15 EST: 147 JUnit tests,
+  zero failures/errors/skips, 633/633 core lines, packaged-flow probe and 31
+  package-check assertions passed; 623 Checkstyle findings retained. This is
+  local candidate evidence; source/build/tools match reviewed delivery `924c56f`.
 - [ ] Reviewed MVP delivery is published to `main` and checked there.
 - [ ] Final Checkstyle run is retained and findings reviewed; all warnings need not be fixed
   to meet the rubric's tool-use condition.
@@ -80,6 +89,7 @@ PR #10's current package-verification and handoff increment still needs peer rev
 
 ## Presentation and individual submission
 
+- [ ] Review and integrate PR #12's synthetic demo preparation and presentation guides.
 - [ ] Prepare a roughly 15-minute presentation and up to 5-minute Q&A; every member speaks.
 - [ ] Cover all 11 rubric categories; show actual saving/loading, API use, architecture,
   at least two SOLID examples, an appropriate added pattern and extensibility.

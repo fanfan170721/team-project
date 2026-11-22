@@ -1,6 +1,6 @@
 # 两位组员的当前任务与历史参考
 
-**2026-11-21 状态覆盖说明：下面的功能实现安排现已完成，仅作历史参考，不重复执行。**Fuxuan 的完整导出功能 [#9](https://github.com/fanfan170721/team-project/pull/9)、Xinyu 的完整复习计划 [#11](https://github.com/fanfan170721/team-project/pull/11) 均已合并，Fuxuan 对 #6 的正式审核也已完成。后续是 [#10](https://github.com/fanfan170721/team-project/pull/10) 更新内容的同伴审核、共享发布及本人演示/讲解准备；现状以 [HANDOFF](HANDOFF.md) 为准，不新建一轮相同功能任务。
+**2026-11-22 状态覆盖说明：下面的功能实现安排已完成，仅作历史参考。**Fuxuan 的 #9、Xinyu 的 #11 均已合并；Xinyu 对修复后 [#10](https://github.com/fanfan170721/team-project/pull/10) 的复核批准已记录，#10 已合并。接下来审核发布到 `main` 的整合版本和独立的 [#12](https://github.com/fanfan170721/team-project/pull/12) 演示准备，随后完成各自讲解和真实排练。以 [HANDOFF](HANDOFF.md) 和实际 PR 状态为准，不重复实现功能。
 
 ## 以下为已执行的历史任务
 

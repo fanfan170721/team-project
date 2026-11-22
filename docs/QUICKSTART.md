@@ -45,14 +45,17 @@ To check the packaged application without opening a window or using the network:
 java tools/CheckPackage.java target/wordtrail.jar target/package-check
 ```
 
-This PR #10 command checks packaged dependencies, seed content, personal-word
+This command checks packaged dependencies, seed content, personal-word
 persistence, account-isolated CSV export and review planning without changing
 progress, then reopens an isolated profile. It records the JAR hash and outcome;
-it does not use personal account data. PR #10 still needs peer review and merge.
+it does not use personal account data. PR #10 was approved and merged on
+November 22. An exclusive lock prevents overlapping checks from sharing evidence;
+use a different output directory for a parallel check.
 
-The shared feature base is `Emilia/project-delivery` at `3f4b4f3`. UC-08, UC-09
+The November 22 shared feature base is `Emilia/project-delivery` at `924c56f`. UC-08, UC-09
 and UC-10 are complete UI flows; **Export results** and **Review plan** are
-available to every account. `main` still contains the earlier baseline.
+available to every account. The publication candidate carries this reviewed
+version to `main`; check its merge status before choosing a checkout.
 See [HANDOFF.md](HANDOFF.md) for current contribution and merge status.
 
 The first launch asks you to create an administrator. Usernames contain 3–30

@@ -1,9 +1,9 @@
 # Application delivery PR #2 description
 
-**Historical PR #2 description.** Current delivery is `3f4b4f3` after PR #6,
-the full export flow #9 and the full review-plan flow #11 merged. All three MVP
-flows are implemented; PR #10's package-verification/handoff update still awaits
-peer review. See [HANDOFF.md](HANDOFF.md) for current status. The dated snapshots
+**Historical PR #2 description.** The November 22 delivery snapshot is `924c56f`:
+all three MVP flows and PR #10's approved package-verification update are merged.
+Publication and PR #12's separate demo-preparation review remain pending at this
+snapshot. See [HANDOFF.md](HANDOFF.md) for current status. The dated snapshots
 below describe earlier revisions and are not current pending-work assignments.
 
 [PR #2](https://github.com/fanfan170721/team-project/pull/2) added a runnable Java 11 /

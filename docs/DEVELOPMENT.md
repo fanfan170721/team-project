@@ -17,6 +17,7 @@ mvn clean verify
 git diff --check
 java "-Djava.awt.headless=true" -jar target/wordtrail.jar --help
 java tools/CheckPackage.java target/wordtrail.jar target/package-check
+java tools/TestPackageCheck.java target/wordtrail.jar target/package-check-regressions
 ```
 
 Unit tests never need the public API. HTTP tests start a local server. Swing tests
@@ -27,7 +28,11 @@ for remote results.
 The package check runs against the executable JAR rather than Maven's test
 classpath. Its wrapper clears previous success evidence before compiling the
 probe, records the outcome and JAR checksums, and runs the offline persistence
-check in headless mode. It writes `target/package-check/result.txt` and
+check in headless mode. An exclusive output-directory lock prevents overlapping
+wrappers from borrowing or overwriting each other's report; use distinct output
+directories for parallel invocations. The regression command checks these failure
+paths as 31 process assertions, separate from JUnit. The wrapper writes
+`target/package-check/result.txt` and
 `target/package-check/verification.properties`; see
 [Package verification](PACKAGE_VERIFICATION.md) for their scope and interpretation.
 Keep the `-Djava.awt.headless=true` argument for the separate help check quoted in
@@ -73,10 +78,11 @@ API credentials. A `.gitattributes` file normalizes source line endings.
 
 1. Use the README's assigned MVP use cases; identify a reviewer for each increment.
 2. Update the acceptance criteria and UI sketch.
-3. Fetch the remote and inspect any existing local changes. The current integration
-   base is `origin/Emilia/project-delivery`; `main` contains the reviewed runnable
-   baseline after PR #2 merged on November 20. Keep existing teammate work on its
-   agreed delivery base until further integrations are coordinated.
+3. Fetch the remote and inspect any existing local changes. The integration base
+   remains `origin/Emilia/project-delivery`. The November 22 publication candidate
+   `Emilia/publish-reviewed-mvp` carries reviewed delivery at `924c56f` to `main`;
+   check its merge status before using `main` as the complete MVP. Keep existing
+   teammate work on its agreed delivery base until a change is coordinated.
 4. Start a new feature branch from that base, e.g.
    `git switch -c Emilia/review-search origin/Emilia/project-delivery`.
 5. Implement the use case through its input/output boundaries; keep Swing and
@@ -104,8 +110,11 @@ All are merged into `Emilia/project-delivery`. Consult `HANDOFF.md` before
 starting new work; do not create a new teammate feature from an old local snapshot.
 
 The complete UC-09 and UC-10 flows are also merged through PR #9 and PR #11.
-PR #6 received Fuxuan's formal approval and merged. PR #10's package verification
-and handoff update still needs peer review; do not reuse earlier CI for its new revision.
+PR #6 received Fuxuan's formal approval and merged. PR #10's corrected package
+verification received Xinyu's follow-up approval at `87d903e`, passed eight online
+checks and merged as `924c56f`. The publication candidate needs its own checks
+and review. [PR #12](https://github.com/fanfan170721/team-project/pull/12)'s demo
+tools and presentation guides remain a separate increment awaiting teammate review.
 
 ## Individual implementation work
 

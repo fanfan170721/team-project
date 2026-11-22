@@ -2,7 +2,9 @@
 
 A Java 11 / Swing desktop application for learning English vocabulary. Browse
 topics, study flashcards, take quizzes, save difficult words and track progress.
-Administrators add vocabulary and multiple-choice questions through forms.
+Learners can also maintain private vocabulary, export their quiz history and
+generate a daily review plan. Administrators add shared vocabulary and
+multiple-choice questions through forms.
 
 **Domain:** Education / language learning. **Team:** Zidong Yuan
 ([fanfan170721](https://github.com/fanfan170721)), Fuxuan Xu
@@ -15,24 +17,26 @@ Administrators add vocabulary and multiple-choice questions through forms.
 
 **Teammates continuing now:** [Completed feature work and remaining review/demo steps](docs/START_HERE.zh-CN.md).
 
-This delivery branch integrates the existing application with the
+This repository integrates the application with the
 signed [team contract](TeamContract.md), merged through
 [PR #1](https://github.com/fanfan170721/team-project/pull/1).
 The implementation history is preserved. Code review and each member's own
 use-case contribution must be assessed separately from the contract signatures.
 
-As checked on November 21, 2026, `main` includes Allen's completed UC-08
-from [PR #3](https://github.com/fanfan170721/team-project/pull/3) (`d0f9f7f`) and
-Fuxuan's UC-09 core from [PR #4](https://github.com/fanfan170721/team-project/pull/4)
-(`62adf65`). [PR #2](https://github.com/fanfan170721/team-project/pull/2) merged the
-runnable application into `main` as `064dc56`; its tree matches the reviewed and
-tested delivery at `62adf65`. Teammates continue using `Emilia/project-delivery`,
-now at `3f4b4f3` after maintenance PR #5, Xinyu's UC-10 core PR #7, Fuxuan's
-CSV adapter PR #8, reviewed demo-safety PR #6 and complete export-flow PR #9
-merged. PR #11's complete review-plan flow is also merged after renewed review
-and eight successful online checks. These later increments are not yet on `main`.
-This PR #10 branch includes both feature
-flows for package verification, but PR #10 still needs peer review and merge.
+**Publication snapshot — November 22, 2026:** `Emilia/project-delivery` at
+`924c56f` contains all three reviewed MVP flows and the package-verification
+improvements from [PR #10](https://github.com/fanfan170721/team-project/pull/10).
+Xinyu approved its corrected `87d903e` revision after rerunning the checks;
+all eight online checks passed before merge. The publication candidate
+`Emilia/publish-reviewed-mvp` carries this delivery source to `main` with updated
+handoff documents. At preparation time, `main` was still the earlier `064dc56`
+baseline from [PR #2](https://github.com/fanfan170721/team-project/pull/2).
+Check the publication PR's merge status before assuming that `main` has advanced.
+
+Existing teammate work continues from `Emilia/project-delivery`.
+[PR #12](https://github.com/fanfan170721/team-project/pull/12) separately proposes
+synthetic demo-data tools and presentation walkthroughs; it is awaiting peer
+review and is not included in this publication candidate.
 
 ## Contents
 
@@ -91,11 +95,12 @@ content, so Maven is not required on the machine running the JAR.
 | US-06 | Distinct words studied, daily chart, streak and quiz history | Zidong Yuan |
 | US-07 | Admin forms for new words, topics and quiz questions | Zidong Yuan |
 | US-08 | Personal words, personal definitions, completed-review counts and sorting | Zidong Yuan |
+| US-09 | Account-specific completed-quiz CSV export with a dedicated screen | Fuxuan Xu |
+| US-10 | Topic-filtered daily review plans with due dates and reasons | Xinyu Huang |
 
-All eight software stories are implemented in this baseline. The team contract is
-signed; the baseline's authorship is not evidence of independent code contributions
-from the other members. Additional use-case implementation and review work must
-be attributed to the people who actually perform it. See the
+All ten software stories are implemented in this integrated version. The first
+eight came from Allen's baseline; Fuxuan's export flow and Xinyu's review-plan flow
+have their own implementation and review histories, listed below. See the
 [delivery checklist](docs/DELIVERY_CHECKLIST.md) for outstanding course evidence.
 
 The personal-vocabulary extension adds **Add my word** and **Edit my definition**
@@ -118,7 +123,7 @@ decide what to study today, complete a quiz and retain a copy of the results.
 | UC-09: Export my completed quiz results | Fuxuan Xu | Core (PR #4), atomic CSV adapter (PR #8), dedicated controller/presenter, **Export results** tab, application wiring and acceptance tests (PR #9) reviewed and merged |
 | UC-10: Generate today's due-review plan | Xinyu Huang | Core and 13 tests (PR #7), dedicated controller/presenter, **Review plan** tab, wiring and acceptance tests (PR #11) reviewed and merged |
 
-UC-09 and UC-10 are committed MVP scope, not optional future features. With PR #9,
+UC-09 and UC-10 are implemented MVP scope. With PR #9,
 a signed-in learner opens the **Export results** tab, chooses **Export results (CSV)...**
 and saves only their own completed quizzes; an existing file is replaced only after
 confirmation, and cancelling writes nothing ([UC-09 details](docs/USE_CASES.md)).
@@ -216,6 +221,15 @@ request, output and thread boundaries.
 
 ## Validation
 
+Fresh publication-candidate verification on **November 22 at 13:15 EST** passed
+**147 JUnit tests** with zero failures, errors or skips, **633/633 Entity and Use
+Case lines** covered, and **31 package-check process assertions**. The newly
+built executable passed the offline packaged-flow probe. Checkstyle reports
+623 findings. The application, build configuration and tools match reviewed
+delivery `924c56f`; see [VERIFICATION.md](docs/VERIFICATION.md) for artifact details.
+These are local candidate results, not a claim that publication or its CI has
+already completed. Earlier validation history follows.
+
 On November 20, 2026, verification of PR #6's working tree, including merged
 PR #7/#8 and the review follow-up fixes, passed 100 JUnit tests with no failures,
 errors or skips: startup-failure process exit, business rules, hashing,
@@ -235,8 +249,12 @@ merging. The combined UC-09/UC-10 feature tree (`669cde3`, also the tree of
 PR #11's `5a512ae`) passed 147 tests on November 21, 2026; all eight current
 online checks passed before PR #11 merged as `3f4b4f3`. PR #10's updated working
 tree passed 147 tests again at 15:00 EST, plus its offline package probe and 23
-package-check regression assertions. PR #10 still needs current remote checks
-and peer review. A separate offline
+package-check regression assertions. Its subsequent concurrency fix at `87d903e`
+passed **31 package-check assertions** and all eight online checks. Xinyu's
+[follow-up approval](https://github.com/fanfan170721/team-project/pull/10#pullrequestreview-6009455370)
+confirmed the 147-test build, 633/633 core coverage and packaged UC-08/09/10 probe;
+PR #10 then merged as `924c56f` on November 22. Publication-candidate measurements
+are recorded separately in [VERIFICATION.md](docs/VERIFICATION.md). A separate offline
 packaged-JAR check passed application wiring, bundled words/questions, the JSON
 dependency and account/personal-word persistence after reopening; it uses no UI
 or network. The package and launcher CI additions passed all four combinations

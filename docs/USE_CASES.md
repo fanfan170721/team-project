@@ -13,7 +13,7 @@ as `f968b44`. Xinyu Huang's UC-10 core and 13 tests are merged through
 [PR #7](https://github.com/fanfan170721/team-project/pull/7); the complete
 review-plan flow is in [PR #11](https://github.com/fanfan170721/team-project/pull/11),
 reviewed and merged as `3f4b4f3` after the combined integration passed 147 tests
-and eight online checks. Both complete flows are included in this PR #10 integration.
+and eight online checks. Both complete flows are included in integrated delivery.
 Each member's own TA demonstration and
 explanation remain unverified.
 The following UC-09/10 scenarios specify the intended complete MVP behavior.
@@ -221,7 +221,7 @@ a simple disclosed scheduling policy, not a claim of a mature adaptive algorithm
 The interactor, input/output boundaries, entry/response DTOs and 13 fixed-clock
 tests are merged through PR #7. The dedicated controller, presenter, **Review plan**
 tab, application wiring and complete application-flow acceptance tests are in
-PR #11, reviewed and merged as `3f4b4f3`; it is included in this PR #10 integration branch.
+PR #11, reviewed and merged as `3f4b4f3`; it is included in integrated delivery.
 
 **Using it:** sign in and open **Review plan**. Choose a topic and a word limit
 from 1 to 20, then select **Generate plan**. The table shows due words, effective

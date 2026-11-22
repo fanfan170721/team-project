@@ -1,10 +1,11 @@
 # WordTrail implementation plan
 
-The existing AI-assisted Java/Swing baseline implements eight stories. The signed
+The Java/Swing baseline implements eight stories; Fuxuan's export flow and
+Xinyu's review-plan flow complete the ten-story integrated application. The signed
 contract is integrated from `main`. The current delivery work aligns the code,
 documentation and validation with the course requirements verified on November 17.
 
-## Status on November 21, 2026
+## Publication preparation snapshot on November 22, 2026
 
 - The signed contract is merged through PR #1. Application delivery PR #2 merged
   into `main` as `064dc56`, with the same tree as reviewed/tested `62adf65`.
@@ -23,12 +24,20 @@ documentation and validation with the course requirements verified on November 1
   `f968b44` after renewed review and eight successful checks. PR #11 completes
   UC-10's adapters/UI/wiring and acceptance tests; its combined integration
   received renewed review, passed eight online checks and merged as `3f4b4f3`.
-- The PR #10 working tree includes both full flows and passed 147 tests on
+- The PR #10 working tree included both full flows and passed 147 tests on
   November 21 at 15:00 EST, with 633/633 Entity/Use Case lines covered and the
   executable JAR built. Checkstyle retains 623 findings across 130 Java source
   files. The package probe and 23 regression assertions passed. The probe
   exercises all three MVP flows; its wrapper records current outcome and JAR
-  hash evidence. PR #10 still needs current checks and peer review.
+  hash evidence. Xinyu subsequently found a concurrent-report bug; the fix at
+  `87d903e` passed 31 package assertions, 147 tests and eight online checks.
+  Her follow-up approval preceded PR #10's merge as `924c56f` on November 22.
+- The publication candidate `Emilia/publish-reviewed-mvp` has the same application
+  source as delivery `924c56f` and updates status documentation. Its fresh local
+  verification passed 147 tests, 633/633 core lines and 31 package assertions.
+  Publication to `main` still requires current CI and peer review at this snapshot.
+- PR #12 separately proposes demo-data tools and presentation guides; it is
+  pending teammate review and is not included in the publication candidate.
 - All three members have substantial merged contributions and actual peer-review
   records. Their personal TA demonstrations and explanations remain unverified.
 
@@ -36,10 +45,10 @@ documentation and validation with the course requirements verified on November 1
 
 1. Allen maintains shared documentation, build/test evidence and integration.
    Keep measured Checkstyle findings visible; a passing build is not style clearance.
-2. Continue from delivery `3f4b4f3`, which contains all three complete MVP flows.
+2. Continue from delivery `924c56f`, which contains all three complete MVP flows.
    Do not repeat completed implementations.
-3. Have a teammate review PR #10's updated package probe, regression evidence,
-   CI and handoff; Allen addresses feedback and integrates after review.
+3. Review the publication candidate and PR #12's separate demo-preparation
+   increment; Allen addresses concrete feedback and integrates after review.
 4. Each member prepares to demonstrate and explain their full use case using
    the integrated build. Automated tests do not establish a completed TA demo.
 5. Complete outstanding peer reviews and check each member's full-use-case
