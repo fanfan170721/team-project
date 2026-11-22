@@ -141,20 +141,20 @@ sequenceDiagram
     C->>M: result()
     M-->>C: This request's SaveResult
     C-->>U: SaveResult
-    Note over U,E: First done() runs on EDT; restore controls and clear busy
+    Note over U,E: First done() runs on EDT, restore controls and clear busy
     U->>E: Invoke result callback
     alt Result reports failure
-        E->>U: message(error); keep editor and its input
+        E->>U: message(error), keep editor and its input
     else Result reports success
         E->>L: onSaved(result)
-        L->>L: Show list; reset topic/search filters
+        L->>L: Show list, reset topic/search filters
         L->>U: run(Loading vocabulary, list callback)
         Note over U,B: Second worker: doInBackground
         U->>B: browse(topic, search)
-        B->>B: Read current visible words and personal metadata; present Library
+        B->>B: Read current visible words and personal metadata, present Library
         B-->>U: Library display model
         Note over U,L: Second done() runs on EDT
-        U->>L: Rebuild rows; select and scroll to saved word ID
+        U->>L: Rebuild rows, select and scroll to saved word ID
         L->>U: message(original save confirmation)
     end
 ```
