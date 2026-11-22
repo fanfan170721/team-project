@@ -34,6 +34,8 @@ jobs:
         if: runner.os == 'Windows'
         shell: powershell
         run: ./tools/Test-Launcher.ps1
+      - name: Check synthetic demo preparation and data protection
+        run: java tools/TestDemoPreparation.java target/wordtrail.jar
       - name: Save test reports and rendered Swing screens
         if: always()
         uses: actions/upload-artifact@v4
