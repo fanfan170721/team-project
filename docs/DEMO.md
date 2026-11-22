@@ -7,6 +7,11 @@ The official slide template is guidance, not a requirement to present all 16 pag
 
 ## Prepare a reproducible demonstration
 
+For a prepared synthetic profile, use [Demo preparation](DEMO_PREPARATION.md).
+It creates accounts and UC-08/09/10 fixtures without opening the UI or replacing
+existing data. See also [Allen's UC-08 walkthrough](ALLEN_UC08_WALKTHROUGH.md)
+and the [15-minute presentation outline](PRESENTATION_OUTLINE.md).
+
 Keep reusable demo data in `.wordtrail/demo`, outside the build directory.
 `mvn clean` deletes `target`, including any old `target/presentation-data`.
 If that old directory contains a demo you want to keep, close the application
