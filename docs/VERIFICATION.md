@@ -1,5 +1,58 @@
 # Verification record
 
+## Review follow-up — concurrent package evidence, 2026-11-21
+
+[Xinyu's review of `6bb9926`](https://github.com/fanfan170721/team-project/pull/10#pullrequestreview-6009182724)
+confirmed the 147-test build and 23 existing package regressions, then reproduced
+a false PASS when two wrappers shared an output directory. This was feedback
+requiring a fix, not an approval to merge.
+
+- A marker-coordinated regression reproduced the problem locally: the silent
+  probe exited zero and its manifest accepted a concurrent valid probe's PASS.
+- The wrapper now acquires an exclusive file lock before changing any evidence,
+  keeps it through success/failure reporting, and rejects an overlapping check
+  without modifying the active invocation's evidence.
+- All **31 package-check process assertions passed** after the fix, including
+  unchanged active evidence, rejection of the silent probe and successful reuse
+  of the output directory after lock release. No application source changed.
+- The earlier published revision's four matrix jobs passed in
+  [CI run 44944509157](https://github.com/fanfan170721/team-project/actions/runs/44944509157).
+  That run predates this locking change. Consult the current revision's
+  [PR #10 checks](https://github.com/fanfan170721/team-project/pull/10/checks)
+  for the fix's CI result; merge only after successful current checks and
+  Xinyu's follow-up review.
+
+## Latest verification — integrated MVP and packaged flows, 2026-11-21
+
+Branch: `Emilia/package-verification-evidence` (PR #10). The measurements below
+are the **3:00 p.m. local working-tree snapshot**, subsequently published as
+`6bb9926`. They are not clean-commit provenance. Publication, CI and review
+updates are recorded separately above.
+
+- Full Maven verification finished at **3:00 p.m. EST**: **147 tests**, zero
+  failures, errors or skips; executable JAR built.
+- Entity/Use Case line coverage: **633/633 (100%)**, with the existing scope and
+  thresholds unchanged. Checkstyle retained **623 findings** across **130 Java
+  source files**; the report remains visible and non-blocking.
+- The offline packaged-JAR probe **passed** personal-vocabulary editing and
+  persistence (UC-08), account-isolated quiz-results CSV export (UC-09), review
+  planning without progress mutation (UC-10), and reopening the stored profile.
+  It used synthetic isolated data and no native window, audio or public API.
+- **23 process-level package-check regression assertions passed**, separately
+  from the JUnit total. The wrapper invalidates old success reports, rejects
+  broken/missing/changed JARs or a child without a result, and records hash/outcome
+  metadata. See [PACKAGE_VERIFICATION.md](PACKAGE_VERIFICATION.md).
+- PR #9's renewed integration review covered `69b9ee9` (135 tests and eight
+  successful online checks); it merged as `f968b44`. PR #11's `5a512ae`
+  integration passed 147 tests and eight online checks before merging as
+  `3f4b4f3`. All three complete MVP flows are now on delivery, while `main`
+  remains the earlier `064dc56` baseline.
+- These local results do not establish personal TA demonstrations, rehearsal,
+  presentation, reflections or peer evaluations. See the follow-up above for
+  the published revision's CI and review status.
+
+The dated sections below are historical measurements of their named revisions.
+
 ## Latest verification — teammate integration and review follow-up, 2026-11-20
 
 Branch: `Emilia/m2-demo-safety`, including delivery merge `cebde6d` and review

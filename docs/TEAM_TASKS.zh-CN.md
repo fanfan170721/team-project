@@ -1,5 +1,9 @@
 # 两位组员的当前任务与历史参考
 
+**2026-11-21 状态覆盖说明：下面的功能实现安排现已完成，仅作历史参考，不重复执行。**Fuxuan 的完整导出功能 [#9](https://github.com/fanfan170721/team-project/pull/9)、Xinyu 的完整复习计划 [#11](https://github.com/fanfan170721/team-project/pull/11) 均已合并，Fuxuan 对 #6 的正式审核也已完成。后续是 [#10](https://github.com/fanfan170721/team-project/pull/10) 更新内容的同伴审核、共享发布及本人演示/讲解准备；现状以 [HANDOFF](HANDOFF.md) 为准，不新建一轮相同功能任务。
+
+## 以下为已执行的历史任务
+
 **2026-11-20 更新：原先的 30 分钟上限已取消。当前按每人约 2–3 小时安排一个完整功能，包括适配器、Swing 界面、应用接线、测试和 PR。**这是工作量估计，不是教授规定的最低/最高时长，也不是完成保证。只执行各自个人页面顶部的当前提示词；[START_HERE](START_HERE.zh-CN.md) 是简短入口，下面的历史计划不需要通读。
 
 Fuxuan 的 UC-09 核心已通过 [PR #4](https://github.com/fanfan170721/team-project/pull/4)、CSV 写入器已通过 [PR #8](https://github.com/fanfan170721/team-project/pull/8) 合并。Xinyu 的 UC-10 核心和 13 个测试已通过 [PR #7](https://github.com/fanfan170721/team-project/pull/7) 合并。两人继续完成各自的 Controller、Presenter、ViewModel、界面、接线和测试，不重复已有核心。Fuxuan 先审核 [PR #6](https://github.com/fanfan170721/team-project/pull/6)，再继续自己的功能。

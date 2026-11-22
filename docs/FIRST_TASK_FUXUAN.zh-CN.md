@@ -1,5 +1,9 @@
 # Fuxuan 当前任务：完成 UC-09 测验成绩导出的完整功能
 
+**2026-11-21：本页开发任务已完成，下面提示词仅作历史参考，不要重复执行。**你对 [PR #6](https://github.com/fanfan170721/team-project/pull/6) 的正式审核已记录；完整导出界面、适配器、接线和验收测试已通过 [PR #9](https://github.com/fanfan170721/team-project/pull/9) 合并（`f968b44`）。交付分支也已整合 Xinyu 的 #11。保留真实演示记录，准备本人讲解；后续共享审核以 [HANDOFF](HANDOFF.md) 和更新后的 [PR #10](https://github.com/fanfan170721/team-project/pull/10) 为准。
+
+## 以下为已完成任务的历史提示词
+
 **当前安排（2026-11-20）：先实际审核 PR #6，再完成自己的导出功能并提交 PR。**预计需要约 **2–3 小时**，这只是工作量估计，不是教授规定，也不保证到点完成；原先的短时限已取消。不需要故意等待或拆出虚假提交，遇到阻碍就报告实际问题和进度。
 
 核心和 8 个测试已通过 [PR #4](https://github.com/fanfan170721/team-project/pull/4) 合并，CSV 写入器和 11 个测试已通过 [PR #8](https://github.com/fanfan170721/team-project/pull/8) 合并。复用这些代码，不重新实现。本轮目标是用户能在正式应用里选择位置、确认覆盖、导出本人成绩并看到结果，而不只是新增一个未接入的面板。

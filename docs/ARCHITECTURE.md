@@ -268,11 +268,14 @@ quotes commas/quotes/line breaks, writes a same-directory temporary file and the
 replaces the destination atomically. Unsupported atomic replacement fails without
 a direct-overwrite fallback. Temporary-file cleanup is best effort.
 
-The core and CSV adapter are merged. Dedicated Controller/Presenter/ViewModel,
-triggering/result UI and application wiring remain pending, including user
-cancellation and overwrite confirmation. No CSV handoff to Allen is needed.
+The complete flow is merged through PR #9. `ExportResultsController` clears the
+prior result, invokes the input boundary and returns the immutable result created
+by `ExportResultsPresenter`. `ExportResultsPanel` obtains a final destination
+through `SwingExportDestinationChooser`, including cancellation and overwrite
+confirmation, before `UiTasks` runs export off the EDT. `Application` wires the
+shared session/store to the interactor and CSV adapter. No CSV handoff is needed.
 
-## UC-10 core integration status
+## UC-10 integration status
 
 Xinyu's PR #7 adds `ReviewPlanInputBoundary`, `ReviewPlanInteractor`,
 `ReviewPlanOutputBoundary`, entry/response DTOs and 13 fixed-clock behavior tests.
@@ -283,8 +286,12 @@ It filters by topic and a 1–20 limit, orders missing-date entries first and th
 due date/term/ID, and never saves or changes progress. Results and expected failures
 go through the output boundary.
 
-This core is merged; its dedicated Controller/Presenter/ViewModel, screen and
-application wiring still need implementation before learners can invoke it.
+The full flow is merged through PR #11. `ReviewPlanController`,
+`ReviewPlanPresenter` and `ReviewPlanViewModel` turn the core response into
+immutable display rows. `ReviewPlanPanel` provides topic/limit controls and a
+result table, clears stale plans after filter changes and runs generation through
+`UiTasks`; `Application` supplies the shared store, session and clock. Planning
+does not save progress. Adapter, panel and real Swing tests cover this path.
 
 ## Tradeoffs to discuss in the presentation
 

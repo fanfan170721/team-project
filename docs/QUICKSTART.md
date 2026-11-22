@@ -42,16 +42,18 @@ profile remains under `target/`.
 To check the packaged application without opening a window or using the network:
 
 ```sh
-java "-Djava.awt.headless=true" --class-path target/wordtrail.jar tools/VerifyPackage.java target/package-check
+java tools/CheckPackage.java target/wordtrail.jar target/package-check
 ```
 
-This checks packaged dependencies and seed content, saves a test word and verifies
-it survives reopening an isolated profile. It does not use personal account data.
+This PR #10 command checks packaged dependencies, seed content, personal-word
+persistence, account-isolated CSV export and review planning without changing
+progress, then reopens an isolated profile. It records the JAR hash and outcome;
+it does not use personal account data. PR #10 still needs peer review and merge.
 
-The shared feature base is `Emilia/project-delivery`. UC-08 is available in the UI.
-UC-09's core and CSV adapter and UC-10's core are merged, but both still need
-controller/presenter/UI and wiring. Export and review-plan screens are not yet
-available. See [HANDOFF.md](HANDOFF.md) for current contribution status.
+The shared feature base is `Emilia/project-delivery` at `3f4b4f3`. UC-08, UC-09
+and UC-10 are complete UI flows; **Export results** and **Review plan** are
+available to every account. `main` still contains the earlier baseline.
+See [HANDOFF.md](HANDOFF.md) for current contribution and merge status.
 
 The first launch asks you to create an administrator. Usernames contain 3–30
 English letters, digits or underscores; passwords contain 8–128 characters.
@@ -158,9 +160,10 @@ The integration branch is `Emilia/project-delivery`. It preserves the authorship
 and history of the original AI-assisted implementation and includes the signed
 TeamContract from `main`. Contract PR #1 has been merged.
 
-The README distinguishes implemented increments from unfinished MVP flows.
-Fuxuan's export core/CSV adapter and Xinyu's review-plan core are merged. Their
-remaining adapter/UI work is described in [TEAM_TASKS.zh-CN.md](TEAM_TASKS.zh-CN.md).
+The README records the three complete MVP flows now merged into delivery.
+Fuxuan's export flow and Xinyu's review-plan flow include their dedicated
+adapters/UI/wiring and tests. [TEAM_TASKS.zh-CN.md](TEAM_TASKS.zh-CN.md) retains
+the completed assignments as historical reference; do not repeat them.
 Assignments, contract signatures and documentation-only changes do not establish
 that an individual's use case has been implemented.
 

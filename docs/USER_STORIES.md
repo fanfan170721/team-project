@@ -7,12 +7,13 @@ implement a real use case and record their work through their own commits and PR
 See `DELIVERY_CHECKLIST.md` for the remaining course evidence.
 
 The committed MVP increment adds US-09 (Fuxuan Xu) and US-10 (Xinyu Huang).
-As checked on November 20, 2026, Allen's complete US-08 flow is merged through
+As checked on November 21, 2026, Allen's complete US-08 flow is merged through
 [PR #3](https://github.com/fanfan170721/team-project/pull/3); Fuxuan's US-09 core
 and eight tests are merged through [PR #4](https://github.com/fanfan170721/team-project/pull/4).
 Fuxuan's CSV adapter and 11 tests are merged through [PR #8](https://github.com/fanfan170721/team-project/pull/8);
 Xinyu's US-10 core and 13 tests are merged through [PR #7](https://github.com/fanfan170721/team-project/pull/7).
-Both still need controller/presenter/UI and wiring. Formal use-case flows,
+Their full controller/presenter/UI and wiring are now reviewed and merged through
+PR #9 (US-09) and PR #11 (US-10). Formal use-case flows,
 preconditions and extensions are in `USE_CASES.md`.
 
 ## US-01 — Accounts
@@ -149,7 +150,7 @@ As a content admin, I want to add new vocabulary words and quizzes through a for
 Tests: `ContentInteractorTest`, `JsonFileStoreTest`, `SwingWorkflowTest`.
 Initial implementation lead: Zidong Yuan (AI-assisted).
 
-## US-09 — Export my quiz results (MVP; core and CSV adapter merged)
+## US-09 — Export my quiz results (MVP; complete flow merged)
 
 As a learner, I want to export my completed quiz results so I can keep a portable
 record of my learning. Designated lead: **Fuxuan Xu**.
@@ -164,10 +165,11 @@ verify account isolation, chronological rows, empty history, unchanged progress,
 authentication/destination validation and read/export failure handling with doubles.
 `CsvQuizResultsExporter` and 11 tests are also merged, covering real UTF-8 files,
 CSV escaping, empty output, atomic replacement and ordinary failure protection.
-The controller, presenter, UI, wiring and full-flow acceptance tests remain pending.
+PR #9 adds the dedicated controller/presenter, **Export results** tab, application
+wiring and adapter/chooser/panel/real-application acceptance tests; it is merged.
 No CSV handoff to Allen is needed. Complete flow and failure cases: UC-09 in `USE_CASES.md`.
 
-## US-10 — Plan today's vocabulary review (MVP; core merged)
+## US-10 — Plan today's vocabulary review (MVP; complete flow merged)
 
 As a learner, I want to see which words are due today so I can prioritize my
 review time. Designated lead: **Xinyu Huang**.
@@ -179,6 +181,7 @@ review time. Designated lead: **Xinyu Huang**.
 The interactor, boundaries and entry/response DTOs are merged through PR #7.
 Thirteen `ReviewPlanInteractorTest` cases cover fixed-date boundaries, ordering,
 filters/limits, account isolation, personal meanings, unchanged progress and
-failure output. The controller/presenter/UI, wiring and full-flow tests remain pending.
+failure output. PR #11 adds the dedicated controller/presenter, **Review plan**
+tab, wiring and adapter/panel/real Swing workflow tests; it is merged.
 Complete flow and failure cases: UC-10 in
 `USE_CASES.md`; implementation steps: `TEAM_TASKS.zh-CN.md`.

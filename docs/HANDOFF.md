@@ -1,35 +1,43 @@
 # Continue on another computer
 
-Snapshot: November 20, 2026, America/Toronto. Recheck GitHub before acting on
+Snapshot: November 21, 2026, America/Toronto. Recheck GitHub before acting on
 review, branch or teammate status; these can change after this note.
 
 ## Open the correct code
 
-The shared feature base is **`Emilia/project-delivery`** at `cebde6d`, containing
-PR #3/#4, maintenance PR #5, Xinyu's UC-10 core PR #7 and Fuxuan's CSV adapter
-PR #8. PR #2 was merged
+The shared feature base is **`Emilia/project-delivery`** at `3f4b4f3`, containing
+PR #3/#4, maintenance PR #5, Xinyu's UC-10 core PR #7, Fuxuan's CSV adapter
+PR #8, demo-safety PR #6, Fuxuan's complete export-flow PR #9 and Xinyu's complete
+review-plan flow PR #11. PR #2 was merged
 on November 20: `main` at `064dc56` now contains the runnable application, with
 the same file tree as delivery at `62adf65`. Keep the delivery branch as the base
 for teammates' existing work until the next integrations are coordinated.
 
-The follow-up branch `Emilia/m2-demo-safety` contains PR #6, now targeting
-delivery. It adds demo-data protection, review follow-ups and updated documentation;
-peer approval remains outstanding. Persistent demo data belongs in `.wordtrail/demo`,
-outside the build output directory.
+PR #6 merged as `0ed4c82` after Fuxuan's formal approval of `c1bfcae`. PR #9
+merged as `f968b44` after renewed review of its dedicated export screen and the
+`69b9ee9` integration. Xinyu's complete review-plan flow in PR #11 at
+`5a512ae` received renewed review and passed eight online checks before merging
+as `3f4b4f3`. PR #10 (`Emilia/package-verification-evidence`) includes both
+flows plus package evidence and this handoff, but still needs peer review and merge.
+Persistent demo data belongs in `.wordtrail/demo`, outside the build output directory.
 
-Install Git, JDK 11 or 17 and Maven 3.9+, then use a new directory:
+Install Git, JDK 11 or 17 and Maven 3.9+, then use a new directory. The commands
+below follow the current delivery branch, not the historical maintenance branch:
 
 ```sh
-git clone --branch Emilia/m2-demo-safety https://github.com/fanfan170721/team-project.git team-project-allen
+git clone --branch Emilia/project-delivery https://github.com/fanfan170721/team-project.git team-project-allen
 cd team-project-allen
 mvn clean verify
-java "-Djava.awt.headless=true" --class-path target/wordtrail.jar tools/VerifyPackage.java target/package-check
-java -jar target/wordtrail.jar
+java -jar target/wordtrail.jar --data-dir .wordtrail/demo
 ```
 
 In IntelliJ, open `pom.xml` as a Maven project and select the JDK. There is no
 Maven wrapper in this repository. Work from the project root. See
 [QUICKSTART.md](QUICKSTART.md) for the UI and launchers.
+
+The `tools/CheckPackage.java` entry point and its packaged UC-08/09/10 checks are
+part of PR #10. Use [PACKAGE_VERIFICATION.md](PACKAGE_VERIFICATION.md) when
+reviewing that branch or after it merges; the command is not yet on delivery.
 
 ## Current team progress
 
@@ -38,11 +46,11 @@ Maven wrapper in this repository. Work from the project root. See
 | Signed team contract | [PR #1](https://github.com/fanfan170721/team-project/pull/1) merged; all three names present |
 | Application baseline | [PR #2](https://github.com/fanfan170721/team-project/pull/2) merged into `main` as `064dc56` on November 20; its tree matches the earlier delivery at `62adf65`, not the later increments |
 | Allen's UC-08 personal words and definitions | [PR #3](https://github.com/fanfan170721/team-project/pull/3) approved by Xinyu and merged as `d0f9f7f` on November 19 |
-| Fuxuan's UC-09 quiz-results export | Core and eight tests merged through [PR #4](https://github.com/fanfan170721/team-project/pull/4); CSV adapter and 11 tests reviewed and merged through [PR #8](https://github.com/fanfan170721/team-project/pull/8) as `cebde6d` |
-| Xinyu's UC-10 due-review plan | Core and 13 tests reviewed and merged through [PR #7](https://github.com/fanfan170721/team-project/pull/7) as `e93804d`; Xinyu also approved PR #2/#3 |
-| Remaining teammate implementation | UC-09 and UC-10 still need dedicated Controller/Presenter/ViewModel, UI and application wiring; unpushed local progress is unknown |
+| Fuxuan's UC-09 quiz-results export | Core [PR #4](https://github.com/fanfan170721/team-project/pull/4), CSV adapter [PR #8](https://github.com/fanfan170721/team-project/pull/8) and dedicated adapters/UI/wiring/acceptance tests [PR #9](https://github.com/fanfan170721/team-project/pull/9) reviewed and merged; complete flow available in delivery |
+| Xinyu's UC-10 due-review plan | Core and 13 tests merged through [PR #7](https://github.com/fanfan170721/team-project/pull/7); complete adapters/UI/wiring/acceptance tests reviewed and merged through [PR #11](https://github.com/fanfan170721/team-project/pull/11) as `3f4b4f3`; Xinyu also approved PR #2/#3 |
+| Remaining shared integration | All three complete MVP flows are merged into delivery; do not repeat their implementation. Obtain peer review of PR #10 and publish reviewed delivery to `main` |
 | Shared maintenance | Fuxuan merged [PR #5](https://github.com/fanfan170721/team-project/pull/5) as `ba26bfb`, then left an actual review comment; there was no Approve review event before the merge |
-| Review follow-up | [PR #6](https://github.com/fanfan170721/team-project/pull/6) targets delivery and still awaits peer approval; its fixes and documentation need review on the updated version |
+| Review follow-up | [PR #6](https://github.com/fanfan170721/team-project/pull/6) approved by Fuxuan at `c1bfcae` and merged as `0ed4c82`; [PR #10](https://github.com/fanfan170721/team-project/pull/10) still needs peer review |
 | Repository tracking submission | Public repository URL submitted to MarkUs on November 20 at 4:56 p.m. EST; the system confirmed all required files submitted |
 
 UC-08 includes input DTOs, an interactor, an output boundary, a dedicated
@@ -50,23 +58,22 @@ controller/presenter/view model and Swing save/edit behavior. Failed saves retai
 input; successful saves select and scroll to the saved word. The original
 implementation history remains attributed to Allen's work.
 
-Current local verification of PR #6's working tree: **100 tests passed** with no
-failures, errors or skips; Entity/Use Case line coverage is **633/633 (100%)**.
-The current Checkstyle report retains **588 findings**; there are 113 Java source
-files. Cached report file entries are not the project's complete source count.
-The maintenance branch also fixes real `All topics` names being treated as no
-filter, and recently-reviewed ordering during a repeated daylight-saving hour.
-The offline package check passed using the executable JAR only, exercising seed
-data, application wiring, the JSON dependency and persistence across reopening.
-The [maintenance push CI](https://github.com/fanfan170721/team-project/actions/runs/44643837835)
-and [PR CI](https://github.com/fanfan170721/team-project/actions/runs/44643846486)
-passed Windows/Linux on Java 11/17 at `f6a4ee2`, including package and launcher
-checks. Fuxuan's review comment came after he merged PR #5. On November 20 at
-20:13 EST, the follow-up working tree passed the 100-test verification and the
-offline package check, including merged PR #7/#8 plus typed-topic and review-time
-equality fixes. A silent live lookup succeeded earlier that day through the
-primary dictionary provider. Updated PR #6 still needs its own remote checks and
-peer approval; earlier CI results do not verify these latest changes.
+On November 21 at 15:00 EST, the integrated PR #10 working tree passed **147 tests**
+with no failures, errors or skips and built the executable JAR. Entity/Use Case
+line coverage is **633/633 (100%)**; Checkstyle retains **623 findings** across
+130 Java source files. The
+reviewed PR #9 integration previously passed 135 tests and eight online checks.
+PR #11 integration passed eight online checks before merge. The updated package
+probe and 23 package-check regression assertions passed locally. PR #10 needs
+current checks and peer review; earlier checks do not validate a changed revision.
+
+The shared package probe now exercises personal-word persistence, review-plan
+generation without changing progress, account-isolated quiz CSV export and
+reopening the store using only the packaged JAR. Its wrapper invalidates stale
+reports and records the JAR hash and reported revision; the metadata is not a
+signature. Consult the current report and [PACKAGE_VERIFICATION.md](PACKAGE_VERIFICATION.md)
+for results and limits. A silent live API lookup succeeded on November 20;
+automated package tests use an offline dictionary.
 See [VERIFICATION.md](VERIFICATION.md) and [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## November 20 milestone
@@ -79,10 +86,11 @@ link does not by itself satisfy the individual M2 requirements.
 
 - Allen: UC-08 is merged, and the review of Fuxuan's PR #4 is recorded. Packaged
   persistence and the live API call were verified on November 20.
-- Fuxuan: UC-09 core and CSV adapter are merged; the PR #5 review comment is
-  recorded after the merge, not as approval before it. The UI flow is unfinished.
+- Fuxuan: the complete UC-09 flow is merged through PR #9; formal approval of
+  PR #6 is recorded on the reviewed revision. The PR #5 comment remains a
+  post-merge comment, not approval before that earlier merge.
 - Xinyu: UC-10 core and 13 tests are merged; approvals on PR #2/#3 are recorded.
-  The review-plan UI flow is unfinished.
+  The complete review-plan flow is reviewed, tested and merged through PR #11.
 
 All three members have substantial merged code, actual peer-review records and
 runnable progress. Their own TA demonstrations and explanations have not been
@@ -95,29 +103,26 @@ evidence. A prepared checklist is not a record of a completed demonstration.
 
 1. Recheck online and local progress before assigning work; do not recreate the
    merged cores or CSV adapter, or overwrite unpushed changes.
-2. Fuxuan reviews updated PR #6 and completes UC-09's dedicated adapters, Swing
-   UI, application wiring and behavior/flow tests. His CSV adapter already exists.
-3. Xinyu completes UC-10's dedicated adapters, Swing UI, application wiring and
-   behavior/flow tests. Budget roughly 2–3 hours per member for a complete-feature
-   round; this is a planning estimate, not a course minimum, maximum or guarantee.
-   Continue existing work and branches, finish earlier when ready, or report a
-   real blocker. Allen coordinates integration of minimal shared-file changes.
+2. Use the merged delivery containing all three full MVP flows; do not recreate
+   the teammates' completed features or reopen their finished implementation tasks.
+3. A teammate reviews the updated PR #10 diff, actual test/package evidence and
+   current CI; Allen addresses concrete feedback and integrates it after review.
 4. Each member prepares to run and explain their current code using the M2 demo
    checklist. Distinguish preparation from an actually completed TA demonstration.
-5. Obtain peer review of updated PR #6 before integration. It already targets
-   delivery. PR #2 publishes the baseline on `main`; later reviewed delivery
-   increments can reach `main` without waiting for the entire MVP to be complete.
+5. Publish the reviewed delivery increments to `main` through a reviewed PR,
+   then prepare presentation material and rehearse together. Keep the remaining
+   reflection and peer-evaluation submissions distinct from repository submission.
 
 The published teammate instructions are:
 
-- [Current assignment entry point](START_HERE.zh-CN.md)
-- [Fuxuan's complete export flow](FIRST_TASK_FUXUAN.zh-CN.md)
-- [Xinyu's complete review-plan flow](FIRST_TASK_XINYU.zh-CN.md)
-- [Full task plan](TEAM_TASKS.zh-CN.md)
+- [Current status and historical assignment entry point](START_HERE.zh-CN.md)
+- [Fuxuan's completed export-flow assignment](FIRST_TASK_FUXUAN.zh-CN.md)
+- [Xinyu's submitted review-plan assignment](FIRST_TASK_XINYU.zh-CN.md)
+- [Historical task plan](TEAM_TASKS.zh-CN.md)
 
 Further teammate branches start from and submit PRs into `Emilia/project-delivery`.
 Coordinate before changing an existing task's base. The first core tasks are
-merged; both complete UI flows remain unfinished.
+merged and both complete UI flows are implemented; do not repeat these tasks.
 
 ## Requirements and working preferences
 
