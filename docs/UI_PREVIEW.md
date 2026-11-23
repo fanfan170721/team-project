@@ -66,7 +66,8 @@ flows should still behave normally.
 ## Run the preview
 
 Open this branch as a separate project in IntelliJ and run
-`com.wordtrail.app.Main`, or build with `./mvnw verify` (Windows: `mvnw.cmd verify`).
+`com.wordtrail.app.Main`, or build with `mvn verify` using installed Maven 3.9+
+and JDK 11 or 17. This repository does not include a Maven wrapper.
 Start the generated JAR with a separate data directory:
 
 ```text
