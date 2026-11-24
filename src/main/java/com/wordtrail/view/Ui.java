@@ -192,6 +192,7 @@ final class Ui {
                 cell.setBorder(new EmptyBorder(6, 8, 6, 8));
                 cell.setBackground(selected ? TINT : SURFACE);
                 cell.setForeground(list.isEnabled() ? INK : MUTED);
+                cell.setToolTipText(value instanceof TopicOption ? value.toString() : null);
                 return cell;
             }
         });
@@ -250,6 +251,16 @@ final class Ui {
         JComboBox<TopicOption> combo = new JComboBox<>();
         styleCombo(combo);
         combo.addItem(new TopicOption(null));
+        // Topic names must not widen a filter row and hide the controls beside it.
+        combo.setPrototypeDisplayValue(new TopicOption("MMMMMMMMMMMMMMMM"));
+        Dimension size = combo.getPreferredSize();
+        combo.setPreferredSize(new Dimension(240, size.height));
+        combo.setMinimumSize(new Dimension(120, size.height));
+        combo.setToolTipText(combo.getSelectedItem().toString());
+        combo.addActionListener(event -> {
+            Object selected = combo.getSelectedItem();
+            combo.setToolTipText(selected == null ? null : selected.toString());
+        });
         return combo;
     }
 
