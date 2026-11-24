@@ -23,20 +23,15 @@ signed [team contract](TeamContract.md), merged through
 The implementation history is preserved. Code review and each member's own
 use-case contribution must be assessed separately from the contract signatures.
 
-**Publication snapshot — November 22, 2026:** `Emilia/project-delivery` at
-`924c56f` contains all three reviewed MVP flows and the package-verification
-improvements from [PR #10](https://github.com/fanfan170721/team-project/pull/10).
-Xinyu approved its corrected `87d903e` revision after rerunning the checks;
-all eight online checks passed before merge. The publication candidate
-`Emilia/publish-reviewed-mvp` carries this delivery source to `main` with updated
-handoff documents. At preparation time, `main` was still the earlier `064dc56`
-baseline from [PR #2](https://github.com/fanfan170721/team-project/pull/2).
-Check the publication PR's merge status before assuming that `main` has advanced.
-
-Existing teammate work continues from `Emilia/project-delivery`.
-[PR #12](https://github.com/fanfan170721/team-project/pull/12) separately proposes
-synthetic demo-data tools and presentation walkthroughs; it is awaiting peer
-review and is not included in this publication candidate.
+**Published snapshot — November 22, 2026:** `main` at `77ea22e` contains all three
+reviewed MVP flows, the package-verification improvements and the demo tools/guides.
+[PR #13](https://github.com/fanfan170721/team-project/pull/13) published reviewed
+delivery after peer approval; approved [PR #12](https://github.com/fanfan170721/team-project/pull/12)
+then added synthetic demo preparation and presentation walkthroughs. All four
+Windows/Linux and Java 11/17 checks passed on the resulting `main` commit.
+`Emilia/project-delivery` was fast-forwarded to the same commit, preserving the
+existing teammate work base. See [Demo preparation](docs/DEMO_PREPARATION.md)
+and the [presentation outline](docs/PRESENTATION_OUTLINE.md) for the next stage.
 
 ## Contents
 
@@ -221,14 +216,21 @@ request, output and thread boundaries.
 
 ## Validation
 
-Fresh publication-candidate verification on **November 22 at 13:15 EST** passed
+The published `77ea22e` tree passed **147 JUnit tests**, **633/633 Entity and Use
+Case lines**, **31 package-check assertions**, **18 demo-tool assertions** and
+**152 launcher assertions under PowerShell 7**. Its packaged-flow check passed
+and `main` CI passed all four platform/JDK jobs. Checkstyle still reports 623
+findings. The Windows PowerShell 5.1 launcher invocation was blocked by its local
+script policy; no policy was changed. These are automated checks, not a timed
+team rehearsal or TA demonstration.
+
+Historical publication-candidate verification on **November 22 at 13:15 EST** passed
 **147 JUnit tests** with zero failures, errors or skips, **633/633 Entity and Use
 Case lines** covered, and **31 package-check process assertions**. The newly
 built executable passed the offline packaged-flow probe. Checkstyle reports
 623 findings. The application, build configuration and tools match reviewed
 delivery `924c56f`; see [VERIFICATION.md](docs/VERIFICATION.md) for artifact details.
-These are local candidate results, not a claim that publication or its CI has
-already completed. Earlier validation history follows.
+These earlier local measurements preceded publication. Earlier validation history follows.
 
 On November 20, 2026, verification of PR #6's working tree, including merged
 PR #7/#8 and the review follow-up fixes, passed 100 JUnit tests with no failures,

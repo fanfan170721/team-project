@@ -1,0 +1,63 @@
+# WordTrail presentation speaker notes
+
+These notes accompany the 14-slide rehearsal deck prepared on November 22, 2026.
+The planned presentation lasts 15 minutes before Q&A; actual delivery must be timed.
+The source and test evidence use published application revision `77ea22e`.
+The team practice report does not establish a timed full-team rehearsal.
+See [the run of show](PRESENTATION_OUTLINE.md) and [demo setup](DEMO_PREPARATION.md).
+
+## Slide 1 — WordTrail
+
+Allen, 10 seconds. Introduce WordTrail and the three members. Planning target: 15 minutes plus up to 5 minutes for questions. Course expectations checked November 22, 2026: https://q.utoronto.ca/courses/444184/pages/final-project-presentation-expectations . Software evidence uses published commit 77ea22e. No claim that this deck has already been rehearsed.
+
+## Slide 2 — Three learner stories
+
+A learner builds a personal vocabulary, studies it, exports completed quiz history, and chooses what to review next. Each named member led one complete MVP use case. Supporting baseline features include accounts, vocabulary lookup, flashcards and quizzes. Sources: https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/README.md ; https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/docs/USE_CASES.md .
+
+## Slide 3 — External dictionary lookup
+
+Use a real lookup in the running application and show the returned source URL. A screenshot from a test double is not evidence of live HTTP. The packaged application successfully contacted the primary provider on November 20, recorded in docs/VERIFICATION.md; repeat on the presentation computer. DictionaryApiClient uses an 8-second request timeout. On AppException the resilient gateway tries Datamuse unless interrupted. Sources: https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/src/main/java/com/wordtrail/data/DictionaryApiClient.java ; https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/src/main/java/com/wordtrail/data/DatamuseDictionaryClient.java ; https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/src/main/java/com/wordtrail/data/ResilientDictionaryGateway.java . Provider documentation: https://dictionaryapi.dev/ ; https://www.datamuse.com/api/ .
+
+## Slide 4 — Persistent learning data
+
+Explain the real local JSON store. Accounts and per-account progress are saved and loaded, including private vocabulary, definition overrides, review history and quiz attempts. CSV is a separate export, not the main database. The store protects a data directory from concurrent app instances. Demonstrate closing and reopening exactly the same data directory in the UC-08 demo. Whole-file JSON is suitable for this local MVP, not a multi-user server. Sources: https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/src/main/java/com/wordtrail/data/JsonFileStore.java ; https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/tools/VerifyPackage.java .
+
+## Slide 5 — Clean Architecture dependencies
+
+This is a source-dependency diagram, not a runtime sequence. Solid arrows mean depends on; dashed arrows point from an implementation to its use-case interface. Views depend on adapters; interactors depend on entities and ports. Application is the composition root and deliberately knows concrete implementations. UC-08, UC-09 and UC-10 have output boundaries. Limit: controllers synchronously read presenter-created immutable results for SwingWorker; older read flows still return core objects to adapters, never directly to Swing views. Sources: https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/src/main/java/com/wordtrail/app/Application.java ; https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/src/main/java/com/wordtrail/usecase/PersonalVocabularyInteractor.java ; [Architecture rationale](ARCHITECTURE.md) .
+
+## Slide 6 — UC-08: save, then present success
+
+Follow a single successful add. WordEditorPanel captures form text on the EDT, then UiTasks runs the controller on a background worker. PersonalVocabularyController builds the input DTO and calls PersonalVocabularyUseCase. The interactor derives the account from SessionContext, validates input and writes the updated immutable progress snapshot. Only after saveProgress returns does it presentSuccess. Expected AppException becomes presentFailure. Presenter completes an immutable result. The first SwingWorker callback starts a second worker to reload vocabulary; only the second callback updates/selects the table row on the EDT. Validation failure retains the editor input. This simplified sequence omits metadata queries. Sources: https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/src/main/java/com/wordtrail/usecase/PersonalVocabularyInteractor.java ; https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/docs/ALLEN_UC08_WALKTHROUGH.md .
+
+## Slide 7 — Dependency Inversion: CSV export
+
+DIP: ExportResultsInteractor depends on the use-case-owned QuizResultsExporter interface. CsvQuizResultsExporter implements it; Application injects it. Policy selects and orders this account's results, while the adapter owns CSV escaping and filesystem operations. A new format can implement the port without changing selection policy, but UI/file-extension wiring would also need changes. Existing export failure never claims success. Source: https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/src/main/java/com/wordtrail/usecase/ExportResultsInteractor.java ; https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/src/main/java/com/wordtrail/data/CsvQuizResultsExporter.java . Tests: ExportResultsInteractorTest.exportsOnlySignedInLearnersResultsOldestFirstInUtc; exporterFailureIsReportedAndNeverClaimsSuccess; CsvQuizResultsExporterTest.failedReplaceKeepsOriginalAndRemovesTempFile.
+
+## Slide 8 — Single Responsibility: review planning
+
+SRP is distinct from the preceding DIP example. ReviewPlanInteractor owns eligibility and ordering; ReviewPlanPresenter formats dates and count messages; ReviewPlanPanel owns controls and table updates. A display-date-format change belongs in the presenter, not the 1/3/7-day scheduling policy. Qualification: explanatory reason strings are still created by the interactor, so do not claim all wording lives in the presenter. Injected Clock supports deterministic due-date tests. Tests: ReviewPlanInteractorTest.includesNeverReviewedAndEachIntervalDueTodayButExcludesTomorrow; ReviewPlanAdaptersTest.forwardsInputsOnceAndDisplaysEveryFieldInUseCaseOrder; ReviewPlanPanelTest.failuresAndEmptyPlansClearEarlierResultsAndRestoreTheControls. Sources: https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/src/main/java/com/wordtrail/usecase/ReviewPlanInteractor.java ; https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/src/main/java/com/wordtrail/adapter/ReviewPlanPresenter.java ; https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/src/main/java/com/wordtrail/view/ReviewPlanPanel.java .
+
+## Slide 9 — Dictionary strategies and fallback
+
+Implemented pattern: Strategy with fallback composition. DictionaryApiClient, DatamuseDictionaryClient and ResilientDictionaryGateway implement DictionaryGateway. The wrapper tries primary, then backup after AppException, except when the thread is interrupted. Both failures produce an explicit combined error; local seed data is never presented as an online result. To add a provider, implement the interface and change composition. The current wrapper supports two providers; arbitrary chains and caching remain unimplemented. Tests use injected doubles, not live HTTP: ResilientDictionaryGatewayTest.preservesPrimaryResultWithoutContactingBackup; primary530UsesAnotherLiveProviderAndPreservesItsSource; bothFailuresAreReportedWithoutClaimingLocalDataIsOnline. Source: https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/src/main/java/com/wordtrail/data/ResilientDictionaryGateway.java .
+
+## Slide 10 — Demo: private vocabulary
+
+Use a fresh PrepareDemo profile generated on the demonstration day. Login demo_allen, public demo password WordTrailDemo123!. Keep live additions in My words, not Demo. Add my word: leave Word blank, fill other fields, Save; show retained input and validation. Add serendipity, then Edit my definition to My own lucky discovery. Switch to demo_guest and search: no result. Close/reopen the same data directory; log into demo_allen and confirm the edit remains. The image is an automated Swing rendering with synthetic admin data, not a recording of the team's actual rehearsal. Source: https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/docs/DEMO_PREPARATION.md ; https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/docs/ALLEN_UC08_WALKTHROUGH.md . Screenshot: target/ui-snapshots/10-personal-save-result.png, generated from published tree77ea22e.
+
+## Slide 11 — Demo: quiz-history export
+
+Log in as demo_allen. Export results -> Export results (CSV)... Choose a NEW live-export.csv in the synthetic data directory. Expect Results exported: 2 and the destination. Open the actual CSV to show its header and two rows. Cancel another export and show its cancellation message. If time remains, use demo_guest and a new filename: header only, zero results. Never overwrite a personal file. Exporting does not change study progress. Sources: https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/docs/DEMO_PREPARATION.md ; https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/src/main/java/com/wordtrail/data/CsvQuizResultsExporter.java .
+
+## Slide 12 — Demo: today’s review plan
+
+Generate a fresh profile on the actual presentation day and same time zone. Login demo_allen; Review plan -> Demo -> limit 10 -> Generate plan. Exactly demoanchor is due on the preparation date; demopractice was reviewed once and is due the following day. Set limit 0 and click the button: expected UI text Enter a whole number from 1 to 20. Earlier plan disappears. Restore 10 and regenerate. Explain planning is read-only: only real studying updates review counts. Do not change the system clock to force expected output. Source: https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/docs/DEMO_PREPARATION.md ; https://github.com/fanfan170721/team-project/blob/77ea22ebf1c794c71b4e6eccce8a43a9f0ebf7c4/src/main/java/com/wordtrail/usecase/ReviewPlanInteractor.java .
+
+## Slide 13 — Quality evidence and remaining limits
+
+Evidence snapshot: main 77ea22e, November 22. Maven: 147 tests, zero failures/errors/skips; JaCoCo Entity and Use Case: 633/633 lines. Package regression: 31 assertions; demo preparation: 18 assertions, zero skips locally; launcher: 152 assertions under PowerShell 7.6.9. Current main CI Windows/Linux × Java 11/17: all four passed at actions/runs/45071207416. Checkstyle: 623 findings across 130 source files remain; green build does not mean clean style or bug-free software. Representative review: Xinyu found a concurrent false-PASS evidence race in PR #10; exclusive locking and a regression were added; follow-up approved before merge. Fuxuan reviewed demo safety in PR #12; Xinyu reviewed publication in PR #13. Remaining limits: whole-file local storage, two-provider dictionary fallback, older hybrid read responses. Sources: [Published verification record](VERIFICATION.md) ; https://github.com/fanfan170721/team-project/pull/10 ; https://github.com/fanfan170721/team-project/actions/runs/45071207416 .
+
+## Slide 14 — Questions and implementation evidence
+
+Keep the runnable app, source, test reports and PR links available. Allen answers UC-08, output boundaries and dictionary fallback. Fuxuan answers UC-09, CSV escaping, cancellation and safe file replacement. Xinyu answers UC-10, due-date rules, injected Clock and display separation. Discuss actual tradeoffs. Rehearsal target is 15 minutes; timings must be measured in a real team run. Course expectation checked November 22: https://q.utoronto.ca/courses/444184/pages/final-project-presentation-expectations .

@@ -5,16 +5,13 @@ review, branch or teammate status; these can change after this note.
 
 ## Open the correct code
 
-The shared feature base is **`Emilia/project-delivery`** at `924c56f`, containing
-PR #3/#4, maintenance PR #5, Xinyu's UC-10 core PR #7, Fuxuan's CSV adapter
-PR #8, demo-safety PR #6, Fuxuan's complete export-flow PR #9 and Xinyu's complete
-review-plan flow PR #11, plus reviewed package-verification PR #10. The publication
-candidate is **`Emilia/publish-reviewed-mvp`** and has the same application source
-as this delivery revision, with updated handoff documents. At preparation time,
-`main` remained at `064dc56`, the earlier runnable baseline merged through PR #2
-on November 20 (the file tree of delivery at `62adf65`). Check the publication PR
-before treating `main` as current. Keep the delivery branch as the base for
-teammates' existing work until a base change is coordinated.
+Published **`main` is `77ea22e`**. Peer-approved
+[PR #13](https://github.com/fanfan170721/team-project/pull/13) published all three
+MVP flows and the reviewed package checks as `9fc29eb`; approved
+[PR #12](https://github.com/fanfan170721/team-project/pull/12) then merged the
+synthetic demo tools and presentation guides as `77ea22e`. All four platform/JDK
+jobs passed on that `main` commit. **`Emilia/project-delivery` was fast-forwarded
+to the same commit**; existing teammate branches can keep their agreed work base.
 
 PR #6 merged as `0ed4c82` after Fuxuan's formal approval of `c1bfcae`. PR #9
 merged as `f968b44` after renewed review of its dedicated export screen and the
@@ -25,15 +22,16 @@ follow-up approval at `87d903e` after its concurrency fix, passed all eight onli
 checks and merged as `924c56f` on November 22.
 Persistent demo data belongs in `.wordtrail/demo`, outside the build output directory.
 
-[PR #12](https://github.com/fanfan170721/team-project/pull/12) contains proposed
-synthetic demo preparation and English presentation guides. It still needs
-teammate review and is not included in delivery or this publication candidate.
+The [demo preparation guide](DEMO_PREPARATION.md),
+[Allen's UC-08 walkthrough](ALLEN_UC08_WALKTHROUGH.md) and
+[team presentation outline](PRESENTATION_OUTLINE.md) are now available on both
+branches. Generate a fresh synthetic profile for the day of the next rehearsal.
 
 Install Git, JDK 11 or 17 and Maven 3.9+, then use a new directory. The commands
-below follow the current delivery branch, not the historical maintenance branch:
+below use the published application; ongoing feature work can retain its delivery base:
 
 ```sh
-git clone --branch Emilia/project-delivery https://github.com/fanfan170721/team-project.git team-project-allen
+git clone --branch main https://github.com/fanfan170721/team-project.git team-project-allen
 cd team-project-allen
 mvn clean verify
 java -jar target/wordtrail.jar --data-dir .wordtrail/demo
@@ -44,11 +42,12 @@ Maven wrapper in this repository. Work from the project root. See
 [QUICKSTART.md](QUICKSTART.md) for the UI and launchers.
 
 The `tools/CheckPackage.java` entry point and its packaged UC-08/09/10 checks are
-now on delivery through PR #10. From the project root after building, run:
+available on `main` and delivery through PR #10. From the project root after building, run:
 
 ```sh
 java tools/CheckPackage.java target/wordtrail.jar target/package-check
 java tools/TestPackageCheck.java target/wordtrail.jar target/package-check-regressions
+java tools/TestDemoPreparation.java target/wordtrail.jar
 ```
 
 See [PACKAGE_VERIFICATION.md](PACKAGE_VERIFICATION.md). Concurrent checks need
@@ -64,10 +63,10 @@ active check's evidence. The 31 process assertions are separate from JUnit total
 | Allen's UC-08 personal words and definitions | [PR #3](https://github.com/fanfan170721/team-project/pull/3) approved by Xinyu and merged as `d0f9f7f` on November 19 |
 | Fuxuan's UC-09 quiz-results export | Core [PR #4](https://github.com/fanfan170721/team-project/pull/4), CSV adapter [PR #8](https://github.com/fanfan170721/team-project/pull/8) and dedicated adapters/UI/wiring/acceptance tests [PR #9](https://github.com/fanfan170721/team-project/pull/9) reviewed and merged; complete flow available in delivery |
 | Xinyu's UC-10 due-review plan | Core and 13 tests merged through [PR #7](https://github.com/fanfan170721/team-project/pull/7); complete adapters/UI/wiring/acceptance tests reviewed and merged through [PR #11](https://github.com/fanfan170721/team-project/pull/11) as `3f4b4f3`; Xinyu also approved PR #2/#3 |
-| Remaining shared integration | All three complete MVP flows and PR #10 are merged into delivery; validate and publish the candidate `Emilia/publish-reviewed-mvp` to `main` through review |
+| Published integration | Approved PR #13 and PR #12 merged; `main` and delivery are `77ea22e`, with all four `main` CI jobs passed |
 | Shared maintenance | Fuxuan merged [PR #5](https://github.com/fanfan170721/team-project/pull/5) as `ba26bfb`, then left an actual review comment; there was no Approve review event before the merge |
 | Review follow-up | [PR #6](https://github.com/fanfan170721/team-project/pull/6) approved by Fuxuan at `c1bfcae` and merged as `0ed4c82`; [PR #10](https://github.com/fanfan170721/team-project/pull/10) approved by Xinyu at `87d903e` and merged as `924c56f` |
-| Demo/presentation preparation | [PR #12](https://github.com/fanfan170721/team-project/pull/12) is a separate pending increment; teammate review and actual rehearsal remain outstanding |
+| Demo/presentation preparation | Approved [PR #12](https://github.com/fanfan170721/team-project/pull/12) merged; tools and guides are available. Final team rehearsal, presentation and individual submissions are still separate work |
 | Repository tracking submission | Public repository URL submitted to MarkUs on November 20 at 4:56 p.m. EST; the system confirmed all required files submitted |
 
 UC-08 includes input DTOs, an interactor, an output boundary, a dedicated
@@ -75,7 +74,15 @@ controller/presenter/view model and Swing save/edit behavior. Failed saves retai
 input; successful saves select and scroll to the saved word. The original
 implementation history remains attributed to Allen's work.
 
-The publication worktree's fresh verification on **November 22 at 13:15 EST**
+The combined tree published as `77ea22e` passed **147 JUnit tests**, **633/633 core
+lines**, **31 package assertions**, **18 demo assertions** (no skips) and **152
+launcher assertions under PowerShell 7.6.9**. The packaged-flow check passed and
+was refreshed with the actual merged revision. Its `main` CI passed all four
+platform/JDK jobs. Checkstyle retains 623 findings. The local Windows PowerShell
+5.1 invocation was blocked before running the harness; its script policy was
+left unchanged.
+
+Historical snapshot: the publication worktree's verification on **November 22 at 13:15 EST**
 passed **147 JUnit tests**, **633/633 core lines** and **31 package-check process
 assertions**; the new executable passed the offline packaged-flow probe.
 Checkstyle reports 623 findings. Application source, build configuration and
@@ -125,6 +132,10 @@ All three members have substantial merged code, actual peer-review records and
 runnable progress. Their own TA demonstrations and explanations have not been
 verified; these records do not establish completion of every course requirement.
 
+On November 22, Allen reported that both teammates had completed their individual
+practice. No timings, screenshots or recordings were inspected. This report does
+not establish completion of the full team rehearsal or a TA demonstration.
+
 Use the short [M2 demonstration checklist](DEMO.md) to prepare actual runnable
 evidence. A prepared checklist is not a record of a completed demonstration.
 
@@ -134,13 +145,13 @@ evidence. A prepared checklist is not a record of a completed demonstration.
    merged cores or CSV adapter, or overwrite unpushed changes.
 2. Use the merged delivery containing all three full MVP flows; do not recreate
    the teammates' completed features or reopen their finished implementation tasks.
-3. Review the publication candidate, verify its source matches reviewed delivery,
-   and inspect its own test/package evidence and CI before merging to `main`.
-4. Review PR #12's independent demo-data and presentation preparation. Address
-   concrete feedback before integration; do not claim it is already on delivery.
-5. Each member runs and explains their own flow, then the team rehearses the full
-   presentation. Keep actual TA demonstrations, reflections and peer evaluations
-   distinct from repository publication and prepared scripts.
+3. Finish the presentation materials using the merged guides and actual source;
+   present DIP and SRP as two different SOLID examples.
+4. Run one timed team rehearsal, including handoffs, live API behavior, account
+   switching and CSV selection. Record the observed results and any remaining fixes.
+5. Complete the actual presentation/TA explanations and individual reflections
+   and peer evaluations; repository publication and practice scripts do not
+   complete those submissions.
 
 The published teammate instructions are:
 
