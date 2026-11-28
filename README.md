@@ -308,3 +308,8 @@ demo accounts and content. Desktop fonts and window decorations vary by OS.
 - [Personal vocabulary PR description](docs/PERSONAL_VOCABULARY_PR.md)
 - [Course delivery checklist](docs/DELIVERY_CHECKLIST.md)
 - [Signed team contract](TeamContract.md)
+
+## Recorded audio, English curriculum and portable backups
+
+See [learning resources](docs/LEARNING_RESOURCES.md) for the 1,128-word English bank,
+on-demand recorded speech, validated account backup/restore and verification.

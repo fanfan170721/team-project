@@ -27,6 +27,7 @@ public final class StudyInteractor implements StudyInputBoundary {
     private final Clock clock;
     private final Random random;
     private final StudyOutputBoundary output;
+    private final int levels;
 
     public StudyInteractor(List<Question> catalog, StudyRepository repository, ProgressRepository progress,
                            SessionContext session, Clock clock, Random random, StudyOutputBoundary output) {
@@ -34,6 +35,7 @@ public final class StudyInteractor implements StudyInputBoundary {
             throw new IllegalArgumentException("Guided study requires at least 20 words.");
         }
         this.catalog = List.copyOf(catalog);
+        this.levels = catalog.stream().mapToInt(q -> q.level).max().orElseThrow();
         this.repository = repository;
         this.progress = progress;
         this.session = session;
@@ -41,6 +43,8 @@ public final class StudyInteractor implements StudyInputBoundary {
         this.random = random;
         this.output = output;
     }
+
+    @Override public List<Question> curriculum() { user(); return catalog; }
 
     private String user() {
         return session.requireUser().getUsername();
@@ -89,7 +93,7 @@ public final class StudyInteractor implements StudyInputBoundary {
         // Placement cycles across the sample levels instead of relying on a random imbalance.
         List<Question> chosen = new ArrayList<>();
         for (int index = 0; chosen.size() < 20; index++) {
-            int wantedLevel = index % 3 + 1;
+            int wantedLevel = index % levels + 1;
             Question word = assessment ? available.stream().filter(q -> q.level == wantedLevel)
                     .findFirst().orElse(available.get(0)) : available.get(0);
             available.remove(word);
@@ -187,7 +191,7 @@ public final class StudyInteractor implements StudyInputBoundary {
             save(state, message);
         } else if (assessment) {
             round.phase = "COMPLETED";
-            round.level = Math.min(3, 1 + round.firstCorrect * 3 / 20);
+            round.level = Math.min(levels, 1 + round.firstCorrect * levels / 20);
             round.completedAt = Instant.now(clock).toString();
             save(state, "Assessment complete. Recommended sample level: L" + round.level + ".");
         } else if (round.wrong.isEmpty()) {
@@ -215,7 +219,7 @@ public final class StudyInteractor implements StudyInputBoundary {
                 String id = "guided-" + word.id;
                 if (learning.getPersonalWords().stream().noneMatch(existing -> existing.getId().equals(id))) {
                     learning = learning.withPersonalWord(new VocabularyWord(id, word.term, "Level " + word.level,
-                            word.definition, "", "Java reference sample curriculum"));
+                            word.definition, "", "WordTrail English curriculum; see bundled content credits"));
                 }
                 if (!round.known.contains(index)) {
                     learning = learning.withCompletedReview(id, LocalDate.now(clock), Instant.now(clock));

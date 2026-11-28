@@ -47,7 +47,7 @@ class StudyInteractorTest {
                 store.saveStudy(user, state, progress);
             }
         };
-        study = new StudyInteractor(StudyContent.load(), boundary, store, session, clock, new Random(7),
+        study = new StudyInteractor(StudyContent.load().subList(0, 60), boundary, store, session, clock, new Random(7),
                 (state, feedback) -> shown = state);
     }
 

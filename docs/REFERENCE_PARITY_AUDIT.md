@@ -60,3 +60,7 @@ fixtures, not curriculum. The checked original local profile contained no such
 word or topic on November 28. The two placeholder screenshots have been removed
 from the user-facing preview; the regression tests remain. No existing learning
 feature or teammate-owned MVP use case is removed in this increment.
+
+## Resource extension — November 28
+
+Recorded pronunciation, the 1,128-word English bank across 15 heuristic levels, a searchable Word bank, and validated portable account backup/restore are now implemented on the PR preview. See [behavior and verification](LEARNING_RESOURCES.md). The earlier sample-bank limits above describe the baseline. A calibrated assessment, exhaustive multiple senses, achievements and remaining UI polish are still outside this increment.

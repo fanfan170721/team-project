@@ -61,6 +61,17 @@ class StudyPanelWorkflowTest {
     @CsvSource({"934,660", "1080,780"})
     void fullRoundUnknownRetryReopenAndIntegrationRemainUsable(int width, int height) throws Exception {
         open(width, height, true);
+        edt(() -> {
+            JTabbedPane pages = (JTabbedPane) find("study.pages");
+            pages.setSelectedIndex(pages.indexOfTab("Word bank"));
+            assertEquals(1128, ((JTable) find("bank.table")).getRowCount());
+            ((JTextField) find("bank.search")).setText("homeomorphism");
+            assertEquals(1, ((JTable) find("bank.table")).getRowCount());
+            ((JTable) find("bank.table")).setRowSelectionInterval(0, 0);
+            return null;
+        });
+        snapshot("english-word-bank-" + width);
+        edt(() -> { ((JTabbedPane) find("study.pages")).setSelectedIndex(0); return null; });
         click("study.start");
         assertEquals(20, edt(() -> ((JTable) find("study.overview")).getRowCount()));
         edt(() -> { ((JTable) find("study.overview")).setValueAt(true, 0, 0); return null; });
@@ -101,6 +112,17 @@ class StudyPanelWorkflowTest {
         assertTrue(app.controller().exportResults(csv.toString()).success);
         assertTrue(Files.readString(csv).contains("Guided study L1"));
         snapshot("guided-complete-" + width);
+        edt(() -> {
+            JTabbedPane pages = (JTabbedPane) find("study.pages");
+            pages.setSelectedIndex(pages.indexOfTab("Word bank"));
+            assertEquals(1128, ((JTable) find("bank.table")).getRowCount());
+            ((JTextField) find("bank.search")).setText("homeomorphism");
+            assertEquals(1, ((JTable) find("bank.table")).getRowCount());
+            ((JTable) find("bank.table")).setRowSelectionInterval(0, 0);
+            return null;
+        });
+        snapshot("english-word-bank-" + width);
+        edt(() -> { ((JTabbedPane) find("study.pages")).setSelectedIndex(0); return null; });
         click("study.start");
         String original = app.controller().study().show().round.token;
         click("study.assess");

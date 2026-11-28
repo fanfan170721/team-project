@@ -53,7 +53,7 @@ merely answering some questions.
 - **Success outcome:** Explicitly adopting a completed result opens a fresh
   20-word round immediately while preserving completed learning and the goal.
 - **Main success scenario:**
-  1. The learner answers a balanced 20-question sample across L1–L3.
+  1. The learner answers a balanced 20-question sample across L1–L15.
   2. Each answer is saved; an interrupted assessment resumes unchanged.
   3. The system displays the score and recommended sample level.
   4. The learner selects **Apply level and start fresh 20 words**, after seeing
@@ -63,9 +63,8 @@ merely answering some questions.
 - **Extensions:** Incomplete results cannot be adopted. Reapplying the same result
   does not create another round. A failed save preserves the original round.
 
-The sample bank has **60 English words, 20 per level**. These are not CEFR levels,
-a calibrated vocabulary-size estimate, a complete exam list or Python's larger
-15-level curriculum. A replacement round can contain previously seen words.
+The expanded bank now has **1,128 English words across 15 learning levels** (see [resources](LEARNING_RESOURCES.md)); the original 60 IDs remain valid. These are not CEFR levels,
+a calibrated vocabulary-size estimate, a complete exam list or a calibrated equivalent of the original Python curriculum. A replacement round can contain previously seen words.
 Normal new rounds prefer unseen words even when this requires a nearby level.
 
 ## Persistence and architecture

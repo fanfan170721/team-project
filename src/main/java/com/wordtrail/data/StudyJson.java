@@ -33,7 +33,7 @@ final class StudyJson {
         state.goalBaseline = json.getInt("goalBaseline");
         state.learned = json.getInt("learned");
         state.practiced = json.getInt("practiced");
-        require(state.level >= 1 && state.level <= 3 && state.goalTarget > 0 && state.goalTarget <= 1000000
+        require(state.level >= 1 && state.level <= 15 && state.goalTarget > 0 && state.goalTarget <= 1000000
                 && state.goalBaseline >= 0 && state.goalBaseline <= state.learned && state.practiced >= 0);
         for (Object id : json.getJSONArray("mastered")) { state.mastered.add((String) id); }
         JSONObject mistakes = json.getJSONObject("mistakes");
@@ -47,6 +47,12 @@ final class StudyJson {
         for (Object item : json.getJSONArray("history")) { state.history.add(readRound((JSONObject) item)); }
         if (json.has("round")) { state.round = readRound(json.getJSONObject("round")); }
         if (json.has("assessment")) { state.assessment = readRound(json.getJSONObject("assessment")); }
+        require(state.learned <= state.mastered.size());
+        if (state.round != null && state.round.pass > 1 && !state.round.phase.equals("COMPLETED")) {
+            for (int index : state.round.pending) {
+                require(state.mistakes.containsKey(state.round.questions.get(index).id));
+            }
+        }
         return state;
     }
 
@@ -89,12 +95,15 @@ final class StudyJson {
             round.answers.add(new int[]{answer.getInt(0), answer.getInt(1), answer.getInt(2)});
         }
         require(!round.id.isBlank() && round.questions.size() == 20 && round.pass > 0
-                && round.level >= 1 && round.level <= 3 && round.position >= 0
+                && round.level >= 1 && round.level <= 15 && round.position >= 0
                 && round.position <= round.pending.size() && round.firstCorrect >= 0 && round.firstCorrect <= 20
                 && round.netNew >= 0 && round.netNew <= 20
                 && List.of("OVERVIEW", "LEARN", "TEST", "REVIEW", "COMPLETED", "SUPERSEDED").contains(round.phase)
                 && List.of("STUDY", "REPLAY", "ASSESSMENT").contains(round.mode)
                 && round.questions.stream().map(q -> q.id).distinct().count() == 20
+                && round.pending.size() == new java.util.HashSet<>(round.pending).size()
+                && round.wrong.size() == new java.util.HashSet<>(round.wrong).size()
+                && round.pending.containsAll(round.wrong)
                 && round.pending.stream().allMatch(StudyJson::validIndex)
                 && round.wrong.stream().allMatch(StudyJson::validIndex)
                 && round.known.stream().allMatch(StudyJson::validIndex));

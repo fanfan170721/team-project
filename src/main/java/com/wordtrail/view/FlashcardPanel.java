@@ -26,11 +26,13 @@ final class FlashcardPanel extends JPanel implements Refreshable {
     private final JButton next = Ui.button("flash.next", "Next card");
     private final JButton save = Ui.button("flash.save", "Save for review later");
     private String currentId;
+    private final PronunciationControls audio;
     private boolean saved;
 
     FlashcardPanel(AppController controller, UiTasks tasks) {
         super(new BorderLayout());
         this.controller = controller;
+        audio = new PronunciationControls(controller.audio());
         this.tasks = tasks;
         JPanel page = Ui.page("Flashcards", "Recall the meaning, reveal it, then complete your review.");
         topic.setName("flash.topic");
@@ -51,7 +53,7 @@ final class FlashcardPanel extends JPanel implements Refreshable {
 
         JPanel body = transparent(new BorderLayout(0, 12));
         body.add(filters, BorderLayout.NORTH);
-        JPanel card = Ui.surface(new BorderLayout(0, 16), 24);
+        JPanel card = Ui.surface(new BorderLayout(0, 10), 16);
         JPanel title = transparent(new BorderLayout(0, 6));
         stage.setName("flash.stage");
         counter.setName("flash.counter");
@@ -63,6 +65,7 @@ final class FlashcardPanel extends JPanel implements Refreshable {
         card.add(title, BorderLayout.NORTH);
         definition.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
         card.add(Ui.scroll(definition), BorderLayout.CENTER);
+        card.add(audio, BorderLayout.SOUTH);
         body.add(card, BorderLayout.CENTER);
 
         JPanel actions = transparent(new BorderLayout(12, 0));
@@ -114,6 +117,7 @@ final class FlashcardPanel extends JPanel implements Refreshable {
 
     private void render(ViewModels.Card card) {
         currentId = card.word.id;
+        audio.word(card.word.term);
         saved = card.word.saved;
         stage.setText(card.reviewed ? "REVIEW COMPLETE"
                 : card.revealed ? "MEANING REVEALED" : "RECALL THE MEANING");

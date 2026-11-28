@@ -86,7 +86,7 @@ public final class StudyState {
         public final List<String> options;
 
         public Question(String id, String term, String definition, int level, List<String> options) {
-            if (id.isBlank() || term.isBlank() || definition.isBlank() || level < 1 || level > 3
+            if (id.isBlank() || term.isBlank() || definition.isBlank() || level < 1 || level > 15
                     || options.size() != 4 || new LinkedHashSet<>(options).size() != 4
                     || !options.contains(definition)) {
                 throw new IllegalArgumentException("Invalid study question.");

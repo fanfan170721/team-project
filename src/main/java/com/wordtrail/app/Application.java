@@ -77,11 +77,15 @@ public final class Application implements AutoCloseable {
                 new ContentController(new ContentInteractor(store, session), catalog, personal::progress,
                         new ContentPresenter()),
                 personal, export);
+        controller.setBackup(new com.wordtrail.adapter.BackupController(new BackupInteractor(store, session)));
+        controller.setAudio(new com.wordtrail.adapter.PronunciationController(new PronunciationInteractor(
+                new com.wordtrail.data.DictionaryPronunciationClient(), new com.wordtrail.data.JLayerAudioPlayer()),
+                javax.swing.SwingUtilities::invokeLater));
         StudyPresenter studyPresenter = new StudyPresenter();
         controller.setStudy(new StudyController(new StudyInteractor(StudyContent.load(), store, store,
                 session, clock, new Random(), studyPresenter), studyPresenter));
     }
 
     public AppController controller() { return controller; }
-    @Override public void close() throws IOException { store.close(); }
+    @Override public void close() throws IOException { controller.audio().close(); store.close(); }
 }

@@ -31,6 +31,7 @@ import javax.swing.table.TableRowSorter;
 /** Vocabulary browser and saved review list, sharing the same selection workflow. */
 final class LibraryPanel extends JPanel implements Refreshable {
     private final AppController controller;
+    private final PronunciationControls audio;
     private final UiTasks tasks;
     private final boolean reviewOnly;
     private final JComboBox<Ui.TopicOption> topic = Ui.topicSelector();
@@ -66,6 +67,7 @@ final class LibraryPanel extends JPanel implements Refreshable {
 
     LibraryPanel(AppController controller, UiTasks tasks, boolean reviewOnly) {
         this.controller = controller;
+        audio = new PronunciationControls(controller.audio());
         this.tasks = tasks;
         this.reviewOnly = reviewOnly;
         setLayout(pages);
@@ -73,6 +75,7 @@ final class LibraryPanel extends JPanel implements Refreshable {
         JPanel page = Ui.page(reviewOnly ? "Review later" : "Your vocabulary",
                 reviewOnly ? "A little more practice for the words you want to remember."
                         : "Discover a word. Make it yours. Keep learning.");
+        page.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         JButton refresh = Ui.button(prefix + ".refresh", "Refresh");
         JButton find = Ui.button("library.find", "Search");
         JButton add = Ui.primaryButton(prefix + ".add", "+  Add my word");
@@ -104,8 +107,8 @@ final class LibraryPanel extends JPanel implements Refreshable {
         }
         JPanel collection = collection(prefix, refresh);
         JPanel definition = definition(prefix);
-        collection.setMinimumSize(new Dimension(0, 150));
-        definition.setMinimumSize(new Dimension(0, 164));
+        collection.setMinimumSize(new Dimension(0, 112));
+        definition.setMinimumSize(new Dimension(0, 196));
         JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, collection, definition) {
             @Override
             public void doLayout() {
@@ -167,6 +170,7 @@ final class LibraryPanel extends JPanel implements Refreshable {
         });
         edit.addActionListener(event -> {
             ViewModels.Word word = selected();
+        audio.word(word == null ? "" : word.term);
             if (word != null) {
                 editor.edit(word);
                 pages.show(this, "editor");
@@ -174,6 +178,7 @@ final class LibraryPanel extends JPanel implements Refreshable {
         });
         save.addActionListener(event -> {
             ViewModels.Word word = selected();
+        audio.word(word == null ? "" : word.term);
             if (word != null) {
                 tasks.run("Saving review list", () -> {
                     controller.saveWord(word.id, !word.saved);
@@ -254,6 +259,7 @@ final class LibraryPanel extends JPanel implements Refreshable {
         detail.setName(prefix + ".detail");
         detail.setRows(3);
         definition.add(Ui.scroll(detail), BorderLayout.CENTER);
+        definition.add(audio, BorderLayout.SOUTH);
         return definition;
     }
 
@@ -265,6 +271,7 @@ final class LibraryPanel extends JPanel implements Refreshable {
 
     private void showSelection() {
         ViewModels.Word word = selected();
+        audio.word(word == null ? "" : word.term);
         save.setEnabled(word != null);
         edit.setEnabled(word != null);
         lookup.setEnabled(word != null);
@@ -303,6 +310,7 @@ final class LibraryPanel extends JPanel implements Refreshable {
 
     private void lookupSelected() {
         ViewModels.Word word = selected();
+        audio.word(word == null ? "" : word.term);
         if (word == null) {
             return;
         }

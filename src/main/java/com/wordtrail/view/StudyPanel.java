@@ -32,9 +32,12 @@ final class StudyPanel extends JPanel implements Refreshable {
     private final JTabbedPane pages = new JTabbedPane();
     private StudyViewModel model;
     private boolean assessing;
+    private final PronunciationControls audio;
 
-    StudyPanel(StudyController controller, UiTasks tasks) {
+    StudyPanel(StudyController controller, UiTasks tasks) { this(controller, tasks, null); }
+    StudyPanel(StudyController controller, UiTasks tasks, com.wordtrail.adapter.PronunciationController pronunciation) {
         super(new BorderLayout());
+        audio = new PronunciationControls(pronunciation);
         this.controller = controller;
         this.tasks = tasks;
         JPanel page = Ui.page("Guided study", "Learn 20 words. Revisit mistakes. Keep every step.");
@@ -69,6 +72,8 @@ final class StudyPanel extends JPanel implements Refreshable {
         });
         historyPage.add(replay, BorderLayout.SOUTH);
         pages.addTab("Round history", historyPage);
+        pages.addTab("Word bank", new WordBankPanel(controller, pronunciation));
+        pages.addChangeListener(event -> { if (pronunciation != null) { pronunciation.stop(); } });
         body.add(pages, BorderLayout.CENTER);
         JPanel footer = new JPanel(new BorderLayout(0, 5));
         footer.setOpaque(false);
@@ -117,6 +122,7 @@ final class StudyPanel extends JPanel implements Refreshable {
         value.history.forEach(row -> historyModel.addRow(row.cells));
         content.removeAll();
         StudyViewModel.RoundView round = assessing ? value.assessment : value.round;
+        audio.word(round == null ? "" : round.word);
         if (round == null) {
             content.add(Ui.display("Start a 20-word round, or take a sample-level placement.\n"
                     + "Your progress is saved after every action. Completed learning joins your library and results."));
@@ -159,7 +165,12 @@ final class StudyPanel extends JPanel implements Refreshable {
         term.setName("study.word");
         term.setFont(term.getFont().deriveFont(java.awt.Font.BOLD, 25));
         term.setRows(1);
-        card.add(Ui.scroll(term), BorderLayout.NORTH);
+        JPanel wordHeader = new JPanel(new BorderLayout(8, 0));
+        wordHeader.setOpaque(false);
+        wordHeader.add(Ui.scroll(term), BorderLayout.CENTER);
+        audio.setPreferredSize(new java.awt.Dimension(400, 30));
+        wordHeader.add(audio, BorderLayout.EAST);
+        card.add(wordHeader, BorderLayout.NORTH);
         if (round.phase.equals("TEST")) {
             JPanel options = new JPanel(new GridLayout(2, 2, 8, 6));
             options.setOpaque(false);
@@ -211,7 +222,7 @@ final class StudyPanel extends JPanel implements Refreshable {
             JPanel actions = new JPanel(new GridLayout(0, 1, 0, 8));
             actions.setOpaque(false);
             actions.add(Ui.display("Applying this result replaces unfinished learning without completion credit.\n"
-                    + "Completed history, mastery and your goal stay intact. The sample bank contains 60 words."));
+                    + "Completed history, mastery and your goal stay intact. The English bank spans 15 uncalibrated learning levels."));
             JButton adopt = Ui.primaryButton("study.adopt", "Apply level and start fresh 20 words");
             adopt.setEnabled(!round.adopted);
             adopt.addActionListener(event -> {

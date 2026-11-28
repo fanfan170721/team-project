@@ -1,6 +1,7 @@
 package com.wordtrail.usecase;
 
 public interface StudyInputBoundary {
+    java.util.List<com.wordtrail.entity.StudyState.Question> curriculum();
     void show();
     void start();
     void known(String token, int index, boolean value);

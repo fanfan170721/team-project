@@ -45,6 +45,7 @@ final class HomePanel extends JPanel {
         add(header, BorderLayout.NORTH);
         JTabbedPane tabs = new JTabbedPane();
         tabs.setName("home.tabs");
+        tabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         tabs.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
         tabs.setBackground(Ui.SURFACE);
         tabs.setForeground(Ui.INK);
@@ -60,10 +61,16 @@ final class HomePanel extends JPanel {
         tabs.addTab("Export results", new ExportResultsPanel(controller, tasks, exportChooser));
         tabs.addTab("Review plan", new ReviewPlanPanel(controller, tasks));
         if (controller.study() != null) {
-            tabs.addTab("Study", new StudyPanel(controller.study(), tasks));
+            tabs.addTab("Study", new StudyPanel(controller.study(), tasks, controller.audio()));
+        }
+        if (controller.backup() != null) {
+            tabs.addTab("Backup & restore", new BackupPanel(controller, tasks, onLogout));
         }
         add(tabs, BorderLayout.CENTER);
-        tabs.addChangeListener(event -> ((Refreshable) tabs.getSelectedComponent()).refresh());
+        tabs.addChangeListener(event -> {
+            if (controller.audio() != null) { controller.audio().stop(); }
+            ((Refreshable) tabs.getSelectedComponent()).refresh();
+        });
         logout.addActionListener(event -> tasks.run("Logging out", () -> {
             controller.logout();
             return true;

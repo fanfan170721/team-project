@@ -1,35 +1,44 @@
 package com.wordtrail.data;
-
 import com.wordtrail.entity.StudyState.Question;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-/** The reference's 60 English sample words, without changing existing saved library data. */
+/** Offline English curriculum with stable legacy identifiers and explicit source metadata. */
 public final class StudyContent {
     private StudyContent() { }
-
     public static List<Question> load() {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                StudyContent.class.getResourceAsStream("/study-content.csv"), StandardCharsets.UTF_8))) {
-            List<String[]> rows = reader.lines().skip(1).map(line -> line.split(",", -1))
-                    .collect(Collectors.toList());
+        try (InputStream input = StudyContent.class.getResourceAsStream("/english-study-content.json")) {
+            JSONObject document = new JSONObject(new String(input.readAllBytes(), StandardCharsets.UTF_8));
+            if (document.getInt("version") != 1) { throw new IllegalArgumentException("Unsupported curriculum."); }
+            JSONArray rows = document.getJSONArray("words");
             List<Question> result = new ArrayList<>();
-            for (String[] row : rows) {
-                List<String> choices = new ArrayList<>();
-                choices.add(row[2]);
-                for (String[] other : rows) {
-                    if (!choices.contains(other[2]) && choices.size() < 4) { choices.add(other[2]); }
+            Set<String> ids = new HashSet<>();
+            Set<String> terms = new HashSet<>();
+            for (Object item : rows) {
+                JSONObject row = (JSONObject) item;
+                if (!ids.add(row.getString("id")) || !terms.add(row.getString("term").toLowerCase(java.util.Locale.ROOT))
+                        || row.getString("source").isBlank()) {
+                    throw new IllegalArgumentException("Duplicate or unattributed curriculum word.");
                 }
-                result.add(new Question("reference-" + row[0], row[1], row[2],
-                        Integer.parseInt(row[3].substring(1)), choices));
+                List<String> options = new ArrayList<>();
+                options.add(row.getString("definition"));
+                for (Object candidate : rows) {
+                    String alternative = ((JSONObject) candidate).getString("definition");
+                    if (!options.contains(alternative) && options.size() < 4) { options.add(alternative); }
+                    if (options.size() == 4) { break; }
+                }
+                result.add(new Question(row.getString("id"), row.getString("term"), row.getString("definition"),
+                        row.getInt("level"), options));
             }
-            return result;
+            return List.copyOf(result);
         } catch (Exception failure) {
-            throw new IllegalStateException("Cannot read the bundled study curriculum.", failure);
+            throw new IllegalStateException("Cannot read the bundled English curriculum.", failure);
         }
     }
 }

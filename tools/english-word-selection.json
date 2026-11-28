@@ -1,0 +1,4325 @@
+{
+  "source": "Original Python content-0.2.0",
+  "words": [
+    {
+      "lemma": "apple",
+      "level": 1
+    },
+    {
+      "lemma": "book",
+      "level": 1
+    },
+    {
+      "lemma": "cat",
+      "level": 1
+    },
+    {
+      "lemma": "dog",
+      "level": 1
+    },
+    {
+      "lemma": "egg",
+      "level": 1
+    },
+    {
+      "lemma": "fish",
+      "level": 1
+    },
+    {
+      "lemma": "goat",
+      "level": 1
+    },
+    {
+      "lemma": "hand",
+      "level": 1
+    },
+    {
+      "lemma": "ice",
+      "level": 1
+    },
+    {
+      "lemma": "juice",
+      "level": 1
+    },
+    {
+      "lemma": "key",
+      "level": 1
+    },
+    {
+      "lemma": "lamp",
+      "level": 1
+    },
+    {
+      "lemma": "moon",
+      "level": 1
+    },
+    {
+      "lemma": "nose",
+      "level": 1
+    },
+    {
+      "lemma": "orange",
+      "level": 1
+    },
+    {
+      "lemma": "pen",
+      "level": 1
+    },
+    {
+      "lemma": "queen",
+      "level": 1
+    },
+    {
+      "lemma": "rain",
+      "level": 1
+    },
+    {
+      "lemma": "sun",
+      "level": 1
+    },
+    {
+      "lemma": "tree",
+      "level": 1
+    },
+    {
+      "lemma": "umbrella",
+      "level": 1
+    },
+    {
+      "lemma": "van",
+      "level": 1
+    },
+    {
+      "lemma": "water",
+      "level": 1
+    },
+    {
+      "lemma": "box",
+      "level": 1
+    },
+    {
+      "lemma": "chair",
+      "level": 1
+    },
+    {
+      "lemma": "door",
+      "level": 1
+    },
+    {
+      "lemma": "ear",
+      "level": 1
+    },
+    {
+      "lemma": "foot",
+      "level": 1
+    },
+    {
+      "lemma": "hat",
+      "level": 1
+    },
+    {
+      "lemma": "milk",
+      "level": 1
+    },
+    {
+      "lemma": "airport",
+      "level": 2
+    },
+    {
+      "lemma": "bicycle",
+      "level": 2
+    },
+    {
+      "lemma": "camera",
+      "level": 2
+    },
+    {
+      "lemma": "dinner",
+      "level": 2
+    },
+    {
+      "lemma": "engine",
+      "level": 2
+    },
+    {
+      "lemma": "farmer",
+      "level": 2
+    },
+    {
+      "lemma": "garden",
+      "level": 2
+    },
+    {
+      "lemma": "hospital",
+      "level": 2
+    },
+    {
+      "lemma": "island",
+      "level": 2
+    },
+    {
+      "lemma": "jacket",
+      "level": 2
+    },
+    {
+      "lemma": "kitchen",
+      "level": 2
+    },
+    {
+      "lemma": "letter",
+      "level": 2
+    },
+    {
+      "lemma": "market",
+      "level": 2
+    },
+    {
+      "lemma": "neighbor",
+      "level": 2
+    },
+    {
+      "lemma": "office",
+      "level": 2
+    },
+    {
+      "lemma": "parent",
+      "level": 2
+    },
+    {
+      "lemma": "pocket",
+      "level": 2
+    },
+    {
+      "lemma": "river",
+      "level": 2
+    },
+    {
+      "lemma": "school",
+      "level": 2
+    },
+    {
+      "lemma": "ticket",
+      "level": 2
+    },
+    {
+      "lemma": "uncle",
+      "level": 2
+    },
+    {
+      "lemma": "village",
+      "level": 2
+    },
+    {
+      "lemma": "window",
+      "level": 2
+    },
+    {
+      "lemma": "bank",
+      "level": 2
+    },
+    {
+      "lemma": "bread",
+      "level": 2
+    },
+    {
+      "lemma": "bridge",
+      "level": 2
+    },
+    {
+      "lemma": "cloud",
+      "level": 2
+    },
+    {
+      "lemma": "light",
+      "level": 2
+    },
+    {
+      "lemma": "flower",
+      "level": 2
+    },
+    {
+      "lemma": "winter",
+      "level": 2
+    },
+    {
+      "lemma": "borrow",
+      "level": 3
+    },
+    {
+      "lemma": "carry",
+      "level": 3
+    },
+    {
+      "lemma": "choose",
+      "level": 3
+    },
+    {
+      "lemma": "collect",
+      "level": 3
+    },
+    {
+      "lemma": "compare",
+      "level": 3
+    },
+    {
+      "lemma": "decide",
+      "level": 3
+    },
+    {
+      "lemma": "explain",
+      "level": 3
+    },
+    {
+      "lemma": "finish",
+      "level": 3
+    },
+    {
+      "lemma": "forget",
+      "level": 3
+    },
+    {
+      "lemma": "invite",
+      "level": 3
+    },
+    {
+      "lemma": "learn",
+      "level": 3
+    },
+    {
+      "lemma": "listen",
+      "level": 3
+    },
+    {
+      "lemma": "repair",
+      "level": 3
+    },
+    {
+      "lemma": "return",
+      "level": 3
+    },
+    {
+      "lemma": "search",
+      "level": 3
+    },
+    {
+      "lemma": "share",
+      "level": 3
+    },
+    {
+      "lemma": "travel",
+      "level": 3
+    },
+    {
+      "lemma": "believe",
+      "level": 3
+    },
+    {
+      "lemma": "close",
+      "level": 3
+    },
+    {
+      "lemma": "count",
+      "level": 3
+    },
+    {
+      "lemma": "dance",
+      "level": 3
+    },
+    {
+      "lemma": "follow",
+      "level": 3
+    },
+    {
+      "lemma": "improve",
+      "level": 3
+    },
+    {
+      "lemma": "prepare",
+      "level": 3
+    },
+    {
+      "lemma": "promise",
+      "level": 3
+    },
+    {
+      "lemma": "remember",
+      "level": 3
+    },
+    {
+      "lemma": "spend",
+      "level": 3
+    },
+    {
+      "lemma": "teach",
+      "level": 3
+    },
+    {
+      "lemma": "wait",
+      "level": 3
+    },
+    {
+      "lemma": "wash",
+      "level": 3
+    },
+    {
+      "lemma": "balance",
+      "level": 4
+    },
+    {
+      "lemma": "behavior",
+      "level": 4
+    },
+    {
+      "lemma": "benefit",
+      "level": 4
+    },
+    {
+      "lemma": "climate",
+      "level": 4
+    },
+    {
+      "lemma": "culture",
+      "level": 4
+    },
+    {
+      "lemma": "damage",
+      "level": 4
+    },
+    {
+      "lemma": "effort",
+      "level": 4
+    },
+    {
+      "lemma": "energy",
+      "level": 4
+    },
+    {
+      "lemma": "evidence",
+      "level": 4
+    },
+    {
+      "lemma": "factory",
+      "level": 4
+    },
+    {
+      "lemma": "freedom",
+      "level": 4
+    },
+    {
+      "lemma": "habit",
+      "level": 4
+    },
+    {
+      "lemma": "health",
+      "level": 4
+    },
+    {
+      "lemma": "income",
+      "level": 4
+    },
+    {
+      "lemma": "journey",
+      "level": 4
+    },
+    {
+      "lemma": "language",
+      "level": 4
+    },
+    {
+      "lemma": "memory",
+      "level": 4
+    },
+    {
+      "lemma": "nature",
+      "level": 4
+    },
+    {
+      "lemma": "opinion",
+      "level": 4
+    },
+    {
+      "lemma": "purpose",
+      "level": 4
+    },
+    {
+      "lemma": "quality",
+      "level": 4
+    },
+    {
+      "lemma": "reason",
+      "level": 4
+    },
+    {
+      "lemma": "safety",
+      "level": 4
+    },
+    {
+      "lemma": "society",
+      "level": 4
+    },
+    {
+      "lemma": "tradition",
+      "level": 4
+    },
+    {
+      "lemma": "value",
+      "level": 4
+    },
+    {
+      "lemma": "wealth",
+      "level": 4
+    },
+    {
+      "lemma": "wonder",
+      "level": 4
+    },
+    {
+      "lemma": "youth",
+      "level": 4
+    },
+    {
+      "lemma": "right",
+      "level": 4
+    },
+    {
+      "lemma": "accurate",
+      "level": 5
+    },
+    {
+      "lemma": "adapt",
+      "level": 5
+    },
+    {
+      "lemma": "admire",
+      "level": 5
+    },
+    {
+      "lemma": "analyze",
+      "level": 5
+    },
+    {
+      "lemma": "approve",
+      "level": 5
+    },
+    {
+      "lemma": "arrange",
+      "level": 5
+    },
+    {
+      "lemma": "avoid",
+      "level": 5
+    },
+    {
+      "lemma": "convince",
+      "level": 5
+    },
+    {
+      "lemma": "refuse",
+      "level": 5
+    },
+    {
+      "lemma": "deliver",
+      "level": 5
+    },
+    {
+      "lemma": "depend",
+      "level": 5
+    },
+    {
+      "lemma": "describe",
+      "level": 5
+    },
+    {
+      "lemma": "establish",
+      "level": 5
+    },
+    {
+      "lemma": "expand",
+      "level": 5
+    },
+    {
+      "lemma": "gather",
+      "level": 5
+    },
+    {
+      "lemma": "ignore",
+      "level": 5
+    },
+    {
+      "lemma": "include",
+      "level": 5
+    },
+    {
+      "lemma": "involve",
+      "level": 5
+    },
+    {
+      "lemma": "manage",
+      "level": 5
+    },
+    {
+      "lemma": "notice",
+      "level": 5
+    },
+    {
+      "lemma": "occur",
+      "level": 5
+    },
+    {
+      "lemma": "perform",
+      "level": 5
+    },
+    {
+      "lemma": "prevent",
+      "level": 5
+    },
+    {
+      "lemma": "provide",
+      "level": 5
+    },
+    {
+      "lemma": "publish",
+      "level": 5
+    },
+    {
+      "lemma": "reduce",
+      "level": 5
+    },
+    {
+      "lemma": "reflect",
+      "level": 5
+    },
+    {
+      "lemma": "replace",
+      "level": 5
+    },
+    {
+      "lemma": "require",
+      "level": 5
+    },
+    {
+      "lemma": "respond",
+      "level": 5
+    },
+    {
+      "lemma": "abstract",
+      "level": 6
+    },
+    {
+      "lemma": "acquire",
+      "level": 6
+    },
+    {
+      "lemma": "allocate",
+      "level": 6
+    },
+    {
+      "lemma": "anticipate",
+      "level": 6
+    },
+    {
+      "lemma": "assess",
+      "level": 6
+    },
+    {
+      "lemma": "assume",
+      "level": 6
+    },
+    {
+      "lemma": "clarify",
+      "level": 6
+    },
+    {
+      "lemma": "compensate",
+      "level": 6
+    },
+    {
+      "lemma": "construct",
+      "level": 6
+    },
+    {
+      "lemma": "demonstrate",
+      "level": 6
+    },
+    {
+      "lemma": "distinguish",
+      "level": 6
+    },
+    {
+      "lemma": "emphasize",
+      "level": 6
+    },
+    {
+      "lemma": "tolerate",
+      "level": 6
+    },
+    {
+      "lemma": "examine",
+      "level": 6
+    },
+    {
+      "lemma": "identify",
+      "level": 6
+    },
+    {
+      "lemma": "indicate",
+      "level": 6
+    },
+    {
+      "lemma": "interpret",
+      "level": 6
+    },
+    {
+      "lemma": "maintain",
+      "level": 6
+    },
+    {
+      "lemma": "negotiate",
+      "level": 6
+    },
+    {
+      "lemma": "participate",
+      "level": 6
+    },
+    {
+      "lemma": "pursue",
+      "level": 6
+    },
+    {
+      "lemma": "recover",
+      "level": 6
+    },
+    {
+      "lemma": "resolve",
+      "level": 6
+    },
+    {
+      "lemma": "restore",
+      "level": 6
+    },
+    {
+      "lemma": "retain",
+      "level": 6
+    },
+    {
+      "lemma": "reveal",
+      "level": 6
+    },
+    {
+      "lemma": "specify",
+      "level": 6
+    },
+    {
+      "lemma": "strengthen",
+      "level": 6
+    },
+    {
+      "lemma": "transfer",
+      "level": 6
+    },
+    {
+      "lemma": "transform",
+      "level": 6
+    },
+    {
+      "lemma": "hi",
+      "level": 1
+    },
+    {
+      "lemma": "hello",
+      "level": 1
+    },
+    {
+      "lemma": "yes",
+      "level": 1
+    },
+    {
+      "lemma": "no",
+      "level": 1
+    },
+    {
+      "lemma": "please",
+      "level": 1
+    },
+    {
+      "lemma": "thanks",
+      "level": 1
+    },
+    {
+      "lemma": "goodbye",
+      "level": 1
+    },
+    {
+      "lemma": "welcome",
+      "level": 1
+    },
+    {
+      "lemma": "sorry",
+      "level": 1
+    },
+    {
+      "lemma": "okay",
+      "level": 1
+    },
+    {
+      "lemma": "morning",
+      "level": 1
+    },
+    {
+      "lemma": "afternoon",
+      "level": 1
+    },
+    {
+      "lemma": "night",
+      "level": 1
+    },
+    {
+      "lemma": "today",
+      "level": 1
+    },
+    {
+      "lemma": "friend",
+      "level": 1
+    },
+    {
+      "lemma": "man",
+      "level": 1
+    },
+    {
+      "lemma": "woman",
+      "level": 1
+    },
+    {
+      "lemma": "boy",
+      "level": 1
+    },
+    {
+      "lemma": "girl",
+      "level": 1
+    },
+    {
+      "lemma": "child",
+      "level": 1
+    },
+    {
+      "lemma": "mother",
+      "level": 1
+    },
+    {
+      "lemma": "father",
+      "level": 1
+    },
+    {
+      "lemma": "sister",
+      "level": 1
+    },
+    {
+      "lemma": "brother",
+      "level": 1
+    },
+    {
+      "lemma": "name",
+      "level": 1
+    },
+    {
+      "lemma": "home",
+      "level": 1
+    },
+    {
+      "lemma": "room",
+      "level": 1
+    },
+    {
+      "lemma": "bed",
+      "level": 1
+    },
+    {
+      "lemma": "table",
+      "level": 1
+    },
+    {
+      "lemma": "desk",
+      "level": 1
+    },
+    {
+      "lemma": "teacher",
+      "level": 1
+    },
+    {
+      "lemma": "student",
+      "level": 1
+    },
+    {
+      "lemma": "class",
+      "level": 1
+    },
+    {
+      "lemma": "food",
+      "level": 1
+    },
+    {
+      "lemma": "rice",
+      "level": 1
+    },
+    {
+      "lemma": "soup",
+      "level": 1
+    },
+    {
+      "lemma": "tea",
+      "level": 1
+    },
+    {
+      "lemma": "coffee",
+      "level": 1
+    },
+    {
+      "lemma": "meat",
+      "level": 1
+    },
+    {
+      "lemma": "fruit",
+      "level": 1
+    },
+    {
+      "lemma": "red",
+      "level": 1
+    },
+    {
+      "lemma": "blue",
+      "level": 1
+    },
+    {
+      "lemma": "green",
+      "level": 1
+    },
+    {
+      "lemma": "yellow",
+      "level": 1
+    },
+    {
+      "lemma": "black",
+      "level": 1
+    },
+    {
+      "lemma": "white",
+      "level": 1
+    },
+    {
+      "lemma": "one",
+      "level": 1
+    },
+    {
+      "lemma": "two",
+      "level": 1
+    },
+    {
+      "lemma": "three",
+      "level": 1
+    },
+    {
+      "lemma": "four",
+      "level": 1
+    },
+    {
+      "lemma": "five",
+      "level": 1
+    },
+    {
+      "lemma": "ten",
+      "level": 1
+    },
+    {
+      "lemma": "small",
+      "level": 1
+    },
+    {
+      "lemma": "big",
+      "level": 1
+    },
+    {
+      "lemma": "hot",
+      "level": 1
+    },
+    {
+      "lemma": "cold",
+      "level": 1
+    },
+    {
+      "lemma": "happy",
+      "level": 1
+    },
+    {
+      "lemma": "sad",
+      "level": 1
+    },
+    {
+      "lemma": "come",
+      "level": 1
+    },
+    {
+      "lemma": "go",
+      "level": 1
+    },
+    {
+      "lemma": "in",
+      "level": 2
+    },
+    {
+      "lemma": "to",
+      "level": 2
+    },
+    {
+      "lemma": "have",
+      "level": 2
+    },
+    {
+      "lemma": "that",
+      "level": 2
+    },
+    {
+      "lemma": "he",
+      "level": 2
+    },
+    {
+      "lemma": "on",
+      "level": 2
+    },
+    {
+      "lemma": "do",
+      "level": 2
+    },
+    {
+      "lemma": "say",
+      "level": 2
+    },
+    {
+      "lemma": "this",
+      "level": 2
+    },
+    {
+      "lemma": "but",
+      "level": 2
+    },
+    {
+      "lemma": "not",
+      "level": 2
+    },
+    {
+      "lemma": "by",
+      "level": 2
+    },
+    {
+      "lemma": "as",
+      "level": 2
+    },
+    {
+      "lemma": "what",
+      "level": 2
+    },
+    {
+      "lemma": "can",
+      "level": 2
+    },
+    {
+      "lemma": "get",
+      "level": 2
+    },
+    {
+      "lemma": "if",
+      "level": 2
+    },
+    {
+      "lemma": "all",
+      "level": 2
+    },
+    {
+      "lemma": "make",
+      "level": 2
+    },
+    {
+      "lemma": "about",
+      "level": 2
+    },
+    {
+      "lemma": "will",
+      "level": 2
+    },
+    {
+      "lemma": "time",
+      "level": 2
+    },
+    {
+      "lemma": "there",
+      "level": 2
+    },
+    {
+      "lemma": "so",
+      "level": 2
+    },
+    {
+      "lemma": "think",
+      "level": 2
+    },
+    {
+      "lemma": "when",
+      "level": 2
+    },
+    {
+      "lemma": "some",
+      "level": 2
+    },
+    {
+      "lemma": "people",
+      "level": 2
+    },
+    {
+      "lemma": "take",
+      "level": 2
+    },
+    {
+      "lemma": "out",
+      "level": 2
+    },
+    {
+      "lemma": "just",
+      "level": 2
+    },
+    {
+      "lemma": "now",
+      "level": 2
+    },
+    {
+      "lemma": "other",
+      "level": 2
+    },
+    {
+      "lemma": "how",
+      "level": 2
+    },
+    {
+      "lemma": "then",
+      "level": 2
+    },
+    {
+      "lemma": "more",
+      "level": 2
+    },
+    {
+      "lemma": "want",
+      "level": 2
+    },
+    {
+      "lemma": "way",
+      "level": 2
+    },
+    {
+      "lemma": "first",
+      "level": 2
+    },
+    {
+      "lemma": "also",
+      "level": 2
+    },
+    {
+      "lemma": "new",
+      "level": 2
+    },
+    {
+      "lemma": "use",
+      "level": 2
+    },
+    {
+      "lemma": "find",
+      "level": 2
+    },
+    {
+      "lemma": "here",
+      "level": 2
+    },
+    {
+      "lemma": "thing",
+      "level": 2
+    },
+    {
+      "lemma": "many",
+      "level": 2
+    },
+    {
+      "lemma": "well",
+      "level": 2
+    },
+    {
+      "lemma": "only",
+      "level": 2
+    },
+    {
+      "lemma": "tell",
+      "level": 2
+    },
+    {
+      "lemma": "very",
+      "level": 2
+    },
+    {
+      "lemma": "even",
+      "level": 2
+    },
+    {
+      "lemma": "back",
+      "level": 2
+    },
+    {
+      "lemma": "any",
+      "level": 2
+    },
+    {
+      "lemma": "good",
+      "level": 2
+    },
+    {
+      "lemma": "through",
+      "level": 2
+    },
+    {
+      "lemma": "life",
+      "level": 2
+    },
+    {
+      "lemma": "work",
+      "level": 2
+    },
+    {
+      "lemma": "down",
+      "level": 2
+    },
+    {
+      "lemma": "may",
+      "level": 2
+    },
+    {
+      "lemma": "after",
+      "level": 2
+    },
+    {
+      "lemma": "give",
+      "level": 3
+    },
+    {
+      "lemma": "fact",
+      "level": 3
+    },
+    {
+      "lemma": "art",
+      "level": 3
+    },
+    {
+      "lemma": "education",
+      "level": 3
+    },
+    {
+      "lemma": "maybe",
+      "level": 3
+    },
+    {
+      "lemma": "possible",
+      "level": 3
+    },
+    {
+      "lemma": "chance",
+      "level": 3
+    },
+    {
+      "lemma": "security",
+      "level": 3
+    },
+    {
+      "lemma": "politics",
+      "level": 3
+    },
+    {
+      "lemma": "magazine",
+      "level": 3
+    },
+    {
+      "lemma": "hotel",
+      "level": 3
+    },
+    {
+      "lemma": "soldier",
+      "level": 3
+    },
+    {
+      "lemma": "heavy",
+      "level": 3
+    },
+    {
+      "lemma": "sexual",
+      "level": 3
+    },
+    {
+      "lemma": "bag",
+      "level": 3
+    },
+    {
+      "lemma": "heat",
+      "level": 3
+    },
+    {
+      "lemma": "marriage",
+      "level": 3
+    },
+    {
+      "lemma": "tough",
+      "level": 3
+    },
+    {
+      "lemma": "sing",
+      "level": 3
+    },
+    {
+      "lemma": "surface",
+      "level": 3
+    },
+    {
+      "lemma": "exist",
+      "level": 3
+    },
+    {
+      "lemma": "pattern",
+      "level": 3
+    },
+    {
+      "lemma": "realise",
+      "level": 3
+    },
+    {
+      "lemma": "skin",
+      "level": 3
+    },
+    {
+      "lemma": "agent",
+      "level": 3
+    },
+    {
+      "lemma": "owner",
+      "level": 3
+    },
+    {
+      "lemma": "machine",
+      "level": 3
+    },
+    {
+      "lemma": "gas",
+      "level": 3
+    },
+    {
+      "lemma": "ahead",
+      "level": 3
+    },
+    {
+      "lemma": "generation",
+      "level": 3
+    },
+    {
+      "lemma": "commercial",
+      "level": 3
+    },
+    {
+      "lemma": "address",
+      "level": 3
+    },
+    {
+      "lemma": "cancer",
+      "level": 3
+    },
+    {
+      "lemma": "item",
+      "level": 3
+    },
+    {
+      "lemma": "reality",
+      "level": 3
+    },
+    {
+      "lemma": "coach",
+      "level": 3
+    },
+    {
+      "lemma": "yard",
+      "level": 3
+    },
+    {
+      "lemma": "violence",
+      "level": 3
+    },
+    {
+      "lemma": "total",
+      "level": 3
+    },
+    {
+      "lemma": "tend",
+      "level": 3
+    },
+    {
+      "lemma": "investment",
+      "level": 3
+    },
+    {
+      "lemma": "discussion",
+      "level": 3
+    },
+    {
+      "lemma": "finger",
+      "level": 3
+    },
+    {
+      "lemma": "collection",
+      "level": 3
+    },
+    {
+      "lemma": "modern",
+      "level": 3
+    },
+    {
+      "lemma": "task",
+      "level": 3
+    },
+    {
+      "lemma": "partner",
+      "level": 3
+    },
+    {
+      "lemma": "positive",
+      "level": 3
+    },
+    {
+      "lemma": "civil",
+      "level": 3
+    },
+    {
+      "lemma": "consumer",
+      "level": 3
+    },
+    {
+      "lemma": "budget",
+      "level": 3
+    },
+    {
+      "lemma": "wish",
+      "level": 3
+    },
+    {
+      "lemma": "scientist",
+      "level": 3
+    },
+    {
+      "lemma": "safe",
+      "level": 3
+    },
+    {
+      "lemma": "agreement",
+      "level": 3
+    },
+    {
+      "lemma": "mouth",
+      "level": 3
+    },
+    {
+      "lemma": "capital",
+      "level": 3
+    },
+    {
+      "lemma": "victim",
+      "level": 3
+    },
+    {
+      "lemma": "newspaper",
+      "level": 3
+    },
+    {
+      "lemma": "threat",
+      "level": 3
+    },
+    {
+      "lemma": "possibility",
+      "level": 4
+    },
+    {
+      "lemma": "potential",
+      "level": 4
+    },
+    {
+      "lemma": "importance",
+      "level": 4
+    },
+    {
+      "lemma": "consequence",
+      "level": 4
+    },
+    {
+      "lemma": "organize",
+      "level": 4
+    },
+    {
+      "lemma": "organise",
+      "level": 4
+    },
+    {
+      "lemma": "comfortable",
+      "level": 4
+    },
+    {
+      "lemma": "investor",
+      "level": 4
+    },
+    {
+      "lemma": "profit",
+      "level": 4
+    },
+    {
+      "lemma": "angry",
+      "level": 4
+    },
+    {
+      "lemma": "crew",
+      "level": 4
+    },
+    {
+      "lemma": "accident",
+      "level": 4
+    },
+    {
+      "lemma": "meal",
+      "level": 4
+    },
+    {
+      "lemma": "tom",
+      "level": 4
+    },
+    {
+      "lemma": "traffic",
+      "level": 4
+    },
+    {
+      "lemma": "muscle",
+      "level": 4
+    },
+    {
+      "lemma": "notion",
+      "level": 4
+    },
+    {
+      "lemma": "capture",
+      "level": 4
+    },
+    {
+      "lemma": "prefer",
+      "level": 4
+    },
+    {
+      "lemma": "chest",
+      "level": 4
+    },
+    {
+      "lemma": "truly",
+      "level": 4
+    },
+    {
+      "lemma": "thick",
+      "level": 4
+    },
+    {
+      "lemma": "cash",
+      "level": 4
+    },
+    {
+      "lemma": "museum",
+      "level": 4
+    },
+    {
+      "lemma": "beauty",
+      "level": 4
+    },
+    {
+      "lemma": "emergency",
+      "level": 4
+    },
+    {
+      "lemma": "unique",
+      "level": 4
+    },
+    {
+      "lemma": "internal",
+      "level": 4
+    },
+    {
+      "lemma": "link",
+      "level": 4
+    },
+    {
+      "lemma": "stress",
+      "level": 4
+    },
+    {
+      "lemma": "content",
+      "level": 4
+    },
+    {
+      "lemma": "select",
+      "level": 4
+    },
+    {
+      "lemma": "root",
+      "level": 4
+    },
+    {
+      "lemma": "declare",
+      "level": 4
+    },
+    {
+      "lemma": "appreciate",
+      "level": 4
+    },
+    {
+      "lemma": "actual",
+      "level": 4
+    },
+    {
+      "lemma": "bottle",
+      "level": 4
+    },
+    {
+      "lemma": "hardly",
+      "level": 4
+    },
+    {
+      "lemma": "launch",
+      "level": 4
+    },
+    {
+      "lemma": "file",
+      "level": 4
+    },
+    {
+      "lemma": "sick",
+      "level": 4
+    },
+    {
+      "lemma": "outcome",
+      "level": 4
+    },
+    {
+      "lemma": "ad",
+      "level": 4
+    },
+    {
+      "lemma": "defend",
+      "level": 4
+    },
+    {
+      "lemma": "duty",
+      "level": 4
+    },
+    {
+      "lemma": "sheet",
+      "level": 4
+    },
+    {
+      "lemma": "ensure",
+      "level": 4
+    },
+    {
+      "lemma": "ought",
+      "level": 4
+    },
+    {
+      "lemma": "extremely",
+      "level": 4
+    },
+    {
+      "lemma": "catholic",
+      "level": 4
+    },
+    {
+      "lemma": "extent",
+      "level": 4
+    },
+    {
+      "lemma": "mix",
+      "level": 4
+    },
+    {
+      "lemma": "component",
+      "level": 4
+    },
+    {
+      "lemma": "slow",
+      "level": 4
+    },
+    {
+      "lemma": "contrast",
+      "level": 4
+    },
+    {
+      "lemma": "zone",
+      "level": 4
+    },
+    {
+      "lemma": "wake",
+      "level": 4
+    },
+    {
+      "lemma": "brown",
+      "level": 4
+    },
+    {
+      "lemma": "shirt",
+      "level": 4
+    },
+    {
+      "lemma": "pilot",
+      "level": 4
+    },
+    {
+      "lemma": "landscape",
+      "level": 5
+    },
+    {
+      "lemma": "specifically",
+      "level": 5
+    },
+    {
+      "lemma": "personality",
+      "level": 5
+    },
+    {
+      "lemma": "vary",
+      "level": 5
+    },
+    {
+      "lemma": "clinic",
+      "level": 5
+    },
+    {
+      "lemma": "diversity",
+      "level": 5
+    },
+    {
+      "lemma": "ultimate",
+      "level": 5
+    },
+    {
+      "lemma": "corporation",
+      "level": 5
+    },
+    {
+      "lemma": "hip",
+      "level": 5
+    },
+    {
+      "lemma": "switch",
+      "level": 5
+    },
+    {
+      "lemma": "valuable",
+      "level": 5
+    },
+    {
+      "lemma": "assumption",
+      "level": 5
+    },
+    {
+      "lemma": "gear",
+      "level": 5
+    },
+    {
+      "lemma": "barrier",
+      "level": 5
+    },
+    {
+      "lemma": "minor",
+      "level": 5
+    },
+    {
+      "lemma": "assign",
+      "level": 5
+    },
+    {
+      "lemma": "council",
+      "level": 5
+    },
+    {
+      "lemma": "provision",
+      "level": 5
+    },
+    {
+      "lemma": "killer",
+      "level": 5
+    },
+    {
+      "lemma": "gang",
+      "level": 5
+    },
+    {
+      "lemma": "classic",
+      "level": 5
+    },
+    {
+      "lemma": "ben",
+      "level": 5
+    },
+    {
+      "lemma": "chemical",
+      "level": 5
+    },
+    {
+      "lemma": "label",
+      "level": 5
+    },
+    {
+      "lemma": "teen",
+      "level": 5
+    },
+    {
+      "lemma": "index",
+      "level": 5
+    },
+    {
+      "lemma": "vacation",
+      "level": 5
+    },
+    {
+      "lemma": "advocate",
+      "level": 5
+    },
+    {
+      "lemma": "draft",
+      "level": 5
+    },
+    {
+      "lemma": "extraordinary",
+      "level": 5
+    },
+    {
+      "lemma": "sept",
+      "level": 5
+    },
+    {
+      "lemma": "heaven",
+      "level": 5
+    },
+    {
+      "lemma": "rough",
+      "level": 5
+    },
+    {
+      "lemma": "yell",
+      "level": 5
+    },
+    {
+      "lemma": "pregnant",
+      "level": 5
+    },
+    {
+      "lemma": "distant",
+      "level": 5
+    },
+    {
+      "lemma": "drama",
+      "level": 5
+    },
+    {
+      "lemma": "satellite",
+      "level": 5
+    },
+    {
+      "lemma": "personally",
+      "level": 5
+    },
+    {
+      "lemma": "clock",
+      "level": 5
+    },
+    {
+      "lemma": "chocolate",
+      "level": 5
+    },
+    {
+      "lemma": "sweep",
+      "level": 5
+    },
+    {
+      "lemma": "ceiling",
+      "level": 5
+    },
+    {
+      "lemma": "universal",
+      "level": 5
+    },
+    {
+      "lemma": "spin",
+      "level": 5
+    },
+    {
+      "lemma": "button",
+      "level": 5
+    },
+    {
+      "lemma": "bell",
+      "level": 5
+    },
+    {
+      "lemma": "rank",
+      "level": 5
+    },
+    {
+      "lemma": "darkness",
+      "level": 5
+    },
+    {
+      "lemma": "super",
+      "level": 5
+    },
+    {
+      "lemma": "yield",
+      "level": 5
+    },
+    {
+      "lemma": "fence",
+      "level": 5
+    },
+    {
+      "lemma": "portrait",
+      "level": 5
+    },
+    {
+      "lemma": "survival",
+      "level": 5
+    },
+    {
+      "lemma": "roughly",
+      "level": 5
+    },
+    {
+      "lemma": "bunch",
+      "level": 5
+    },
+    {
+      "lemma": "lawsuit",
+      "level": 5
+    },
+    {
+      "lemma": "testimony",
+      "level": 5
+    },
+    {
+      "lemma": "burden",
+      "level": 5
+    },
+    {
+      "lemma": "react",
+      "level": 5
+    },
+    {
+      "lemma": "statistics",
+      "level": 6
+    },
+    {
+      "lemma": "significance",
+      "level": 6
+    },
+    {
+      "lemma": "stability",
+      "level": 6
+    },
+    {
+      "lemma": "psychology",
+      "level": 6
+    },
+    {
+      "lemma": "economics",
+      "level": 6
+    },
+    {
+      "lemma": "legend",
+      "level": 6
+    },
+    {
+      "lemma": "physics",
+      "level": 6
+    },
+    {
+      "lemma": "logic",
+      "level": 6
+    },
+    {
+      "lemma": "architecture",
+      "level": 6
+    },
+    {
+      "lemma": "graphics",
+      "level": 6
+    },
+    {
+      "lemma": "ideology",
+      "level": 6
+    },
+    {
+      "lemma": "rhetoric",
+      "level": 6
+    },
+    {
+      "lemma": "format",
+      "level": 6
+    },
+    {
+      "lemma": "complexity",
+      "level": 6
+    },
+    {
+      "lemma": "altogether",
+      "level": 6
+    },
+    {
+      "lemma": "pickup",
+      "level": 6
+    },
+    {
+      "lemma": "carve",
+      "level": 6
+    },
+    {
+      "lemma": "needle",
+      "level": 6
+    },
+    {
+      "lemma": "belly",
+      "level": 6
+    },
+    {
+      "lemma": "scare",
+      "level": 6
+    },
+    {
+      "lemma": "portfolio",
+      "level": 6
+    },
+    {
+      "lemma": "morris",
+      "level": 6
+    },
+    {
+      "lemma": "shuttle",
+      "level": 6
+    },
+    {
+      "lemma": "invisible",
+      "level": 6
+    },
+    {
+      "lemma": "engagement",
+      "level": 6
+    },
+    {
+      "lemma": "transaction",
+      "level": 6
+    },
+    {
+      "lemma": "ankle",
+      "level": 6
+    },
+    {
+      "lemma": "rescue",
+      "level": 6
+    },
+    {
+      "lemma": "counterpart",
+      "level": 6
+    },
+    {
+      "lemma": "historically",
+      "level": 6
+    },
+    {
+      "lemma": "firmly",
+      "level": 6
+    },
+    {
+      "lemma": "mild",
+      "level": 6
+    },
+    {
+      "lemma": "noon",
+      "level": 6
+    },
+    {
+      "lemma": "identical",
+      "level": 6
+    },
+    {
+      "lemma": "doll",
+      "level": 6
+    },
+    {
+      "lemma": "rider",
+      "level": 6
+    },
+    {
+      "lemma": "precise",
+      "level": 6
+    },
+    {
+      "lemma": "anxious",
+      "level": 6
+    },
+    {
+      "lemma": "residential",
+      "level": 6
+    },
+    {
+      "lemma": "structural",
+      "level": 6
+    },
+    {
+      "lemma": "carbohydrate",
+      "level": 6
+    },
+    {
+      "lemma": "diagnose",
+      "level": 6
+    },
+    {
+      "lemma": "theology",
+      "level": 6
+    },
+    {
+      "lemma": "poster",
+      "level": 6
+    },
+    {
+      "lemma": "liberty",
+      "level": 6
+    },
+    {
+      "lemma": "crawl",
+      "level": 6
+    },
+    {
+      "lemma": "nonprofit",
+      "level": 6
+    },
+    {
+      "lemma": "handsome",
+      "level": 6
+    },
+    {
+      "lemma": "oxygen",
+      "level": 6
+    },
+    {
+      "lemma": "businessman",
+      "level": 6
+    },
+    {
+      "lemma": "sum",
+      "level": 6
+    },
+    {
+      "lemma": "conscious",
+      "level": 6
+    },
+    {
+      "lemma": "determination",
+      "level": 6
+    },
+    {
+      "lemma": "donor",
+      "level": 6
+    },
+    {
+      "lemma": "jazz",
+      "level": 6
+    },
+    {
+      "lemma": "pastor",
+      "level": 6
+    },
+    {
+      "lemma": "opera",
+      "level": 6
+    },
+    {
+      "lemma": "acquisition",
+      "level": 6
+    },
+    {
+      "lemma": "pit",
+      "level": 6
+    },
+    {
+      "lemma": "hug",
+      "level": 6
+    },
+    {
+      "lemma": "minimize",
+      "level": 7
+    },
+    {
+      "lemma": "romance",
+      "level": 7
+    },
+    {
+      "lemma": "credibility",
+      "level": 7
+    },
+    {
+      "lemma": "dynamics",
+      "level": 7
+    },
+    {
+      "lemma": "specialize",
+      "level": 7
+    },
+    {
+      "lemma": "bless",
+      "level": 7
+    },
+    {
+      "lemma": "reliability",
+      "level": 7
+    },
+    {
+      "lemma": "biology",
+      "level": 7
+    },
+    {
+      "lemma": "creativity",
+      "level": 7
+    },
+    {
+      "lemma": "flexibility",
+      "level": 7
+    },
+    {
+      "lemma": "validity",
+      "level": 7
+    },
+    {
+      "lemma": "likelihood",
+      "level": 7
+    },
+    {
+      "lemma": "availability",
+      "level": 7
+    },
+    {
+      "lemma": "accountability",
+      "level": 7
+    },
+    {
+      "lemma": "update",
+      "level": 7
+    },
+    {
+      "lemma": "electronics",
+      "level": 7
+    },
+    {
+      "lemma": "privatisation",
+      "level": 7
+    },
+    {
+      "lemma": "consistency",
+      "level": 7
+    },
+    {
+      "lemma": "complication",
+      "level": 7
+    },
+    {
+      "lemma": "embody",
+      "level": 7
+    },
+    {
+      "lemma": "probability",
+      "level": 7
+    },
+    {
+      "lemma": "specialise",
+      "level": 7
+    },
+    {
+      "lemma": "literacy",
+      "level": 7
+    },
+    {
+      "lemma": "geography",
+      "level": 7
+    },
+    {
+      "lemma": "classmate",
+      "level": 7
+    },
+    {
+      "lemma": "optimism",
+      "level": 7
+    },
+    {
+      "lemma": "skinny",
+      "level": 7
+    },
+    {
+      "lemma": "regression",
+      "level": 7
+    },
+    {
+      "lemma": "posture",
+      "level": 7
+    },
+    {
+      "lemma": "demon",
+      "level": 7
+    },
+    {
+      "lemma": "systematic",
+      "level": 7
+    },
+    {
+      "lemma": "inclusion",
+      "level": 7
+    },
+    {
+      "lemma": "viking",
+      "level": 7
+    },
+    {
+      "lemma": "pope",
+      "level": 7
+    },
+    {
+      "lemma": "rehearsal",
+      "level": 7
+    },
+    {
+      "lemma": "invoke",
+      "level": 7
+    },
+    {
+      "lemma": "correspond",
+      "level": 7
+    },
+    {
+      "lemma": "discard",
+      "level": 7
+    },
+    {
+      "lemma": "revival",
+      "level": 7
+    },
+    {
+      "lemma": "tub",
+      "level": 7
+    },
+    {
+      "lemma": "restraint",
+      "level": 7
+    },
+    {
+      "lemma": "prospective",
+      "level": 7
+    },
+    {
+      "lemma": "murderer",
+      "level": 7
+    },
+    {
+      "lemma": "tin",
+      "level": 7
+    },
+    {
+      "lemma": "abundance",
+      "level": 7
+    },
+    {
+      "lemma": "duration",
+      "level": 7
+    },
+    {
+      "lemma": "despair",
+      "level": 7
+    },
+    {
+      "lemma": "proposition",
+      "level": 7
+    },
+    {
+      "lemma": "lime",
+      "level": 7
+    },
+    {
+      "lemma": "attendant",
+      "level": 7
+    },
+    {
+      "lemma": "fulfill",
+      "level": 7
+    },
+    {
+      "lemma": "ethnicity",
+      "level": 7
+    },
+    {
+      "lemma": "successor",
+      "level": 7
+    },
+    {
+      "lemma": "assassination",
+      "level": 7
+    },
+    {
+      "lemma": "geographic",
+      "level": 7
+    },
+    {
+      "lemma": "strawberry",
+      "level": 7
+    },
+    {
+      "lemma": "atomic",
+      "level": 7
+    },
+    {
+      "lemma": "holder",
+      "level": 7
+    },
+    {
+      "lemma": "portable",
+      "level": 7
+    },
+    {
+      "lemma": "guerrilla",
+      "level": 7
+    },
+    {
+      "lemma": "nutrition",
+      "level": 8
+    },
+    {
+      "lemma": "nationalism",
+      "level": 8
+    },
+    {
+      "lemma": "methodology",
+      "level": 8
+    },
+    {
+      "lemma": "mobility",
+      "level": 8
+    },
+    {
+      "lemma": "corrupt",
+      "level": 8
+    },
+    {
+      "lemma": "thrill",
+      "level": 8
+    },
+    {
+      "lemma": "gum",
+      "level": 8
+    },
+    {
+      "lemma": "complicate",
+      "level": 8
+    },
+    {
+      "lemma": "ecology",
+      "level": 8
+    },
+    {
+      "lemma": "continuity",
+      "level": 8
+    },
+    {
+      "lemma": "spirituality",
+      "level": 8
+    },
+    {
+      "lemma": "astronomy",
+      "level": 8
+    },
+    {
+      "lemma": "relevance",
+      "level": 8
+    },
+    {
+      "lemma": "symbolize",
+      "level": 8
+    },
+    {
+      "lemma": "goddess",
+      "level": 8
+    },
+    {
+      "lemma": "anthropology",
+      "level": 8
+    },
+    {
+      "lemma": "immunity",
+      "level": 8
+    },
+    {
+      "lemma": "exacerbate",
+      "level": 8
+    },
+    {
+      "lemma": "allergy",
+      "level": 8
+    },
+    {
+      "lemma": "visibility",
+      "level": 8
+    },
+    {
+      "lemma": "formulation",
+      "level": 8
+    },
+    {
+      "lemma": "liner",
+      "level": 8
+    },
+    {
+      "lemma": "librarian",
+      "level": 8
+    },
+    {
+      "lemma": "topple",
+      "level": 8
+    },
+    {
+      "lemma": "inferior",
+      "level": 8
+    },
+    {
+      "lemma": "reinforcement",
+      "level": 8
+    },
+    {
+      "lemma": "morale",
+      "level": 8
+    },
+    {
+      "lemma": "diversion",
+      "level": 8
+    },
+    {
+      "lemma": "vastly",
+      "level": 8
+    },
+    {
+      "lemma": "almond",
+      "level": 8
+    },
+    {
+      "lemma": "distortion",
+      "level": 8
+    },
+    {
+      "lemma": "announcer",
+      "level": 8
+    },
+    {
+      "lemma": "erika",
+      "level": 8
+    },
+    {
+      "lemma": "subsidiary",
+      "level": 8
+    },
+    {
+      "lemma": "prophet",
+      "level": 8
+    },
+    {
+      "lemma": "reminiscent",
+      "level": 8
+    },
+    {
+      "lemma": "validate",
+      "level": 8
+    },
+    {
+      "lemma": "pragmatic",
+      "level": 8
+    },
+    {
+      "lemma": "undercover",
+      "level": 8
+    },
+    {
+      "lemma": "orphan",
+      "level": 8
+    },
+    {
+      "lemma": "graze",
+      "level": 8
+    },
+    {
+      "lemma": "persona",
+      "level": 8
+    },
+    {
+      "lemma": "reel",
+      "level": 8
+    },
+    {
+      "lemma": "preview",
+      "level": 8
+    },
+    {
+      "lemma": "enlarge",
+      "level": 8
+    },
+    {
+      "lemma": "alleviate",
+      "level": 8
+    },
+    {
+      "lemma": "protagonist",
+      "level": 8
+    },
+    {
+      "lemma": "comedian",
+      "level": 8
+    },
+    {
+      "lemma": "systematically",
+      "level": 8
+    },
+    {
+      "lemma": "crunch",
+      "level": 8
+    },
+    {
+      "lemma": "mock",
+      "level": 8
+    },
+    {
+      "lemma": "escalate",
+      "level": 8
+    },
+    {
+      "lemma": "fig",
+      "level": 8
+    },
+    {
+      "lemma": "cruiser",
+      "level": 8
+    },
+    {
+      "lemma": "discretion",
+      "level": 8
+    },
+    {
+      "lemma": "arbitrary",
+      "level": 8
+    },
+    {
+      "lemma": "scrub",
+      "level": 8
+    },
+    {
+      "lemma": "foe",
+      "level": 8
+    },
+    {
+      "lemma": "stubborn",
+      "level": 8
+    },
+    {
+      "lemma": "rubble",
+      "level": 8
+    },
+    {
+      "lemma": "collectively",
+      "level": 9
+    },
+    {
+      "lemma": "genetics",
+      "level": 9
+    },
+    {
+      "lemma": "nationality",
+      "level": 9
+    },
+    {
+      "lemma": "biodiversity",
+      "level": 9
+    },
+    {
+      "lemma": "geometry",
+      "level": 9
+    },
+    {
+      "lemma": "aviation",
+      "level": 9
+    },
+    {
+      "lemma": "dropout",
+      "level": 9
+    },
+    {
+      "lemma": "sociology",
+      "level": 9
+    },
+    {
+      "lemma": "pharmacy",
+      "level": 9
+    },
+    {
+      "lemma": "contingency",
+      "level": 9
+    },
+    {
+      "lemma": "anatomy",
+      "level": 9
+    },
+    {
+      "lemma": "authenticity",
+      "level": 9
+    },
+    {
+      "lemma": "modernity",
+      "level": 9
+    },
+    {
+      "lemma": "socialize",
+      "level": 9
+    },
+    {
+      "lemma": "seriousness",
+      "level": 9
+    },
+    {
+      "lemma": "grammar",
+      "level": 9
+    },
+    {
+      "lemma": "modernization",
+      "level": 9
+    },
+    {
+      "lemma": "variability",
+      "level": 9
+    },
+    {
+      "lemma": "materialize",
+      "level": 9
+    },
+    {
+      "lemma": "abstraction",
+      "level": 9
+    },
+    {
+      "lemma": "democratization",
+      "level": 9
+    },
+    {
+      "lemma": "worsen",
+      "level": 9
+    },
+    {
+      "lemma": "archaeology",
+      "level": 9
+    },
+    {
+      "lemma": "simplify",
+      "level": 9
+    },
+    {
+      "lemma": "transparency",
+      "level": 9
+    },
+    {
+      "lemma": "diversify",
+      "level": 9
+    },
+    {
+      "lemma": "mutation",
+      "level": 9
+    },
+    {
+      "lemma": "visualize",
+      "level": 9
+    },
+    {
+      "lemma": "generalization",
+      "level": 9
+    },
+    {
+      "lemma": "liberalization",
+      "level": 9
+    },
+    {
+      "lemma": "sustainability",
+      "level": 9
+    },
+    {
+      "lemma": "conservatism",
+      "level": 9
+    },
+    {
+      "lemma": "terminology",
+      "level": 9
+    },
+    {
+      "lemma": "socialization",
+      "level": 9
+    },
+    {
+      "lemma": "pluralism",
+      "level": 9
+    },
+    {
+      "lemma": "assimilate",
+      "level": 9
+    },
+    {
+      "lemma": "biotechnology",
+      "level": 9
+    },
+    {
+      "lemma": "fatality",
+      "level": 9
+    },
+    {
+      "lemma": "aggravate",
+      "level": 9
+    },
+    {
+      "lemma": "logistics",
+      "level": 9
+    },
+    {
+      "lemma": "psychiatry",
+      "level": 9
+    },
+    {
+      "lemma": "yeast",
+      "level": 9
+    },
+    {
+      "lemma": "pediatric",
+      "level": 9
+    },
+    {
+      "lemma": "enrichment",
+      "level": 9
+    },
+    {
+      "lemma": "botanical",
+      "level": 9
+    },
+    {
+      "lemma": "divinity",
+      "level": 9
+    },
+    {
+      "lemma": "wane",
+      "level": 9
+    },
+    {
+      "lemma": "unfairly",
+      "level": 9
+    },
+    {
+      "lemma": "savage",
+      "level": 9
+    },
+    {
+      "lemma": "forceful",
+      "level": 9
+    },
+    {
+      "lemma": "tack",
+      "level": 9
+    },
+    {
+      "lemma": "emblem",
+      "level": 9
+    },
+    {
+      "lemma": "willow",
+      "level": 9
+    },
+    {
+      "lemma": "bland",
+      "level": 9
+    },
+    {
+      "lemma": "gateway",
+      "level": 9
+    },
+    {
+      "lemma": "stakeholder",
+      "level": 9
+    },
+    {
+      "lemma": "hegemony",
+      "level": 9
+    },
+    {
+      "lemma": "homage",
+      "level": 9
+    },
+    {
+      "lemma": "mobilization",
+      "level": 9
+    },
+    {
+      "lemma": "convergence",
+      "level": 9
+    },
+    {
+      "lemma": "pathology",
+      "level": 10
+    },
+    {
+      "lemma": "modernize",
+      "level": 10
+    },
+    {
+      "lemma": "objectivity",
+      "level": 10
+    },
+    {
+      "lemma": "satire",
+      "level": 10
+    },
+    {
+      "lemma": "generalize",
+      "level": 10
+    },
+    {
+      "lemma": "privatise",
+      "level": 10
+    },
+    {
+      "lemma": "legalize",
+      "level": 10
+    },
+    {
+      "lemma": "hygiene",
+      "level": 10
+    },
+    {
+      "lemma": "nonfiction",
+      "level": 10
+    },
+    {
+      "lemma": "physiology",
+      "level": 10
+    },
+    {
+      "lemma": "internalize",
+      "level": 10
+    },
+    {
+      "lemma": "professionalism",
+      "level": 10
+    },
+    {
+      "lemma": "embodiment",
+      "level": 10
+    },
+    {
+      "lemma": "conceptualize",
+      "level": 10
+    },
+    {
+      "lemma": "specificity",
+      "level": 10
+    },
+    {
+      "lemma": "multiculturalism",
+      "level": 10
+    },
+    {
+      "lemma": "institutionalize",
+      "level": 10
+    },
+    {
+      "lemma": "profitability",
+      "level": 10
+    },
+    {
+      "lemma": "rationality",
+      "level": 10
+    },
+    {
+      "lemma": "visualise",
+      "level": 10
+    },
+    {
+      "lemma": "folklore",
+      "level": 10
+    },
+    {
+      "lemma": "geology",
+      "level": 10
+    },
+    {
+      "lemma": "relativity",
+      "level": 10
+    },
+    {
+      "lemma": "coherence",
+      "level": 10
+    },
+    {
+      "lemma": "subjectivity",
+      "level": 10
+    },
+    {
+      "lemma": "streamline",
+      "level": 10
+    },
+    {
+      "lemma": "volatility",
+      "level": 10
+    },
+    {
+      "lemma": "feasibility",
+      "level": 10
+    },
+    {
+      "lemma": "cosmology",
+      "level": 10
+    },
+    {
+      "lemma": "weaponry",
+      "level": 10
+    },
+    {
+      "lemma": "rationalize",
+      "level": 10
+    },
+    {
+      "lemma": "specialization",
+      "level": 10
+    },
+    {
+      "lemma": "sexism",
+      "level": 10
+    },
+    {
+      "lemma": "instrumentation",
+      "level": 10
+    },
+    {
+      "lemma": "biomedical",
+      "level": 10
+    },
+    {
+      "lemma": "polarize",
+      "level": 10
+    },
+    {
+      "lemma": "regularity",
+      "level": 10
+    },
+    {
+      "lemma": "generalisation",
+      "level": 10
+    },
+    {
+      "lemma": "toughness",
+      "level": 10
+    },
+    {
+      "lemma": "industrialization",
+      "level": 10
+    },
+    {
+      "lemma": "pedagogy",
+      "level": 10
+    },
+    {
+      "lemma": "femininity",
+      "level": 10
+    },
+    {
+      "lemma": "substantiate",
+      "level": 10
+    },
+    {
+      "lemma": "cosmopolitan",
+      "level": 10
+    },
+    {
+      "lemma": "chronology",
+      "level": 10
+    },
+    {
+      "lemma": "calculus",
+      "level": 10
+    },
+    {
+      "lemma": "algebra",
+      "level": 10
+    },
+    {
+      "lemma": "compatibility",
+      "level": 10
+    },
+    {
+      "lemma": "centrality",
+      "level": 10
+    },
+    {
+      "lemma": "industrialisation",
+      "level": 10
+    },
+    {
+      "lemma": "topography",
+      "level": 10
+    },
+    {
+      "lemma": "nationalisation",
+      "level": 10
+    },
+    {
+      "lemma": "standardize",
+      "level": 10
+    },
+    {
+      "lemma": "chemically",
+      "level": 10
+    },
+    {
+      "lemma": "popularize",
+      "level": 10
+    },
+    {
+      "lemma": "personalize",
+      "level": 10
+    },
+    {
+      "lemma": "diversification",
+      "level": 10
+    },
+    {
+      "lemma": "normalize",
+      "level": 10
+    },
+    {
+      "lemma": "automation",
+      "level": 10
+    },
+    {
+      "lemma": "partisanship",
+      "level": 10
+    },
+    {
+      "lemma": "calibrate",
+      "level": 11
+    },
+    {
+      "lemma": "inevitability",
+      "level": 11
+    },
+    {
+      "lemma": "personify",
+      "level": 11
+    },
+    {
+      "lemma": "taxonomy",
+      "level": 11
+    },
+    {
+      "lemma": "practicality",
+      "level": 11
+    },
+    {
+      "lemma": "multiplicity",
+      "level": 11
+    },
+    {
+      "lemma": "commonality",
+      "level": 11
+    },
+    {
+      "lemma": "jurisprudence",
+      "level": 11
+    },
+    {
+      "lemma": "revolutionise",
+      "level": 11
+    },
+    {
+      "lemma": "crystallize",
+      "level": 11
+    },
+    {
+      "lemma": "epidemiology",
+      "level": 11
+    },
+    {
+      "lemma": "neutralise",
+      "level": 11
+    },
+    {
+      "lemma": "socialise",
+      "level": 11
+    },
+    {
+      "lemma": "perplex",
+      "level": 11
+    },
+    {
+      "lemma": "legalization",
+      "level": 11
+    },
+    {
+      "lemma": "circuitry",
+      "level": 11
+    },
+    {
+      "lemma": "linguistics",
+      "level": 11
+    },
+    {
+      "lemma": "permanence",
+      "level": 11
+    },
+    {
+      "lemma": "optimise",
+      "level": 11
+    },
+    {
+      "lemma": "liquidity",
+      "level": 11
+    },
+    {
+      "lemma": "epidemiological",
+      "level": 11
+    },
+    {
+      "lemma": "invert",
+      "level": 11
+    },
+    {
+      "lemma": "passivity",
+      "level": 11
+    },
+    {
+      "lemma": "normalization",
+      "level": 11
+    },
+    {
+      "lemma": "haphazard",
+      "level": 11
+    },
+    {
+      "lemma": "duality",
+      "level": 11
+    },
+    {
+      "lemma": "universality",
+      "level": 11
+    },
+    {
+      "lemma": "inflection",
+      "level": 11
+    },
+    {
+      "lemma": "liberalize",
+      "level": 11
+    },
+    {
+      "lemma": "standardisation",
+      "level": 11
+    },
+    {
+      "lemma": "rationalization",
+      "level": 11
+    },
+    {
+      "lemma": "applicability",
+      "level": 11
+    },
+    {
+      "lemma": "typology",
+      "level": 11
+    },
+    {
+      "lemma": "etiology",
+      "level": 11
+    },
+    {
+      "lemma": "heft",
+      "level": 11
+    },
+    {
+      "lemma": "capitalization",
+      "level": 11
+    },
+    {
+      "lemma": "liberalisation",
+      "level": 11
+    },
+    {
+      "lemma": "constitutionality",
+      "level": 11
+    },
+    {
+      "lemma": "optimization",
+      "level": 11
+    },
+    {
+      "lemma": "cannibalism",
+      "level": 11
+    },
+    {
+      "lemma": "technicality",
+      "level": 11
+    },
+    {
+      "lemma": "socialisation",
+      "level": 11
+    },
+    {
+      "lemma": "personification",
+      "level": 11
+    },
+    {
+      "lemma": "adaptability",
+      "level": 11
+    },
+    {
+      "lemma": "colonisation",
+      "level": 11
+    },
+    {
+      "lemma": "idealize",
+      "level": 11
+    },
+    {
+      "lemma": "politicization",
+      "level": 11
+    },
+    {
+      "lemma": "formalize",
+      "level": 11
+    },
+    {
+      "lemma": "insensitivity",
+      "level": 11
+    },
+    {
+      "lemma": "conclusively",
+      "level": 11
+    },
+    {
+      "lemma": "semantics",
+      "level": 11
+    },
+    {
+      "lemma": "fibrosis",
+      "level": 11
+    },
+    {
+      "lemma": "digitize",
+      "level": 11
+    },
+    {
+      "lemma": "familiarize",
+      "level": 11
+    },
+    {
+      "lemma": "mystify",
+      "level": 11
+    },
+    {
+      "lemma": "particularity",
+      "level": 11
+    },
+    {
+      "lemma": "democratize",
+      "level": 11
+    },
+    {
+      "lemma": "biochemistry",
+      "level": 11
+    },
+    {
+      "lemma": "commercialize",
+      "level": 11
+    },
+    {
+      "lemma": "humanize",
+      "level": 11
+    },
+    {
+      "lemma": "radioactivity",
+      "level": 12
+    },
+    {
+      "lemma": "prehistory",
+      "level": 12
+    },
+    {
+      "lemma": "oversimplify",
+      "level": 12
+    },
+    {
+      "lemma": "dehumanize",
+      "level": 12
+    },
+    {
+      "lemma": "inventiveness",
+      "level": 12
+    },
+    {
+      "lemma": "physicality",
+      "level": 12
+    },
+    {
+      "lemma": "botany",
+      "level": 12
+    },
+    {
+      "lemma": "barbarism",
+      "level": 12
+    },
+    {
+      "lemma": "microbiology",
+      "level": 12
+    },
+    {
+      "lemma": "materiality",
+      "level": 12
+    },
+    {
+      "lemma": "selectivity",
+      "level": 12
+    },
+    {
+      "lemma": "oneness",
+      "level": 12
+    },
+    {
+      "lemma": "internationalism",
+      "level": 12
+    },
+    {
+      "lemma": "demystify",
+      "level": 12
+    },
+    {
+      "lemma": "inclusiveness",
+      "level": 12
+    },
+    {
+      "lemma": "trustworthiness",
+      "level": 12
+    },
+    {
+      "lemma": "polarisation",
+      "level": 12
+    },
+    {
+      "lemma": "demography",
+      "level": 12
+    },
+    {
+      "lemma": "neurology",
+      "level": 12
+    },
+    {
+      "lemma": "eugenics",
+      "level": 12
+    },
+    {
+      "lemma": "astrology",
+      "level": 12
+    },
+    {
+      "lemma": "proportionality",
+      "level": 12
+    },
+    {
+      "lemma": "cartography",
+      "level": 12
+    },
+    {
+      "lemma": "gradation",
+      "level": 12
+    },
+    {
+      "lemma": "biomechanics",
+      "level": 12
+    },
+    {
+      "lemma": "fluorescence",
+      "level": 12
+    },
+    {
+      "lemma": "objectify",
+      "level": 12
+    },
+    {
+      "lemma": "zoology",
+      "level": 12
+    },
+    {
+      "lemma": "ionize",
+      "level": 12
+    },
+    {
+      "lemma": "legalise",
+      "level": 12
+    },
+    {
+      "lemma": "localization",
+      "level": 12
+    },
+    {
+      "lemma": "oxidize",
+      "level": 12
+    },
+    {
+      "lemma": "cardiology",
+      "level": 12
+    },
+    {
+      "lemma": "eventuality",
+      "level": 12
+    },
+    {
+      "lemma": "schoolfriend",
+      "level": 12
+    },
+    {
+      "lemma": "gynaecology",
+      "level": 12
+    },
+    {
+      "lemma": "plasticity",
+      "level": 12
+    },
+    {
+      "lemma": "receptivity",
+      "level": 12
+    },
+    {
+      "lemma": "decolonization",
+      "level": 12
+    },
+    {
+      "lemma": "complementarity",
+      "level": 12
+    },
+    {
+      "lemma": "metaphysic",
+      "level": 12
+    },
+    {
+      "lemma": "actualize",
+      "level": 12
+    },
+    {
+      "lemma": "paleontology",
+      "level": 12
+    },
+    {
+      "lemma": "conductivity",
+      "level": 12
+    },
+    {
+      "lemma": "potentiality",
+      "level": 12
+    },
+    {
+      "lemma": "reactivity",
+      "level": 12
+    },
+    {
+      "lemma": "certitude",
+      "level": 12
+    },
+    {
+      "lemma": "internationalization",
+      "level": 12
+    },
+    {
+      "lemma": "entomology",
+      "level": 12
+    },
+    {
+      "lemma": "etymology",
+      "level": 12
+    },
+    {
+      "lemma": "cirrhosis",
+      "level": 12
+    },
+    {
+      "lemma": "evangelization",
+      "level": 12
+    },
+    {
+      "lemma": "irrationality",
+      "level": 12
+    },
+    {
+      "lemma": "meteorology",
+      "level": 12
+    },
+    {
+      "lemma": "atherosclerosis",
+      "level": 12
+    },
+    {
+      "lemma": "epidemiologic",
+      "level": 12
+    },
+    {
+      "lemma": "pharmacology",
+      "level": 12
+    },
+    {
+      "lemma": "kinetics",
+      "level": 12
+    },
+    {
+      "lemma": "radiology",
+      "level": 12
+    },
+    {
+      "lemma": "oceanographic",
+      "level": 12
+    },
+    {
+      "lemma": "histology",
+      "level": 13
+    },
+    {
+      "lemma": "crystallization",
+      "level": 13
+    },
+    {
+      "lemma": "synchronicity",
+      "level": 13
+    },
+    {
+      "lemma": "bioscience",
+      "level": 13
+    },
+    {
+      "lemma": "matriculate",
+      "level": 13
+    },
+    {
+      "lemma": "demonization",
+      "level": 13
+    },
+    {
+      "lemma": "urology",
+      "level": 13
+    },
+    {
+      "lemma": "demilitarization",
+      "level": 13
+    },
+    {
+      "lemma": "otolaryngology",
+      "level": 13
+    },
+    {
+      "lemma": "anaphylaxis",
+      "level": 13
+    },
+    {
+      "lemma": "positivity",
+      "level": 13
+    },
+    {
+      "lemma": "fireproof",
+      "level": 13
+    },
+    {
+      "lemma": "conditionality",
+      "level": 13
+    },
+    {
+      "lemma": "sociality",
+      "level": 13
+    },
+    {
+      "lemma": "reification",
+      "level": 13
+    },
+    {
+      "lemma": "telephony",
+      "level": 13
+    },
+    {
+      "lemma": "feminize",
+      "level": 13
+    },
+    {
+      "lemma": "fallibility",
+      "level": 13
+    },
+    {
+      "lemma": "depoliticize",
+      "level": 13
+    },
+    {
+      "lemma": "ophthalmology",
+      "level": 13
+    },
+    {
+      "lemma": "legibility",
+      "level": 13
+    },
+    {
+      "lemma": "militarize",
+      "level": 13
+    },
+    {
+      "lemma": "mystification",
+      "level": 13
+    },
+    {
+      "lemma": "rehydrate",
+      "level": 13
+    },
+    {
+      "lemma": "histrionic",
+      "level": 13
+    },
+    {
+      "lemma": "cryptography",
+      "level": 13
+    },
+    {
+      "lemma": "foreignness",
+      "level": 13
+    },
+    {
+      "lemma": "miniaturization",
+      "level": 13
+    },
+    {
+      "lemma": "topological",
+      "level": 13
+    },
+    {
+      "lemma": "acidification",
+      "level": 13
+    },
+    {
+      "lemma": "localisation",
+      "level": 13
+    },
+    {
+      "lemma": "polymorphism",
+      "level": 13
+    },
+    {
+      "lemma": "sanctification",
+      "level": 13
+    },
+    {
+      "lemma": "trigonometry",
+      "level": 13
+    },
+    {
+      "lemma": "tenderize",
+      "level": 13
+    },
+    {
+      "lemma": "convertibility",
+      "level": 13
+    },
+    {
+      "lemma": "electromagnetism",
+      "level": 13
+    },
+    {
+      "lemma": "ethology",
+      "level": 13
+    },
+    {
+      "lemma": "miniaturize",
+      "level": 13
+    },
+    {
+      "lemma": "negativism",
+      "level": 13
+    },
+    {
+      "lemma": "amalgamate",
+      "level": 13
+    },
+    {
+      "lemma": "sentience",
+      "level": 13
+    },
+    {
+      "lemma": "suburbanization",
+      "level": 13
+    },
+    {
+      "lemma": "legitimization",
+      "level": 13
+    },
+    {
+      "lemma": "actualization",
+      "level": 13
+    },
+    {
+      "lemma": "periodicity",
+      "level": 13
+    },
+    {
+      "lemma": "lethality",
+      "level": 13
+    },
+    {
+      "lemma": "decriminalize",
+      "level": 13
+    },
+    {
+      "lemma": "malleability",
+      "level": 13
+    },
+    {
+      "lemma": "endocrinology",
+      "level": 13
+    },
+    {
+      "lemma": "gentrify",
+      "level": 13
+    },
+    {
+      "lemma": "neutralization",
+      "level": 13
+    },
+    {
+      "lemma": "urbanize",
+      "level": 13
+    },
+    {
+      "lemma": "transferability",
+      "level": 13
+    },
+    {
+      "lemma": "ornithology",
+      "level": 13
+    },
+    {
+      "lemma": "orderliness",
+      "level": 13
+    },
+    {
+      "lemma": "hydrodynamic",
+      "level": 13
+    },
+    {
+      "lemma": "universalize",
+      "level": 13
+    },
+    {
+      "lemma": "introversion",
+      "level": 13
+    },
+    {
+      "lemma": "conjugation",
+      "level": 13
+    },
+    {
+      "lemma": "ossify",
+      "level": 14
+    },
+    {
+      "lemma": "chronicity",
+      "level": 14
+    },
+    {
+      "lemma": "deviancy",
+      "level": 14
+    },
+    {
+      "lemma": "chiropody",
+      "level": 14
+    },
+    {
+      "lemma": "invasiveness",
+      "level": 14
+    },
+    {
+      "lemma": "securitization",
+      "level": 14
+    },
+    {
+      "lemma": "metrology",
+      "level": 14
+    },
+    {
+      "lemma": "symbology",
+      "level": 14
+    },
+    {
+      "lemma": "aimlessness",
+      "level": 14
+    },
+    {
+      "lemma": "solubility",
+      "level": 14
+    },
+    {
+      "lemma": "phrenology",
+      "level": 14
+    },
+    {
+      "lemma": "exclusiveness",
+      "level": 14
+    },
+    {
+      "lemma": "climatology",
+      "level": 14
+    },
+    {
+      "lemma": "sexpot",
+      "level": 14
+    },
+    {
+      "lemma": "cryogenics",
+      "level": 14
+    },
+    {
+      "lemma": "realness",
+      "level": 14
+    },
+    {
+      "lemma": "phosphorescence",
+      "level": 14
+    },
+    {
+      "lemma": "globalisation",
+      "level": 14
+    },
+    {
+      "lemma": "coherency",
+      "level": 14
+    },
+    {
+      "lemma": "marginalisation",
+      "level": 14
+    },
+    {
+      "lemma": "crashworthiness",
+      "level": 14
+    },
+    {
+      "lemma": "cytology",
+      "level": 14
+    },
+    {
+      "lemma": "catholicity",
+      "level": 14
+    },
+    {
+      "lemma": "interchangeability",
+      "level": 14
+    },
+    {
+      "lemma": "palaeontology",
+      "level": 14
+    },
+    {
+      "lemma": "redbrick",
+      "level": 14
+    },
+    {
+      "lemma": "materialization",
+      "level": 14
+    },
+    {
+      "lemma": "dimorphism",
+      "level": 14
+    },
+    {
+      "lemma": "internationalise",
+      "level": 14
+    },
+    {
+      "lemma": "unreason",
+      "level": 14
+    },
+    {
+      "lemma": "individualise",
+      "level": 14
+    },
+    {
+      "lemma": "excitability",
+      "level": 14
+    },
+    {
+      "lemma": "communality",
+      "level": 14
+    },
+    {
+      "lemma": "bacteriology",
+      "level": 14
+    },
+    {
+      "lemma": "regularization",
+      "level": 14
+    },
+    {
+      "lemma": "inconstancy",
+      "level": 14
+    },
+    {
+      "lemma": "prosody",
+      "level": 14
+    },
+    {
+      "lemma": "romanticise",
+      "level": 14
+    },
+    {
+      "lemma": "systematise",
+      "level": 14
+    },
+    {
+      "lemma": "etiologic",
+      "level": 14
+    },
+    {
+      "lemma": "endemism",
+      "level": 14
+    },
+    {
+      "lemma": "ontogeny",
+      "level": 14
+    },
+    {
+      "lemma": "humanise",
+      "level": 14
+    },
+    {
+      "lemma": "astrometry",
+      "level": 14
+    },
+    {
+      "lemma": "dermatologic",
+      "level": 14
+    },
+    {
+      "lemma": "aptness",
+      "level": 14
+    },
+    {
+      "lemma": "solidification",
+      "level": 14
+    },
+    {
+      "lemma": "workability",
+      "level": 14
+    },
+    {
+      "lemma": "immutability",
+      "level": 14
+    },
+    {
+      "lemma": "intersubjectivity",
+      "level": 14
+    },
+    {
+      "lemma": "evanescence",
+      "level": 14
+    },
+    {
+      "lemma": "mineralogy",
+      "level": 14
+    },
+    {
+      "lemma": "suggestiveness",
+      "level": 14
+    },
+    {
+      "lemma": "indigenization",
+      "level": 14
+    },
+    {
+      "lemma": "parapsychology",
+      "level": 14
+    },
+    {
+      "lemma": "aetiology",
+      "level": 14
+    },
+    {
+      "lemma": "dermatological",
+      "level": 14
+    },
+    {
+      "lemma": "heraldry",
+      "level": 14
+    },
+    {
+      "lemma": "externalization",
+      "level": 14
+    },
+    {
+      "lemma": "judder",
+      "level": 14
+    },
+    {
+      "lemma": "electroencephalography",
+      "level": 15
+    },
+    {
+      "lemma": "immunohistochemistry",
+      "level": 15
+    },
+    {
+      "lemma": "immunofluorescence",
+      "level": 15
+    },
+    {
+      "lemma": "immunopathology",
+      "level": 15
+    },
+    {
+      "lemma": "hematopoiesis",
+      "level": 15
+    },
+    {
+      "lemma": "erythropoiesis",
+      "level": 15
+    },
+    {
+      "lemma": "thrombocytopenia",
+      "level": 15
+    },
+    {
+      "lemma": "leukocytosis",
+      "level": 15
+    },
+    {
+      "lemma": "glomerulonephritis",
+      "level": 15
+    },
+    {
+      "lemma": "encephalomyelitis",
+      "level": 15
+    },
+    {
+      "lemma": "neurophysiology",
+      "level": 15
+    },
+    {
+      "lemma": "electrophysiology",
+      "level": 15
+    },
+    {
+      "lemma": "pharmacokinetics",
+      "level": 15
+    },
+    {
+      "lemma": "pharmacodynamics",
+      "level": 15
+    },
+    {
+      "lemma": "pathophysiology",
+      "level": 15
+    },
+    {
+      "lemma": "histopathology",
+      "level": 15
+    },
+    {
+      "lemma": "anastomosis",
+      "level": 15
+    },
+    {
+      "lemma": "bronchoscopy",
+      "level": 15
+    },
+    {
+      "lemma": "endarterectomy",
+      "level": 15
+    },
+    {
+      "lemma": "cholecystectomy",
+      "level": 15
+    },
+    {
+      "lemma": "magnetohydrodynamics",
+      "level": 15
+    },
+    {
+      "lemma": "superconductivity",
+      "level": 15
+    },
+    {
+      "lemma": "ferromagnetism",
+      "level": 15
+    },
+    {
+      "lemma": "antiferromagnetism",
+      "level": 15
+    },
+    {
+      "lemma": "paramagnetism",
+      "level": 15
+    },
+    {
+      "lemma": "electrodynamics",
+      "level": 15
+    },
+    {
+      "lemma": "magnetoresistance",
+      "level": 15
+    },
+    {
+      "lemma": "magnetostriction",
+      "level": 15
+    },
+    {
+      "lemma": "birefringence",
+      "level": 15
+    },
+    {
+      "lemma": "anisotropy",
+      "level": 15
+    },
+    {
+      "lemma": "electroluminescence",
+      "level": 15
+    },
+    {
+      "lemma": "thermoluminescence",
+      "level": 15
+    },
+    {
+      "lemma": "renormalization",
+      "level": 15
+    },
+    {
+      "lemma": "quantization",
+      "level": 15
+    },
+    {
+      "lemma": "spectrophotometry",
+      "level": 15
+    },
+    {
+      "lemma": "spectrofluorometry",
+      "level": 15
+    },
+    {
+      "lemma": "chemiluminescence",
+      "level": 15
+    },
+    {
+      "lemma": "thermogravimetry",
+      "level": 15
+    },
+    {
+      "lemma": "microencapsulation",
+      "level": 15
+    },
+    {
+      "lemma": "polarography",
+      "level": 15
+    },
+    {
+      "lemma": "stereochemistry",
+      "level": 15
+    },
+    {
+      "lemma": "polycondensation",
+      "level": 15
+    },
+    {
+      "lemma": "transesterification",
+      "level": 15
+    },
+    {
+      "lemma": "isomerization",
+      "level": 15
+    },
+    {
+      "lemma": "hydroxyapatite",
+      "level": 15
+    },
+    {
+      "lemma": "immunoelectrophoresis",
+      "level": 15
+    },
+    {
+      "lemma": "ultracentrifugation",
+      "level": 15
+    },
+    {
+      "lemma": "photolithography",
+      "level": 15
+    },
+    {
+      "lemma": "microfabrication",
+      "level": 15
+    },
+    {
+      "lemma": "micromachining",
+      "level": 15
+    },
+    {
+      "lemma": "optoelectronics",
+      "level": 15
+    },
+    {
+      "lemma": "photogrammetry",
+      "level": 15
+    },
+    {
+      "lemma": "tribology",
+      "level": 15
+    },
+    {
+      "lemma": "automorphism",
+      "level": 15
+    },
+    {
+      "lemma": "homeomorphism",
+      "level": 15
+    },
+    {
+      "lemma": "homomorphism",
+      "level": 15
+    },
+    {
+      "lemma": "cohomology",
+      "level": 15
+    },
+    {
+      "lemma": "differentiability",
+      "level": 15
+    },
+    {
+      "lemma": "integrability",
+      "level": 15
+    },
+    {
+      "lemma": "orthogonality",
+      "level": 15
+    }
+  ]
+}

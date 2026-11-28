@@ -18,6 +18,12 @@ public final class StudyController {
         });
     }
 
+    public java.util.List<Object[]> curriculum() {
+        return ControllerCalls.call(() -> input.curriculum().stream()
+                .map(q -> new Object[]{q.term, q.level, q.definition})
+                .collect(java.util.stream.Collectors.toList()));
+    }
+
     public StudyViewModel show() { return run(input::show); }
     public StudyViewModel start() { return run(input::start); }
     public StudyViewModel known(String token, int index, boolean value) {

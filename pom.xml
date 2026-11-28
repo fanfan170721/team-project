@@ -20,6 +20,9 @@
         <jacocoArgLine></jacocoArgLine>
     </properties>
     <dependencies>
+        <dependency><groupId>javazoom</groupId><artifactId>jlayer</artifactId><version>1.0.1</version></dependency>
+        <dependency><groupId>com.googlecode.soundlibs</groupId><artifactId>vorbisspi</artifactId><version>1.0.3.3</version></dependency>
+        <dependency><groupId>com.fasterxml.jackson.core</groupId><artifactId>jackson-databind</artifactId><version>2.17.2</version></dependency>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
@@ -169,6 +172,7 @@
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>com.wordtrail.app.Main</mainClass>
                                 </transformer>
