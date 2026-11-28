@@ -1,8 +1,11 @@
 # WordTrail presentation outline and rehearsal checklist
 
 This is a proposed speaking plan, not a slide deck or a record of a rehearsal.
+The accompanying 14-slide rehearsal deck uses the same timing. Its full
+[speaker notes](PRESENTATION_SPEAKER_NOTES.md) provide the actions, explanations
+and source references for every slide; neither artifact records an actual timed run.
 It follows the [course presentation page](https://q.utoronto.ca/courses/444184/pages/final-project-presentation-expectations),
-checked on November 21, 2026. That page still links the November 15 **draft**
+checked on November 22, 2026. That page still links the November 15 **draft**
 rubric and suggests about 15 minutes plus up to 5 minutes of questions.
 Every member speaks. Recheck the final schedule and rubric before presenting.
 
@@ -17,11 +20,11 @@ speaker handoffs. Measure actual timing in rehearsal and shorten if necessary.
 | 0:00–1:00 | Allen | Problem, intended learner and three MVP stories: private vocabulary, CSV quiz-history export and a daily review plan. Name the owners and boundaries; refer to [USE_CASES](USE_CASES.md). |
 | 1:00–1:30 | Allen | API: show the dictionary lookup's actual definition and provider URL. Explain primary/backup gateways and the explicit error if both fail. Have the request prepared; never present a stored definition as a successful live call. |
 | 1:30–2:00 | Fuxuan | Persistence: accounts and account-specific progress use the real JSON store; CSV is a separate exported artifact. Point to the data directory outside `target` and explain reopen verification. |
-| 2:00–3:30 | Xinyu | Whole-system architecture: Swing -> adapters -> use cases/entities; repositories and gateways invert dependencies. Application wires the concrete implementations. Show the [architecture](ARCHITECTURE.md), not a list of every class. |
-| 3:30–5:00 | Allen | Walk one UC-08 save through input DTO, interactor, output boundary, presenter, immutable result and the two background-worker stages. Use the [UC-08 diagrams](ALLEN_UC08_WALKTHROUGH.md). |
-| 5:00–6:00 | Fuxuan | SOLID example: export policy depends on a `QuizResultsExporter` port; the CSV adapter owns escaping and file replacement. Explain failed-export preservation and the relevant tests. |
-| 6:00–7:00 | Xinyu | SOLID example: review-plan policy depends on repository ports and an injected clock. Explain fixed-date boundary tests without changing global time; distinguish planning from recording a review. |
-| 7:00–8:00 | Allen | Implemented pattern and extension: dictionary strategies behind `DictionaryGateway`, composed fallback and swapping a provider at composition. Explain the current two-provider limit and a possible extension; do not claim an unimplemented provider/cache exists. |
+| 2:00–3:15 | Xinyu | Whole-system architecture: Swing -> adapters -> use cases/entities; repositories and gateways invert dependencies. Application wires the concrete implementations. Show the [architecture](ARCHITECTURE.md), not a list of every class. |
+| 3:15–4:45 | Allen | Walk one UC-08 save through input DTO, interactor, output boundary, presenter, immutable result and the two background-worker stages. Use the [UC-08 diagrams](ALLEN_UC08_WALKTHROUGH.md). |
+| 4:45–5:45 | Fuxuan | **Dependency Inversion (DIP):** export policy depends on the use-case-owned `QuizResultsExporter` port; the injected CSV adapter owns escaping and file replacement. Explain failed-export preservation and the relevant tests. |
+| 5:45–6:45 | Xinyu | **Single Responsibility (SRP):** `ReviewPlanInteractor` owns eligibility/order, `ReviewPlanPresenter` formats display dates and count messages, and `ReviewPlanPanel` owns controls/table updates. Changing the date display does not change the 1/3/7-day scheduling policy. The interactor still supplies reason strings; do not claim all wording is in the presenter. |
+| 6:45–8:00 | Allen | Implemented pattern and extension: dictionary strategies behind `DictionaryGateway`, composed fallback and swapping a provider at composition. Explain the current two-provider limit and a possible extension; do not claim an unimplemented provider/cache exists. |
 | 8:00–10:00 | Allen | UC-08 live demo: invalid field retained, successful add/edit, another account cannot see the word, reopen preserves the edit. Use the action portion of the walkthrough, condensed after a timed rehearsal. |
 | 10:00–12:00 | Fuxuan | UC-09 live demo: export two rows to a new CSV, show content/destination/count, then cancel another export; switch to the empty-history guest if time allows. |
 | 12:00–14:00 | Xinyu | UC-10 live demo: Demo topic has one eligible word and one excluded until tomorrow; invalid limit clears stale output; regenerate successfully. Explain unchanged learning progress. |
@@ -53,9 +56,9 @@ different kinds of evidence.
 
 See [COURSE_REQUIREMENTS](COURSE_REQUIREMENTS.md) and the official
 [draft rubric](https://q.utoronto.ca/courses/444184/files/46148571?wrap=1).
-The current package contains all three flows on `Emilia/project-delivery`.
-Verify the current published commit and CI before selecting presentation evidence;
-an older `main` checkout may not contain the integrated version.
+The November 22 published `main` at `77ea22e` contains all three flows and these
+reviewed demo guides; `Emilia/project-delivery` was fast-forwarded to the same
+commit. Recheck the selected revision and CI before presenting.
 
 ## Rehearse using observed results
 
