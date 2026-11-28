@@ -5,8 +5,8 @@ loop: 20-word rounds, durable resume, wrong-only retests, mastery/goals, mistake
 history replay and immediate placement replacement. See
 [behavior, screenshots and validation](docs/GUIDED_STUDY.md) and
 [the complete reference comparison](docs/REFERENCE_PARITY_AUDIT.md).
-This preview builds on PR #16 and is pending review; the existing three team MVP
-use cases and their individual ownership are retained.
+PR #17 consolidates this work and the earlier UI previews into one review against
+`main`; the existing three team MVP use cases and their individual ownership are retained.
 
 A Java 11 / Swing desktop application for learning English vocabulary. Browse
 topics, study flashcards, take quizzes, save difficult words and track progress.

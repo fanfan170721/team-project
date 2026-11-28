@@ -1,9 +1,9 @@
 # Flashcards and Quiz UI preview
 
 This increment follows the Vocabulary and Review later preview in PR #15.
-While that review is pending, this branch targets `Emilia/library-ui-refresh`
-so the next review contains only the learning-screen changes. Merge PR #15
-first, then retarget this change to `main` and verify its checks again.
+PR #17 now consolidates both UI previews and guided study into one review against
+`main`. Use `Emilia/reference-parity` for the complete preview; the earlier commits
+and feedback remain available in PRs #15/#16.
 
 ## What changed
 
@@ -56,7 +56,7 @@ These automated checks do not substitute for native desktop review.
 
 ## Run and review
 
-Use a separate checkout of `Emilia/learning-ui-refresh`, JDK 11 or 17 and
+Use a separate checkout of `Emilia/reference-parity`, JDK 11 or 17 and
 installed Maven 3.9+. Build with `mvn verify`, then run:
 
 ```text

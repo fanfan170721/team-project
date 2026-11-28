@@ -1,5 +1,10 @@
 # Use-case specification
 
+**Supporting learning extension:** [UC-11: complete a guided round and UC-12:
+reassess and immediately replace unfinished work](GUIDED_STUDY.md) are implemented
+in PR #17, led by Zidong Yuan. They supplement the three existing team MVP use
+cases below; they do not reassign UC-09 or UC-10 ownership.
+
 These specifications describe user-observable behavior. Implementation classes
 belong in `ARCHITECTURE.md`. UC-01 through UC-08 are the AI-assisted application
 led by Zidong Yuan; his complete UC-08 flow was merged into delivery through

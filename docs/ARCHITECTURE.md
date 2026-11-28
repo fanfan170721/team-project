@@ -1,5 +1,25 @@
 # Architecture and design rationale
 
+## Guided-study extension
+
+The additional learning flow follows the same dependency direction:
+`StudyPanel → StudyController → StudyInputBoundary ← StudyInteractor` and
+`StudyInteractor → StudyOutputBoundary ← StudyPresenter → StudyViewModel`.
+The interactor depends on `StudyRepository`, implemented by `JsonFileStore`.
+`Application` supplies the sample curriculum and connects these boundaries.
+
+`StudyState` contains the target level, goal baseline/target, unique mastered IDs,
+net-new/practice totals, persistent mistake counters, current learning/assessment
+rounds and history. A round stores immutable question content/options plus its
+phase, pending indices, known indices and answer log. Its copy constructor detaches
+all mutable collections; `token()` identifies the expected current step. No Swing
+or JSON type enters the business layers.
+
+Completion saves guided state and existing `LearningProgress` in one atomic
+snapshot, preventing a retry from awarding partial or duplicate credit. Adoption
+of placement similarly replaces unfinished work and records the applied result
+together. Full behavior and limitations: [guided-study specification](GUIDED_STUDY.md).
+
 ## Dependency direction
 
 ```mermaid

@@ -1,5 +1,13 @@
 # Continue on another computer
 
+**Preview update — November 28, 2026:** `Emilia/reference-parity` / PR #17
+consolidates the UI previews and guided-study extension. Review this one PR
+against `main`; PRs #15/#16 are superseded, with their feedback/history retained.
+Use `docs/GUIDED_STUDY.md` for the implemented rules, isolated-profile run command
+and validation. The full product comparison and remaining gaps are in
+`docs/REFERENCE_PARITY_AUDIT.md`. This preview is not yet merged or peer-approved.
+The notes below describe the earlier published baseline, not this new preview.
+
 Snapshot: November 22, 2026, America/Toronto. Recheck GitHub before acting on
 review, branch or teammate status; these can change after this note.
 

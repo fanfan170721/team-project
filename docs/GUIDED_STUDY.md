@@ -108,5 +108,6 @@ java -jar target/wordtrail.jar --data-dir .wordtrail/guided-preview
 ```
 
 Create a test account and open **Study**. Keep existing personal profiles separate
-until the PR is reviewed. This branch builds on PR #16; it is not yet the published
-main version. Do not merge it into the intermediate UI branch as a shortcut.
+until the PR is reviewed. PR #17 consolidates the earlier UI previews (#15/#16)
+and guided study into one review against `main`. Their commits and feedback remain
+in the repository history. This is not yet the published main version.
