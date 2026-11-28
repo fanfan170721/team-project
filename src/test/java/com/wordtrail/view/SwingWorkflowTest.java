@@ -568,6 +568,7 @@ class SwingWorkflowTest {
         if (admin) { expected.add("Admin"); }
         expected.add("Export results");
         expected.add("Review plan");
+        expected.add("Study");
         assertEquals(expected, tabTitles());
         edt(() -> {
             JTabbedPane tabs = component("home.tabs", JTabbedPane.class);

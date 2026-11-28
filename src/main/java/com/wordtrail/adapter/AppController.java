@@ -14,6 +14,10 @@ public final class AppController {
     private final ContentController content;
     private final PersonalVocabularyController personal;
     private final ExportResultsController export;
+    private StudyController study;
+
+    public void setStudy(StudyController value) { study = value; }
+    public StudyController study() { return study; }
 
     public AppController(AuthController auth, ReviewPlanController reviewPlan, CatalogController catalog,
                          FlashcardController flashcards,

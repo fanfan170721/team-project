@@ -1,6 +1,9 @@
 package com.wordtrail.app;
 
 import com.wordtrail.adapter.AppController;
+import com.wordtrail.adapter.StudyController;
+import com.wordtrail.adapter.StudyPresenter;
+import com.wordtrail.data.StudyContent;
 import com.wordtrail.adapter.AuthController;
 import com.wordtrail.adapter.AuthPresenter;
 import com.wordtrail.adapter.CatalogController;
@@ -74,6 +77,9 @@ public final class Application implements AutoCloseable {
                 new ContentController(new ContentInteractor(store, session), catalog, personal::progress,
                         new ContentPresenter()),
                 personal, export);
+        StudyPresenter studyPresenter = new StudyPresenter();
+        controller.setStudy(new StudyController(new StudyInteractor(StudyContent.load(), store, store,
+                session, clock, new Random(), studyPresenter), studyPresenter));
     }
 
     public AppController controller() { return controller; }

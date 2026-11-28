@@ -32,9 +32,9 @@ At the 934 by 660 minimum client size, long text remains scrollable. The Quiz
 answer cards are compact after feedback appears; a larger window shows more
 lines. The complete text remains available in both cases.
 
-![Compact flashcards with long text](images/flashcards-preview-compact-long.png)
-
-![Compact quiz with long feedback](images/quiz-preview-compact-long.png)
+Long-text stress fixtures remain in the automated tests. Their repeated-letter
+placeholder screenshots have been removed from this user-facing preview; they
+are not vocabulary content and are not included in the bundled word bank.
 
 ## Verification
 

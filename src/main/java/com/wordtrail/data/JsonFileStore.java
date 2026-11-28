@@ -1,6 +1,8 @@
 package com.wordtrail.data;
 
 import com.wordtrail.entity.LearningProgress;
+import com.wordtrail.entity.StudyState;
+import com.wordtrail.usecase.port.StudyRepository;
 import com.wordtrail.entity.QuizAttempt;
 import com.wordtrail.entity.QuizQuestion;
 import com.wordtrail.entity.Role;
@@ -42,7 +44,7 @@ import org.json.JSONObject;
  * updates from two app instances sharing the same directory.
  */
 public final class JsonFileStore implements AccountRepository, ContentRepository,
-        ProgressRepository, AutoCloseable {
+        ProgressRepository, StudyRepository, AutoCloseable {
     private final Path file;
     private FileChannel lockChannel;
     private FileLock lock;
@@ -172,6 +174,25 @@ public final class JsonFileStore implements AccountRepository, ContentRepository
         root = next;
     }
 
+    @Override
+    public synchronized StudyState getStudy(String username) {
+        ensureOpen();
+        JSONObject study = root.optJSONObject("guidedStudy");
+        return StudyJson.read(study == null ? null : study.optJSONObject(username));
+    }
+
+    @Override
+    public synchronized void saveStudy(String username, StudyState state, LearningProgress progress) {
+        if (findUser(username).isEmpty()) { throw new AppException("The account no longer exists."); }
+        JSONObject snapshot = StudyJson.write(state);
+        StudyJson.read(snapshot);
+        update(next -> {
+            if (!next.has("guidedStudy")) { next.put("guidedStudy", new JSONObject()); }
+            next.getJSONObject("guidedStudy").put(username, snapshot);
+            next.getJSONObject("progress").put(username, writeProgress(progress));
+        });
+    }
+
     private void write(JSONObject snapshot) throws IOException {
         Path temporary = Files.createTempFile(file.getParent(), "wordtrail-", ".tmp");
         try {
@@ -290,6 +311,13 @@ public final class JsonFileStore implements AccountRepository, ContentRepository
             }
         }
         JSONObject progress = json.getJSONObject("progress");
+        JSONObject study = json.optJSONObject("guidedStudy");
+        if (study != null) {
+            for (String username : study.keySet()) {
+                if (!users.contains(username)) { throw new IllegalArgumentException("Invalid study account."); }
+                StudyJson.read(study.getJSONObject(username));
+            }
+        }
         for (String username : progress.keySet()) {
             LearningProgress data = readProgress(progress.getJSONObject(username));
             Set<String> visible = new HashSet<>(words);

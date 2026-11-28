@@ -59,6 +59,9 @@ final class HomePanel extends JPanel {
         }
         tabs.addTab("Export results", new ExportResultsPanel(controller, tasks, exportChooser));
         tabs.addTab("Review plan", new ReviewPlanPanel(controller, tasks));
+        if (controller.study() != null) {
+            tabs.addTab("Study", new StudyPanel(controller.study(), tasks));
+        }
         add(tabs, BorderLayout.CENTER);
         tabs.addChangeListener(event -> ((Refreshable) tabs.getSelectedComponent()).refresh());
         logout.addActionListener(event -> tasks.run("Logging out", () -> {
