@@ -187,7 +187,7 @@ class ApplicationExportResultsTest {
                     "the export tab follows the existing tabs, including Admin when present");
             assertEquals(index + 1, edt(() -> tabs.indexOfTab("Review plan")),
                     "the review plan tab follows export without displacing existing tabs");
-            assertEquals(edt(tabs::getTabCount) - 1, edt(() -> tabs.indexOfTab("Review plan")));
+            assertEquals(edt(tabs::getTabCount) - 1, edt(() -> tabs.indexOfTab("Backup & restore")));
             assertEquals(username.equals("admin"), edt(() -> tabs.indexOfTab("Admin") >= 0));
             assertEquals("ExportResultsPanel", edt(() -> tabs.getComponentAt(index).getClass().getSimpleName()));
             edt(() -> { tabs.setSelectedIndex(index); return null; });

@@ -14,6 +14,16 @@ public final class AppController {
     private final ContentController content;
     private final PersonalVocabularyController personal;
     private final ExportResultsController export;
+    private StudyController study;
+    private BackupController backup;
+    private PronunciationController audio;
+    public void setBackup(BackupController value) { backup = value; }
+    public BackupController backup() { return backup; }
+    public void setAudio(PronunciationController value) { audio = value; }
+    public PronunciationController audio() { return audio; }
+
+    public void setStudy(StudyController value) { study = value; }
+    public StudyController study() { return study; }
 
     public AppController(AuthController auth, ReviewPlanController reviewPlan, CatalogController catalog,
                          FlashcardController flashcards,
@@ -37,7 +47,7 @@ public final class AppController {
     public ViewModels.Account login(String username, char[] password) {
         return auth.login(username, password);
     }
-    public void logout() { auth.logout(); }
+    public void logout() { if (audio != null) { audio.stop(); } auth.logout(); }
 
     public ViewModels.Library browse(String topic, String search) {
         return catalog.browse(topic, search);

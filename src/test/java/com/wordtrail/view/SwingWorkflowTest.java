@@ -261,6 +261,291 @@ class SwingWorkflowTest {
         snapshot("10-personal-save-result");
     }
 
+    @Test void librarySummaryFollowsSelectionAndClearsAfterAnEmptySearch() throws Exception {
+        authenticate("admin", true);
+        assertEquals("16 words shown", edt(() -> component("library.resultCount", JLabel.class).getText()));
+        String selected = edt(() -> {
+            JTable table = component("library.table", JTable.class);
+            table.getRowSorter().setSortKeys(List.of(new RowSorter.SortKey(0, SortOrder.DESCENDING)));
+            table.setRowSelectionInterval(0, 0);
+            return (String) table.getValueAt(0, 0);
+        });
+        assertEquals(selected, edt(() -> component("library.selectedTerm", JLabel.class).getText()));
+
+        text("library.search", "climate"); click("library.find");
+        assertEquals("1 word shown", edt(() -> component("library.resultCount", JLabel.class).getText()));
+        assertEquals("climate", edt(() -> component("library.selectedTerm", JLabel.class).getText()));
+        assertTrue(edt(() -> component("library.selectedMeta", JLabel.class).getText()).contains("Nature"));
+        click("library.save"); tab(3);
+        assertEquals("1 word shown", edt(() -> component("review.resultCount", JLabel.class).getText()));
+        assertEquals("climate", edt(() -> component("review.selectedTerm", JLabel.class).getText()));
+        click("review.save");
+        assertEmptySummary("review");
+
+        tab(0); text("library.search", "no-such-word"); click("library.find");
+        assertEmptySummary("library");
+
+        String longTerm = "longword".repeat(10);
+        String longTopic = "Topic".repeat(10);
+        click("library.add");
+        text("library.editor.term", longTerm); text("library.editor.topic", longTopic);
+        text("library.editor.definition", "A definition whose complete word and topic must remain readable.");
+        click("library.editor.save");
+        String detail = edt(() -> component("library.detail", JTextArea.class).getText());
+        assertTrue(detail.contains(longTerm), "The wrapping details must retain the complete 80-character word.");
+        assertTrue(detail.contains(longTopic), "The wrapping details must retain the complete 50-character topic.");
+        edt(() -> { panel.setSize(934, 660); layout(panel); return null; });
+        assertLibraryLayout("library");
+        snapshot("16-long-word-layout");
+    }
+
+    @Test void libraryLayoutsKeepPrimaryActionsUsableAtMinimumAndDefaultSizes() throws Exception {
+        LookAndFeel original = edt(UIManager::getLookAndFeel);
+        try {
+            edt(() -> {
+                try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); }
+                catch (UnsupportedLookAndFeelException ignored) { UIManager.setLookAndFeel(original); }
+                SwingUtilities.updateComponentTreeUI(panel);
+                return null;
+            });
+            authenticate("admin", true);
+            for (int[] size : new int[][]{{934, 660}, {1080, 780}}) {
+                String suffix = size[0] + "x" + size[1];
+                edt(() -> { panel.setSize(size[0], size[1]); layout(panel); return null; });
+                text("library.search", ""); click("library.find");
+                snapshot("11-library-layout-" + suffix);
+                assertLibraryLayout("library");
+
+                text("library.search", "climate"); click("library.find"); click("library.save");
+                tab(3);
+                assertLibraryLayout("review");
+                snapshot("12-review-layout-" + suffix);
+                click("review.save");
+                assertEmptySummary("review");
+                assertLibraryLayout("review");
+                snapshot("13-review-empty-layout-" + suffix);
+
+                tab(0); text("library.search", "no-such-word"); click("library.find");
+                assertEmptySummary("library");
+                assertLibraryLayout("library");
+                snapshot("14-library-empty-layout-" + suffix);
+                click("library.add");
+                text("library.editor.term", "serendipity");
+                text("library.editor.topic", "My words");
+                text("library.editor.definition", "A fortunate discovery that happens unexpectedly.");
+                edt(() -> {
+                    assertFullyVisible(component("library.editor.save", JButton.class));
+                    assertFullyVisible(component("library.editor.cancel", JButton.class));
+                    assertUsableViewport(component("library.editor.term", JTextField.class));
+                    return null;
+                });
+                snapshot("15-library-editor-layout-" + suffix);
+                click("library.editor.cancel");
+            }
+        } finally {
+            edt(() -> {
+                UIManager.setLookAndFeel(original);
+                SwingUtilities.updateComponentTreeUI(panel);
+                return null;
+            });
+        }
+    }
+
+    @Test
+    void longUnselectedTopicsDoNotHideReviewPlanControlsAndSelectionSurvivesRefresh() throws Exception {
+        LookAndFeel original = useSystemLookAndFeel();
+        try {
+            prepareLongTopicLayoutFixture();
+            tab(7);
+            selectLayoutTopic("reviewPlan.topic", "Demo");
+            snapshot("17-review-plan-long-topic");
+            assertVisibleControls("reviewPlan.topic", "reviewPlan.limit", "reviewPlan.generate");
+            byte[] stored = Files.readAllBytes(directory.resolve("wordtrail.json"));
+
+            click("reviewPlan.generate");
+            assertLayoutPlanWord("demolayout");
+            edt(() -> {
+                JSpinner spinner = component("reviewPlan.limit", JSpinner.class);
+                ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField().setText("0");
+                return null;
+            });
+            click("reviewPlan.generate");
+            assertEquals(0, edt(() -> component("reviewPlan.table", JTable.class).getRowCount()));
+            assertEquals("Enter a whole number from 1 to 20.",
+                    edt(() -> component("reviewPlan.message", JLabel.class).getText()));
+            edt(() -> {
+                JSpinner spinner = component("reviewPlan.limit", JSpinner.class);
+                ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField().setText("10");
+                return null;
+            });
+            click("reviewPlan.generate");
+            assertLayoutPlanWord("demolayout");
+            assertEquals("Demo", edt(() -> Ui.topic(topicSelector("reviewPlan.topic"))));
+
+            selectLayoutTopic("reviewPlan.topic", "W".repeat(50));
+            click("reviewPlan.generate");
+            assertLayoutPlanWord("layoutcheck");
+            tab(0);
+            tab(7);
+            assertEquals("W".repeat(50), edt(() -> Ui.topic(topicSelector("reviewPlan.topic"))));
+            assertVisibleControls("reviewPlan.topic", "reviewPlan.limit", "reviewPlan.generate");
+            click("reviewPlan.generate");
+            assertLayoutPlanWord("layoutcheck");
+            assertArrayEquals(stored, Files.readAllBytes(directory.resolve("wordtrail.json")),
+                    "Layout fixes and plan generation must not alter stored learning progress.");
+        } finally {
+            edt(() -> {
+                UIManager.setLookAndFeel(original);
+                return null;
+            });
+        }
+    }
+
+    @Test
+    void longTopicsKeepFlashcardAndQuizActionsReachableWithoutChangingTheirValues() throws Exception {
+        LookAndFeel original = useSystemLookAndFeel();
+        try {
+            prepareLongTopicLayoutFixture();
+            tab(1);
+            selectLayoutTopic("flash.topic", "Demo");
+            snapshot("18-flashcards-long-topic");
+            assertVisibleControls("flash.topic", "flash.reviewOnly", "flash.start");
+            click("flash.start");
+            assertEquals("demolayout", edt(() -> component("flash.term", JLabel.class).getText()));
+            selectLayoutTopic("flash.topic", "W".repeat(50));
+            assertVisibleControls("flash.topic", "flash.reviewOnly", "flash.start");
+            click("flash.start");
+            assertEquals("layoutcheck", edt(() -> component("flash.term", JLabel.class).getText()));
+            assertEquals("W".repeat(50), edt(() -> Ui.topic(topicSelector("flash.topic"))));
+
+            tab(2);
+            selectLayoutTopic("quiz.topic", "Demo");
+            snapshot("19-quiz-long-topic");
+            assertVisibleControls("quiz.topic", "quiz.count", "quiz.start");
+            click("quiz.start");
+            assertTrue(edt(() -> component("quiz.prompt", JTextArea.class).getText()).contains("demolayout"));
+            selectLayoutTopic("quiz.topic", "W".repeat(50));
+            assertVisibleControls("quiz.topic", "quiz.count", "quiz.start");
+            click("quiz.start");
+            assertTrue(edt(() -> component("quiz.prompt", JTextArea.class).getText()).contains("layoutcheck"));
+            assertEquals("W".repeat(50), edt(() -> Ui.topic(topicSelector("quiz.topic"))));
+        } finally {
+            edt(() -> {
+                UIManager.setLookAndFeel(original);
+                return null;
+            });
+        }
+    }
+
+    private LookAndFeel useSystemLookAndFeel() throws Exception {
+        return edt(() -> {
+            LookAndFeel original = UIManager.getLookAndFeel();
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (UnsupportedLookAndFeelException ignored) {
+                UIManager.setLookAndFeel(original);
+            }
+            SwingUtilities.updateComponentTreeUI(panel);
+            return original;
+        });
+    }
+
+    private void prepareLongTopicLayoutFixture() throws Exception {
+        authenticate("admin", true);
+        addLayoutWord("layoutcheck", "W".repeat(50));
+        addLayoutWord("demolayout", "Demo");
+        edt(() -> {
+            panel.setSize(934, 660);
+            layout(panel);
+            return null;
+        });
+    }
+
+    private void addLayoutWord(String term, String topic) throws Exception {
+        click("library.add");
+        text("library.editor.term", term);
+        text("library.editor.topic", topic);
+        text("library.editor.definition", "A synthetic word for checking usable topic controls.");
+        click("library.editor.save");
+    }
+
+    private void selectLayoutTopic(String name, String value) throws Exception {
+        edt(() -> {
+            Ui.selectTopic(topicSelector(name), value);
+            return null;
+        });
+        idle();
+        assertEquals(value, edt(() -> Ui.topic(topicSelector(name))));
+    }
+
+    private void assertVisibleControls(String... names) throws Exception {
+        edt(() -> {
+            for (String name : names) {
+                assertFullyVisible(component(name, JComponent.class));
+            }
+            return null;
+        });
+    }
+
+    private void assertLayoutPlanWord(String term) throws Exception {
+        edt(() -> {
+            JTable table = component("reviewPlan.table", JTable.class);
+            assertEquals(1, table.getRowCount());
+            assertEquals(term, table.getValueAt(0, 0));
+            return null;
+        });
+    }
+
+    private void assertEmptySummary(String prefix) throws Exception {
+        edt(() -> {
+            assertEquals("0 words shown", component(prefix + ".resultCount", JLabel.class).getText());
+            assertEquals("No word selected", component(prefix + ".selectedTerm", JLabel.class).getText());
+            String metadata = component(prefix + ".selectedMeta", JLabel.class).getText();
+            assertFalse(metadata.contains("Nature"), "Empty results must clear the previous topic.");
+            assertFalse(metadata.contains("climate"), "Empty results must clear the previous word.");
+            for (String action : List.of("save", "edit", "lookup")) {
+                assertFalse(component(prefix + "." + action, JButton.class).isEnabled());
+            }
+            return null;
+        });
+    }
+
+    private void assertLibraryLayout(String prefix) throws Exception {
+        edt(() -> {
+            for (String suffix : List.of("refresh", "order", "save", "edit", "lookup", "resultCount", "selectedTerm")) {
+                assertFullyVisible(component(prefix + "." + suffix, JComponent.class));
+            }
+            if (prefix.equals("library")) {
+                for (String suffix : List.of("topic", "search", "find", "add")) {
+                    assertFullyVisible(component(prefix + "." + suffix, JComponent.class));
+                }
+            }
+            assertUsableViewport(component(prefix + ".table", JTable.class));
+            assertUsableViewport(component(prefix + ".detail", JTextArea.class));
+            return null;
+        });
+    }
+
+    private void assertUsableViewport(JComponent content) {
+        JViewport viewport = (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, content);
+        assertNotNull(viewport, content.getName() + " must remain scrollable.");
+        assertTrue(viewport.getWidth() >= 160 && viewport.getHeight() >= 48,
+                content.getName() + " needs usable reading space: " + viewport.getSize());
+        assertFullyVisible(viewport);
+    }
+
+    private void assertFullyVisible(JComponent control) {
+        String description = control.getName() == null ? control.getClass().getSimpleName() : control.getName();
+        assertTrue(visibleInTree(control), description + " must be visible.");
+        assertTrue(control.getWidth() > 0 && control.getHeight() > 0, description + " must have usable bounds.");
+        java.awt.Rectangle bounds = new java.awt.Rectangle(0, 0, control.getWidth(), control.getHeight());
+        for (Container parent = control.getParent(); parent != null; parent = parent.getParent()) {
+            java.awt.Rectangle relative = SwingUtilities.convertRectangle(control, bounds, parent);
+            assertTrue(new java.awt.Rectangle(0, 0, parent.getWidth(), parent.getHeight()).contains(relative),
+                    description + " is clipped by " + parent.getClass().getSimpleName() + ": " + relative);
+        }
+    }
+
     private boolean visibleInTree(Component component) {
         for (Component current = component; current != null; current = current.getParent()) {
             if (!current.isVisible()) {
@@ -283,6 +568,8 @@ class SwingWorkflowTest {
         if (admin) { expected.add("Admin"); }
         expected.add("Export results");
         expected.add("Review plan");
+        expected.add("Study");
+        expected.add("Backup & restore");
         assertEquals(expected, tabTitles());
         edt(() -> {
             JTabbedPane tabs = component("home.tabs", JTabbedPane.class);
@@ -378,6 +665,8 @@ class SwingWorkflowTest {
             layout(panel);
             BufferedImage image = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_RGB);
             Graphics2D graphics = image.createGraphics();
+            graphics.setRenderingHint(java.awt.RenderingHints.KEY_TEXT_ANTIALIASING,
+                    java.awt.RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
             panel.printAll(graphics); graphics.dispose();
             ImageIO.write(image, "png", output.toFile()); return null;
         });

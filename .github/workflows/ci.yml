@@ -28,6 +28,8 @@ jobs:
         run: java "-Djava.awt.headless=true" -jar target/wordtrail.jar --help
       - name: Check packaged application offline
         run: java tools/CheckPackage.java target/wordtrail.jar target/package-check
+      - name: Decode packaged recording silently
+        run: java -cp target/wordtrail.jar tools/CheckRecordedPronunciation.java src/test/resources/audio/hello-uk.ogg
       - name: Check package evidence failure handling
         run: java tools/TestPackageCheck.java target/wordtrail.jar target/package-check-regressions
       - name: Check Windows launcher behavior

@@ -1,5 +1,13 @@
 # WordTrail — Vocabulary Learning
 
+**Guided-study preview:** The new **Study** tab restores the reference learning
+loop: 20-word rounds, durable resume, wrong-only retests, mastery/goals, mistakes,
+history replay and immediate placement replacement. See
+[behavior, screenshots and validation](docs/GUIDED_STUDY.md) and
+[the complete reference comparison](docs/REFERENCE_PARITY_AUDIT.md).
+PR #17 consolidates this work and the earlier UI previews into one review against
+`main`; the existing three team MVP use cases and their individual ownership are retained.
+
 A Java 11 / Swing desktop application for learning English vocabulary. Browse
 topics, study flashcards, take quizzes, save difficult words and track progress.
 Learners can also maintain private vocabulary, export their quiz history and
@@ -300,3 +308,8 @@ demo accounts and content. Desktop fonts and window decorations vary by OS.
 - [Personal vocabulary PR description](docs/PERSONAL_VOCABULARY_PR.md)
 - [Course delivery checklist](docs/DELIVERY_CHECKLIST.md)
 - [Signed team contract](TeamContract.md)
+
+## Recorded audio, English curriculum and portable backups
+
+See [learning resources](docs/LEARNING_RESOURCES.md) for the 1,128-word English bank,
+on-demand recorded speech, validated account backup/restore and verification.

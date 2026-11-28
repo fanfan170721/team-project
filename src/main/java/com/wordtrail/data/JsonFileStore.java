@@ -1,6 +1,8 @@
 package com.wordtrail.data;
 
 import com.wordtrail.entity.LearningProgress;
+import com.wordtrail.entity.StudyState;
+import com.wordtrail.usecase.port.StudyRepository;
 import com.wordtrail.entity.QuizAttempt;
 import com.wordtrail.entity.QuizQuestion;
 import com.wordtrail.entity.Role;
@@ -42,7 +44,7 @@ import org.json.JSONObject;
  * updates from two app instances sharing the same directory.
  */
 public final class JsonFileStore implements AccountRepository, ContentRepository,
-        ProgressRepository, AutoCloseable {
+        ProgressRepository, StudyRepository, com.wordtrail.usecase.port.BackupRepository, AutoCloseable {
     private final Path file;
     private FileChannel lockChannel;
     private FileLock lock;
@@ -172,6 +174,25 @@ public final class JsonFileStore implements AccountRepository, ContentRepository
         root = next;
     }
 
+    @Override
+    public synchronized StudyState getStudy(String username) {
+        ensureOpen();
+        JSONObject study = root.optJSONObject("guidedStudy");
+        return StudyJson.read(study == null ? null : study.optJSONObject(username));
+    }
+
+    @Override
+    public synchronized void saveStudy(String username, StudyState state, LearningProgress progress) {
+        if (findUser(username).isEmpty()) { throw new AppException("The account no longer exists."); }
+        JSONObject snapshot = StudyJson.write(state);
+        StudyJson.read(snapshot);
+        update(next -> {
+            if (!next.has("guidedStudy")) { next.put("guidedStudy", new JSONObject()); }
+            next.getJSONObject("guidedStudy").put(username, snapshot);
+            next.getJSONObject("progress").put(username, writeProgress(progress));
+        });
+    }
+
     private void write(JSONObject snapshot) throws IOException {
         Path temporary = Files.createTempFile(file.getParent(), "wordtrail-", ".tmp");
         try {
@@ -290,6 +311,13 @@ public final class JsonFileStore implements AccountRepository, ContentRepository
             }
         }
         JSONObject progress = json.getJSONObject("progress");
+        JSONObject study = json.optJSONObject("guidedStudy");
+        if (study != null) {
+            for (String username : study.keySet()) {
+                if (!users.contains(username)) { throw new IllegalArgumentException("Invalid study account."); }
+                StudyJson.read(study.getJSONObject(username));
+            }
+        }
         for (String username : progress.keySet()) {
             LearningProgress data = readProgress(progress.getJSONObject(username));
             Set<String> visible = new HashSet<>(words);
@@ -306,6 +334,147 @@ public final class JsonFileStore implements AccountRepository, ContentRepository
                 throw new IllegalArgumentException("Invalid progress reference.");
             }
         }
+    }
+
+
+    private JSONObject learningPayload(String username) {
+        if (findUser(username).isEmpty()) { throw new AppException("The account no longer exists."); }
+        LearningProgress learning = getProgress(username);
+        Set<String> referenced = new HashSet<>(learning.getReviewWordIds());
+        referenced.addAll(learning.getStudiedWordIds());
+        referenced.addAll(learning.getDefinitions().keySet());
+        referenced.addAll(learning.getReviewCounts().keySet());
+        referenced.addAll(learning.getLastReviewed().keySet());
+        JSONArray shared = new JSONArray();
+        for (VocabularyWord word : getWords()) {
+            if (referenced.contains(word.getId())) { shared.put(writeWord(word)); }
+        }
+        return new JSONObject().put("owner", username).put("progress", writeProgress(learning))
+                .put("study", StudyJson.write(getStudy(username))).put("referencedWords", shared);
+    }
+
+    @Override public synchronized void exportLearning(String username, String destination) {
+        JSONObject payload = learningPayload(username);
+        try { LearningBackupFiles.writeNew(Path.of(destination), LearningBackupFiles.envelope(payload)); }
+        catch (IOException | java.nio.file.InvalidPathException failure) {
+            throw new AppException("Could not export backup: " + failure.getMessage(), failure);
+        }
+    }
+
+    private byte[] readBackup(String source) {
+        try { return LearningBackupFiles.read(Path.of(source)); }
+        catch (IOException | java.nio.file.InvalidPathException failure) {
+            throw new AppException("Could not read backup: " + failure.getMessage(), failure);
+        }
+    }
+
+    /** Check a portable account snapshot in isolation before reconciling shared vocabulary IDs. */
+    private JSONObject restoredRoot(String username, JSONObject payload) {
+        if (findUser(username).isEmpty()) { throw new AppException("The account no longer exists."); }
+        try {
+            if (!payload.keySet().equals(Set.of("owner", "progress", "study", "referencedWords"))
+                    || payload.getString("owner").isBlank()) {
+                throw new IllegalArgumentException("Invalid backup fields.");
+            }
+            JSONObject imported = new JSONObject(payload.getJSONObject("progress").toString());
+            JSONObject study = payload.getJSONObject("study");
+            JSONObject isolated = new JSONObject().put("schemaVersion", 1)
+                    .put("users", new JSONArray().put(new JSONObject().put("username", username)
+                            .put("passwordHash", "validation-only").put("role", "LEARNER")))
+                    .put("words", payload.getJSONArray("referencedWords")).put("questions", new JSONArray())
+                    .put("progress", new JSONObject().put(username, imported))
+                    .put("guidedStudy", new JSONObject().put(username, study));
+            validate(isolated);
+            // Reuse an identical shared entry; otherwise import its old definition as a private word.
+            Map<String, JSONObject> current = new LinkedHashMap<>();
+            for (Object item : root.getJSONArray("words")) {
+                JSONObject word = (JSONObject) item;
+                current.put(word.getString("id"), word);
+            }
+            JSONArray personal = imported.optJSONArray("personalWords");
+            if (personal == null) { personal = new JSONArray(); imported.put("personalWords", personal); }
+            Map<String, String> remap = new LinkedHashMap<>();
+            Set<String> used = new HashSet<>(current.keySet());
+            for (Object item : personal) { used.add(((JSONObject) item).getString("id")); }
+            for (Object item : personal) {
+                JSONObject word = (JSONObject) item;
+                String id = word.getString("id");
+                if (current.containsKey(id)) {
+                    String replacement = "restored-" + java.util.UUID.randomUUID();
+                    remap.put(id, replacement); word.put("id", replacement); used.add(replacement);
+                }
+            }
+            for (Object item : payload.getJSONArray("referencedWords")) {
+                JSONObject word = new JSONObject(item.toString());
+                String id = word.getString("id");
+                if (current.containsKey(id) && LearningBackupFiles.canonical(current.get(id))
+                        .equals(LearningBackupFiles.canonical(word))) { continue; }
+                String replacement = used.contains(id) ? "restored-" + java.util.UUID.randomUUID() : id;
+                remap.put(id, replacement); used.add(replacement);
+                word.put("id", replacement); personal.put(word);
+            }
+            remapArray(imported.getJSONArray("reviewWordIds"), remap);
+            JSONObject days = imported.getJSONObject("studyDays");
+            for (String date : days.keySet()) { remapArray(days.getJSONArray(date), remap); }
+            for (String key : List.of("definitions", "reviewCounts", "lastReviewed")) {
+                JSONObject old = imported.optJSONObject(key);
+                if (old == null) { continue; }
+                JSONObject mapped = new JSONObject();
+                for (String id : old.keySet()) { mapped.put(remap.getOrDefault(id, id), old.get(id)); }
+                imported.put(key, mapped);
+            }
+            JSONObject next = new JSONObject(root.toString());
+            next.getJSONObject("progress").put(username, imported);
+            if (!next.has("guidedStudy")) { next.put("guidedStudy", new JSONObject()); }
+            // Fresh active tokens invalidate callbacks originating before the restore.
+            JSONObject restoredStudy = new JSONObject(study.toString());
+            for (String key : List.of("round", "assessment")) {
+                if (restoredStudy.has(key)) {
+                    restoredStudy.getJSONObject(key).put("id", java.util.UUID.randomUUID().toString());
+                }
+            }
+            next.getJSONObject("guidedStudy").put(username, restoredStudy);
+            validate(next);
+            return next;
+        } catch (RuntimeException | StackOverflowError invalid) {
+            throw new AppException("The backup contains invalid learning data. Nothing was changed.", invalid);
+        }
+    }
+
+    private static void remapArray(JSONArray values, Map<String, String> remap) {
+        for (int index = 0; index < values.length(); index++) {
+            String id = values.getString(index);
+            values.put(index, remap.getOrDefault(id, id));
+        }
+    }
+
+    @Override public synchronized String inspectLearning(String username, String source) {
+        byte[] bytes = readBackup(source);
+        JSONObject payload = LearningBackupFiles.payload(bytes);
+        restoredRoot(username, payload);
+        return LearningBackupFiles.digest(bytes) + "\nBackup for: " + payload.getString("owner")
+                + "\nThis replaces learning data for: " + username
+                + "\nAccounts, passwords, roles and other learners remain unchanged.";
+    }
+
+    @Override public synchronized String restoreLearning(String username, String source, String expectedDigest) {
+        byte[] bytes = readBackup(source);
+        if (!LearningBackupFiles.digest(bytes).equals(expectedDigest)) {
+            throw new AppException("The backup changed after validation. Validate it again before restoring.");
+        }
+        JSONObject next = restoredRoot(username, LearningBackupFiles.payload(bytes));
+        Path recovery = file.getParent().resolve("backups").resolve("before-restore-"
+                + java.util.UUID.randomUUID() + ".json");
+        try {
+            Files.createDirectories(recovery.getParent());
+            LearningBackupFiles.writeNew(recovery, LearningBackupFiles.envelope(learningPayload(username)));
+            write(next);
+        } catch (IOException failure) {
+            throw new AppException("Restore was not completed. Current data remains unchanged. "
+                    + "Check disk space and folder permissions.", failure);
+        }
+        root = next;
+        return recovery.toString();
     }
 
     private void ensureOpen() {
